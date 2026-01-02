@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap");
+
+:root{
+
+  --qf-fg:#fff;
+  --qf-fg-dim:rgba(255,255,255,.88);
+  --qf-border:rgba(255,255,255,.85);
+}
+
+.qf{
+  background:var(--qf-bg);
+  color:var(--qf-fg);
+  min-height:100vh;
+  font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+.qf__wrap{ 
+  max-width:80%; 
+  margin:100px auto 0; /* Added 100px top margin */
+  padding:64px 24px 96px; 
+}
+
+.qf__title{
+  margin:0 0 8px;
+  font-weight:900;
+  font-size:40px;
+  line-height:1.15;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.qf__lead{
+  margin:0 0 28px;
+  color:var(--qf-fg-dim);
+  font-weight:300;
+  font-size:18px;
+  line-height:1.6;
+}
+
+.qf__form{ width:100%; }
+.qf__field{ margin:18px 0 22px; }
+
+.qf__label{
+  display:block;
+  margin:0 0 10px;
+  color:#fff;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  font-size:12px;
+}
+
+/* Inputs */
+.qf__input{
+  display:block;
+  width:100%;
+  height:56px;
+  padding:0 18px;
+  background:transparent;
+  color:#fff;
+  border:1.5px solid var(--qf-border);
+  border-radius:4px;
+  outline:none;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:.01em;
+}
+.qf__input:focus{ border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.14); }
+
+/* Services select (the trigger) */
+.qf__select{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  height:56px;
+  padding:0 18px;
+  background:transparent;
+  color:#fff;
+  border:1.5px solid var(--qf-border);
+  border-radius:4px;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:.01em;
+  cursor:pointer;
+}
+.qf__select:hover{ border-color:#fff; }
+.qf__caret{
+  width:10px; height:10px;
+  border-right:2px solid #fff;
+  border-bottom:2px solid #fff;
+  transform:rotate(45deg);
+  transition:transform .18s ease;
+}
+.qf__caret.is-open{ transform:rotate(-135deg); }
+
+/* Expanding menu – in flow so it pushes the message down */
+.qf__menu{
+  overflow:hidden;
+  max-height:0;           /* collapsed */
+  opacity:0;
+  transform:translateY(-6px);
+  transition:max-height .28s ease, opacity .18s ease, transform .28s ease;
+  border:1.5px solid transparent;
+  border-radius:6px;
+}
+.qf__menu.is-open{
+  margin-top:10px;
+  padding:14px 16px;
+  border-color:var(--qf-border);
+  max-height:460px;       /* enough to reveal all options; adjust if you add more */
+  opacity:1;
+  transform:none;
+  background:rgba(255,255,255,.02);
+}
+
+/* Options grid */
+.qf__menuGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px 24px;
+}
+.qf__option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--qf-fg-dim);
+  font-size:16px;
+  user-select:none;
+}
+
+/* Custom checkbox (same style as elsewhere) */
+.qf__check{
+  appearance:none;
+  -webkit-appearance:none;
+  width:18px; height:18px;
+  border:2px solid var(--qf-border);
+  border-radius:2px;
+  background:transparent;
+  position:relative;
+  cursor:pointer;
+  outline:none;
+  flex:0 0 auto;
+}
+.qf__check:checked{
+  background:#fff; border-color:#fff;
+}
+.qf__check:checked::after{
+  content:"";
+  position:absolute; left:4px; top:1px;
+  width:5px; height:9px;
+  border-right:2px solid #000; border-bottom:2px solid #000;
+  transform:rotate(45deg);
+}
+
+/* Message */
+.qf__textarea{
+  display:block;
+  width:100%;
+  min-height:260px;
+  padding:14px 18px;
+  background:transparent;
+  color:#fff;
+  border:1.5px solid var(--qf-border);
+  border-radius:4px;
+  outline:none;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:.01em;
+  resize:vertical;
+}
+.qf__textarea:focus{ border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.14); }
+
+/* Actions */
+.qf__actions{
+  margin-top:28px;
+  display:flex;
+  justify-content:flex-end;
+}
+.qf__btn{
+  background:#fff; color:#000;
+  padding:14px 24px;
+  font-size:12px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.02em;
+  border:0; cursor:pointer;
+  -webkit-clip-path:polygon(6% 0,100% 0,100% 100%,0 100%);
+  clip-path:polygon(6% 0,100% 0,100% 100%,0 100%);
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.qf__btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.35); background:#f5f5f5; }
+.qf__btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:0 4px 12px rgba(0,0,0,.15); }
+
+/* Mobile */
+@media (max-width:720px){
+  .qf__wrap{ 
+    max-width:100%; 
+    margin:80px auto 0; /* Reduced margin-top for mobile */
+    padding:48px 16px 80px; 
+    margin-top: 100px;
+  }
+  .qf__title{ font-size:28px; }
+  .qf__menuGrid{ grid-template-columns:1fr; }
+}
+
+/* Very small screens */
+@media (max-width: 480px){
+  .qf__wrap{ 
+    margin:60px auto 0; /* Even smaller margin for very small screens */
+    padding:32px 12px 60px;
+    margin-top: 100px;
+  }
+}

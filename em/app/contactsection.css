@@ -1,0 +1,443 @@
+/* ========== Contact Section (cs-*) ========== */
+.cs-section{
+ padding-block: clamp(56px, 8vw, 96px);
+ opacity: 0;
+ animation: fadeInUp 1.2s ease-out 0.2s forwards;
+}
+
+.cs-wrap{
+ max-width:1180px;
+ margin:0 auto;
+ padding-inline:24px;
+}
+
+/* Lead */
+.cs-lead{ 
+ margin-bottom: clamp(28px, 5vw, 48px); 
+ opacity: 0;
+ animation: slideInDown 1s ease-out 0.6s forwards;
+}
+
+.cs-title{
+ margin:0 0 12px;
+ color:#fff;
+ text-transform:uppercase;
+ font-weight:900;
+ letter-spacing:.01em;
+ line-height:1.05;
+ font-size:clamp(28px,5.6vw,56px);
+ background: linear-gradient(45deg, #fff, #ef4444, #fff);
+ background-size: 200% 200%;
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ animation: shimmer 3s ease-in-out infinite;
+}
+
+.cs-desc{
+ margin:0;
+ color:rgba(255,255,255,.88);
+ font-size:clamp(16px,2.1vw,20px);
+ line-height:1.55;
+ opacity: 0;
+ animation: fadeIn 1s ease-out 1s forwards;
+}
+
+.cs-desc:nth-of-type(2) {
+ animation-delay: 1.2s;
+}
+
+/* --- Form: FLEX (not grid) --- */
+.cs-form{
+ display:flex;
+ flex-direction:column;
+ gap: clamp(18px, 3vw, 28px);
+ margin-top: clamp(18px, 3vw, 28px);
+ opacity: 0;
+ animation: slideInUp 1.2s ease-out 1.4s forwards;
+}
+
+.cs-row{
+ display:grid;
+ flex-wrap:wrap;
+ gap: clamp(18px, 3vw, 28px);
+ align-items:flex-start;
+}
+
+/* two equal columns on large screens; stack on small */
+.cs-group{
+ display:flex;
+ flex-direction:column;
+ min-width:260px;
+ opacity: 0;
+ transform: translateY(20px);
+}
+
+.cs-group:nth-child(1) {
+ animation: slideInLeft 0.8s ease-out 1.8s forwards;
+}
+
+.cs-group:nth-child(2) {
+ animation: slideInRight 0.8s ease-out 2s forwards;
+}
+
+.cs-group:nth-child(3) {
+ animation: slideInLeft 0.8s ease-out 2.2s forwards;
+}
+
+.cs-group:nth-child(4) {
+ animation: slideInRight 0.8s ease-out 2.4s forwards;
+}
+
+.cs-group:nth-child(5) {
+ animation: slideInUp 0.8s ease-out 2.6s forwards;
+}
+
+.cs-label{
+ color:rgba(255,255,255,.78);
+ font-size:15px;
+ margin:0 0 10px;
+}
+
+/* Inputs */
+.cs-input{
+ appearance:none;
+ background:transparent;
+ color:#fff;
+ border:1.5px solid rgba(255,255,255,.85);
+ border-radius:2px;
+ padding:16px 18px;
+ font-size:16px;
+ line-height:1.3;
+ outline:none;
+ transition:border-color .18s ease,box-shadow .18s ease, transform .18s ease;
+}
+
+.cs-input::placeholder{ 
+ color:rgba(255,255,255,.35); 
+ transition: opacity 0.3s ease;
+}
+
+.cs-input:focus{
+ border-color:#ef4444;
+ box-shadow:0 0 0 2px rgba(79, 195, 247, 0.3);
+ transform: translateY(-2px);
+}
+
+.cs-input:focus::placeholder {
+ opacity: 0.6;
+}
+
+.cs-input:hover {
+ border-color: rgba(255,255,255,.95);
+ transform: translateY(-1px);
+}
+
+.cs-textarea{ 
+ min-height:240px; 
+ resize:vertical; 
+}
+
+/* Button */
+.cs-submit{
+ align-self:flex-end;
+ margin-top:6px;
+ min-width:280px;
+ background:#fff;
+ color:#000;
+ border:none;
+ font-weight:600;
+ font-size:18px;
+ padding:18px 28px;
+ cursor:pointer;
+ transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+ clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+ opacity: 0;
+ transform: translateY(20px);
+ animation: slideInUp 0.8s ease-out 2.8s forwards, pulse 2s ease-in-out 4s infinite;
+}
+
+.cs-submit:hover:not(:disabled){
+ transform: translateY(-4px) scale(1.02);
+ background:#f3f3f3;
+ box-shadow:0 15px 40px rgba(255,255,255,.35);
+}
+
+.cs-submit:disabled{
+ opacity:.6; 
+ cursor:not-allowed; 
+ transform:none;
+}
+
+/* Spinner */
+.cs-spinner{
+ display:inline-block;
+ width:18px; height:18px;
+ border:2px solid transparent;
+ border-top:2px solid #000;
+ border-radius:50%;
+ margin-right:10px;
+ vertical-align:-3px;
+ animation: cs-spin 1s linear infinite;
+}
+
+@keyframes cs-spin{ 
+ to{ transform:rotate(360deg); } 
+}
+
+/* Success */
+.cs-success{
+ width: min(100%, 820px);
+ margin: clamp(18px, 3vw, 28px) auto 0;
+ display:flex;
+ align-items:flex-start;
+ gap: 14px;
+ background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+ border: 1px solid rgba(255,255,255,0.18);
+ border-radius: 12px;
+ box-shadow:
+   0 10px 24px rgba(0,0,0,0.25),
+   inset 0 1px 0 rgba(255,255,255,0.08);
+ color:#fff;
+ padding: clamp(14px, 2.5vw, 18px) clamp(18px, 3vw, 24px);
+ opacity: 0;
+ transform: translateY(20px) scale(0.95);
+ transition: all 0.5s ease;
+}
+
+.cs-success.show {
+ opacity: 1;
+ transform: translateY(0) scale(1);
+ animation: successBounce 0.6s ease-out;
+}
+
+.cs-successIcon{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ width: 28px;
+ height: 28px;
+ min-width: 28px;
+ border-radius: 999px;
+ background: rgba(255,255,255,0.18);
+ color:#fff;
+ box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+ animation: iconSpin 0.8s ease-out 0.2s both;
+}
+
+.cs-successBody{ line-height: 1.4; }
+
+.cs-successTitle{
+ font-weight: 800;
+ font-size: clamp(15px, 1.9vw, 18px);
+ margin-bottom: 2px;
+}
+
+.cs-successText{
+ font-weight: 600;
+ opacity: .95;
+ font-size: clamp(14px, 1.8vw, 16px);
+}
+
+/* keep the same pop-in anim as before */
+@keyframes cs-in { 
+ from { opacity:0; transform: translateY(10px) }
+ to   { opacity:1; transform: translateY(0) }
+}
+
+/* small screens: full width with nice padding */
+@media (max-width: 860px){
+ .cs-success{
+   width: 100%;
+   margin-inline: 0;
+ }
+}
+
+/* Mobile */
+@media (max-width: 860px){
+ .cs-submit{ width:100%; align-self:stretch; }
+ .cs-textarea{ min-height:180px; }
+}
+
+/* Right-align area for the button */
+.contact__actions {
+ display: flex;
+ justify-content: flex-end;
+ margin-top: 18px;
+}
+
+/* Smaller, right-aligned, slanted-left button */
+.contact__submit {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ padding: 16px 28px;
+ min-width: 320px;
+ width: max-content;
+ font-size: 20px;
+ font-weight: 700;
+ line-height: 1;
+ background: #fff;
+ color: #000;
+ border: none;
+ cursor: pointer;
+ clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
+ transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+ margin: 0 0 0 auto;
+ opacity: 0;
+ transform: translateY(20px);
+ animation: slideInUp 0.8s ease-out 2.8s forwards, pulse 2s ease-in-out 4s infinite;
+}
+
+.contact__submit:hover:not(:disabled),
+.contact__submit:focus-visible:not(:disabled) {
+ transform: translateY(-4px) scale(1.02);
+ box-shadow: 0 15px 40px rgba(255,255,255,.35);
+ outline: none;
+}
+
+.contact__submit:disabled {
+ opacity: .65;
+ cursor: not-allowed;
+ transform: none;
+ box-shadow: none;
+}
+
+/* Spinner (unchanged) */
+.contact__spinner {
+ width: 18px;
+ height: 18px;
+ margin-right: 10px;
+ border: 2px solid transparent;
+ border-top: 2px solid #000;
+ border-radius: 50%;
+ animation: contact_spin 1s linear infinite;
+}
+
+@keyframes contact_spin { 
+ to { transform: rotate(360deg); } 
+}
+
+/* Mobile: full width if you prefer, still slanted left */
+@media (max-width: 768px) {
+ .contact__actions {
+   justify-content: stretch;
+ }
+ .contact__submit {
+   width: 100%;
+   min-width: 0;
+   font-size: 16px;
+ }
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+ from {
+   opacity: 0;
+   transform: translateY(40px);
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0);
+ }
+}
+
+@keyframes slideInDown {
+ from {
+   opacity: 0;
+   transform: translateY(-30px);
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0);
+ }
+}
+
+@keyframes slideInLeft {
+ from {
+   opacity: 0;
+   transform: translateX(-40px);
+ }
+ to {
+   opacity: 1;
+   transform: translateX(0);
+ }
+}
+
+@keyframes slideInRight {
+ from {
+   opacity: 0;
+   transform: translateX(40px);
+ }
+ to {
+   opacity: 1;
+   transform: translateX(0);
+ }
+}
+
+@keyframes slideInUp {
+ from {
+   opacity: 0;
+   transform: translateY(20px);
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0);
+ }
+}
+
+@keyframes fadeIn {
+ from {
+   opacity: 0;
+ }
+ to {
+   opacity: 1;
+ }
+}
+
+@keyframes shimmer {
+ 0% {
+   background-position: 0% 50%;
+ }
+ 50% {
+   background-position: 100% 50%;
+ }
+ 100% {
+   background-position: 0% 50%;
+ }
+}
+
+@keyframes pulse {
+ 0% {
+   box-shadow: 0 10px 28px rgba(255,255,255,.25);
+ }
+ 50% {
+   box-shadow: 0 15px 35px rgba(255,255,255,.4);
+ }
+ 100% {
+   box-shadow: 0 10px 28px rgba(255,255,255,.25);
+ }
+}
+
+@keyframes successBounce {
+ 0% {
+   transform: translateY(20px) scale(0.9);
+ }
+ 60% {
+   transform: translateY(-5px) scale(1.02);
+ }
+ 100% {
+   transform: translateY(0) scale(1);
+ }
+}
+
+@keyframes iconSpin {
+ from {
+   transform: rotate(-180deg) scale(0.5);
+   opacity: 0;
+ }
+ to {
+   transform: rotate(0deg) scale(1);
+   opacity: 1;
+ }
+}

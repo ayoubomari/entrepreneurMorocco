@@ -1,0 +1,479 @@
+/* Animated Network Section */
+.network-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(60px, 10vw, 120px) 0;
+}
+
+/* Background animated elements */
+.network-section::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: 
+    radial-gradient(circle at 20% 40%, rgba(220, 38, 38, 0.025) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, rgba(239, 68, 68, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.015) 0%, transparent 60%);
+  animation: networkBackground 26s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes networkBackground {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+/* Floating network particles */
+.network-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 15% 25%, rgba(220, 38, 38, 0.18), transparent),
+    radial-gradient(2px 2px at 85% 35%, rgba(239, 68, 68, 0.12), transparent),
+    radial-gradient(1px 1px at 55% 75%, rgba(220, 38, 38, 0.15), transparent),
+    radial-gradient(2px 2px at 25% 65%, rgba(239, 68, 68, 0.2), transparent);
+  background-size: 320px 240px;
+  animation: networkParticles 32s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes networkParticles {
+  0% { transform: translateX(-50px) translateY(0px) rotate(0deg); }
+  33% { transform: translateX(30px) translateY(-40px) rotate(120deg); }
+  66% { transform: translateX(-20px) translateY(-25px) rotate(240deg); }
+  100% { transform: translateX(-50px) translateY(0px) rotate(360deg); }
+}
+
+/* Network title animation */
+.titlenetwork {
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: networkTitleReveal 1.2s ease-out forwards;
+}
+
+@keyframes networkTitleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.titlenetwork h2 {
+  position: relative;
+  animation: titleSlideIn 1s ease-out 0.3s both;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Animated underline for network title */
+.titlenetwork h2::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171, #ef4444, #dc2626);
+  animation: networkUnderlineGrow 1.5s ease-out 0.8s forwards;
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+}
+
+@keyframes titleSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes networkUnderlineGrow {
+  0% { 
+    width: 0; 
+    opacity: 0;
+  }
+  100% { 
+    width: 150px; 
+    opacity: 1;
+  }
+}
+
+.titlenetwork p {
+  animation: descriptionFadeIn 1s ease-out 0.6s both;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+@keyframes descriptionFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced full-bleed lane */
+.net-bleed {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  animation: networkContainerReveal 1s ease-out 0.9s both;
+}
+
+@keyframes networkContainerReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.net-auto {
+  --gap: clamp(40px, 7vw, 90px);
+  --duration: 22s;
+  position: relative;
+  overflow: hidden;
+  padding-block: 8px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Enhanced soft fades at edges with glow */
+.net-auto::before,
+.net-auto::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(48px, 10vw, 160px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.net-auto::before { 
+  left: 0;  
+  background: linear-gradient(90deg, #000 0%, rgba(0,0,0,0) 100%);
+}
+
+.net-auto::after { 
+  right: 0; 
+  background: linear-gradient(270deg, #000 0%, rgba(0,0,0,0) 100%);
+}
+
+/* Enhanced moving belt with smooth animation */
+.net-track {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  animation: net-marquee var(--duration) linear infinite;
+  transition: animation-play-state 0.3s ease;
+}
+
+/* Pause on hover for better UX */
+.net-auto:hover .net-track {
+  animation-play-state: paused;
+}
+
+@keyframes net-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Enhanced network items with 3D effects */
+.net-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 18px;
+  color: #fff;
+  padding: 20px 24px;
+  opacity: 0.85;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shine effect on items */
+.net-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.8s ease;
+  z-index: 1;
+}
+
+.net-item:hover::before {
+  left: 100%;
+}
+
+.net-item:hover {
+  opacity: 1;
+  transform: translateY(-8px) scale(1.05);
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.3);
+  box-shadow: 
+    0 15px 40px rgba(0,0,0,0.3),
+    0 0 25px rgba(220, 38, 38, 0.2);
+}
+
+/* Enhanced icons with glow effects */
+.net-icon {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.net-icon img,
+.net-icon svg {
+  width: 64px;
+  height: 64px;
+  display: block;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.net-icon img {
+  filter: brightness(0) invert(1) drop-shadow(0 10px 30px rgba(255,255,255,.12));
+  object-fit: contain;
+}
+
+.net-item:hover .net-icon img {
+  filter: 
+    brightness(0) invert(1) 
+    drop-shadow(0 15px 40px rgba(220, 38, 38, 0.4))
+    drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+  transform: scale(1.1) rotate(5deg);
+}
+
+.net-icon svg {
+  color: #fff;
+  filter: drop-shadow(0 10px 30px rgba(255,255,255,.12));
+}
+
+.net-item:hover .net-icon svg {
+  color: #ef4444;
+  filter: 
+    drop-shadow(0 15px 40px rgba(220, 38, 38, 0.4))
+    drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+  transform: scale(1.1) rotate(5deg);
+}
+
+.net-icon svg path,
+.net-icon svg * {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Enhanced labels with animation */
+.net-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  line-height: 1.1;
+  font-size: 16px;
+  color: #fff;
+  white-space: normal;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.net-item:hover .net-title {
+  color: #fff;
+  text-shadow: 
+    1px 1px 3px rgba(0,0,0,0.8),
+    0 0 10px rgba(220, 38, 38, 0.5);
+  transform: translateX(5px);
+}
+
+/* Add floating network icons */
+.net-bleed::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: 5%;
+  width: 80px;
+  height: 80px;
+  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/network.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.06;
+  animation: floatNetwork 10s ease-in-out infinite;
+  z-index: -1;
+  filter: invert(19%) sepia(98%) saturate(3067%) hue-rotate(346deg) brightness(93%) contrast(94%);
+}
+
+.net-bleed::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: 8%;
+  width: 70px;
+  height: 70px;
+  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/handshake.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.08;
+  animation: floatNetwork 12s ease-in-out infinite reverse;
+  z-index: -1;
+  filter: invert(25%) sepia(100%) saturate(3045%) hue-rotate(346deg) brightness(96%) contrast(94%);
+}
+
+@keyframes floatNetwork {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 0.06;
+  }
+  50% { 
+    transform: translateY(-40px) rotate(180deg) scale(1.15);
+    opacity: 0.12;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .net-auto {
+    --gap: clamp(28px, 6vw, 48px);
+    --duration: 28s;
+  }
+  
+  .net-item {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 20px;
+  }
+  
+  .net-title {
+    font-size: 14px;
+  }
+  
+  .net-icon img,
+  .net-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+  
+  /* Hide floating icons on mobile */
+  .net-bleed::before,
+  .net-bleed::after {
+    display: none;
+  }
+  
+  /* Reduce background effects on mobile */
+  .network-section::before,
+  .network-section::after {
+    opacity: 0.3;
+  }
+  
+  /* Disable hover effects on touch devices */
+  .net-item:hover {
+    transform: none;
+    background: rgba(255,255,255,0.02);
+    box-shadow: none;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .network-section::before,
+  .network-section::after,
+  .net-bleed::before,
+  .net-bleed::after {
+    animation: none;
+  }
+  
+  .titlenetwork,
+  .titlenetwork h2,
+  .titlenetwork p,
+  .net-bleed {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .titlenetwork h2::after {
+    animation: none;
+    width: 150px;
+    opacity: 1;
+  }
+  
+  .net-track {
+    animation: net-marquee var(--duration) linear infinite;
+  }
+  
+  .net-item:hover {
+    transform: none;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .net-auto:hover .net-track {
+    animation-play-state: running;
+  }
+  
+  .net-item:hover {
+    opacity: 0.85;
+    transform: none;
+    background: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: none;
+  }
+  
+  .net-item:active {
+    transform: scale(0.98);
+    background: rgba(220, 38, 38, 0.05);
+  }
+  
+  /* Disable heavy animations on touch devices */
+  .network-section::before,
+  .network-section::after {
+    animation: none;
+  }
+}

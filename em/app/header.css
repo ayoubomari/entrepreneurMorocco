@@ -1,0 +1,449 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
+/* ===== HEADER BASE ===== */
+.hdr {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  font-family: "Montserrat";
+  background: transparent;
+  width: 100%;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateY(0);
+}
+
+.hdr--scrolled {
+
+}
+
+/* Header stays fixed - no hide/show behavior */
+
+.hdr--loaded .hdr__frame-stroke {
+  animation: drawFrame 1.5s ease-out forwards;
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2400;
+}
+
+@keyframes drawFrame {
+  from { stroke-dashoffset: 2400; }
+  to { stroke-dashoffset: 0; }
+}
+
+.hdr__wrap {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== SIMPLE LOGO ===== */
+.hdr__logo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+  text-decoration: none;
+  min-width: 90px;
+}
+
+.hdr__stripe {
+  height: 14px;
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 1.2s ease;
+}
+
+.hdr__stripe-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Slower slide-in animation - runs once */
+.hdr__stripe--1.hdr__stripe--loaded {
+  opacity: 1;
+  transform: translateX(15px);
+  transition-delay: 0.2s;
+}
+
+.hdr__stripe--2.hdr__stripe--loaded {
+  opacity: 1;
+  transform: translateX(5px);
+  transition-delay: 0.5s;
+}
+
+.hdr__stripe--3.hdr__stripe--loaded {
+  opacity: 1;
+  transform: translateX(-5px);
+  transition-delay: 0.8s;
+}
+
+/* ===== NAVIGATION BAR ===== */
+.hdr__box {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.hdr__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hdr__frame-fill {
+  transition: fill 0.4s ease;
+}
+
+.hdr--scrolled .hdr__frame-fill {
+  fill: rgba(0, 0, 0, 0.6);
+}
+
+.hdr__frame-stroke {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.hdr__inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 40px;
+  padding-inline: 36px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hdr__brand {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hdr__nav {
+  display: none;
+  justify-self: center;
+}
+
+@media (min-width: 980px) {
+  .hdr__nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+/* Simple navigation links */
+.hdr__link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 12px 0;
+  transition: color 0.3s ease;
+}
+
+.hdr__link-text {
+  position: relative;
+}
+
+.hdr__link-underline {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #e20714;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.hdr__link:hover {
+  color: #fff;
+}
+
+.hdr__link:hover .hdr__link-underline {
+  width: 100%;
+}
+
+.hdr__link.is-active,
+.hdr__link[aria-current="page"] {
+  color: #fff;
+  font-weight: 600;
+}
+
+.hdr__link.is-active::after,
+.hdr__link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+}
+
+/* Mobile toggle */
+.hdr__toggle {
+  background: transparent;
+  border: 0;
+  padding: 12px;
+  cursor: pointer;
+  justify-self: end;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.hdr__toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hdr__toggle-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  margin: 4px auto;
+  transition: all 0.3s ease;
+  border-radius: 1px;
+}
+
+.hdr__toggle--open .hdr__toggle-line--1 {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.hdr__toggle--open .hdr__toggle-line--2 {
+  opacity: 0;
+}
+
+.hdr__toggle--open .hdr__toggle-line--3 {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (min-width: 980px) {
+  .hdr__toggle {
+    display: none;
+  }
+}
+
+/* ===== MOBILE MENU ===== */
+.hdr__mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 40;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.hdr__mobile--open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hdr__mobile-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hdr__mobileNav {
+  position: absolute;
+  top: 120px;
+  left: 32px;
+  right: 32px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.hdr__mobile--open .hdr__mobileNav {
+  transform: translateY(0);
+}
+
+.hdr__mobileLink {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: color 0.3s ease;
+}
+
+.hdr__mobileLink:last-child {
+  border-bottom: 0;
+}
+
+.hdr__mobileLink:hover {
+  color: #fff;
+}
+
+.hdr__mobileLink.is-active,
+.hdr__mobileLink[aria-current="page"] {
+  color: #fff;
+  font-weight: 600;
+}
+
+.hdr__overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 35;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 979px) {
+  .hdr__wrap {
+    padding: 0 16px;
+    gap: 10px;
+    margin: 12px auto 0;
+  }
+  
+  .hdr__logo {
+    min-width: 70px;
+  }
+  
+  .hdr__stripe--1.hdr__stripe--loaded {
+    transform: translateX(10px);
+  }
+
+  .hdr__stripe--2.hdr__stripe--loaded {
+    transform: translateX(0px);
+  }
+
+  .hdr__stripe--3.hdr__stripe--loaded {
+    transform: translateX(-10px);
+  }
+  
+  .hdr__inner {
+    column-gap: 16px;
+    padding-inline: 16px;
+  }
+  
+  .hdr__brand {
+    font-size: 18px;
+    min-width: 0;
+    flex: 1;
+  }
+  
+  .hdr__mobileNav {
+    left: 16px;
+    right: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hdr__wrap {
+    padding: 0 12px;
+    gap: 8px;
+    margin: 8px auto 0;
+  }
+  
+  .hdr__logo {
+    min-width: 60px;
+  }
+  
+  .hdr__stripe--1.hdr__stripe--loaded {
+    transform: translateX(5px);
+  }
+
+  .hdr__stripe--2.hdr__stripe--loaded {
+    transform: translateX(0);
+  }
+
+  .hdr__stripe--3.hdr__stripe--loaded {
+    transform: translateX(-5px);
+  }
+  
+  .hdr__inner {
+    column-gap: 12px;
+    padding-inline: 12px;
+  }
+  
+  .hdr__brand {
+    font-size: 16px;
+  }
+  
+  .hdr__mobileNav {
+    left: 12px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hdr__wrap {
+    padding: 0 8px;
+    gap: 6px;
+    margin: 6px auto 0;
+  }
+  
+  .hdr__logo {
+    min-width: 50px;
+  }
+  
+  .hdr__inner {
+    column-gap: 8px;
+    padding-inline: 8px;
+  }
+  
+  .hdr__brand {
+    font-size: 14px;
+  }
+  
+  .hdr__mobileNav {
+    left: 8px;
+    right: 8px;
+    top: 100px;
+  }
+  
+  .hdr__toggle {
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Performance */
+.hdr {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
