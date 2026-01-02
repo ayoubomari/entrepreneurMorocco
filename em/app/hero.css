@@ -342,3 +342,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.hero__title-secondary {
+  font-size: 32px;
+}

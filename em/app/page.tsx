@@ -279,10 +279,10 @@ const HeroSection = () => {
         </div>
 
         {/* SECOND HERO CONTENT (Now Blockone Content with Hero Style) */}
-        <div className="hero__content">
+        <div className="hero__content hero__content-secondary">
           <div className="hero__inner">
             {/* Title with Blockone content but Hero styling/classes */}
-            <h1 className="hero__title">
+            <h1 className="hero__title hero__title-secondary">
               {[
                 "ÊTES-VOUS",
                 "PRÊT",
