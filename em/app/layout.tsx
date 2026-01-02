@@ -8,18 +8,23 @@ import CursorEffects from "../components/CursorEffects";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300","400","500","600","700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Entrepreneurs Morocco",
-  description: "Accompagnement humain & stratégique pour entreprendre au Maroc.",
-   icons: {
-    icon: "/favicon.ico", 
+  description:
+    "Accompagnement humain & stratégique pour entreprendre au Maroc.",
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="fr">
       {/* bg-transparent ensures the site-bg layer is visible behind everything */}
@@ -42,9 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div id="app-content" className="relative z-20">
           <CursorEffects />
           <Header />
-          <main className="pt-[96px]">
-            {children}
-          </main>
+          <main className="pt-[96px]">{children}</main>
         </div>
       </body>
     </html>
