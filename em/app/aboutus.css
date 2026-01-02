@@ -9,7 +9,7 @@
  animation: fadeInUp 1.2s ease-out 0.2s forwards;
 }
 
-/* Header - Responsive */
+/* Header -- Responsive */
 .aus-lead {
  text-align: center;
  margin-bottom: clamp(40px, 8vw, 80px);
