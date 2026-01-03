@@ -28,6 +28,7 @@ import "./blockone.css";
 
 const IMAGES = [1, 2, 3, 4, 5].map((n) => `/caroussel-3D-${n}.png`);
 const CAPTIONS = [
+  { title: "Étudiants", subtitle: "Installation, études, carte de séjour" },
   { title: "Marocains du monde", subtitle: "Revenir au pays sans stress" },
   {
     title: "Entrepreneurs en reconversion",
@@ -35,7 +36,6 @@ const CAPTIONS = [
   },
   { title: "Freelances", subtitle: "Lancer une activité digitale" },
   { title: "Investisseurs", subtitle: "Opportunités et fiscalité optimisées" },
-  { title: "Étudiants", subtitle: "Installation, études, carte de séjour" },
 ];
 
 const AudienceCarousel: React.FC = () => {
@@ -71,10 +71,10 @@ const AudienceCarousel: React.FC = () => {
     const totalCards = Math.min(IMAGES.length, visibleCards);
     const centerIndex = Math.floor(totalCards / 2);
 
-    // Calculate position relative to center
+    // Calculate position relative to center with proper wrapping
     let position = diff;
+    if (position > centerIndex) position -= IMAGES.length;
     if (position < -centerIndex) position += IMAGES.length;
-    if (position > IMAGES.length - centerIndex) position -= IMAGES.length;
 
     // Only show cards within visible range
     if (Math.abs(position) > centerIndex) {

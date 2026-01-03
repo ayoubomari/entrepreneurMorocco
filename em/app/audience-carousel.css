@@ -2,7 +2,7 @@
 .wave-carousel-section {
   position: relative;
   width: 100%;
-  padding: clamp(50px, 10vw, 120px) 0;
+  padding: clamp(50px, 10vw, 120px) 0 0;
   background: #000;
   overflow: hidden;
 }
@@ -49,6 +49,11 @@
 @media (max-width: 900px) {
   .wave-carousel__header {
     padding-bottom: 120px;
+  }
+}
+@media (max-width: 576px) {
+  .wave-carousel__header {
+    padding-bottom: 0px;
   }
 }
 
@@ -176,7 +181,7 @@
 
 @media (max-width: 768px) {
   .wave-carousel-section {
-    padding: clamp(40px, 8vw, 80px) 0;
+    padding: clamp(40px, 8vw, 80px) 0 0;
   }
 
   .wave-carousel {
