@@ -1,207 +1,120 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap");
 
-/* Animated Accordion Section - Fully Responsive */
+/* =========================================
+   BASE SECTION STYLES
+   ========================================= */
 .acc-section {
   width: 100%;
-  max-width: clamp(90%, 85vw, 80%);
   margin: 0 auto;
-  padding: clamp(40px, 8vw, 80px) 0;
+  padding: clamp(60px, 8vw, 100px) 0;
   position: relative;
   overflow: hidden;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* Background animated elements */
-.acc-section::before {
-  content: '';
-  position: absolute;
-  top: -20%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
-  background: 
-    radial-gradient(circle at 30% 20%, rgba(220, 38, 38, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(239, 68, 68, 0.03) 0%, transparent 50%);
-  animation: backgroundDrift 20s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes backgroundDrift {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1);
-    opacity: 0.8;
-  }
-  50% { 
-    transform: rotate(180deg) scale(1.1);
-    opacity: 1;
-  }
-}
-
-/* Floating particles */
+/* =========================================
+   BACKGROUND ANIMATIONS (PARTICLES)
+   ========================================= */
 .acc-section::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(1px 1px at 20% 30%, rgba(220, 38, 38, 0.2), transparent),
-    radial-gradient(1px 1px at 80% 70%, rgba(239, 68, 68, 0.15), transparent),
+  /* Red/White particles matching your theme */
+  background-image: radial-gradient(
+      1px 1px at 20% 30%,
+      rgba(220, 38, 38, 0.2),
+      transparent
+    ),
+    radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.15), transparent),
     radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
-    radial-gradient(1px 1px at 40% 80%, rgba(239, 68, 68, 0.2), transparent);
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
   background-size: 300px 200px;
   animation: particleDrift 25s linear infinite;
-  z-index: 2;
+  z-index: 0;
   pointer-events: none;
 }
 
 @keyframes particleDrift {
-  0% { transform: translateX(-50px) translateY(0px); }
-  33% { transform: translateX(20px) translateY(-30px); }
-  66% { transform: translateX(-10px) translateY(-15px); }
-  100% { transform: translateX(-50px) translateY(0px); }
+  0% {
+    transform: translateX(-50px) translateY(0px);
+  }
+  33% {
+    transform: translateX(20px) translateY(-30px);
+  }
+  66% {
+    transform: translateX(-10px) translateY(-15px);
+  }
+  100% {
+    transform: translateX(-50px) translateY(0px);
+  }
 }
 
+/* =========================================
+   CONTENT WRAPPER
+   ========================================= */
 .acc-wrap {
-  font-family: "Montserrat", sans-serif;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(16px, 3vw, 24px);
-  padding: 0 clamp(16px, 4vw, 32px);
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 clamp(16px, 4vw, 32px);
+
+  /* Entrance Animation */
   opacity: 0;
-  transform: translateY(50px);
-  animation: sectionReveal 1.2s ease-out forwards;
+  transform: translateY(30px);
+  animation: sectionReveal 1s ease-out forwards;
 }
 
 @keyframes sectionReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-  }
-  100% {
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-/* Title - Responsive with Animation */
+/* Typography */
 .acc-wrap h2 {
   color: #fff;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.02em;
-  line-height: clamp(1.05, 1.08, 1.1);
+  line-height: 1.1;
+  font-size: clamp(28px, 5vw, 36px);
+  margin-bottom: 10px;
   text-align: center;
-  font-size: clamp(24px, 5vw, 32px);
-  margin: 0 0 clamp(16px, 3vw, 28px);
-  max-width: none;
-  position: relative;
-  animation: titleSlideIn 1s ease-out 0.3s both;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
 }
 
-/* Animated underline for title */
-.acc-wrap h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
-  transform: translateX(-50%);
-  animation: underlineGrow 1.5s ease-out 0.8s forwards;
-  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-}
-
-@keyframes titleSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes underlineGrow {
-  0% { 
-    width: 0; 
-    opacity: 0;
-  }
-  100% { 
-    width: 80px; 
-    opacity: 1;
-  }
-}
-
-@media (min-width: 768px) {
-  .acc-wrap h2 {
-    text-align: left;
-  }
-  
-  .acc-wrap h2::after {
-    left: 0;
-    transform: none;
-  }
-}
-
-/* Paragraph - Responsive with Fade Animation */
 .acc-wrap p {
-  font-family: "Montserrat", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+  font-size: clamp(16px, 2vw, 16px);
+  max-width: 900px;
+  margin: 0 auto;
   text-align: center;
-  line-height: 1.55;
-  font-size: clamp(16px, 2.5vw, 20px);
-  margin: 0 0 clamp(24px, 4vw, 40px);
-  max-width: clamp(100%, 90vw, 1100px);
-  animation: fadeInUp 1s ease-out 0.6s both;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @media (min-width: 768px) {
+  .acc-wrap h2,
   .acc-wrap p {
     text-align: left;
+    margin-left: 0;
   }
 }
 
-.acc-wrap p + p {
-  margin-top: 0.35em;
-}
-
-/* CTA Container - Responsive with Staggered Animation */
+/* =========================================
+   BUTTONS CONTAINER
+   ========================================= */
 .acc-cta {
-  gap: clamp(16px, 3vw, 22px);
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  animation: ctaReveal 1s ease-out 0.9s both;
-}
-
-@keyframes ctaReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @media (min-width: 768px) {
@@ -211,554 +124,130 @@
   }
 }
 
-/* Buttons - Fully Responsive with Enhanced Animations */
+/* =========================================
+   BUTTON STYLES (MATCHING DIMENSIONS)
+   ========================================= */
+
+/* 1. Shared Base Styles 
+   Ensures both buttons have identical physical dimensions */
 .acc-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  text-decoration: none;
-  font-weight: 800;
-  line-height: 1;
-  font-size: clamp(14px, 2.5vw, 18px);
-  padding: clamp(14px, 3vw, 18px) clamp(24px, 5vw, 32px);
-  min-height: clamp(48px, 10vw, 64px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Exact Dimensions */
+  height: 56px;
+  padding: 0 35px;
+  min-width: 200px; /* Ensures consistent width */
+
+  /* Font Styling (Matching Hero) */
   font-family: "Montserrat", sans-serif;
-  border: 0;
-  cursor: pointer;
-  will-change: transform;
-  isolation: isolate;
-  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 15px;
   letter-spacing: 0.02em;
-  overflow: hidden;
-}
+  text-decoration: none;
+  white-space: nowrap;
 
-.acc-btn--primary {
-  height: 80px;
-  animation: buttonBounceIn 0.8s ease-out 1.1s both;
-}
-
-.acc-btn--ghost {
-  animation: buttonSlideIn 0.8s ease-out 1.3s both;
-}
-
-@keyframes buttonBounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) rotate(-10deg);
-  }
-  50% {
-    transform: scale(1.1) rotate(5deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes buttonSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(50px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-.acc-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  --slant: clamp(12px, 2vw, 18px);
-}
-
-/* Enhanced ripple effect */
-.acc-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.6s ease;
-  z-index: -1;
-}
-
-.acc-btn:hover::after {
-  width: 300px;
-  height: 300px;
-}
-
-/* Primary Button with Shine Effect */
-.acc-btn--primary {
-  color: #000;
-  overflow: hidden;
-}
-
-.acc-btn--primary::before {
-  background: #fff;
-  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant)) 100%, 0% 100%);
-  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.18);
-}
-
-/* Shine effect on primary button */
-.acc-btn--primary .shine {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.7s ease;
+  /* Animation Base */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  border: none;
   z-index: 1;
 }
 
-.acc-btn--primary:hover .shine {
-  left: 100%;
+/* 2. Shared Hover Animation 
+   Both buttons zoom in exactly the same way */
+.acc-btn:hover {
+  transform: scale(1.05); /* The "Zoom In" effect */
+}
+
+/* --- PRIMARY BUTTON (Solid White) --- */
+.acc-btn--primary {
+  background: #fff;
+  color: #000;
+  /* Slant on the RIGHT side */
+  clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .acc-btn--primary:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 
-    0 15px 35px rgba(255, 255, 255, 0.25),
-    0 0 20px rgba(220, 38, 38, 0.1);
+  background: #f2f2f2;
 }
 
-.acc-btn--primary:active {
-  transform: translateY(-2px) scale(0.98);
-}
-
-/* Ghost Button - SVG Only on Desktop */
+/* --- GHOST BUTTON (Outlined) --- */
 .acc-btn--ghost {
-  color: #fff;
-  position: relative;
-  z-index: 1;
   background: transparent;
+  color: #fff;
+  /* Reset overflow so pseudo-elements can render */
   overflow: visible;
 }
 
+/* The White Border Layer */
 .acc-btn--ghost::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: transparent;
-  border: none;
-  background-image: url('/borderbutton.svg');
-  transform: scale(1.25);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: #fff;
+  /* Slant on the LEFT side (to interlock visually) */
+  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
+  z-index: -2;
+}
+
+/* The Black Inner Layer (Creates the "Hole") */
+.acc-btn--ghost::after {
+  content: "";
+  position: absolute;
+  /* 2px gap creates the border thickness */
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background: #000; /* Must match section bg */
+  /* Same clip-path as above */
+  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
   z-index: -1;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-/* Enhanced ghost button effects */
+/* Ghost Button Hover: Fill with white */
 .acc-btn--ghost:hover {
-  transform: translateY(-3px) scale(1.05);
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.acc-btn--ghost:hover::before {
-  filter: brightness(1.2) drop-shadow(0 0 10px rgba(220, 38, 38, 0.3));
-  transform: scale(1.3);
-}
-
-/* Hover States */
-.acc-btn:hover,
-.acc-btn:focus-visible {
-  outline: none;
-}
-
-.acc-btn--ghost:hover,
-.acc-btn--ghost:focus-visible {
-  color: #fff;
-}
-
-.acc-btn--primary:hover,
-.acc-btn--primary:focus-visible {
   color: #000;
 }
 
-/* Add floating business consultation icon */
-.acc-wrap::before {
-  content: '';
-  position: absolute;
-  top: -40px;
-  right: 8%;
-  width: clamp(50px, 7vw, 70px);
-  height: clamp(50px, 7vw, 70px);
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/users.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.12;
-  animation: floatDecor 6s ease-in-out infinite;
-  z-index: -1;
-  filter: invert(19%) sepia(98%) saturate(3067%) hue-rotate(346deg) brightness(93%) contrast(94%);
+.acc-btn--ghost:hover::after {
+  background: #fff;
 }
 
-/* Add second floating icon - briefcase/business */
-.acc-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: -30px;
-  left: 5%;
-  width: clamp(40px, 6vw, 60px);
-  height: clamp(40px, 6vw, 60px);
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/briefcase.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.1;
-  animation: floatDecor 8s ease-in-out infinite reverse;
-  z-index: -1;
-  filter: invert(25%) sepia(100%) saturate(3045%) hue-rotate(346deg) brightness(96%) contrast(94%);
-}
-
-@keyframes floatDecor {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.6;
-  }
-  50% { 
-    transform: translateY(-25px) rotate(180deg);
-    opacity: 1;
-  }
-}
-
-/* Mobile Specific Adjustments */
-@media (max-width: 480px) {
+/* =========================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================= */
+@media (max-width: 640px) {
   .acc-section {
-    max-width: 95%;
-    padding: clamp(32px, 6vw, 48px) 0;
-  }
-  
-  .acc-btn--primary {
-    height: 40px;
+    padding: 60px 0;
   }
 
-  .acc-wrap {
-    padding: 0 clamp(12px, 3vw, 20px);
-    gap: clamp(12px, 2.5vw, 20px);
-  }
-
-  .acc-wrap h2 {
-    font-size: clamp(20px, 4.5vw, 28px);
-    line-height: 1.15;
-    margin-bottom: clamp(12px, 2.5vw, 20px);
-  }
-
-  .acc-wrap p {
-    font-size: clamp(14px, 2.2vw, 18px);
-    line-height: 1.5;
-    margin-bottom: clamp(20px, 3.5vw, 32px);
-  }
-
+  /* Stack buttons on mobile */
   .acc-cta {
-    gap: clamp(12px, 2.5vw, 16px);
     flex-direction: column;
-    align-items: center;
-  }
-
-  .acc-btn {
-    width: clamp(200px, 70vw, 300px);
-    max-width: 280px;
-    min-height: clamp(44px, 8vw, 54px);
-    padding: clamp(12px, 2.5vw, 16px) clamp(20px, 4vw, 24px);
-    font-size: clamp(12px, 2.5vw, 16px);
-  }
-
-  .acc-btn::before {
-    --slant: clamp(10px, 1.8vw, 14px);
-  }
-
-  /* Remove SVG on mobile - use simple border instead */
-  .acc-btn--ghost::before {
-    background-image: none;
-    background: transparent;
-    border: 2px solid #fff;
-    clip-path: none;
-    transform: none;
-  }
-  
-  /* Reduce decorative elements on mobile */
-  .acc-wrap::before,
-  .acc-wrap::after {
-    display: none;
-  }
-  
-  .acc-section::before,
-  .acc-section::after {
-    opacity: 0.3;
-  }
-}
-
-/* Tablet Specific */
-@media (min-width: 481px) and (max-width: 767px) {
-  .acc-section {
-    max-width: 90%;
-  }
-
-  .acc-wrap h2,
-  .acc-wrap p {
-    text-align: center;
-  }
-  
-  .acc-wrap h2::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .acc-cta {
-    justify-content: center;
-    flex-direction: row;
-  }
-
-  .acc-btn {
-    width: clamp(180px, 35vw, 240px);
-  }
-
-  /* Tablet uses SVG like desktop */
-  .acc-btn--ghost::before {
-    background-image: url('/borderbutton.svg');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: none;
-    transform: scale(1.25);
-  }
-}
-
-/* Large Desktop */
-@media (min-width: 1200px) {
-  .acc-section {
-    max-width: 75%;
-  }
-
-  .acc-wrap h2 {
-    font-size: 36px;
-  }
-
-  .acc-wrap p {
-    font-size: 22px;
-  }
-
-  .acc-btn {
-    font-size: 20px;
-    padding: 20px 36px;
-    min-height: 68px;
-  }
-
-  .acc-btn::before {
-    --slant: 20px;
-  }
-
-  /* Larger scale for big screens */
-  .acc-btn--ghost::before {
-    transform: scale(1.25);
-  }
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .acc-btn:hover {
-    transform: none;
-    box-shadow: none;
-  }
-
-  .acc-btn:active {
-    transform: scale(0.96);
-  }
-
-  .acc-btn--primary:active {
-    background: rgba(255, 255, 255, 0.9);
-  }
-  
-  /* Disable heavy animations on touch devices */
-  .acc-section::before,
-  .acc-section::after {
-    animation: none;
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .acc-section::before,
-  .acc-section::after,
-  .acc-wrap::before,
-  .acc-wrap::after {
-    animation: none;
-  }
-  
-  .acc-wrap,
-  .acc-wrap h2,
-  .acc-wrap p,
-  .acc-cta,
-  .acc-btn--primary,
-  .acc-btn--ghost {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  
-  .acc-wrap h2::after {
-    animation: none;
-    width: 80px;
-    opacity: 1;
-  }
-  
-  .acc-btn {
-    transition: none;
-  }
-
-  .acc-btn:hover {
-    transform: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .acc-btn--primary {
-    background: #fff;
-    color: #000;
-    border: 2px solid #fff;
-  }
-
-  .acc-btn--ghost {
-    border: 2px solid #fff;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .acc-section {
-    background: #fff;
-    padding: 20px 0;
     width: 100%;
-    max-width: none;
-  }
-  
-  .acc-section::before,
-  .acc-section::after,
-  .acc-wrap::before,
-  .acc-wrap::after {
-    display: none;
-  }
-
-  .acc-wrap h2,
-  .acc-wrap p {
-    color: #000;
-    animation: none;
+    gap: 16px;
   }
 
   .acc-btn {
-    background: #fff;
-    color: #000;
-    border: 2px solid #000;
-    box-shadow: none;
-    animation: none;
+    width: 100%;
+    max-width: 350px; /* Cap width for aesthetics */
+    height: 52px; /* Slightly smaller on mobile */
+    font-size: 14px;
   }
 
-  .acc-btn::before,
-  .acc-btn::after {
-    display: none;
+  /* On mobile, adjust slants to be less aggressive or keep uniform */
+  .acc-btn--primary {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   }
-}
 
-
-/* Brief Plans Overview - Additional CSS */
-.plans-brief {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  animation: plansReveal 1s ease-out 1.2s both;
-}
-
-@media (min-width: 768px) {
-  .plans-brief {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-@keyframes plansReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.plan-brief {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.plan-brief:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #ef4444;
-  transform: translateY(-2px);
-}
-
-.plan-brief-icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(239, 68, 68, 0.1);
-  border-radius: 50%;
-}
-
-.plan-brief-content h3 {
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: 700;
-  margin: 0 0 0.25rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-}
-
-.plan-brief-content span {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-
-@media (max-width: 767px) {
-  .plan-brief {
-    padding: 0.75rem;
-  }
-  
-  .plan-brief-icon {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .plan-brief-content h3 {
-    font-size: 0.8rem;
-  }
-  
-  .plan-brief-content span {
-    font-size: 0.7rem;
+  .acc-btn--ghost::before,
+  .acc-btn--ghost::after {
+    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
   }
 }

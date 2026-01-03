@@ -574,108 +574,17 @@ const HeroSection = () => {
 const AccompagnementsSection = () => {
   return (
     <section className="bg-black py-20 md:py-24 acc-section">
-      <div className="max-w-7xl mx-auto px-6 acc-wrap">
+      <div className="max-w-6xl mx-auto px-6 acc-wrap">
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES ACCOMPAGNEMENTS ADAPTÉS À CHAQUE PROFIL
         </h2>
 
-        <p className="text-white/85 font-light mb-8">
+        <p className="text-white/85 font-light">
           Choisissez le pack qui correspond à votre situation : MRE, solo,
           famille ou croissance rapide.
         </p>
 
-        {/* Brief Plans Overview */}
-        <div className="plans-brief mb-12">
-          <div
-            className="plan-brief"
-            onClick={() => (window.location.href = "/contact-quiz")}
-          >
-            <div className="plan-brief-icon">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                />
-              </svg>
-            </div>
-            <div className="plan-brief-content">
-              <h3>PLAN 1 - Starter</h3>
-              <span>2999 € • Solo/Indépendant</span>
-            </div>
-          </div>
-
-          <div
-            className="plan-brief"
-            onClick={() => (window.location.href = "/contact-quiz")}
-          >
-            <div className="plan-brief-icon">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                />
-                <polyline
-                  points="9,22 9,12 15,12 15,22"
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                />
-              </svg>
-            </div>
-            <div className="plan-brief-content">
-              <h3>PLAN 2 - Family & Lifestyle</h3>
-              <span>Sur devis • MRE & Famille</span>
-            </div>
-          </div>
-
-          <div
-            className="plan-brief"
-            onClick={() => (window.location.href = "/contact-quiz")}
-          >
-            <div className="plan-brief-icon">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line
-                  x1="12"
-                  y1="1"
-                  x2="12"
-                  y2="23"
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M17 5H9.5C7.01472 5 5 7.01472 5 9.5C5 11.9853 7.01472 14 9.5 14H14.5C16.9853 14 19 16.0147 19 18.5C19 20.9853 16.9853 23 14.5 23H6"
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                />
-              </svg>
-            </div>
-            <div className="plan-brief-content">
-              <h3>PLAN 3 - Growth & Business</h3>
-              <span>Sur devis • Entrepreneurs/Startups</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 acc-cta">
+        <div className="flex flex-col sm:flex-row items-center acc-cta">
           <Link href="/contact-quiz" className="acc-btn acc-btn--primary">
             Choisir ce plan
           </Link>
