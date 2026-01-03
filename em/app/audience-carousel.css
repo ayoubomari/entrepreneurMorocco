@@ -101,7 +101,7 @@
   position: absolute;
   width: clamp(280px, 35vw, 450px);
   transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  text-align: center;
+  text-align: left;
 }
 
 .wave-card img {
@@ -112,38 +112,34 @@
 }
 
 /* Edge cards have darker shadow */
-.wave-card:not(.wave-card--active) img {
+.wave-card:not(.wave-card--active):not(.wave-card--adjacent) img {
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 5px 20px rgba(0, 0, 0, 0.6);
 }
 
-.wave-card--active img {
+/* Active and adjacent cards have similar bright shadows */
+.wave-card--active img,
+.wave-card--adjacent img {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* Caption */
 .wave-caption {
-  margin-top: 20px;
-  padding: 0 20px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 400ms ease;
-}
-
-.wave-card--active .wave-caption {
+  padding: 20px 0 0 0;
   opacity: 1;
   transform: translateY(0);
+  transition: all 400ms ease;
 }
 
 .wave-caption__title {
   font-weight: 800;
   font-size: clamp(16px, 2vw, 24px);
   color: #fff;
-  margin-bottom: 8px;
   position: relative;
   display: inline-block;
 }
 
-.wave-card--active .wave-caption__title::after {
+/* Underline only for active card */
+/* .wave-card--active .wave-caption__title::after {
   content: "";
   position: absolute;
   bottom: -4px;
@@ -153,7 +149,7 @@
   height: 2px;
   background: linear-gradient(90deg, #dc2626, #ef4444);
   animation: expandUnderline 0.6s ease-out 0.2s forwards;
-}
+} */
 
 @keyframes expandUnderline {
   to {
@@ -164,7 +160,6 @@
 .wave-caption__subtitle {
   font-size: clamp(13px, 1.5vw, 16px);
   color: rgba(255, 255, 255, 0.85);
-  margin-top: 4px;
 }
 
 /* Responsive Design */

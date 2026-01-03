@@ -86,16 +86,26 @@ const AudienceCarousel: React.FC = () => {
     const scale = 1 - distanceFromCenter * 0.12;
     // V-shape: the further from center, the higher up (MORE negative Y)
     const yOffset = -distanceFromCenter * 120; // Both sides go UP
-    const opacity = 1 - distanceFromCenter * 0.2;
+
+    // Make adjacent cards (distance 1) much brighter with full opacity
+    let opacity, brightness;
+    if (distanceFromCenter === 0) {
+      opacity = 1;
+      brightness = 1;
+    } else if (distanceFromCenter === 1) {
+      opacity = 0.95; // Nearly full opacity for adjacent cards
+      brightness = 0.95; // Much brighter
+    } else {
+      opacity = 1 - distanceFromCenter * 0.25;
+      brightness = 0.65 + 0.15 * (1 - distanceFromCenter / centerIndex);
+    }
 
     return {
       transform: `translateX(${
         position * 105
       }%) translateY(${yOffset}px) scale(${scale})`,
       opacity: opacity,
-      filter: `brightness(${
-        0.75 + 0.25 * (1 - distanceFromCenter / centerIndex)
-      })`,
+      filter: `brightness(${brightness})`,
       zIndex: 100 - distanceFromCenter,
     };
   };
