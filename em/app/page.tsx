@@ -38,11 +38,21 @@ const CAPTIONS = [
   { title: "Étudiants", subtitle: "Installation, études, carte de séjour" },
 ];
 
-const clampMod = (n: number, m: number) => ((n % m) + m) % m;
-
 const AudienceCarousel: React.FC = () => {
   const [active, setActive] = useState(2);
-  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [visibleCards, setVisibleCards] = useState(5);
+
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      if (window.innerWidth < 640) setVisibleCards(3);
+      else if (window.innerWidth < 1024) setVisibleCards(4);
+      else setVisibleCards(5);
+    };
+
+    updateVisibleCards();
+    window.addEventListener("resize", updateVisibleCards);
+    return () => window.removeEventListener("resize", updateVisibleCards);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -53,74 +63,72 @@ const AudienceCarousel: React.FC = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const prev = () => setActive((i) => clampMod(i - 1, IMAGES.length));
-  const next = () => setActive((i) => clampMod(i + 1, IMAGES.length));
+  const prev = () => setActive((i) => (i - 1 + IMAGES.length) % IMAGES.length);
+  const next = () => setActive((i) => (i + 1) % IMAGES.length);
 
-  const rel = (i: number) => {
-    const n = IMAGES.length;
-    let d = i - active;
-    if (d > n / 2) d -= n;
-    if (d < -n / 2) d += n;
-    return d;
+  const getCardStyle = (index: number) => {
+    const diff = index - active;
+    const totalCards = Math.min(IMAGES.length, visibleCards);
+    const centerIndex = Math.floor(totalCards / 2);
+
+    // Calculate position relative to center
+    let position = diff;
+    if (position < -centerIndex) position += IMAGES.length;
+    if (position > IMAGES.length - centerIndex) position -= IMAGES.length;
+
+    // Only show cards within visible range
+    if (Math.abs(position) > centerIndex) {
+      return { display: "none" };
+    }
+
+    // Calculate V-shape / boomerang effect (center at bottom, both edges at top)
+    const distanceFromCenter = Math.abs(position);
+    const scale = 1 - distanceFromCenter * 0.12;
+    // V-shape: the further from center, the higher up (MORE negative Y)
+    const yOffset = -distanceFromCenter * 120; // Both sides go UP
+    const opacity = 1 - distanceFromCenter * 0.2;
+
+    return {
+      transform: `translateX(${
+        position * 105
+      }%) translateY(${yOffset}px) scale(${scale})`,
+      opacity: opacity,
+      filter: `brightness(${
+        0.75 + 0.25 * (1 - distanceFromCenter / centerIndex)
+      })`,
+      zIndex: 100 - distanceFromCenter,
+    };
   };
 
   return (
-    <section className="carousel-section">
-      {/* Main Title */}
-      <div className="carousel__header">
-        <h2 className="carousel__main-title">
+    <section className="wave-carousel-section">
+      <div className="wave-carousel__header">
+        <h2 className="wave-carousel__title">
           POUR CEUX QUI VEULENT S'INSTALLER, ENTREPRENDRE OU CHANGER DE VIE
         </h2>
       </div>
 
-      <div className="carousel" ref={rootRef} aria-roledescription="carousel">
-        <button
-          className="nav nav--prev"
-          onClick={prev}
-          aria-label="Previous slide"
-        >
-          ‹
-        </button>
-        <button
-          className="nav nav--next"
-          onClick={next}
-          aria-label="Next slide"
-        >
-          ›
-        </button>
-
-        <div className="stage">
+      <div className="wave-carousel-container">
+        <div className="wave-carousel">
           {IMAGES.map((src, i) => {
-            const offset = rel(i);
-            const abs = Math.abs(offset);
-            const isActive = offset === 0;
-            const cap = CAPTIONS[i] || {
-              title: `Slide ${i + 1}`,
-              subtitle: "",
-            };
+            const cap = CAPTIONS[i];
+            const isActive = i === active;
 
             return (
-              <button
-                key={src}
-                className={`slide ${isActive ? "is-active" : ""}`}
+              <div
+                key={i}
+                className={`wave-card ${isActive ? "wave-card--active" : ""}`}
+                style={getCardStyle(i)}
                 onClick={() => setActive(i)}
-                style={
-                  {
-                    "--offset": String(offset),
-                    "--abs": String(abs),
-                  } as React.CSSProperties
-                }
-                aria-current={isActive ? "true" : undefined}
-                aria-label={`Slide ${i + 1}`}
               >
                 <img src={src} alt={cap.title} draggable={false} />
-                <div className="caption" aria-hidden="true">
-                  <div className="caption__title">{cap.title}</div>
+                <div className="wave-caption">
+                  <div className="wave-caption__title">{cap.title}</div>
                   {cap.subtitle && (
-                    <div className="caption__subtitle">{cap.subtitle}</div>
+                    <div className="wave-caption__subtitle">{cap.subtitle}</div>
                   )}
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>
