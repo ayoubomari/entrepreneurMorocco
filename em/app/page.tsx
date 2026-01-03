@@ -603,20 +603,22 @@ const AccompagnementsSection = () => {
 const ServicesSection = () => {
   return (
     <section className="bg-black py-20 md:py-24 srv-section">
-      <div className="max-w-7xl mx-auto px-6 srv-wrap">
-        <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight srv-title">
+      <div className="max-w-6xl mx-auto px-6 srv-wrap">
+        <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES SERVICES SUR-MESURE POUR CHAQUE BESOIN
         </h2>
 
-        <div className="srv-sub">
-          <p className="mb-2">
+        <div className="srv-content">
+          <p className="text-white/85 font-light">
             Choisissez uniquement ce dont vous avez besoin : administratif,
             digital, fiscal, immobilier, communication...
           </p>
-          <p>Payez ce qui vous sert vraiment, quand vous en avez besoin.</p>
+          <p className="text-white/85 font-light">
+            Payez ce qui vous sert vraiment, quand vous en avez besoin.
+          </p>
         </div>
 
-        <div className="srv-cta">
+        <div className="flex flex-col sm:flex-row items-center srv-cta">
           <Link href="/devis" className="srv-btn srv-btn--primary">
             Demander un devis personnalisé
           </Link>

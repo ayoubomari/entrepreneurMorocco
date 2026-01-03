@@ -1,570 +1,208 @@
-/* Animated Services Section - Fully Responsive */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap");
+
+/* =========================================
+   SERVICES SECTION STYLES
+   ========================================= */
 .srv-section {
-  padding: clamp(40px, 8vw, 120px) 0;
   width: 100%;
-  max-width: clamp(90%, 85vw, 80%);
   margin: 0 auto;
+  padding: clamp(60px, 8vw, 100px) 0;
   position: relative;
   overflow: hidden;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* Background animated elements */
-.srv-section::before {
-  content: '';
-  position: absolute;
-  top: -30%;
-  left: -30%;
-  width: 160%;
-  height: 160%;
-  background: 
-    radial-gradient(circle at 25% 25%, rgba(220, 38, 38, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(239, 68, 68, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 50% 10%, rgba(220, 38, 38, 0.02) 0%, transparent 60%);
-  animation: servicesBgFloat 18s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes servicesBgFloat {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1);
-    opacity: 0.7;
-  }
-  50% { 
-    transform: rotate(180deg) scale(1.05);
-    opacity: 1;
-  }
-}
-
-/* Floating service icons */
+/* =========================================
+   BACKGROUND ANIMATIONS (Subtle Particles)
+   ========================================= */
 .srv-section::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(1px 1px at 15% 20%, rgba(220, 38, 38, 0.2), transparent),
-    radial-gradient(2px 2px at 85% 30%, rgba(239, 68, 68, 0.15), transparent),
-    radial-gradient(1px 1px at 70% 80%, rgba(220, 38, 38, 0.18), transparent),
-    radial-gradient(2px 2px at 30% 70%, rgba(239, 68, 68, 0.12), transparent);
-  background-size: 250px 180px;
-  animation: servicesParticles 22s linear infinite;
-  z-index: 2;
+  /* Red/White particles matching theme */
+  background-image: radial-gradient(
+      1px 1px at 20% 30%,
+      rgba(220, 38, 38, 0.2),
+      transparent
+    ),
+    radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
+  background-size: 300px 200px;
+  animation: particleDrift 25s linear infinite;
+  z-index: 0;
   pointer-events: none;
 }
 
-@keyframes servicesParticles {
-  0% { transform: translateX(-30px) translateY(0px) rotate(0deg); }
-  33% { transform: translateX(15px) translateY(-25px) rotate(120deg); }
-  66% { transform: translateX(-10px) translateY(-15px) rotate(240deg); }
-  100% { transform: translateX(-30px) translateY(0px) rotate(360deg); }
+@keyframes particleDrift {
+  0% {
+    transform: translateX(-50px) translateY(0px);
+  }
+  33% {
+    transform: translateX(20px) translateY(-30px);
+  }
+  66% {
+    transform: translateX(-10px) translateY(-15px);
+  }
+  100% {
+    transform: translateX(-50px) translateY(0px);
+  }
 }
 
+/* =========================================
+   CONTENT WRAPPER
+   ========================================= */
 .srv-wrap {
-  margin: 0 auto;
-  padding-inline: clamp(16px, 4vw, 32px);
-  width: 100%;
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 clamp(16px, 4vw, 32px);
+
+  /* Entrance Animation */
   opacity: 0;
-  transform: translateY(40px);
-  animation: servicesReveal 1.2s ease-out forwards;
+  transform: translateY(30px);
+  animation: sectionReveal 1s ease-out forwards;
 }
 
-@keyframes servicesReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(40px) scale(0.97);
-  }
-  100% {
+@keyframes sectionReveal {
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-/* Enhanced Title Effects */
+/* Typography */
 .srv-wrap h2 {
-  font-family: "Montserrat", sans-serif;
   color: #fff;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.02em;
-  line-height: clamp(1.05, 1.08, 1.1);
+  line-height: 1.1;
+  font-size: clamp(28px, 5vw, 36px);
+  margin-bottom: 10px;
   text-align: center;
-  font-size: clamp(24px, 5vw, 32px);
-  margin: 0 0 clamp(16px, 3vw, 28px);
-  max-width: none;
-  position: relative;
-  animation: slideInScale 1s ease-out 0.3s both;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
 }
 
-/* Glowing underline effect - same as accompagnements */
-.srv-wrap h2::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
-  transform: translateX(-50%);
-  animation: underlineGrow 1.5s ease-out 0.8s forwards;
-  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+.srv-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Slight gap between paragraphs */
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-@keyframes slideInScale {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes underlineGrow {
-  0% { 
-    width: 0; 
-    opacity: 0;
-  }
-  100% { 
-    width: 60%; 
-    opacity: 1;
-  }
-}
-
-@media (min-width: 768px) {
-  .srv-wrap h2 {
-    text-align: left !important;
-  }
-  
-  .srv-wrap h2::before {
-    left: 0;
-    transform: none;
-  }
-}
-
-/* Subtitle - Responsive with Staggered Animation */
-.srv-sub {
-  font-family: "Montserrat", sans-serif;
+.srv-content p {
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+  font-size: clamp(16px, 2vw, 16px);
+  margin: 0;
   text-align: center;
-  line-height: 1.55;
-  font-size: clamp(16px, 2.5vw, 20px);
-  margin: 0 0 clamp(24px, 4vw, 40px);
-  max-width: clamp(100%, 90vw, 1100px);
-  animation: subtitleSlideIn 1s ease-out 0.6s both;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-
-@keyframes subtitleSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(25px) rotateX(15deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateX(0deg);
-  }
 }
 
 @media (min-width: 768px) {
-  .srv-sub {
-    text-align: left !important;
+  .srv-wrap h2,
+  .srv-content,
+  .srv-content p {
+    text-align: left;
+    margin-left: 0;
   }
 }
 
-.srv-sub p { 
-  margin: 0; 
-}
-
-.srv-sub p + p { 
-  margin-top: .35em; 
-}
-
-/* CTA Container - Responsive with Bounce Animation */
+/* =========================================
+   BUTTONS CONTAINER
+   ========================================= */
 .srv-cta {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  animation: ctaBounceIn 1s ease-out 0.9s both;
-}
-
-@keyframes ctaBounceIn {
-  0% {
-    opacity: 0;
-    transform: translateY(40px) scale(0.8);
-  }
-  60% {
-    transform: translateY(-5px) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 @media (min-width: 768px) {
   .srv-cta {
     justify-content: flex-start;
+    flex-wrap: nowrap;
   }
 }
 
-/* Button - Fully Responsive with Advanced Effects */
+/* =========================================
+   BUTTON STYLES
+   ========================================= */
 .srv-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  text-decoration: none;
-  font-weight: 800;
-  line-height: 1;
-  font-size: clamp(14px, 2.5vw, 18px);
-  padding: clamp(14px, 3vw, 18px) clamp(24px, 5vw, 32px);
-  min-height: clamp(48px, 10vw, 64px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-transform: uppercase;
+
+  /* Exact Dimensions */
+  height: 56px;
+  padding: 0 35px;
+  min-width: 200px;
+
+  /* Font Styling */
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
   letter-spacing: 0.02em;
-  overflow: hidden;
-}
+  text-decoration: none;
+  white-space: nowrap;
 
-/* Magical shine effect */
-.srv-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.8s ease;
-  z-index: 2;
-}
-
-.srv-btn:hover::before {
-  left: 100%;
-}
-
-/* Ripple effect */
-.srv-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(220, 38, 38, 0.1);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.6s ease;
+  /* Animation Base */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  border: none;
   z-index: 1;
 }
 
-.srv-btn:hover::after {
-  width: 300px;
-  height: 300px;
+.srv-btn:hover {
+  transform: scale(1.05); /* The "Zoom In" effect */
 }
 
+/* --- PRIMARY BUTTON (Solid White) --- */
 .srv-btn--primary {
-  color: #000;
   background: #fff;
-  border: none;
-  clip-path: polygon(0 0, 100% 0, calc(100% - clamp(12px, 2vw, 18px)) 100%, 0% 100%);
-  box-shadow: 0 8px 28px rgba(255,255,255,0.18);
+  color: #000;
+  /* Slant on the RIGHT side */
+  clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .srv-btn--primary:hover {
-  transform: translateY(-4px) scale(1.03);
-  background: #f8f8f8;
-  box-shadow: 
-    0 15px 40px rgba(255,255,255,0.3),
-    0 0 25px rgba(220, 38, 38, 0.15);
+  background: #f2f2f2;
 }
 
-.srv-btn--primary:active {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 8px 20px rgba(255,255,255,0.2);
-}
-
-/* Add floating service icons */
-.srv-wrap::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  right: 10%;
-  width: clamp(60px, 8vw, 80px);
-  height: clamp(60px, 8vw, 80px);
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/settings.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.08;
-  animation: floatServices 7s ease-in-out infinite;
-  z-index: -1;
-  filter: invert(19%) sepia(98%) saturate(3067%) hue-rotate(346deg) brightness(93%) contrast(94%);
-}
-
-.srv-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: -40px;
-  left: 8%;
-  width: clamp(45px, 6vw, 65px);
-  height: clamp(45px, 6vw, 65px);
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/target.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.1;
-  animation: floatServices 9s ease-in-out infinite reverse;
-  z-index: -1;
-  filter: invert(25%) sepia(100%) saturate(3045%) hue-rotate(346deg) brightness(96%) contrast(94%);
-}
-
-@keyframes floatServices {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg) scale(1);
-    opacity: 0.08;
-  }
-  50% { 
-    transform: translateY(-30px) rotate(180deg) scale(1.1);
-    opacity: 0.12;
-  }
-}
-
-/* Mobile Specific */
-@media (max-width: 480px) {
-  .srv-section { 
-    padding: clamp(32px, 6vw, 48px) 0;
-    max-width: 95%;
-  }
-  
-  .srv-wrap {
-    padding-inline: clamp(12px, 3vw, 20px);
-  }
-  
-  .srv-btn {
-    width: clamp(200px, 70vw, 300px);
-    justify-content: center;
-    font-size: clamp(12px, 2.5vw, 16px);
-    min-height: clamp(44px, 8vw, 56px);
-    padding: clamp(12px, 2.5vw, 16px) clamp(20px, 4vw, 28px);
-  }
-  
-  .srv-wrap h2 {
-    font-size: clamp(20px, 4.5vw, 28px);
-    line-height: 1.15;
-    margin-bottom: clamp(12px, 2.5vw, 20px);
-  }
-  
-  .srv-sub {
-    font-size: clamp(14px, 2.2vw, 18px);
-    line-height: 1.5;
-    margin-bottom: clamp(20px, 3.5vw, 32px);
-  }
-  
-  /* Hide floating icons on mobile */
-  .srv-wrap::before,
-  .srv-wrap::after {
-    display: none;
-  }
-  
-  /* Reduce background effects on mobile */
-  .srv-section::before,
-  .srv-section::after {
-    opacity: 0.4;
-  }
-}
-
-/* Tablet Specific */
-@media (min-width: 481px) and (max-width: 767px) {
+/* =========================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================= */
+@media (max-width: 640px) {
   .srv-section {
-    max-width: 90%;
+    padding: 60px 0;
   }
-  
-  .srv-btn {
-    width: clamp(240px, 50vw, 320px);
-    justify-content: center;
-  }
-  
-  .srv-wrap h2,
-  .srv-sub {
-    text-align: center;
-  }
-  
-  .srv-wrap h2::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
+
+  /* Stack buttons on mobile */
   .srv-cta {
-    justify-content: center;
-  }
-}
-
-/* Large Desktop */
-@media (min-width: 1200px) {
-  .srv-section {
-    max-width: 75%;
-  }
-  
-  .srv-wrap h2 {
-    font-size: 36px;
-  }
-  
-  .srv-sub {
-    font-size: 22px;
-  }
-  
-  .srv-btn {
-    font-size: 20px;
-    padding: 20px 36px;
-    min-height: 68px;
-  }
-}
-
-/* Landscape Mobile */
-@media (max-height: 600px) and (orientation: landscape) {
-  .srv-section {
-    padding: clamp(24px, 4vw, 40px) 0;
-  }
-  
-  .srv-wrap h2 {
-    font-size: clamp(20px, 4vw, 28px);
-    margin-bottom: clamp(12px, 2vw, 20px);
-  }
-  
-  .srv-sub {
-    font-size: clamp(14px, 2vw, 18px);
-    margin-bottom: clamp(16px, 3vw, 28px);
-  }
-  
-  .srv-btn {
-    min-height: clamp(40px, 8vw, 52px);
-    font-size: clamp(12px, 2vw, 16px);
-  }
-}
-
-/* Very Small Screens */
-@media (max-width: 320px) {
-  .srv-section {
-    padding: 28px 0;
-    max-width: 98%;
-  }
-  
-  .srv-wrap {
-    padding-inline: 12px;
-  }
-  
-  .srv-wrap h2 {
-    font-size: 18px;
-  }
-  
-  .srv-sub {
-    font-size: 13px;
-  }
-  
-  .srv-btn {
-    font-size: 11px;
-    padding: 10px 18px;
-    min-height: 40px;
-    width: 90%;
-  }
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .srv-btn--primary:hover {
-    background: #fff;
-    transform: none;
-    box-shadow: 0 8px 28px rgba(255,255,255,0.18);
-  }
-  
-  .srv-btn--primary:active {
-    background: #e6e6e6;
-    transform: scale(0.97);
-  }
-  
-  /* Disable heavy animations on touch devices */
-  .srv-section::before,
-  .srv-section::after {
-    animation: none;
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .srv-section::before,
-  .srv-section::after,
-  .srv-wrap::before,
-  .srv-wrap::after {
-    animation: none;
-  }
-  
-  .srv-wrap,
-  .srv-wrap h2,
-  .srv-sub,
-  .srv-cta {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  
-  .srv-wrap h2::before {
-    animation: none;
-    width: 120px;
-    opacity: 1;
-  }
-  
-  .srv-btn {
-    transition: none;
-  }
-
-  .srv-btn--primary:hover {
-    transform: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .srv-btn--primary {
-    background: #fff;
-    color: #000;
-    border: 2px solid #fff;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .srv-section {
-    background: #fff;
-    padding: 20px 0;
+    flex-direction: column;
     width: 100%;
-    max-width: none;
+    gap: 16px;
   }
-  
-  .srv-section::before,
-  .srv-section::after,
-  .srv-wrap::before,
-  .srv-wrap::after {
-    display: none;
+
+  .srv-btn {
+    width: 100%;
+    max-width: 350px;
+    height: 52px;
+    font-size: 14px;
   }
-  
-  .srv-wrap h2,
-  .srv-sub {
-    color: #000;
-    animation: none;
-  }
-  
+
+  /* Adjust slants for mobile */
   .srv-btn--primary {
-    background: #fff;
-    color: #000;
-    border: 2px solid #000;
-    box-shadow: none;
-    animation: none;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   }
 }
