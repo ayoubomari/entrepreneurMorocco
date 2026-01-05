@@ -1,109 +1,96 @@
-/* Animated Methodology Section - Preserving Original Structure */
-
-/* Background animated elements */
-.methSection {
-  padding-block: 80px;
+.meth-section {
+  width: 100%;
+  margin: 0 auto;
+  padding: 90px 0 25px;
   position: relative;
   overflow: hidden;
 }
 
-.methSection::before {
-  content: '';
+/* =========================================
+   BACKGROUND ANIMATIONS (Subtle Particles)
+   ========================================= */
+.meth-section::after {
+  content: "";
   position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(239, 68, 68, 0.03) 0%, transparent 50%);
-  animation: methodBgFloat 25s ease-in-out infinite;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Red/White particles matching theme */
+  background-image: radial-gradient(
+      1px 1px at 20% 30%,
+      rgba(220, 38, 38, 0.2),
+      transparent
+    ),
+    radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
+  background-size: 300px 200px;
+  animation: particleDrift 25s linear infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
-@keyframes methodBgFloat {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1);
-    opacity: 0.6;
+@keyframes particleDrift {
+  0% {
+    transform: translateX(-50px) translateY(0px);
   }
-  50% { 
-    transform: rotate(180deg) scale(1.1);
-    opacity: 0.9;
+  33% {
+    transform: translateX(20px) translateY(-30px);
+  }
+  66% {
+    transform: translateX(-10px) translateY(-15px);
+  }
+  100% {
+    transform: translateX(-50px) translateY(0px);
   }
 }
 
-.methWrap {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding-inline: 40px;
+/* =========================================
+   CONTENT WRAPPER
+   ========================================= */
+.meth-wrap {
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 0 clamp(16px, 4vw, 32px);
+
+  /* Entrance Animation */
   opacity: 0;
-  transform: translateY(50px);
-  animation: methodSectionReveal 1.2s ease-out forwards;
+  transform: translateY(30px);
+  animation: sectionReveal 1s ease-out forwards;
 }
 
-@keyframes methodSectionReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.98);
-  }
-  100% {
+@keyframes sectionReveal {
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-.methTitle {
+/* Typography */
+.meth-wrap h2 {
   color: #fff;
-  text-align: center;
   text-transform: uppercase;
-  font-weight: 900;
-  letter-spacing: .02em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   line-height: 1.1;
-  font-size: 50px;
-  margin: 0 0 80px;
-  position: relative;
-  animation: titleRevealScale 1s ease-out 0.3s both;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  font-size: clamp(28px, 5vw, 36px);
+  margin-bottom: 0;
+  text-align: center;
 }
 
-/* Animated underline for methodology title */
-.methTitle::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  width: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171, #ef4444, #dc2626);
-  transform: translateX(-50%);
-  animation: titleUnderlineGrow 1.5s ease-out 0.8s forwards;
-  box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
-}
-
-@keyframes titleRevealScale {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+@media (min-width: 768px) {
+  .meth-wrap h2 {
+    text-align: left;
   }
 }
 
-@keyframes titleUnderlineGrow {
-  0% { 
-    width: 0; 
-    opacity: 0;
-  }
-  100% { 
-    width: 200px; 
-    opacity: 1;
-  }
-}
-
+/* =========================================
+   METHODOLOGY RAIL - HORIZONTAL LAYOUT
+   ========================================= */
 .methRail {
   --box: 100px;
   --gapY: 20px;
@@ -111,15 +98,18 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 60px;
+  gap: clamp(20px, 6vw, 60px);
   align-items: start;
+  max-width: 1400px;
+  margin: 25px auto 0;
+  padding: 0 clamp(16px, 4vw, 32px);
 }
 
-/* Animated connecting line */
+/* Animated connecting line - spans from first to last box center */
 .methLine {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: calc(65px + (var(--box) / 2));
+  right: calc(65px + (var(--box) / 2));
   top: calc(var(--labelH) + var(--gapY) + (var(--box) / 2));
   height: 1px;
   background: rgba(255, 255, 255, 0.4);
@@ -130,40 +120,42 @@
 }
 
 @keyframes lineGrow {
-  0% { 
+  0% {
     transform: scaleX(0);
     opacity: 0;
   }
-  100% { 
+  100% {
     transform: scaleX(1);
     opacity: 1;
   }
 }
 
-/* Force all 5 steps to be visible - Debug approach */
+/* Force all 5 steps to be visible */
 .methItem {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 1 !important; /* Force visibility */
-  transform: none !important; /* Remove any transforms that could hide it */
-}
-
-/* Force 5th step to be extra visible */
-.methItem:nth-child(5) {
   opacity: 1 !important;
-  display: flex !important;
-  visibility: visible !important;
   transform: none !important;
 }
 
-/* Simple fade-in animations - no hiding */
-.methItem:nth-child(1) { animation: simpleFadeIn 0.8s ease-out 1.2s; }
-.methItem:nth-child(2) { animation: simpleFadeIn 0.8s ease-out 1.4s; }
-.methItem:nth-child(3) { animation: simpleFadeIn 0.8s ease-out 1.6s; }
-.methItem:nth-child(4) { animation: simpleFadeIn 0.8s ease-out 1.8s; }
-.methItem:nth-child(5) { animation: simpleFadeIn 0.8s ease-out 2.0s; }
+/* Simple fade-in animations */
+.methItem:nth-child(1) {
+  animation: simpleFadeIn 0.8s ease-out 1.2s;
+}
+.methItem:nth-child(2) {
+  animation: simpleFadeIn 0.8s ease-out 1.4s;
+}
+.methItem:nth-child(3) {
+  animation: simpleFadeIn 0.8s ease-out 1.6s;
+}
+.methItem:nth-child(4) {
+  animation: simpleFadeIn 0.8s ease-out 1.8s;
+}
+.methItem:nth-child(5) {
+  animation: simpleFadeIn 0.8s ease-out 2s;
+}
 
 @keyframes simpleFadeIn {
   0% {
@@ -193,7 +185,7 @@
   height: var(--box);
   display: grid;
   place-items: center;
-  background-image: url('/redborder.png');
+  background-image: url("/redborder.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 120% 120%;
@@ -212,24 +204,18 @@
   color: #fff;
   font-weight: 900;
   font-size: 36px;
-  letter-spacing: .02em;
-  text-shadow: 
-    0 0 10px rgba(220, 38, 38, 0.8),
-    2px 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.5);
   animation: numberGlow 3s ease-in-out infinite alternate;
 }
 
 @keyframes numberGlow {
-  0% { 
-    text-shadow: 
-      0 0 10px rgba(220, 38, 38, 0.8),
-      2px 2px 4px rgba(0,0,0,0.5);
+  0% {
+    text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
-  100% { 
-    text-shadow: 
-      0 0 20px rgba(239, 68, 68, 1),
-      0 0 30px rgba(220, 38, 38, 0.6),
-      2px 2px 4px rgba(0,0,0,0.5);
+  100% {
+    text-shadow: 0 0 20px rgba(239, 68, 68, 1), 0 0 30px rgba(220, 38, 38, 0.6),
+      2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -243,114 +229,75 @@
   color: #fff;
   text-align: center;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: .06em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   line-height: 1.2;
-  font-size: 18px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-size: 14px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Add floating process icons */
-.methWrap::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  right: 5%;
-  width: 70px;
-  height: 70px;
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/workflow.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.08;
-  animation: floatProcess 8s ease-in-out infinite;
-  z-index: -1;
-  filter: invert(19%) sepia(98%) saturate(3067%) hue-rotate(346deg) brightness(93%) contrast(94%);
-}
-
-.methWrap::after {
-  content: '';
-  position: absolute;
-  bottom: -40px;
-  left: 8%;
-  width: 60px;
-  height: 60px;
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/trending-up.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.1;
-  animation: floatProcess 10s ease-in-out infinite reverse;
-  z-index: -1;
-  filter: invert(25%) sepia(100%) saturate(3045%) hue-rotate(346deg) brightness(96%) contrast(94%);
-}
-
-@keyframes floatProcess {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg) scale(1);
-    opacity: 0.08;
-  }
-  50% { 
-    transform: translateY(-35px) rotate(180deg) scale(1.15);
-    opacity: 0.15;
-  }
-}
-
-/* MOBILE LAYOUT: NUMBER BOX LEFT + TITLE RIGHT + VERTICAL LINE UNDER BOX */
-@media (max-width: 480px) {
-  .methSection { 
-    padding-block: 40px; 
-  }
-  
-  .methWrap { 
-    padding-inline: 20px; 
+/* =========================================
+   TABLET/VERTICAL LAYOUT
+   ========================================= */
+@media (max-width: 830px) {
+  .meth-section {
+    padding: 60px 0;
   }
 
-  .methTitle {
-    font-size: 24px;
-    line-height: 1.2;
-    margin-bottom: 40px;
+  .meth-wrap {
+    gap: 40px;
   }
-  
-  .methTitle::after {
-    width: 100px;
+
+  .meth-wrap h2 {
+    text-align: center;
+    font-size: clamp(24px, 4vw, 32px);
   }
 
   /* Vertical stack container */
   .methRail {
-    --box: 50px;
+    --box: 70px;
     display: flex;
     flex-direction: column;
     gap: 40px;
     align-items: flex-start;
     padding-left: 0;
+    max-width: 100%;
   }
 
   /* Hide desktop line */
-  .methLine { display: none; }
+  .methLine {
+    display: none;
+  }
 
   /* Each item: number box left + title right */
   .methItem {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
     width: 100%;
     position: relative;
     flex-direction: row-reverse;
-    
+
     /* Start hidden for mobile animation */
     opacity: 0;
     transform: translateX(-50px);
   }
-  
+
   /* Mobile-specific staggered animations for ALL 5 steps */
-  .methItem:nth-child(1) { animation: mobileStepSlide 0.8s ease-out 1.2s forwards; }
-  .methItem:nth-child(2) { animation: mobileStepSlide 0.8s ease-out 1.4s forwards; }
-  .methItem:nth-child(3) { animation: mobileStepSlide 0.8s ease-out 1.6s forwards; }
-  .methItem:nth-child(4) { animation: mobileStepSlide 0.8s ease-out 1.8s forwards; }
-  .methItem:nth-child(5) { 
-    animation: mobileStepSlide 0.8s ease-out 2.0s forwards;
-    /* Ensure 5th step gets animation and stays visible on mobile */
+  .methItem:nth-child(1) {
+    animation: mobileStepSlide 0.8s ease-out 1.2s forwards;
+  }
+  .methItem:nth-child(2) {
+    animation: mobileStepSlide 0.8s ease-out 1.4s forwards;
+  }
+  .methItem:nth-child(3) {
+    animation: mobileStepSlide 0.8s ease-out 1.6s forwards;
+  }
+  .methItem:nth-child(4) {
+    animation: mobileStepSlide 0.8s ease-out 1.8s forwards;
+  }
+  .methItem:nth-child(5) {
+    animation: mobileStepSlide 0.8s ease-out 2s forwards;
     animation-fill-mode: forwards !important;
   }
 
@@ -382,8 +329,8 @@
     position: relative;
   }
 
-  .methNum { 
-    font-size: 18px;
+  .methNum {
+    font-size: 28px;
     font-weight: 900;
   }
 
@@ -391,9 +338,9 @@
   .methLabel {
     height: auto;
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.3;
-    letter-spacing: .04em;
+    letter-spacing: 0.04em;
     font-weight: 700;
     color: #fff;
     text-align: left;
@@ -410,65 +357,82 @@
     transform: translateX(-50%);
     width: 1px;
     height: 0;
-    background: rgba(255,255,255,0.4);
+    background: rgba(255, 255, 255, 0.4);
     z-index: 1;
     animation: verticalLineGrow 0.5s ease-out 0.3s forwards;
   }
-  
+
   @keyframes verticalLineGrow {
-    0% { 
+    0% {
       height: 0;
       opacity: 0;
     }
-    100% { 
+    100% {
       height: 40px;
       opacity: 1;
     }
   }
-  
-  /* Hide floating icons on mobile */
-  .methWrap::before,
-  .methWrap::after {
-    display: none;
+}
+
+/* =========================================
+   MOBILE LAYOUT (480px and below)
+   ========================================= */
+@media (max-width: 480px) {
+  .meth-section {
+    padding: 40px 0;
   }
-  
-  /* Reduce background effects on mobile */
-  .methSection::before {
-    opacity: 0.3;
+
+  .meth-wrap {
+    padding-inline: 20px;
+  }
+
+  .meth-wrap h2 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .methRail {
+    --box: 50px;
+    gap: 32px;
+  }
+
+  .methItem {
+    gap: 20px;
+  }
+
+  .methNum {
+    font-size: 20px;
+  }
+
+  .methLabel {
+    font-size: 14px;
   }
 }
 
-/* Reduced Motion */
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
 @media (prefers-reduced-motion: reduce) {
-  .methSection::before,
-  .methWrap::before,
-  .methWrap::after {
+  .meth-section::after {
     animation: none;
   }
-  
-  .methWrap,
-  .methTitle,
+
+  .meth-wrap,
   .methLine,
   .methItem {
     animation: none;
     opacity: 1;
     transform: none;
   }
-  
-  .methTitle::after {
-    animation: none;
-    width: 200px;
-    opacity: 1;
-  }
-  
+
   .methBox:hover {
     transform: none;
   }
-  
+
   .methNum {
     animation: none;
   }
-  
+
   .methItem:not(:last-child) .methBox::after {
     animation: none;
     height: 40px;
@@ -482,13 +446,13 @@
     transform: none;
     filter: none;
   }
-  
+
   .methBox:active {
     transform: scale(0.95);
   }
-  
+
   /* Disable heavy animations on touch devices */
-  .methSection::before {
+  .meth-section::after {
     animation: none;
   }
 }

@@ -1,47 +1,46 @@
-// components/forms/GuideDownloadForm.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useContactForm } from '@/hooks/useContactForm';
+import { useState } from "react";
+import { useContactForm } from "@/hooks/useContactForm";
 
 const GuideDownloadForm = () => {
   const [formData, setFormData] = useState({ firstName: "", email: "" });
   const [downloadTriggered, setDownloadTriggered] = useState(false);
 
   const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
-    formId: 'guide-download',
+    formId: "guide-download",
     onSuccess: () => {
       // Reset form after success
       setTimeout(() => {
         setFormData({ firstName: "", email: "" });
         setDownloadTriggered(false);
       }, 3000);
-    }
+    },
   });
 
   const triggerPDFDownload = () => {
     // Try multiple potential paths
     const pdfPaths = [
-      '/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf',
-      '/Guide-7-erreurs-entrepreneur-maroc.pdf',
-      '/assets/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf'
+      "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
+      "/Guide-7-erreurs-entrepreneur-maroc.pdf",
+      "/assets/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
     ];
 
     // Use the first path (most likely correct)
     const pdfUrl = pdfPaths[0];
-    
+
     // Create download
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = pdfUrl;
-    link.download = 'Guide-7-erreurs-entrepreneur-maroc.pdf';
-    
+    link.download = "Guide-7-erreurs-entrepreneur-maroc.pdf";
+
     // For better cross-browser support
-    link.style.display = 'none';
+    link.style.display = "none";
     document.body.appendChild(link);
-    
+
     // Trigger download
     link.click();
-    
+
     // Clean up
     setTimeout(() => {
       document.body.removeChild(link);
@@ -67,15 +66,17 @@ const GuideDownloadForm = () => {
     // Then try to submit the form (for analytics/email collection)
     try {
       await submitForm({
-        'Prénom': formData.firstName,
-        'Email': formData.email,
-        'Guide demandé': '7 Erreurs à Éviter - Entrepreneur Maroc',
-        'Date de téléchargement': new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Casablanca' }),
-        'Source': 'Site Web - Page Guide'
+        Prénom: formData.firstName,
+        Email: formData.email,
+        "Guide demandé": "7 Erreurs à Éviter - Entrepreneur Maroc",
+        "Date de téléchargement": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+        Source: "Site Web - Page Guide",
       });
     } catch (err) {
       // Even if email submission fails, we've already downloaded the PDF
-      console.log('Email submission failed, but PDF was downloaded:', err);
+      console.log("Email submission failed, but PDF was downloaded:", err);
     }
   };
 
@@ -91,11 +92,12 @@ const GuideDownloadForm = () => {
 
           <div className="lm-head-copy">
             <p>
-              Avant de lancer votre projet au Maroc, assurez-vous d&apos;éviter ces pièges courants.
+              Avant de lancer votre projet au Maroc, assurez-vous d&apos;éviter
+              ces pièges courants.
             </p>
             <p>
-              Ce guide pratique vous donne les clés pour démarrer sereinement, que vous soyez MRE,
-              investisseur ou en reconversion.
+              Ce guide pratique vous donne les clés pour démarrer sereinement,
+              que vous soyez MRE, investisseur ou en reconversion.
             </p>
           </div>
         </header>
@@ -104,10 +106,10 @@ const GuideDownloadForm = () => {
           {/* Left: single image – visual only, no download */}
           <figure className="lm-pdf">
             <div className="lm-pdf-link">
-              <img 
-                src="/downloadpdf.png" 
-                alt="Guide PDF - 7 Erreurs à Éviter" 
-                className="lm-pdf-img" 
+              <img
+                src="/downloadpdf.png"
+                alt="Guide PDF - 7 Erreurs à Éviter"
+                className="lm-pdf-img"
               />
             </div>
           </figure>
@@ -120,41 +122,42 @@ const GuideDownloadForm = () => {
               <span className="lm-sub-accent">7 ERREURS À ÉVITER</span>
             </h3>
 
-            {(isSuccess || downloadTriggered) ? (
-              <div 
+            {isSuccess || downloadTriggered ? (
+              <div
                 className="lm-success"
                 style={{
-                  background: '#1a1a1a',
-                  border: '2px solid #ef4444',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  textAlign: 'center',
-                  position: 'relative',
-                  animation: 'successFadeIn 0.5s ease-out',
+                  background: "#1a1a1a",
+                  border: "2px solid #ef4444",
+                  borderRadius: "8px",
+                  padding: "24px",
+                  textAlign: "center",
+                  position: "relative",
+                  animation: "successFadeIn 0.5s ease-out",
                 }}
               >
                 {/* Success icon */}
-                <div 
+                <div
                   style={{
-                    width: '48px',
-                    height: '48px',
-                    background: '#ef4444',
-                    borderRadius: '50%',
-                    margin: '0 auto 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    animation: 'iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both'
+                    width: "48px",
+                    height: "48px",
+                    background: "#ef4444",
+                    borderRadius: "50%",
+                    margin: "0 auto 16px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    animation:
+                      "iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both",
                   }}
                 >
-                  <svg 
-                    width="24" 
-                    height="24" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="#ffffff" 
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#ffffff"
                     strokeWidth="3"
-                    strokeLinecap="round" 
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                   >
                     <path d="M20 6L9 17l-5-5" />
@@ -162,66 +165,74 @@ const GuideDownloadForm = () => {
                 </div>
 
                 {/* Success text */}
-                <h3 
+                <h3
                   style={{
-                    color: '#fff',
-                    fontSize: '20px',
-                    fontWeight: '700',
-                    margin: '0 0 8px',
-                    animation: 'textFadeIn 0.5s ease-out 0.3s both'
+                    color: "#fff",
+                    fontSize: "20px",
+                    fontWeight: "700",
+                    margin: "0 0 8px",
+                    animation: "textFadeIn 0.5s ease-out 0.3s both",
                   }}
                 >
                   Parfait ! Votre guide a été téléchargé
                 </h3>
-                
-                <p 
+
+                <p
                   style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    fontSize: '14px',
-                    margin: '0 0 20px',
-                    lineHeight: '1.4',
-                    animation: 'textFadeIn 0.5s ease-out 0.4s both'
+                    color: "rgba(255, 255, 255, 0.8)",
+                    fontSize: "14px",
+                    margin: "0 0 20px",
+                    lineHeight: "1.4",
+                    animation: "textFadeIn 0.5s ease-out 0.4s both",
                   }}
                 >
                   Le téléchargement du PDF a commencé automatiquement.
-                  {error && <><br /><span style={{color: '#fca5a5', fontSize: '12px'}}>Note: L'envoi par email a échoué, mais votre PDF est téléchargé.</span></>}
+                  {error && (
+                    <>
+                      <br />
+                      <span style={{ color: "#fca5a5", fontSize: "12px" }}>
+                        Note: L'envoi par email a échoué, mais votre PDF est
+                        téléchargé.
+                      </span>
+                    </>
+                  )}
                 </p>
 
                 {/* Download again button */}
                 <button
                   onClick={triggerPDFDownload}
                   style={{
-                    background: 'transparent',
-                    color: '#ef4444',
-                    border: '1px solid #ef4444',
-                    padding: '10px 20px',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    animation: 'buttonFadeIn 0.5s ease-out 0.5s both',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px'
+                    background: "transparent",
+                    color: "#ef4444",
+                    border: "1px solid #ef4444",
+                    padding: "10px 20px",
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    animation: "buttonFadeIn 0.5s ease-out 0.5s both",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#ef4444';
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.background = "#ef4444";
+                    e.currentTarget.style.color = "#ffffff";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#ef4444';
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#ef4444";
                   }}
                 >
-                  <svg 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
                     strokeWidth="2"
-                    strokeLinecap="round" 
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                   >
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -310,15 +321,17 @@ const GuideDownloadForm = () => {
 
                 {/* Error message */}
                 {error && (
-                  <div style={{ 
-                    background: 'rgba(239, 68, 68, 0.1)', 
-                    border: '1px solid rgba(239, 68, 68, 0.3)', 
-                    borderRadius: '6px', 
-                    padding: '12px 16px', 
-                    color: '#fca5a5', 
-                    fontSize: '14px',
-                    marginTop: '8px'
-                  }}>
+                  <div
+                    style={{
+                      background: "rgba(239, 68, 68, 0.1)",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
+                      borderRadius: "6px",
+                      padding: "12px 16px",
+                      color: "#fca5a5",
+                      fontSize: "14px",
+                      marginTop: "8px",
+                    }}
+                  >
                     {error}
                   </div>
                 )}
@@ -333,7 +346,9 @@ const GuideDownloadForm = () => {
                     !formData.email.trim()
                   }
                 >
-                  {isSubmitting ? "Téléchargement..." : "JE TÉLÉCHARGE MON GUIDE"}
+                  {isSubmitting
+                    ? "Téléchargement..."
+                    : "JE TÉLÉCHARGE MON GUIDE"}
                 </button>
               </form>
             )}

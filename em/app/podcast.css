@@ -1,31 +1,65 @@
 /* Section frame */
 .pod-section {
-  padding: 96px 0;
+  padding: 90px 0 96px;
+  position: relative;
+  overflow: hidden;
 }
-
 .pod-container {
-  width: 80%;
-  margin: 0 auto 28px;
-  text-align: center;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Matches .srv-wrap gap */
+
+  /* Matches .srv-wrap padding & max-width logic */
+  max-width: 1280px; /* Equivalent to max-w-7xl */
+  margin: 0 auto 80px;
+  padding: 0 clamp(16px, 4vw, 32px);
 }
 
 .pod-title {
   color: #fff;
   text-transform: uppercase;
-  font-weight: 900;
-  letter-spacing: .02em;
-  line-height: 1.08;
-  font-size: 42px;
-  margin: 0 0 12px;
+  font-weight: 800; /* Matches .srv-wrap h2 */
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+
+  /* Exact clamp size from Services */
+  font-size: clamp(28px, 5vw, 36px);
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.pod-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto;
 }
 
 .pod-sub {
-  color: rgba(255, 255, 255, .85);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  font-size: 18px;
   line-height: 1.6;
-  margin: 0 auto;
-  max-width: 900px;
+
+  /* Exact clamp size from Services */
+  font-size: clamp(16px, 2vw, 16px);
+  margin: 0;
+  text-align: center;
+}
+
+/* Responsive Alignment (Mobile: Center -> Desktop: Left) */
+@media (min-width: 768px) {
+  .pod-title,
+  .pod-content,
+  .pod-sub {
+    text-align: left;
+    margin-left: 0;
+  }
+
+  .pod-content {
+    margin-right: auto; /* Ensures it stays left aligned within flex */
+  }
 }
 
 /* full-bleed viewport zone with fades + nav */
@@ -45,8 +79,8 @@
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .2);
-  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
   display: grid;
   place-items: center;
@@ -78,14 +112,14 @@
   padding: 24px 8vw 48px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
+
   /* Performance optimizations */
   overscroll-behavior-x: contain;
   transform: translateZ(0);
   will-change: scroll-position;
   scrollbar-gutter: stable both-edges;
   contain: layout style paint;
-  
+
   /* Smooth scrolling on all browsers */
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: none; /* Disable snap for infinite scroll */
@@ -98,21 +132,37 @@
 /* ---------- STABILIZED CARDS ---------- */
 .pod-card {
   position: relative;
-  flex: 0 0 min(68vw, 720px);
+  flex: 0 0 min(86vw, 720px); /* Mobile default */
   color: #fff;
-  transform: scale(.86);
-  transition: transform .4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              filter .4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              opacity .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  opacity: .65;
-  filter: blur(.1px);
+  transform: scale(0.86);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0.65;
+  filter: blur(0.1px);
   perspective: 1400px;
-  
-  /* Performance optimizations to reduce shake */
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
   transform-origin: center center;
   contain: layout style;
+}
+
+/* Desktop: Two cards per view */
+@media (min-width: 1024px) {
+  .pod-card {
+    flex: 0 0 min(42vw, 580px); /* Adjusted for 2 cards + gap */
+  }
+
+  .pod-track {
+    gap: 85px; /* Slightly smaller gap for better fit */
+  }
+}
+
+/* Large screens: Optimize spacing */
+@media (min-width: 1440px) {
+  .pod-card {
+    flex: 0 0 min(38vw, 540px);
+  }
 }
 
 .pod-card.is-active {
@@ -144,7 +194,7 @@
 
   transform: translateZ(0);
   backface-visibility: hidden;
-  
+
   /* Prevent image flickering during scroll */
   image-rendering: auto;
   -webkit-transform: translate3d(0, 0, 0);
@@ -158,7 +208,7 @@
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   padding: 1px;
-  opacity: .9;
+  opacity: 0.9;
   mix-blend-mode: screen;
 }
 
@@ -181,10 +231,10 @@
   width: 88px;
   height: 88px;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, .9);
+  border: 2px solid rgba(255, 255, 255, 0.9);
   display: grid;
   place-items: center;
-  background: rgba(0, 0, 0, .25);
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
 }
 
@@ -193,7 +243,6 @@
   height: 34px;
   fill: #fff;
 }
-
 /* Meta */
 .pod-meta {
   text-align: left;
@@ -209,7 +258,7 @@
 
 .pod-meta p {
   margin: 0;
-  color: rgba(255, 255, 255, .8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ---------- OPTIMIZED BUTTONS ---------- */
@@ -217,7 +266,7 @@
   display: inline-block;
   padding: 14px 26px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background: white;
@@ -231,7 +280,7 @@
 
 /* Left button: slant on right */
 .pod-btn--solid {
-  clip-path: polygon(0 0, 97% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 97% 100%, 0 100%);
 }
 
 /* Right button: slant on left */
@@ -279,9 +328,9 @@
 
   /* Faster transitions on mobile */
   .pod-card {
-    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                filter 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      filter 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .pod-play {
@@ -306,7 +355,7 @@
   .pod-track {
     scroll-behavior: auto;
   }
-  
+
   .pod-card,
   .pod-btn {
     transition: none;

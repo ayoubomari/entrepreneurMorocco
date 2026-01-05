@@ -34,7 +34,7 @@
 }
 
 .hdr__wrap {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 95px auto 0;
   padding: 0 32px;
   display: flex;
@@ -132,7 +132,7 @@
 
 .hdr__brand {
   color: #fff;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -161,12 +161,17 @@
 .hdr__link {
   position: relative;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   text-decoration: none;
   padding: 12px 0;
   transition: color 0.3s ease;
   cursor: none;
+}
+@media (max-width: 1050px) {
+  .hdr__link {
+    font-size: 15px;
+  }
 }
 
 .hdr__link-text {

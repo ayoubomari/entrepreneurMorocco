@@ -43,6 +43,14 @@ const AudienceCarousel: React.FC = () => {
   const [visibleCards, setVisibleCards] = useState(5);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % IMAGES.length);
+    }, 3000); // 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     const updateVisibleCards = () => {
       if (window.innerWidth < 640) setVisibleCards(3);
       else if (window.innerWidth < 1024) setVisibleCards(4);
@@ -71,30 +79,25 @@ const AudienceCarousel: React.FC = () => {
     const totalCards = Math.min(IMAGES.length, visibleCards);
     const centerIndex = Math.floor(totalCards / 2);
 
-    // Calculate position relative to center with proper wrapping
     let position = diff;
     if (position > centerIndex) position -= IMAGES.length;
     if (position < -centerIndex) position += IMAGES.length;
 
-    // Only show cards within visible range
     if (Math.abs(position) > centerIndex) {
       return { display: "none" };
     }
 
-    // Calculate V-shape / boomerang effect (center at bottom, both edges at top)
     const distanceFromCenter = Math.abs(position);
-    const scale = 1 - distanceFromCenter * 0.12;
-    // V-shape: the further from center, the higher up (MORE negative Y)
-    const yOffset = -distanceFromCenter * 120; // Both sides go UP
+    const scale = 1 - distanceFromCenter * 0.08;
+    const yOffset = -distanceFromCenter * 73;
 
-    // Make adjacent cards (distance 1) much brighter with full opacity
     let opacity, brightness;
     if (distanceFromCenter === 0) {
       opacity = 1;
       brightness = 1;
     } else if (distanceFromCenter === 1) {
-      opacity = 0.95; // Nearly full opacity for adjacent cards
-      brightness = 0.95; // Much brighter
+      opacity = 0.95;
+      brightness = 0.95;
     } else {
       opacity = 1 - distanceFromCenter * 0.25;
       brightness = 0.65 + 0.15 * (1 - distanceFromCenter / centerIndex);
@@ -102,7 +105,7 @@ const AudienceCarousel: React.FC = () => {
 
     return {
       transform: `translateX(${
-        position * 105
+        position * 120
       }%) translateY(${yOffset}px) scale(${scale})`,
       opacity: opacity,
       filter: `brightness(${brightness})`,
@@ -131,7 +134,12 @@ const AudienceCarousel: React.FC = () => {
                 style={getCardStyle(i)}
                 onClick={() => setActive(i)}
               >
-                <img src={src} alt={cap.title} draggable={false} />
+                {/* START CHANGE: Wrapper for the border effect */}
+                <div className="wave-img-wrapper">
+                  <img src={src} alt={cap.title} draggable={false} />
+                </div>
+                {/* END CHANGE */}
+
                 <div className="wave-caption">
                   <div className="wave-caption__title">{cap.title}</div>
                   {cap.subtitle && (
@@ -375,206 +383,12 @@ const HeroSection = () => {
 };
 
 /* =========================
-   Block One
-   ========================= */
-
-// const Blockone = () => {
-//   const [isVisible, setIsVisible] = useState(false);
-//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-//   const [titleAnimated, setTitleAnimated] = useState(false);
-//   const sectionRef = useRef<HTMLElement>(null);
-
-//   // Intersection Observer for scroll-triggered animations
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-//           setIsVisible(true);
-//           // Trigger title animation with delay
-//           setTimeout(() => setTitleAnimated(true), 500);
-//         }
-//       },
-//       {
-//         threshold: [0, 0.3, 0.7],
-//         rootMargin: "-10% 0px -10% 0px",
-//       }
-//     );
-
-//     if (sectionRef.current) {
-//       observer.observe(sectionRef.current);
-//     }
-
-//     return () => observer.disconnect();
-//   }, []);
-
-//   // Mouse tracking for parallax effects
-//   useEffect(() => {
-//     const handleMouseMove = (e: MouseEvent) => {
-//       if (sectionRef.current) {
-//         const rect = sectionRef.current.getBoundingClientRect();
-//         const x = (e.clientX - rect.left) / rect.width - 0.5;
-//         const y = (e.clientY - rect.top) / rect.height - 0.5;
-//         setMousePosition({ x: x * 2, y: y * 2 });
-//       }
-//     };
-
-//     const section = sectionRef.current;
-//     if (section) {
-//       section.addEventListener("mousemove", handleMouseMove);
-//       return () => section.removeEventListener("mousemove", handleMouseMove);
-//     }
-//   }, []);
-
-//   const handleLetterMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
-//     const target = e.target as HTMLSpanElement;
-//     target.style.transform = "translateY(-5px) scale(1.1)";
-//     target.style.color = "#ef4444";
-//   };
-
-//   const handleLetterMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
-//     const target = e.target as HTMLSpanElement;
-//     target.style.transform = "translateY(0) scale(1)";
-//     target.style.color = "#fff";
-//   };
-
-//   const handleButtonMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-//     const target = e.currentTarget;
-//     target.style.transform = "translateY(-6px) scale(1.05) rotate(1deg)";
-//   };
-
-//   const handleButtonMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-//     const target = e.currentTarget;
-//     target.style.transform = "translateY(0) scale(1) rotate(0deg)";
-//   };
-
-//   return (
-//     <section
-//       ref={sectionRef}
-//       className={`blockone ${isVisible ? "blockone--visible" : ""}`}
-//     >
-//       {/* Enhanced floating elements */}
-//       <div className="blockone__floating-elements">
-//         {[...Array(8)].map((_, i) => (
-//           <div
-//             key={i}
-//             className={`blockone__floating-particle blockone__floating-particle--${
-//               i + 1
-//             }`}
-//             style={{
-//               transform: `translate3d(${mousePosition.x * (i + 1) * 2}px, ${
-//                 mousePosition.y * (i + 1) * 2
-//               }px, 0)`,
-//               animationDelay: `${i * 0.3}s`,
-//             }}
-//           />
-//         ))}
-//       </div>
-
-//       {/* Background animated shapes */}
-//       <div className="blockone__bg-shapes">
-//         <div
-//           className="blockone__bg-shape blockone__bg-shape--1"
-//           style={{
-//             transform: `translate3d(${mousePosition.x * 10}px, ${
-//               mousePosition.y * 10
-//             }px, 0) rotate(${mousePosition.x * 20}deg)`,
-//           }}
-//         />
-//         <div
-//           className="blockone__bg-shape blockone__bg-shape--2"
-//           style={{
-//             transform: `translate3d(${mousePosition.x * -8}px, ${
-//               mousePosition.y * -8
-//             }px, 0) rotate(${mousePosition.x * -15}deg)`,
-//           }}
-//         />
-//         <div
-//           className="blockone__bg-shape blockone__bg-shape--3"
-//           style={{
-//             transform: `translate3d(${mousePosition.x * 6}px, ${
-//               mousePosition.y * 6
-//             }px, 0) rotate(${mousePosition.x * 10}deg)`,
-//           }}
-//         />
-//       </div>
-
-//       <div className="blockone__content">
-//         <div className="blockone__inner">
-//           {/* Enhanced animated title */}
-//           <h4
-//             className={`blockone__title ${
-//               titleAnimated ? "blockone__title--animated" : ""
-//             }`}
-//           >
-//             {["ÊTES-VOUS", "PRÊT", "À", "ENTREPRENDRE", "AU", "MAROC", "?"].map(
-//               (word, index) => (
-//                 <span
-//                   key={word}
-//                   className="blockone__title-word"
-//                   style={{
-//                     animationDelay: `${0.1 + index * 0.08}s`,
-//                     transform: `translate3d(${mousePosition.x * 2}px, ${
-//                       mousePosition.y * 1
-//                     }px, 0)`,
-//                   }}
-//                 >
-//                   {word.split("").map((letter, letterIndex) => (
-//                     <span
-//                       key={letterIndex}
-//                       className="blockone__title-letter"
-//                       style={{
-//                         animationDelay: `${
-//                           0.1 + index * 0.08 + letterIndex * 0.02
-//                         }s`,
-//                         transition: "all 0.3s ease",
-//                       }}
-//                       onMouseEnter={handleLetterMouseEnter}
-//                       onMouseLeave={handleLetterMouseLeave}
-//                     >
-//                       {letter}
-//                     </span>
-//                   ))}
-//                   {index < 6 && (
-//                     <span className="blockone__title-space"> </span>
-//                   )}
-//                 </span>
-//               )
-//             )}
-//           </h4>
-
-//           {/* Enhanced text with typing effect */}
-//           <p className="blockone__text">
-//             <span className="blockone__text-content">
-//               Faites le test en 1 minute et découvrez si c&apos;est le bon
-//               moment pour vous lancer !
-//             </span>
-//           </p>
-
-//           {/* Enhanced button with more effects */}
-//           <div className="blockone__btn-container">
-//             <Link
-//               href="/mini-test"
-//               className="blockone__btn"
-//               onMouseEnter={handleButtonMouseEnter}
-//               onMouseLeave={handleButtonMouseLeave}
-//             >
-//               <span className="blockone__btn-bg"></span>
-//               <span className="blockone__btn-text">Je commence le test</span>
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-/* =========================
    Accompagnements
    ========================= */
 const AccompagnementsSection = () => {
   return (
-    <section className="bg-black py-20 md:py-24 acc-section">
-      <div className="max-w-6xl mx-auto px-6 acc-wrap">
+    <section className="bg-black py-12 md:py-16 acc-section">
+      <div className="max-w-7xl mx-auto px-6 acc-wrap">
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES ACCOMPAGNEMENTS ADAPTÉS À CHAQUE PROFIL
         </h2>
@@ -602,8 +416,8 @@ const AccompagnementsSection = () => {
    ========================= */
 const ServicesSection = () => {
   return (
-    <section className="bg-black py-20 md:py-24 srv-section">
-      <div className="max-w-6xl mx-auto px-6 srv-wrap">
+    <section className="bg-black py-12 md:py-16 srv-section">
+      <div className="max-w-7xl mx-auto px-6 srv-wrap">
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES SERVICES SUR-MESURE POUR CHAQUE BESOIN
         </h2>
@@ -633,33 +447,33 @@ const ServicesSection = () => {
    ========================= */
 const MethodologySection = () => {
   return (
-    <section className="methSection">
-      <div className="methWrap">
-        <h2 className="methTitle">
+    <section className="bg-black py-12 md:py-16 meth-section">
+      <div className="max-w-7xl mx-auto px-6 meth-wrap">
+        <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           UNE MÉTHODE CLAIRE. DES RÉSULTATS DURABLES.
         </h2>
+      </div>
 
-        <div className="methRail">
-          <div className="methLine" />
-          {[
-            { number: "1", title: "DIAGNOSTIC\n& BILAN" },
-            { number: "2", title: "CADRAGE\nPROJET" },
-            { number: "3", title: "CRÉATION\n& COMMUNICATION" },
-            { number: "4", title: "RÉSEAU &\nLANCEMENT" },
-            { number: "5", title: "SUIVI &\nAUTONOMIE" },
-          ].map((s, i) => (
-            <div key={i} className="methItem">
-              <div className="methLabel">
-                {s.title.split("\n").map((line, k) => (
-                  <div key={k}>{line}</div>
-                ))}
-              </div>
-              <div className="methBox">
-                <span className="methNum">{s.number}</span>
-              </div>
+      <div className="methRail">
+        <div className="methLine" />
+        {[
+          { number: "1", title: "DIAGNOSTIC & BILAN" },
+          { number: "2", title: "CADRAGE PROJET" },
+          { number: "3", title: "CRÉATION & COMMUNICATION" },
+          { number: "4", title: "RÉSEAU & LANCEMENT" },
+          { number: "5", title: "SUIVI & AUTONOMIE" },
+        ].map((s, i) => (
+          <div key={i} className="methItem">
+            <div className="methLabel">
+              {s.title.split("\n").map((line, k) => (
+                <div key={k}>{line}</div>
+              ))}
             </div>
-          ))}
-        </div>
+            <div className="methBox">
+              <span className="methNum">{s.number}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -675,14 +489,14 @@ const TestimonialsSection = () => {
       subtitle: "Coach business, installée depuis janvier 2024",
       content:
         "Je vivais à Lyon depuis 12 ans, avec l'envie de revenir au Maroc mais sans savoir par où commencer.\nEn 6 semaines, j'avais ma société, ma carte de séjour, et mes premiers clients.",
-      rating: 5,
+      rating: 3,
     },
     {
       name: "Youssef El Amrani, Consultant digital",
       subtitle: "Bruxelles → Casablanca | Installé depuis avril 2024",
       content:
         "J'étais salarié à Bruxelles dans un domaine qui ne me passionnait plus.\nGrâce à l'accompagnement d'Entrepreneurs Morocco, j'ai pu structurer un vrai projet, créer mon entreprise à distance, et m'installer à Casablanca en moins de 2 mois.\nAujourd'hui, je vis de mon activité et je me sens enfin à ma place.",
-      rating: 4.5,
+      rating: 4,
     },
     {
       name: "Nadia & Karim B., Couple franco-marocain",
@@ -701,73 +515,93 @@ const TestimonialsSection = () => {
     total?: number;
   }) => (
     <div className="star-rating">
-      {Array.from({ length: total }).map((_, index) => (
-        <svg
-          key={index}
-          className={`star ${index < rating ? "star-filled" : "star-empty"}`}
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-      ))}
+      {Array.from({ length: total }).map((_, index) => {
+        const isFilled = index < Math.floor(rating);
+        const isHalf = index < rating && index >= Math.floor(rating);
+
+        return (
+          <svg
+            key={index}
+            className={`star ${
+              isFilled ? "star-filled" : isHalf ? "star-half" : "star-empty"
+            }`}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {isFilled || isHalf ? (
+              // Sharp 6-pointed star (filled)
+              <polygon points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9" />
+            ) : (
+              // Sharp 6-pointed star (outline only)
+              <polygon
+                points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            )}
+          </svg>
+        );
+      })}
     </div>
   );
 
   return (
     <section className="testimonials-section">
-      <div className="testimonials-container">
-        {/* Header */}
+      <div className="testimonials-container max-w-7xl mx-auto px-6">
+        {/* Header (Same as before) */}
         <div className="testimonials-header">
           <h2 className="testimonials-title">ILS L&apos;ONT FAIT AVEC NOUS</h2>
-          <p className="testimonials-description">
-            Découvrez comment nos clients ont concrétisé leur projet au Maroc,
-            en quelques semaines, grâce à notre accompagnement sur mesure.
-          </p>
+          <div className="testimonials-content-wrapper">
+            <p className="testimonials-description">
+              Découvrez comment nos clients ont concrétisé leur projet au Maroc,
+              en quelques semaines, grâce à notre accompagnement sur mesure.
+            </p>
+          </div>
         </div>
 
         {/* Testimonials Grid */}
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-card">
-              {/* Profile Icon */}
+            /* WRAPPER: Handles Animation & Layout */
+            <div key={index} className="testimonial-wrapper">
+              {/* 1. PROFILE ICON (Absolute, outside the clip-path) */}
               <div className="profile-icon">
                 <div className="profile-circle">
                   <svg
                     className="profile-svg"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clipRule="evenodd"
-                    />
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <line x1="4" y1="21" x2="20" y2="21"></line>
                   </svg>
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="testimonial-content">
-                {/* Name */}
-                <h3 className="testimonial-name">{testimonial.name}</h3>
-
-                {/* Subtitle */}
-                <p className="testimonial-subtitle">{testimonial.subtitle}</p>
-
-                {/* Quote */}
-                <blockquote className="testimonial-quote">
-                  "
-                  {testimonial.content.split("\n").map((line, i, arr) => (
-                    <span key={i}>
-                      {line}
-                      {i < arr.length - 1 && <br className="quote-break" />}
-                    </span>
-                  ))}
-                  "
-                </blockquote>
-
-                {/* Rating */}
-                <StarRating rating={testimonial.rating} />
+              {/* 2. CARD (The Shape & Border) */}
+              <div className="testimonial-card">
+                {/* 3. INNER (The Black Background & Content) */}
+                <div className="testimonial-card-inner">
+                  <h3 className="testimonial-name">{testimonial.name}</h3>
+                  <p className="testimonial-subtitle">{testimonial.subtitle}</p>
+                  <blockquote className="testimonial-quote">
+                    "
+                    {testimonial.content.split("\n").map((line, i, arr) => (
+                      <span key={i}>
+                        {line}
+                        {i < arr.length - 1 && <br className="quote-break" />}
+                      </span>
+                    ))}
+                    "
+                  </blockquote>
+                  <StarRating rating={testimonial.rating} />
+                </div>
               </div>
             </div>
           ))}
@@ -807,16 +641,20 @@ const NetworkSection = () => {
   ];
 
   return (
-    <section className="bg-black py-20 md:py-24">
-      <div className="titlenetwork max-w-7xl w-full self-start mx-auto px-6 !text-left">
-        <h2 className="text-white font-extrabold uppercase mb-6 text-3xl md:text-4xl lg:text-5xl tracking-wide leading-tight !text-left">
+    <section className="bg-black py-20 md:py-24 network-section">
+      {/* This structure now mirrors the srv-wrap from the Services Section */}
+      <div className="net-wrap max-w-7xl mx-auto">
+        <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           NOTRE RÉSEAU DE CONFIANCE
         </h2>
-        <p className="text-white/85 text-lg md:text-xl mb-12 max-w-5xl font-light leading-relaxed !text-left !mx-0">
-          Nous collaborons avec un écosystème d&apos;experts fiables pour
-          accélérer votre projet et garantir une installation sans stress au
-          Maroc.
-        </p>
+
+        <div className="net-content">
+          <p className="text-white/85 font-light">
+            Nous collaborons avec un écosystème d&apos;experts fiables pour
+            accélérer votre projet et garantir une installation sans stress au
+            Maroc.
+          </p>
+        </div>
       </div>
 
       <div className="net-bleed">
@@ -864,13 +702,26 @@ const PodcastSection = () => {
     [base]
   );
 
-  const trackRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
-  const [active, setActive] = useState(Math.floor(items.length / 2)); // Start in the middle
+  const [active, setActive] = useState(Math.floor(items.length / 2));
+  const [isDesktop, setIsDesktop] = useState(false); // Track desktop state
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const isScrollingRef = useRef(false);
   const isDraggingRef = useRef(false);
+
+  // Detect desktop size after mount (prevents hydration mismatch)
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
 
   // Get the width of one complete set of base items
   const getOneSetWidth = useCallback(() => {
@@ -879,35 +730,55 @@ const PodcastSection = () => {
     return track.scrollWidth / COPIES;
   }, []);
 
-  // Center a specific card index
+  // Center a pair of cards by index
   const centerCardByIndex = useCallback((index: number, smooth = true) => {
     const track = trackRef.current;
     if (!track) return;
 
-    const cards = Array.from(track.querySelectorAll<HTMLElement>(".pod-card"));
+    const cards = Array.from(track.querySelectorAll(".pod-card"));
     if (!cards[index]) return;
 
     const trackRect = track.getBoundingClientRect();
     const cardRect = cards[index].getBoundingClientRect();
 
-    const targetScrollLeft =
-      track.scrollLeft +
-      (cardRect.left - trackRect.left + cardRect.width / 2) -
-      trackRect.width / 2;
+    const currentIsDesktop = window.innerWidth >= 1024;
 
-    if (smooth) {
-      track.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+    if (currentIsDesktop) {
+      // Center between current card and next card
+      const nextCard = cards[index + 1];
+      if (nextCard) {
+        const nextCardRect = nextCard.getBoundingClientRect();
+        const pairCenter = (cardRect.left + nextCardRect.right) / 2;
+        const targetScrollLeft =
+          track.scrollLeft + pairCenter - trackRect.left - trackRect.width / 2;
+
+        if (smooth) {
+          track.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+        } else {
+          track.scrollLeft = targetScrollLeft;
+        }
+      }
     } else {
-      track.scrollLeft = targetScrollLeft;
+      // Mobile: center single card
+      const targetScrollLeft =
+        track.scrollLeft +
+        (cardRect.left - trackRect.left + cardRect.width / 2) -
+        trackRect.width / 2;
+
+      if (smooth) {
+        track.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+      } else {
+        track.scrollLeft = targetScrollLeft;
+      }
     }
   }, []);
 
-  // Find the closest card to center and return its index
+  // Find the closest card(s) to center
   const findClosestCardToCenter = useCallback(() => {
     const track = trackRef.current;
     if (!track) return 0;
 
-    const cards = Array.from(track.querySelectorAll<HTMLElement>(".pod-card"));
+    const cards = Array.from(track.querySelectorAll(".pod-card"));
     if (!cards.length) return 0;
 
     const trackRect = track.getBoundingClientRect();
@@ -927,15 +798,20 @@ const PodcastSection = () => {
       }
     });
 
+    // On desktop, ensure we return an even index (left card of pair)
+    const currentIsDesktop = window.innerWidth >= 1024;
+    if (currentIsDesktop && closestIndex % 2 !== 0) {
+      closestIndex = closestIndex - 1;
+    }
+
     return closestIndex;
   }, []);
 
-  // Simple scroll handler - just update active card, no automatic repositioning
+  // Simple scroll handler - just update active card
   const handleScroll = useCallback(() => {
     const track = trackRef.current;
     if (!track || isDraggingRef.current) return;
 
-    // Only update active card based on scroll position
     const closestIndex = findClosestCardToCenter();
     setActive(closestIndex);
   }, [findClosestCardToCenter]);
@@ -949,7 +825,11 @@ const PodcastSection = () => {
       const oneSetWidth = getOneSetWidth();
       if (oneSetWidth > 0) {
         track.scrollLeft = oneSetWidth * 2;
-        setTimeout(() => centerCardByIndex(base.length * 2, false), 100);
+        setTimeout(() => {
+          // Start with even index for desktop
+          const startIndex = base.length * 2;
+          centerCardByIndex(startIndex, false);
+        }, 100);
       }
     };
 
@@ -964,6 +844,7 @@ const PodcastSection = () => {
           initialPosition();
         }
       };
+
       images.forEach((img) => {
         if (img.complete) {
           onImageLoad();
@@ -974,8 +855,8 @@ const PodcastSection = () => {
       });
     }
 
-    // Simple scroll handler - just track active card
     track.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => track.removeEventListener("scroll", handleScroll);
   }, [handleScroll, centerCardByIndex, getOneSetWidth, base.length]);
 
@@ -998,7 +879,7 @@ const PodcastSection = () => {
       if (trackRef.current) {
         trackRef.current.style.cursor = "grab";
       }
-      // Update active card after drag ends
+
       setTimeout(() => {
         const idx = findClosestCardToCenter();
         setActive(idx);
@@ -1083,15 +964,21 @@ const PodcastSection = () => {
   }, [findClosestCardToCenter]);
 
   // Click handler to center clicked card
-  const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleCardClick = (e: React.MouseEvent) => {
     const cardElement = e.currentTarget;
     const track = trackRef.current;
     if (!track) return;
 
-    const cards = Array.from(track.querySelectorAll<HTMLElement>(".pod-card"));
-    const clickedIndex = cards.indexOf(cardElement);
+    const cards = Array.from(track.querySelectorAll(".pod-card"));
+    let clickedIndex = cards.indexOf(cardElement);
 
     if (clickedIndex !== -1) {
+      // On desktop, ensure we center on even index (left card of pair)
+      const currentIsDesktop = window.innerWidth >= 1024;
+      if (currentIsDesktop && clickedIndex % 2 !== 0) {
+        clickedIndex = clickedIndex - 1;
+      }
+
       centerCardByIndex(clickedIndex, true);
       setActive(clickedIndex);
     }
@@ -1101,50 +988,60 @@ const PodcastSection = () => {
     <section className="pod-section">
       <div className="pod-container">
         <h2 className="pod-title">LE PODCAST : ENTREPRENDRE LE MAROC</h2>
-        <p className="pod-sub">
-          Découvrez les coulisses de l&apos;entrepreneuriat au Maroc à travers
-          des échanges inspirants avec des experts, entrepreneurs, et MRE qui
-          ont franchi le pas.
-        </p>
+        <div className="pod-content">
+          <p className="pod-sub">
+            Découvrez les coulisses de l'entrepreneuriat au Maroc à travers des
+            échanges inspirants avec des experts, entrepreneurs, et MRE qui ont
+            franchi le pas.
+          </p>
+        </div>
       </div>
 
       <div className="pod-bleed">
-        <div ref={trackRef} className="pod-track">
-          {items.map((podcast, index) => (
-            <article
-              className={`pod-card ${index === active ? "is-active" : ""}`}
-              key={`${podcast.id}-${Math.floor(index / base.length)}-${
-                index % base.length
-              }`}
-              onClick={handleCardClick}
-            >
-              <div className="pod-media">
-                <img src={podcast.image} alt={`Podcast ${podcast.id}`} />
+        <div className="pod-track" ref={trackRef}>
+          {items.map((podcast, index) => {
+            // Use state value instead of checking window during render
+            const isActive = isDesktop
+              ? index === active || index === active + 1
+              : index === active;
 
-                <span className="pod-rim" />
-                <span className="pod-glow" />
-              </div>
+            return (
+              <div
+                key={`${podcast.id}-${index}`}
+                className={`pod-card ${isActive ? "is-active" : ""}`}
+                onClick={handleCardClick}
+              >
+                <div className="pod-media">
+                  <div className="pod-thumb">
+                    <img src={podcast.image} alt="Podcast" />
+                  </div>
 
-              <div className="pod-actions">
-                <Link
-                  href="https://www.youtube.com/@EntrepreneursMorocco"
-                  className="pod-btn pod-btn--solid"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ÉCOUTER SUR YOUTUBE
-                </Link>
-                <Link
-                  href="https://www.instagram.com/entrepreneursmorocco/"
-                  className="pod-btn pod-btn--outline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ÉCOUTER SUR INSTAGRAM
-                </Link>
+                  {/* The play video button element has been removed from here. 
+                  
+                  <div className="pod-play">
+                    <svg
+                      className="pod-play-ico"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  
+                  */}
+                </div>
+
+                <div className="pod-actions">
+                  <a href="#" className="pod-btn pod-btn--solid">
+                    ÉCOUTER SUR SPOTIFY
+                  </a>
+                  <a href="#" className="pod-btn pod-btn--outline">
+                    ÉCOUTER SUR APPLE
+                  </a>
+                </div>
               </div>
-            </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1159,7 +1056,7 @@ const ResourcesSection = () => {
     {
       id: 1,
       title:
-        "ENTREPRENDRE AU MAROC : L’OPPORTUNITÉ INCONTOURNABLE EN AFRIQUE D’ICI 2030",
+        "ENTREPRENDRE AU MAROC : L'OPPORTUNITÉ INCONTOURNABLE EN AFRIQUE D'ICI 2030",
       description:
         "Un guide pour trouver la ville idéale selon votre projet et votre profil.",
       link: "/articles/choisir-ville-maroc",

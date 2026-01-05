@@ -83,7 +83,7 @@
   margin-bottom: 50px;
 }
 .hero__content-secondary {
-  margin-top: 50px;
+  margin-top: 60px;
 }
 
 @media (min-width: 768px) {
@@ -93,7 +93,6 @@
 }
 
 .hero__inner {
-  max-width: clamp(90%, 85vw, 80%);
   margin: 0 auto;
   padding: clamp(20px, 4vw, 40px) 0;
 }
@@ -105,7 +104,7 @@
 /* ===== SIMPLE TITLE WITH GLOW ===== */
 .hero__title {
   color: #fff;
-  font-size: clamp(32px, 5vw, 60px);
+  font-size: clamp(32px, 5vw, 65px);
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 clamp(12px, 2vw, 16px);
@@ -178,7 +177,7 @@
 /* ===== SIMPLE TEXT (The small description text) ===== */
 .hero__text {
   color: #fff;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 400;
   max-width: clamp(300px, 80vw, 900px);
   margin: 0 auto clamp(32px, 6vw, 48px);
@@ -362,5 +361,5 @@
 }
 
 .hero__title-secondary {
-  font-size: clamp(22px, 28px, 32px);
+  font-size: clamp(22px, 30px, 32px);
 }
