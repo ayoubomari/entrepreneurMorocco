@@ -13,7 +13,29 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
   const pathname = usePathname();
+
+  // ---------------------------------------------------------
+  // 1. CONFIG: Define pages that need a dark header immediately
+  // ---------------------------------------------------------
+  const darkHeaderPaths = [
+    "/services",
+    "/benefices",
+    "/formations",
+    "/setup",
+    "/articles",
+    "/devis",
+    "/commencez-un-projet",
+    "/mini-test",
+    "/contact-quiz",
+  ];
+
+  // Check if the current path starts with any of the defined paths
+  const isShouldBeDark = darkHeaderPaths.some((path) =>
+    pathname?.startsWith(path)
+  );
+  // ---------------------------------------------------------
 
   const isActive = (href: string) => {
     if (href === "/#homecontact") {
@@ -103,7 +125,7 @@ export default function Header() {
 
     if (open) {
       document.addEventListener("click", handleClickOutside);
-      document.body.style.overflow = "hidden"; // Prevent scroll when menu is open
+      document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
@@ -114,14 +136,18 @@ export default function Header() {
     };
   }, [open]);
 
+  // Determine final state for styling
+  // It is "scrolled" (dark) if the user actually scrolled OR if the page requires it by default
+  const isDarkState = scrolled || isShouldBeDark;
+
   return (
     <header
-      className={`hdr ${scrolled ? "hdr--scrolled" : ""} ${
+      className={`hdr ${isDarkState ? "hdr--scrolled" : ""} ${
         headerVisible ? "hdr--visible" : "hdr--hidden"
       } ${loaded ? "hdr--loaded" : ""}`}
     >
       <div className="hdr__wrap">
-        {/* Logo - keeping the same structure but adding interaction states */}
+        {/* Logo */}
         <Link href="/" className="hdr__logo" aria-label="Retour à l'accueil">
           <div
             className={`hdr__stripe hdr__stripe--1 ${
@@ -146,7 +172,7 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Enhanced framed bar with better animations */}
+        {/* Framed Bar */}
         <div className="hdr__box">
           <svg
             className="hdr__frame"
@@ -162,7 +188,7 @@ export default function Header() {
               fill="rgba(0,0,0,.0)"
               className="hdr__frame-fill"
             />
-            {/* Enhanced stroke with animation */}
+            {/* Stroke */}
             <path
               d="M0.88208 62.99L14.142 1.23999H847.142V62.99H0.88208Z"
               fill="none"
@@ -177,7 +203,9 @@ export default function Header() {
 
           <div className="hdr__inner">
             <div className="hdr__brand">
-              <span className="hdr__brand-text">Entrepreneurs Morocco</span>
+              <Link href="/" className="hdr__brand-link">
+                <span className="hdr__brand-text">Entrepreneurs Morocco</span>
+              </Link>
             </div>
 
             <nav className="hdr__nav">
@@ -217,7 +245,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Enhanced mobile menu with better animations */}
+      {/* Mobile Menu */}
       <div className={`hdr__mobile ${open ? "hdr__mobile--open" : ""}`}>
         <div
           className="hdr__mobile-backdrop"
@@ -248,7 +276,6 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Overlay for mobile menu */}
       {open && (
         <div className="hdr__overlay" onClick={() => setOpen(false)}></div>
       )}

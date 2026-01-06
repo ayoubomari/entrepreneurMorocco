@@ -1,423 +1,367 @@
-// app/articles/digital-nomads-maroc-dubai/page.tsx
-'use client';
-import "./article4.css"
-import React from 'react';
+"use client";
+
+import React from "react";
 import {
-  ArrowLeft, Globe, Target, Wifi, Sun, Clock,
-  DollarSign, Zap, TrendingUp, CheckCircle, HelpCircle,
-  ArrowRight, HandHeart, Laptop, Building2, Users,
-  Trophy, Plane, MapPin, Star, Coffee, Flag
-} from 'lucide-react';
-import Link from 'next/link';
+  ArrowLeft,
+  Globe,
+  Target,
+  Wifi,
+  Sun,
+  Clock,
+  DollarSign,
+  Zap,
+  TrendingUp,
+  CheckCircle,
+  HelpCircle,
+  ArrowRight,
+  HandHeart,
+  Laptop,
+  Building2,
+  Users,
+  Trophy,
+  Plane,
+  MapPin,
+  Star,
+  Coffee,
+  Flag,
+} from "lucide-react";
+import Link from "next/link";
 
 const Article4Page: React.FC = () => {
   return (
-    <div className="article-container" style={{ backgroundColor: '#000000' }}>
+    <div className="min-h-screen bg-black text-white article-page-wrapper">
       {/* Navigation */}
-      <nav className="article-nav">
-        <div className="nav-content">
-          <Link href="/" className="nav-back">
+      <nav className="pt-[150px] md:pt-[225px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center gap-3 hover:text-red-500 transition-colors"
+          >
             <ArrowLeft size={20} />
-            <span>Retour aux articles</span>
+            <span className="font-medium">Retour aux articles</span>
           </Link>
-          <div className="nav-counter">Article 4/4</div>
+          <div className="text-sm text-gray-400">Article 4/4</div>
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main>
+      {/* Main Content Container */}
+      <main className="relative">
         {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <div className="hero-badge">
-              <Target size={16} />
-              ARTICLE 4 — Digital nomads et freelances
-            </div>
-            <h1 className="hero-title">
-              Pourquoi choisir le <span className="text-accent">Maroc</span> plutôt que Dubaï ?
-            </h1>
-            <p className="hero-description">
-              Digital nomads : découvrez pourquoi le Maroc surpasse Dubaï avec Vision 2030, 
-              coût réduit, fibre optique et événements mondiaux.
-            </p>
-            <div className="hero-meta">
-              <span>8 min de lecture</span>
-              <span>•</span>
-              <span>Guide Digital Nomads</span>
+        <div className="pt-24 sm:pt-0 pb-16">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center max-w-5xl mx-auto">
+              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full text-sm mb-6">
+                <Target size={16} />
+                ARTICLE 4 — Digital nomads et freelances
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                Pourquoi choisir le <span className="text-red-500">Maroc</span>{" "}
+                plutôt que Dubaï ?
+              </h1>
+              <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                Digital nomads : découvrez pourquoi le Maroc surpasse Dubaï avec
+                Vision 2030, coût de vie réduit, fibre optique et événements
+                mondiaux.
+              </p>
+              <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
+                <span>8 min de lecture</span>
+                <span>•</span>
+                <span>Guide Digital Nomads</span>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Comparison Banner */}
-        <section className="comparison-banner">
-          <div className="comparison-content">
-            <div className="comparison-grid">
-              <div className="comparison-item morocco">
-                <div className="comparison-flag">🇲🇦</div>
-                <div className="comparison-title">Maroc</div>
-                <div className="comparison-highlight">-40% coût vs Dubaï</div>
+        <div className="bg-red-500/5 border-y border-red-500/20 py-12 mb-16">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center justify-around gap-8 text-center">
+              <div className="group transition-transform">
+                <div className="text-4xl mb-2">🇲🇦</div>
+                <div className="text-2xl font-bold text-white">Maroc</div>
+                <div className="text-red-500 font-medium">
+                  -40% coût vs Dubaï
+                </div>
               </div>
-              <div className="comparison-vs">VS</div>
-              <div className="comparison-item dubai">
-                <div className="comparison-flag">🇦🇪</div>
-                <div className="comparison-title">Dubaï</div>
-                <div className="comparison-highlight">Coût élevé</div>
+              <div className="text-gray-600 font-bold text-2xl">VS</div>
+              <div className="group transition-transform opacity-50">
+                <div className="text-4xl mb-2">🇦🇪</div>
+                <div className="text-2xl font-bold text-white">Dubaï</div>
+                <div className="text-gray-400">Coût de vie élevé</div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Article Content */}
-        <div className="article-content">
-          {/* Morocco as Digital Hub */}
-          <section className="content-section">
-            <div className="section-header">
-              <Globe className="section-icon" size={24} />
-              <h2 className="section-title">Le Maroc, nouveau hub pour digital nomads</h2>
-            </div>
-            <div className="section-body">
-              <p className="section-text">
-                Le Maroc s'impose comme la destination de choix pour les digital nomads 
-                et freelances grâce à ses avantages uniques et sa modernisation rapide.
-              </p>
-              <div className="nomad-advantages-grid">
-                <div className="advantage-card">
-                  <Sun className="advantage-icon" size={32} />
-                  <div className="advantage-number">300</div>
-                  <div className="advantage-label">Jours de soleil/an</div>
-                  <div className="advantage-detail">Climat parfait toute l'année</div>
+        {/* Article Content Wrapper */}
+        <div className="max-w-7xl mx-auto px-6 space-y-16">
+          <div className="max-w-5xl mx-auto space-y-16">
+            {/* Nomad Hub Advantages */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <Globe className="text-red-500" size={24} />
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Le nouveau hub africain
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                  <Sun className="text-red-500 mb-3" size={24} />
+                  <h4 className="font-bold text-white">300 Jours de Soleil</h4>
+                  <p className="text-sm text-gray-400">
+                    Un climat parfait pour travailler en terrasse toute
+                    l&apos;année.
+                  </p>
                 </div>
-                <div className="advantage-card">
-                  <Clock className="advantage-icon" size={32} />
-                  <div className="advantage-number">3h</div>
-                  <div className="advantage-label">De l'Europe</div>
-                  <div className="advantage-detail">7h des USA - Fuseau GMT</div>
+                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                  <Clock className="text-red-500 mb-3" size={24} />
+                  <h4 className="font-bold text-white">Fuseau GMT</h4>
+                  <p className="text-sm text-gray-400">
+                    À seulement 3h de l&apos;Europe. Idéal pour les calls
+                    clients.
+                  </p>
                 </div>
-                <div className="advantage-card">
-                  <Wifi className="advantage-icon" size={32} />
-                  <div className="advantage-number">100%</div>
-                  <div className="advantage-label">Fibre optique</div>
-                  <div className="advantage-detail">Ultra-rapide, coworkings modernes</div>
+                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                  <Wifi className="text-red-500 mb-3" size={24} />
+                  <h4 className="font-bold text-white">100% Fibre Optique</h4>
+                  <p className="text-sm text-gray-400">
+                    Ultra-rapide, coworking spaces modernes dans toutes les
+                    grandes villes.
+                  </p>
                 </div>
-                <div className="advantage-card special">
-                  <DollarSign className="advantage-icon" size={32} />
-                  <div className="advantage-number">-40%</div>
-                  <div className="advantage-label">Coût vs Dubaï</div>
-                  <div className="advantage-detail">Qualité de vie supérieure</div>
+                <div className="p-6 bg-red-500/10 rounded-xl border border-red-500/20">
+                  <DollarSign className="text-red-500 mb-3" size={24} />
+                  <h4 className="font-bold text-red-400">Budget Maîtrisé</h4>
+                  <p className="text-sm text-red-300/70">
+                    Une qualité de vie premium pour 40% moins cher qu&apos;à
+                    Dubaï.
+                  </p>
                 </div>
               </div>
             </div>
-          </section>
 
-          {/* Vision 2030 */}
-          <section className="content-section">
-            <div className="section-header">
-              <Zap className="section-icon" size={24} />
-              <h2 className="section-title">Vision 2030 et attractivité internationale</h2>
-            </div>
-            <div className="section-body">
-              <div className="highlight-box">
-                <p>Le Maroc sera un hub global pour les freelances et startups grâce à sa transformation digitale.</p>
+            {/* Comparison Table */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <TrendingUp className="text-red-500" size={24} />
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Maroc vs Dubaï : Le match
+                </h2>
               </div>
-              <div className="vision-features">
-                <div className="feature-item">
-                  <Building2 className="feature-icon" size={20} />
-                  <div className="feature-content">
-                    <h4>Digitalisation intégrale</h4>
-                    <p>Services publics 100% numériques, démarches simplifiées</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <MapPin className="feature-icon" size={20} />
-                  <div className="feature-content">
-                    <h4>Villes intelligentes</h4>
-                    <p>Smart cities à Casablanca, Rabat et Marrakech</p>
-                  </div>
-                </div>
-                <div className="feature-item special">
-                  <Trophy className="feature-icon" size={20} />
-                  <div className="feature-content">
-                    <h4>Événements mondiaux</h4>
-                    <p>Coupe du Monde 2030 et CAN 2025 = vitrine internationale</p>
-                  </div>
-                </div>
+              <div className="overflow-hidden border border-gray-800 rounded-2xl">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-900/50">
+                      <th className="p-4 text-gray-400 font-medium">Critère</th>
+                      <th className="p-4 text-red-500 font-bold">🇲🇦 Maroc</th>
+                      <th className="p-4 text-gray-500 font-medium">
+                        🇦🇪 Dubaï
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-800">
+                    <tr>
+                      <td className="p-4 text-sm">Coût de vie</td>
+                      <td className="p-4 text-sm font-bold text-green-500">
+                        800-1200€ / mois
+                      </td>
+                      <td className="p-4 text-sm text-gray-400">
+                        2000-3000€ / mois
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 text-sm">Internet (Fibre)</td>
+                      <td className="p-4 text-sm font-bold text-green-500">
+                        ~25€ / mois
+                      </td>
+                      <td className="p-4 text-sm text-gray-400">~80€ / mois</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 text-sm">Proximité Europe</td>
+                      <td className="p-4 text-sm font-bold text-green-500">
+                        3h de vol
+                      </td>
+                      <td className="p-4 text-sm text-gray-400">7h de vol</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 text-sm">Culture</td>
+                      <td className="p-4 text-sm font-bold text-green-500">
+                        Patrimoine millénaire
+                      </td>
+                      <td className="p-4 text-sm text-gray-400">
+                        Moderne récent
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-          </section>
 
-          {/* Opportunities */}
-          <section className="content-section">
-            <div className="section-header">
-              <TrendingUp className="section-icon" size={24} />
-              <h2 className="section-title">Opportunités pour freelances et startups</h2>
-            </div>
-            <div className="section-body">
-              <p className="section-text">
-                Le marché marocain offre des opportunités exceptionnelles avec 
-                des infrastructures modernes et une croissance digitale explosive.
-              </p>
-              <div className="opportunities-list">
-                <div className="opportunity-item">
-                  <div className="opportunity-stat">+20%/an</div>
-                  <div className="opportunity-content">
-                    <h4>E-commerce en explosion</h4>
-                    <p>Marché digital en forte croissance, opportunités B2B et B2C</p>
+            {/* Cities Grid */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <Coffee className="text-red-500" size={24} />
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Les meilleures villes
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                  <h4 className="text-xl font-bold mb-2">Casablanca</h4>
+                  <div className="text-red-500 text-sm mb-4">
+                    Hub économique
                   </div>
+                  <ul className="text-xs text-gray-400 space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> 50+ coworkings
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> Communauté tech active
+                    </li>
+                  </ul>
                 </div>
-                <div className="opportunity-item">
-                  <div className="opportunity-stat">IA</div>
-                  <div className="opportunity-content">
-                    <h4>Intelligence Artificielle</h4>
-                    <p>Développement des IA et FinTech, écosystème tech innovant</p>
+                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                  <h4 className="text-xl font-bold mb-2">Marrakech</h4>
+                  <div className="text-red-500 text-sm mb-4">
+                    Lifestyle & Culture
                   </div>
+                  <ul className="text-xs text-gray-400 space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> Cafés nomades
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> Qualité de vie premium
+                    </li>
+                  </ul>
                 </div>
-                <div className="opportunity-item">
-                  <div className="opportunity-stat">TGV</div>
-                  <div className="opportunity-content">
-                    <h4>Infrastructures modernes</h4>
-                    <p>Ports, aéroports, TGV Al Boraq - connectivité maximale</p>
+                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                  <h4 className="text-xl font-bold mb-2">Rabat</h4>
+                  <div className="text-red-500 text-sm mb-4">
+                    Innovation & Calme
                   </div>
+                  <ul className="text-xs text-gray-400 space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> Startups Government
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle size={12} /> Ville verte & moderne
+                    </li>
+                  </ul>
                 </div>
               </div>
+            </div>
 
-              {/* Morocco vs Dubai Comparison */}
-              <div className="detailed-comparison">
-                <h3 className="comparison-section-title">Maroc vs Dubaï : comparaison détaillée</h3>
-                <div className="comparison-table">
-                  <div className="comparison-row header">
-                    <div className="comparison-cell">Critère</div>
-                    <div className="comparison-cell morocco-col"><Flag size={16} style={{display: 'inline', marginRight: '0.25rem'}} /> Maroc</div>
-                    <div className="comparison-cell dubai-col"><MapPin size={16} style={{display: 'inline', marginRight: '0.25rem'}} /> Dubaï</div>
-                  </div>
-                  <div className="comparison-row">
-                    <div className="comparison-cell">Coût de vie</div>
-                    <div className="comparison-cell morocco-col winner">800-1200€/mois</div>
-                    <div className="comparison-cell dubai-col">2000-3000€/mois</div>
-                  </div>
-                  <div className="comparison-row">
-                    <div className="comparison-cell">Internet</div>
-                    <div className="comparison-cell morocco-col winner">Fibre 100Mbps - 25€</div>
-                    <div className="comparison-cell dubai-col">100Mbps - 80€</div>
-                  </div>
-                  <div className="comparison-row">
-                    <div className="comparison-cell">Climat</div>
-                    <div className="comparison-cell morocco-col winner">300 jours soleil</div>
-                    <div className="comparison-cell dubai-col">Très chaud été</div>
-                  </div>
-                  <div className="comparison-row">
-                    <div className="comparison-cell">Proximité Europe</div>
-                    <div className="comparison-cell morocco-col winner">3h de vol</div>
-                    <div className="comparison-cell dubai-col">6-7h de vol</div>
-                  </div>
-                  <div className="comparison-row">
-                    <div className="comparison-cell">Culture</div>
-                    <div className="comparison-cell morocco-col winner">Riche patrimoine</div>
-                    <div className="comparison-cell dubai-col">Moderne mais récent</div>
+            {/* Entrepreneurs Morocco CTA */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <HandHeart className="text-red-500" size={24} />
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Installation 360°
+                </h2>
+              </div>
+              <div className="bg-gray-900/30 p-8 rounded-2xl border border-gray-800">
+                <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
+                  <Laptop className="text-red-500 shrink-0" size={48} />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">
+                      De l&apos;arrivée à votre premier client
+                    </h3>
+                    <p className="text-gray-400">
+                      Nous gérons les formalités administratives, le logement et
+                      la mise en réseau.
+                    </p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Cities for Digital Nomads */}
-          <section className="content-section">
-            <div className="section-header">
-              <Coffee className="section-icon" size={24} />
-              <h2 className="section-title">Les meilleures villes pour digital nomads</h2>
-            </div>
-            <div className="section-body">
-              <div className="cities-grid">
-                <div className="city-card">
-                  <div className="city-header">
-                    <h3 className="city-name">Casablanca</h3>
-                    <div className="city-type">Hub économique</div>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500" size={18} />
+                    <span>Banking et installation locale</span>
                   </div>
-                  <div className="city-features">
-                    <div className="city-feature">
-                      <Building2 size={16} />
-                      <span>Finance City</span>
-                    </div>
-                    <div className="city-feature">
-                      <Wifi size={16} />
-                      <span>50+ coworkings</span>
-                    </div>
-                    <div className="city-feature">
-                      <Users size={16} />
-                      <span>Communauté tech</span>
-                    </div>
-                  </div>
-                  <div className="city-cost">À partir de 600€/mois</div>
-                </div>
-
-                <div className="city-card">
-                  <div className="city-header">
-                    <h3 className="city-name">Marrakech</h3>
-                    <div className="city-type">Lifestyle & Culture</div>
-                  </div>
-                  <div className="city-features">
-                    <div className="city-feature">
-                      <Sun size={16} />
-                      <span>Climat parfait</span>
-                    </div>
-                    <div className="city-feature">
-                      <Coffee size={16} />
-                      <span>Cafés nomades</span>
-                    </div>
-                    <div className="city-feature">
-                      <Star size={16} />
-                      <span>Qualité de vie</span>
-                    </div>
-                  </div>
-                  <div className="city-cost">À partir de 500€/mois</div>
-                </div>
-
-                <div className="city-card">
-                  <div className="city-header">
-                    <h3 className="city-name">Rabat</h3>
-                    <div className="city-type">Capital & Innovation</div>
-                  </div>
-                  <div className="city-features">
-                    <div className="city-feature">
-                      <Building2 size={16} />
-                      <span>Institutions</span>
-                    </div>
-                    <div className="city-feature">
-                      <Zap size={16} />
-                      <span>Startups gov</span>
-                    </div>
-                    <div className="city-feature">
-                      <Plane size={16} />
-                      <span>Aéroport proche</span>
-                    </div>
-                  </div>
-                  <div className="city-cost">À partir de 700€/mois</div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Entrepreneurs Morocco CTA */}
-          <section className="content-section">
-            <div className="section-header">
-              <HandHeart className="section-icon" size={24} />
-              <h2 className="section-title">Entrepreneurs Morocco : votre partenaire</h2>
-            </div>
-            <div className="nomad-cta-box">
-              <div className="nomad-cta-header">
-                <Laptop className="nomad-cta-icon" size={48} />
-                <div>
-                  <h3>Installation complète pour digital nomads</h3>
-                  <p>De l'arrivée à votre premier client marocain</p>
-                </div>
-              </div>
-              <div className="nomad-services">
-                <div className="nomad-service">
-                  <CheckCircle className="service-check green" size={20} />
-                  <span>Formalités administratives complètes</span>
-                </div>
-                <div className="nomad-service">
-                  <CheckCircle className="service-check yellow" size={20} />
-                  <span>Installation locale (logement, internet, banking)</span>
-                </div>
-                <div className="nomad-service">
-                  <CheckCircle className="service-check red" size={20} />
-                  <span>Mise en réseau avec clients & partenaires locaux</span>
-                </div>
-              </div>
-              <div className="nomad-cta-button-container">
-                <Link href="/contact-quiz" className="nomad-cta-button">
-                  <ArrowRight size={20} />
-                  Installez votre business au Maroc → Entrepreneurs Morocco
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* FAQ */}
-          <section className="content-section">
-            <div className="section-header">
-              <HelpCircle className="section-icon" size={24} />
-              <h2 className="section-title">FAQ</h2>
-            </div>
-            <div className="faq-list">
-              <div className="faq-item">
-                <h3 className="faq-question">Pourquoi le Maroc est-il mieux que Dubaï pour les digital nomads ?</h3>
-                <p className="faq-answer">
-                  Coût de vie 40% inférieur, proximité avec l'Europe, stabilité politique, 
-                  qualité de vie exceptionnelle et patrimoine culturel riche.
-                </p>
-              </div>
-              <div className="faq-item">
-                <h3 className="faq-question">Quels secteurs offrent le plus d'opportunités pour les freelances ?</h3>
-                <p className="faq-answer">
-                  Tech, design, marketing digital, intelligence artificielle, consulting, 
-                  e-commerce et développement web sont particulièrement porteurs.
-                </p>
-              </div>
-              <div className="faq-item">
-                <h3 className="faq-question">Comment est la connexion internet au Maroc ?</h3>
-                <p className="faq-answer">
-                  Excellente ! Fibre optique ultra-rapide disponible partout, 
-                  nombreux coworkings modernes et connectivité internationale optimale.
-                </p>
-              </div>
-              <div className="faq-item">
-                <h3 className="faq-question">Quel budget prévoir pour s'installer au Maroc ?</h3>
-                <p className="faq-answer">
-                  Entre 800-1200€/mois pour un excellent niveau de vie, 
-                  soit 40-60% moins cher que Dubaï pour une qualité équivalente.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Final CTA */}
-          <section className="content-section">
-            <div className="final-nomad-cta">
-              <div className="final-nomad-content">
-                <h2 className="final-nomad-title"><Zap size={24} style={{display: 'inline', marginRight: '0.5rem'}} /> Prêt à faire le grand saut ?</h2>
-                <p className="final-nomad-description">
-                  Le Maroc vous attend avec ses 300 jours de soleil, sa fibre optique ultra-rapide, 
-                  ses coûts réduits et ses opportunités infinies.
-                </p>
-                <div className="final-nomad-stats">
-                  <div className="final-stat">
-                    <span className="final-stat-number">40%</span>
-                    <span className="final-stat-label">Économies vs Dubaï</span>
-                  </div>
-                  <div className="final-stat">
-                    <span className="final-stat-number">3h</span>
-                    <span className="final-stat-label">De l'Europe</span>
-                  </div>
-                  <div className="final-stat">
-                    <span className="final-stat-number">300</span>
-                    <span className="final-stat-label">Jours de soleil</span>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-yellow-500" size={18} />
+                    <span>Optimisation fiscale pour freelances</span>
                   </div>
                 </div>
-                <div className="final-nomad-button-container">
-                  <Link href="/commencez-un-projet" className="final-nomad-button">
-                    <Globe size={20} />
-                    Lancez votre aventure marocaine
+                <div className="text-center md:text-left">
+                  <Link
+                    href="/devis"
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-xl transition-colors inline-flex items-center gap-2"
+                  >
+                    <ArrowRight size={20} />
+                    Installez-vous au Maroc
                   </Link>
                 </div>
               </div>
             </div>
-          </section>
 
-          {/* Back to articles */}
-          <section className="content-section">
-            <div className="next-article">
-              <h3 className="next-title">Découvrir tous nos guides</h3>
-              <Link href="/" className="next-button">
-                Retour aux articles
-                <ArrowRight size={20} />
+            {/* FAQ */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <HelpCircle className="text-red-500" size={24} />
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Questions fréquentes
+                </h2>
+              </div>
+              <div className="space-y-6">
+                <div className="bg-gray-900/30 rounded-2xl p-6">
+                  <h3 className="font-bold text-lg mb-2 text-red-400">
+                    Comment est la connexion internet ?
+                  </h3>
+                  <p className="text-gray-300">
+                    Excellente. La fibre optique est disponible partout avec une
+                    latence minimale vers l&apos;Europe.
+                  </p>
+                </div>
+                <div className="bg-gray-900/30 rounded-2xl p-6">
+                  <h3 className="font-bold text-lg mb-2 text-red-400">
+                    Quel budget prévoir ?
+                  </h3>
+                  <p className="text-gray-300">
+                    Entre 800€ et 1200€ pour un style de vie confortable (loyer,
+                    nourriture, cowork).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Final CTA Box */}
+            <div className="bg-red-500/5 border border-red-500/20 rounded-3xl p-8 md:p-12 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Prêt à faire le grand saut ?
+              </h2>
+              <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+                300 jours de soleil, une fibre ultra-rapide et un coût réduit.
+                Lancez votre aventure marocaine dès aujourd&apos;hui.
+              </p>
+              <Link
+                href="/devis"
+                className="bg-white text-red-600 hover:bg-gray-100 font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2 group"
+              >
+                <Globe size={20} />
+                Démarrer mon projet
               </Link>
             </div>
-          </section>
+
+            {/* Navigation back */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-bold mb-4">
+                Découvrir tous nos guides
+              </h3>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl transition-colors group"
+              >
+                Retour à l&apos;accueil
+                <ArrowRight
+                  size={20}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom spacing */}
-        <div style={{ paddingBottom: '4rem' }} />
+        <div className="pb-16" />
       </main>
     </div>
   );

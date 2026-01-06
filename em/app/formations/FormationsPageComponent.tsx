@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import './formations.css';
+import React from "react";
+import Link from "next/link";
+import "./formations.css";
 
 interface Formation {
   id: number;
@@ -15,67 +15,69 @@ export default function FormationsPageComponent(): React.ReactElement {
   const formations: Formation[] = [
     {
       id: 1,
-      title: 'Programme Entrepreneur 360°',
+      title: "Programme Entrepreneur 360°",
       bullets: [
-        'Bilan de compétences.',
-        'Création société & fiscalité.',
-        'Stratégie marketing.',
-        'Mise en réseau investisseurs.',
+        "Bilan de compétences.",
+        "Création société & fiscalité.",
+        "Stratégie marketing.",
+        "Mise en réseau investisseurs.",
       ],
-      iconUrl: 'https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/briefcase.svg',
+      iconUrl:
+        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/briefcase.svg",
     },
     {
       id: 2,
-      title: 'E-Commerce & Business Digital',
+      title: "E-Commerce & Business Digital",
       bullets: [
-        'Créer sa boutique en ligne (Shopify, WooCommerce).',
-        'Stratégies publicitaires (TikTok Ads, Meta Ads).',
-        'Logistique export.',
+        "Créer sa boutique en ligne.",
+        "Stratégies TikTok & Meta Ads.",
+        "Logistique export.",
       ],
-      iconUrl: 'https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/shopping-cart.svg',
+      iconUrl:
+        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/shopping-cart.svg",
     },
     {
       id: 3,
-      title: 'IA & Automatisation',
+      title: "IA & Automatisation",
       bullets: [
-        'Outils IA générative (ChatGPT, MidJourney).',
-        'Automatisations no-code (n8n, Zapier).',
-        'Optimisation marketing & productivité.',
+        "Outils IA (ChatGPT, MidJourney).",
+        "No-code (n8n, Zapier).",
+        "Optimisation productivité.",
       ],
-      iconUrl: 'https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/bot.svg',
+      iconUrl:
+        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/bot.svg",
     },
     {
       id: 4,
-      title: 'Innovation & Nouvelles Technologies',
+      title: "Innovation & Tech",
       bullets: [
-        'Blockchain & Web3.',
-        'GreenTech & énergies renouvelables.',
-        'Data, cybersécurité & cloud.',
+        "Blockchain & Web3.",
+        "GreenTech & Énergies.",
+        "Cybersécurité & Cloud.",
       ],
-      iconUrl: 'https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/atom.svg',
+      iconUrl:
+        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/atom.svg",
     },
   ];
 
   return (
     <main className="formations-page">
       <div className="formations-wrap">
-        {/* Header */}
         <header className="formations-header">
           <h2>Formations pour entreprendre et innover au Maroc</h2>
           <p className="formations-meta">
-            Entrepreneur 360°, E-commerce, IA et innovation : 4 formations pratiques pour réussir votre projet
-            au Maroc.
+            Entrepreneur 360°, E-commerce, IA et innovation : 4 formations
+            pratiques pour réussir votre projet au Maroc.
           </p>
         </header>
 
-        {/* Intro */}
         <section className="formations-intro">
           <p className="intro-lead">
-            Nos programmes sont conçus pour accompagner les porteurs de projets, MRE et digital nomads.
+            Nos programmes sont conçus pour accompagner les porteurs de projets
+            et digital nomads.
           </p>
         </section>
 
-        {/* Grid des 4 formations */}
         <section className="formations-block">
           <h3 className="formations-block__title">Nos 4 formations phares</h3>
 
@@ -105,11 +107,19 @@ export default function FormationsPageComponent(): React.ReactElement {
           </div>
         </section>
 
-        {/* CTA */}
         <div className="formations-cta">
           <Link href="/contact-quiz" className="cta-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
             </svg>
             S’inscrire à la prochaine session
           </Link>

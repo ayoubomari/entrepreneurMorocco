@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import './services.css';
+import React from "react";
+import Link from "next/link";
+import "./services.css";
 
 interface Service {
   id: number;
@@ -23,9 +23,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Building icon"
           width="32"
           height="32"
-            style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 2,
@@ -37,9 +40,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Trending up icon"
           width="32"
           height="32"
-          style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 3,
@@ -51,9 +57,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Megaphone icon"
           width="32"
           height="32"
-          style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 4,
@@ -65,9 +74,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Users icon"
           width="32"
           height="32"
-          style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 5,
@@ -79,9 +91,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Graduation cap icon"
           width="32"
           height="32"
-         style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 6,
@@ -93,9 +108,12 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Network icon"
           width="32"
           height="32"
-          style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
+      ),
     },
     {
       id: 7,
@@ -107,13 +125,14 @@ export default function ServicesPageComponent(): React.ReactElement {
           alt="Crown icon"
           width="32"
           height="32"
-          style={{ filter: 'invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)' }}
+          style={{
+            filter:
+              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
+          }}
         />
-      )
-    }
+      ),
+    },
   ];
-
-
 
   return (
     <main className="services-page">
@@ -121,26 +140,25 @@ export default function ServicesPageComponent(): React.ReactElement {
         <header className="services-header">
           <h1>Nos services pour entreprendre au Maroc et réussir</h1>
           <p className="intro-text">
-            Avec Entrepreneurs Morocco, vous bénéficiez d'un accompagnement complet et sur mesure.
+            Avec Entrepreneurs Morocco, vous bénéficiez d'un accompagnement
+            complet et sur mesure.
           </p>
         </header>
 
         <section className="services-section">
           <h2>Nos 7 services principaux</h2>
-          
+
           <div className="services-grid">
             {services.map((service) => (
               <div key={service.id} className="service-card">
                 <div className="service-number">
                   <span>{service.id}</span>
                 </div>
-                
-                <div className="service-icon">
-                  {service.icon}
-                </div>
-                
+
+                <div className="service-icon">{service.icon}</div>
+
                 <h3 className="service-title">{service.title}</h3>
-                
+
                 <p className="service-description">{service.description}</p>
               </div>
             ))}
@@ -149,8 +167,17 @@ export default function ServicesPageComponent(): React.ReactElement {
 
         <div className="services-cta">
           <Link href="/devis" className="cta-btn">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
             </svg>
             Découvrir tous nos services pour entreprendre au Maroc
           </Link>

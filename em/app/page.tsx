@@ -1055,32 +1055,28 @@ const ResourcesSection = () => {
   const articles = [
     {
       id: 1,
-      title:
-        "ENTREPRENDRE AU MAROC : L'OPPORTUNITÉ INCONTOURNABLE EN AFRIQUE D'ICI 2030",
+      title: "COMMENT BIEN CHOISIR SA VILLE AU MAROC ?",
       description:
         "Un guide pour trouver la ville idéale selon votre projet et votre profil.",
       link: "/articles/choisir-ville-maroc",
     },
     {
       id: 2,
-      title:
-        "INVESTIR AU MAROC : LES SECTEURS PORTEURS À SAISIR EN 2025 ET VERS 2030",
+      title: "COMMENT FINANCER SON PROJET DEPUIS L’ÉTRANGER ?",
       description:
-        "Découvrez les solutions de financement accessibles aux MRE : CPF, banques partenaires, aides publiques...",
+        "Découvrez les solutions de financement accessibles aux MRE: CPF, banques partenaires, aides publiques...",
       link: "/articles/financer-projet-etranger",
     },
     {
       id: 3,
-      title:
-        "RETOUR AU PAYS : COMMENT LES MRE ET INVESTISSEURS BÂTISSENT LE MAROC DE DEMAIN",
+      title: "ENTREPRENDRE À DISTANCE DEPUIS LA FRANCE",
       description: "Nos conseils pour lancer sans être sur place.",
       link: "/articles/entreprendre-distance-france",
     },
     {
       id: 4,
-      title:
-        "DIGITAL NOMADS ET FREELANCES : POURQUOI CHOISIR LE MAROC PLUTÔT QUE DUBAÏ ? ",
-      description: "De l'idée à l'immatriculation, tout ce qu'il faut savoir.",
+      title: "CRÉER SON ENTREPRISE: ÉTAPES CLÉS",
+      description: "De l’idée à l’immatriculation, tout ce qu’il faut savoir.",
       link: "/articles/creer-entreprise-etapes",
     },
   ];
@@ -1130,7 +1126,11 @@ const ResourcesSection = () => {
 const AboutUsSection = () => {
   return (
     <section className="bg-black py-20 md:py-24">
-      <div className="aus-wrap">
+      {/* 
+         Updated Container: 
+         Added 'max-w-7xl mx-auto px-6' to match the Service Section width exactly 
+      */}
+      <div className="max-w-7xl mx-auto px-6 aus-wrap">
         <div className="aus-lead">
           <h2 className="aus-title">
             DEUX ANCIENS PROFS DEVENUS ENTREPRENEURS.
@@ -1225,7 +1225,11 @@ const FAQSection = () => {
           <h2 className="faq-title">QUESTIONS FRÉQUENTES</h2>
           <p className="faq-sub">
             Voici les réponses aux questions que nos clients nous posent
-            souvent. Vous ne trouvez pas ce que vous cherchez ? Contactez-nous
+            souvent.
+          </p>
+
+          <p className="faq-sub">
+            Vous ne trouvez pas ce que vous cherchez ? Contactez-nous
             directement.
           </p>
         </header>
@@ -1279,19 +1283,27 @@ const SOCIALS = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/entrepreneurs-morocco/about/",
-    icon: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg",
+    icon: "https://unpkg.com/lucide-static@latest/icons/linkedin.svg",
     invert: true,
   },
   {
     label: "Instagram",
     href: "https://www.instagram.com/entrepreneursmorocco?igsh=b2JucjcwNjcxZHB6",
-    icon: "https://cdn.simpleicons.org/instagram/ffffff",
+    icon: "https://unpkg.com/lucide-static@latest/icons/instagram.svg",
+    invert: true,
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@EntrepreneursMorocco",
-    icon: "https://cdn.simpleicons.org/youtube/ffffff",
+    icon: "https://unpkg.com/lucide-static@latest/icons/youtube.svg",
+    invert: true,
   },
+  // {
+  //   label: "Spotify",
+  //   href: "#",
+  //   icon: "https://unpkg.com/lucide-static@latest/icons/podcast.svg",
+  //   invert: true,
+  // },
 ];
 
 const Footer = () => {
@@ -1397,7 +1409,7 @@ const Footer = () => {
       </div>
 
       <div className="ft-bottom">
-        <p>©2025 Tous les droits réservés</p>
+        <p>©{new Date().getFullYear()} Tous les droits réservés</p>
       </div>
     </footer>
   );

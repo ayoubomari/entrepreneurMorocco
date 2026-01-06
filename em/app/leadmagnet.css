@@ -280,10 +280,6 @@
 
 /* Large screens optimization */
 @media (min-width: 1400px) {
-  .lm-wrap {
-    width: 75%;
-  }
-
   .lm-grid {
     gap: 84px;
   }

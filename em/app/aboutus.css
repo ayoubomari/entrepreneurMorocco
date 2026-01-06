@@ -1,368 +1,281 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
+/* =========================================
+   CONTAINER & LAYOUT
+   ========================================= */
 
-/* Container - Responsive */
+/* Container */
 .aus-wrap {
- max-width: clamp(90%, 85vw, 80%);
- margin: 0 auto;
- padding: 0 clamp(16px, 4vw, 32px);
- opacity: 0;
- animation: fadeInUp 1.2s ease-out 0.2s forwards;
+  width: 100%;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease-out 0.2s forwards;
 }
 
-/* Header -- Responsive */
+/* Header */
 .aus-lead {
- text-align: center;
- margin-bottom: clamp(40px, 8vw, 80px);
- opacity: 0;
- animation: slideInDown 1s ease-out 0.6s forwards;
+  text-align: center;
+  margin-bottom: clamp(40px, 6vw, 60px);
+  opacity: 0;
+  animation: slideInDown 1s ease-out 0.6s forwards;
 }
 
+/* Kept this at 768px because text alignment is fine on tablets */
 @media (min-width: 768px) {
- .aus-lead {
-   text-align: left;
- }
+  .aus-lead {
+    text-align: left;
+  }
 }
 
+/* Title Styling */
 .aus-title {
- font-family: 'Montserrat', sans-serif;
- font-size: clamp(24px, 4.5vw, 36px);
- font-weight: 900;
- line-height: 1.2;
- color: #ffffff;
- text-transform: uppercase;
- letter-spacing: 0.02em;
- margin: clamp(16px, 3vw, 24px) 0 0 0;
- background: linear-gradient(45deg, #fff, #ff6b6b, #fff);
- background-size: 200% 200%;
- -webkit-background-clip: text;
- -webkit-text-fill-color: transparent;
- background-clip: text;
- animation: shimmer 3s ease-in-out infinite;
+  font-family: "Montserrat", sans-serif;
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+  background: linear-gradient(45deg, #fff, #ff6b6b, #fff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Grid - Responsive Layout */
+/* =========================================
+   FLEXBOX GRID SYSTEM
+   ========================================= */
+
 .aus-grid {
- display: grid;
- grid-template-columns: 1fr;
- gap: clamp(32px, 6vw, 48px);
- align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  gap: 32px;
 }
 
-@media (min-width: 768px) {
- .aus-grid {
-   grid-template-columns: 1fr 1.2fr;
-   gap: clamp(48px, 8vw, 80px);
- }
+/* 
+   CHANGED: Increased from 768px to 1024px 
+   This prevents the "half-width" issue on screens like 858px.
+*/
+@media (min-width: 1024px) {
+  .aus-grid {
+    gap: 40px;
+    align-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
-/* Content - Flexible Spacing */
-.aus-content {
- display: flex;
- flex-direction: column;
- gap: clamp(16px, 3vw, 24px);
- justify-content: center;
- order: 2;
- opacity: 0;
- animation: slideInLeft 1.2s ease-out 1s forwards;
-}
-
-@media (min-width: 768px) {
- .aus-content {
-   order: 1;
-   gap: clamp(0px, 2vw, 8px);
- }
-}
-
-/* Photo Column - Responsive */
+/* =========================================
+   PHOTO COLUMN (LEFT)
+   ========================================= */
 .aus-photoCol {
- position: relative;
- order: 1;
- margin: 0 auto;
- max-width: clamp(250px, 60vw, 400px);
- width: 100%;
- opacity: 0;
- animation: slideInRight 1.2s ease-out 1.2s forwards;
- transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  width: 100%; /* Default to 100% */
+  opacity: 0;
+  animation: slideInRight 1.2s ease-out 1.2s forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (min-width: 768px) {
- .aus-photoCol {
-   order: 2;
-   max-width: none;
-   margin: 0;
- }
+/* CHANGED: Increased from 768px to 1024px */
+@media (min-width: 1024px) {
+  .aus-photoCol {
+    width: 45%;
+    max-width: 500px;
+    margin: 0;
+  }
 }
 
 .aus-photoCol:hover {
- transform: translateY(-8px) scale(1.02);
- box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
 }
 
 .aus-photo {
- width: 100%;
- height: auto;
- display: block;
- border-radius: 12px;
- transition: filter 0.3s ease;
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.3s ease;
 }
 
 .aus-photoCol:hover .aus-photo {
- filter: brightness(1.05);
+  filter: brightness(1.05);
 }
 
-/* Typography - Responsive */
+/* =========================================
+   TEXT CONTENT (RIGHT)
+   ========================================= */
+.aus-content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 24px);
+  width: 100%; /* Default to 100% */
+  opacity: 0;
+  animation: slideInLeft 1.2s ease-out 1s forwards;
+}
+
+/* CHANGED: Increased from 768px to 1024px */
+@media (min-width: 1024px) {
+  .aus-content {
+    width: 50%;
+    padding-left: 10px;
+    gap: clamp(8px, 2vw, 10px);
+  }
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
 .aus-p {
- font-family: 'Montserrat', sans-serif;
- font-size: clamp(16px, 2.5vw, 18px);
- font-weight: 400;
- line-height: 1.7;
- color: rgba(255, 255, 255, 0.9);
- margin: 0;
- text-align: center;
- opacity: 0;
- transform: translateY(20px);
+  font-size: clamp(12px, 2vw, 15px);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
+/* Animations... */
 .aus-p:nth-of-type(1) {
- animation: slideInUp 0.8s ease-out 1.4s forwards;
+  animation: slideInUp 0.8s ease-out 1.4s forwards;
 }
-
 .aus-p:nth-of-type(2) {
- animation: slideInUp 0.8s ease-out 1.6s forwards;
+  animation: slideInUp 0.8s ease-out 1.6s forwards;
 }
-
 .aus-p:nth-of-type(3) {
- animation: slideInUp 0.8s ease-out 1.8s forwards;
+  animation: slideInUp 0.8s ease-out 1.8s forwards;
 }
-
 .aus-p:nth-of-type(4) {
- animation: slideInUp 0.8s ease-out 2s forwards;
+  animation: slideInUp 0.8s ease-out 2s forwards;
 }
-
 .aus-p:nth-of-type(5) {
- animation: slideInUp 0.8s ease-out 2.2s forwards;
+  animation: slideInUp 0.8s ease-out 2.2s forwards;
+}
+.aus-p:nth-of-type(6) {
+  animation: slideInUp 0.8s ease-out 2.4s forwards;
 }
 
 @media (min-width: 768px) {
- .aus-p {
-   text-align: left;
- }
+  .aus-p {
+    text-align: left; /* Keep text alignment left on tablets */
+  }
 }
 
 .aus-highlight {
- font-family: 'Montserrat', sans-serif;
- font-size: clamp(16px, 2.5vw, 18px);
- font-weight: 500;
- line-height: 1.7;
- color: #ffffff;
- margin: 0;
- padding-top: clamp(8px, 2vw, 12px);
- text-align: center;
- opacity: 0;
- animation: slideInUp 0.8s ease-out 2.4s forwards, glow 2s ease-in-out 3s infinite;
- background: linear-gradient(45deg, #fff, #ff6b6b);
- background-size: 200% 200%;
- -webkit-background-clip: text;
- -webkit-text-fill-color: transparent;
- background-clip: text;
+  font-size: clamp(12px, 2vw, 15px);
+  font-weight: 500;
+  line-height: 1.7;
+  color: #ffffff;
+  margin: 0;
+  padding-top: clamp(8px, 2vw, 12px);
+  text-align: center;
+  opacity: 0;
+  animation: slideInUp 0.8s ease-out 2.4s forwards,
+    glow 2s ease-in-out 3s infinite;
+
+  background: linear-gradient(45deg, #fff, #ff6b6b);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @media (min-width: 768px) {
- .aus-highlight {
-   text-align: left;
- }
+  .aus-highlight {
+    text-align: left;
+  }
 }
 
-/* Tablet Specific Adjustments */
-@media (min-width: 481px) and (max-width: 767px) {
- .aus-grid {
-   gap: clamp(40px, 7vw, 56px);
- }
- 
- .aus-photoCol {
-   max-width: clamp(300px, 50vw, 450px);
- }
- 
- .aus-content {
-   gap: clamp(20px, 4vw, 28px);
- }
+/* =========================================
+   ADDITIONAL RESPONSIVENESS
+   ========================================= */
+
+/* 
+   ADJUSTED: Now targeting Tablets specifically between 481px and 1023px 
+   to ensure the image is centered and good width when stacked.
+*/
+@media (min-width: 481px) and (max-width: 1023px) {
+  .aus-grid {
+    gap: 40px;
+  }
+  .aus-photoCol {
+    width: 80%; /* Nice width for tablet view */
+    margin: 0 auto;
+  }
 }
 
-/* Mobile Specific */
-@media (max-width: 480px) {
- .aus-wrap {
-   padding: 0 clamp(12px, 3vw, 20px);
- }
- 
- .aus-lead {
-   margin-bottom: clamp(32px, 6vw, 40px);
- }
- 
- .aus-grid {
-   gap: clamp(24px, 5vw, 32px);
- }
- 
- .aus-photoCol {
-   max-width: clamp(200px, 70vw, 280px);
- }
- 
- .aus-content {
-   gap: clamp(12px, 3vw, 20px);
- }
-}
-
-/* Very small screens */
-@media (max-width: 320px) {
- .aus-wrap {
-   padding: 0 12px;
- }
- 
- .aus-title {
-   font-size: 20px;
-   margin-top: 12px;
- }
- 
- .aus-p,
- .aus-highlight {
-   font-size: 14px;
- }
-}
-
-/* Large screens optimization */
-@media (min-width: 1200px) {
- .aus-wrap {
-   max-width: 75%;
- }
- 
- .aus-grid {
-   gap: 100px;
- }
- 
- .aus-title {
-   margin-top: clamp(20px, 3vw, 32px);
- }
-}
-
-/* Landscape mobile specific */
-@media (max-height: 500px) and (orientation: landscape) {
- .aus-lead {
-   margin-bottom: clamp(20px, 4vw, 32px);
- }
- 
- .aus-grid {
-   gap: clamp(20px, 4vw, 32px);
- }
- 
- .aus-content {
-   gap: clamp(8px, 2vw, 16px);
- }
- 
- .aus-title {
-   margin-top: clamp(8px, 2vw, 16px);
- }
-}
-
-/* High DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
- .aus-photo {
-   image-rendering: -webkit-optimize-contrast;
-   image-rendering: crisp-edges;
- }
-}
-
-/* Print styles */
-@media print {
- .aus-title,
- .aus-highlight {
-   color: #000;
- }
- 
- .aus-p {
-   color: #333;
- }
- 
- .aus-grid {
-   grid-template-columns: 1fr;
-   gap: 24px;
- }
-}
-
-/* Animation keyframes */
+/* Keyframes (unchanged) */
 @keyframes fadeInUp {
- from {
-   opacity: 0;
-   transform: translateY(40px);
- }
- to {
-   opacity: 1;
-   transform: translateY(0);
- }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
 @keyframes slideInDown {
- from {
-   opacity: 0;
-   transform: translateY(-30px);
- }
- to {
-   opacity: 1;
-   transform: translateY(0);
- }
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
 @keyframes slideInLeft {
- from {
-   opacity: 0;
-   transform: translateX(-50px);
- }
- to {
-   opacity: 1;
-   transform: translateX(0);
- }
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-
 @keyframes slideInRight {
- from {
-   opacity: 0;
-   transform: translateX(50px);
- }
- to {
-   opacity: 1;
-   transform: translateX(0);
- }
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-
 @keyframes slideInUp {
- from {
-   opacity: 0;
-   transform: translateY(20px);
- }
- to {
-   opacity: 1;
-   transform: translateY(0);
- }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
 @keyframes shimmer {
- 0% {
-   background-position: 0% 50%;
- }
- 50% {
-   background-position: 100% 50%;
- }
- 100% {
-   background-position: 0% 50%;
- }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
-
 @keyframes glow {
- 0% {
-   background-position: 0% 50%;
- }
- 50% {
-   background-position: 100% 50%;
- }
- 100% {
-   background-position: 0% 50%;
- }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

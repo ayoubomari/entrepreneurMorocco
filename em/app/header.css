@@ -132,12 +132,15 @@
 
 .hdr__brand {
   color: #fff;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
   letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.hdr__brand-link {
+  cursor: none;
 }
 
 .hdr__brand-text {
