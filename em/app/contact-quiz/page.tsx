@@ -95,32 +95,8 @@ export default function DevisPage() {
     return (
       <main className="qc">
         <div className="qc__wrap">
-          <div
-            className="qc__success"
-            style={{
-              background: "#111",
-              border: "1px solid rgba(255,255,255,0.1)",
-              padding: "60px 24px",
-              textAlign: "center",
-              maxWidth: "800px",
-              margin: "0 auto",
-              animation: "successFadeIn 0.5s ease-out",
-            }}
-          >
-            <div
-              style={{
-                width: "64px",
-                height: "64px",
-                background: "#fff",
-                borderRadius: "50%",
-                margin: "0 auto 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                animation:
-                  "iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both",
-              }}
-            >
+          <div className="qc__success">
+            <div className="qc__success-icon">
               <svg
                 width="32"
                 height="32"
@@ -141,28 +117,6 @@ export default function DevisPage() {
               Notre équipe vous recontactera rapidement pour finaliser votre
               projet.
             </p>
-            <style jsx>{`
-              @keyframes successFadeIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-              @keyframes iconScale {
-                from {
-                  opacity: 0;
-                  transform: scale(0);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
-            `}</style>
           </div>
         </div>
       </main>
@@ -203,92 +157,86 @@ export default function DevisPage() {
           ))}
         </div>
 
+        {/* BROCHURE BUTTON CENTERED BETWEEN CARDS AND FORM */}
+        <div className="qc__brochure-container">
+          <a href="/brochure" className="qc__brochure-btn">
+            → Télécharger la brochure complète PDF
+          </a>
+        </div>
+
         <form className="qc__form" onSubmit={onSubmit}>
           <h2 className="qc__form-title">VOS INFORMATIONS</h2>
 
-          <div className="qc__grid">
+          <div className="qc__inputs-stack">
+            {/* Full Name */}
             <div className="qc__field">
-              <label className="qc__label">NOM COMPLET *</label>
               <div className="qc__input-wrapper">
                 <input
                   className="qc__input"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
+                  placeholder="NOM COMPLET *"
                   required
                 />
               </div>
             </div>
 
+            {/* Email */}
             <div className="qc__field">
-              <label className="qc__label">EMAIL *</label>
               <div className="qc__input-wrapper">
                 <input
                   className="qc__input"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  placeholder="EMAIL PRINCIPAL *"
                   required
                 />
               </div>
             </div>
 
+            {/* Phone */}
             <div className="qc__field">
-              <label className="qc__label">TÉLÉPHONE</label>
               <div className="qc__input-wrapper">
                 <input
                   className="qc__input"
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  placeholder="TÉLÉPHONE"
                 />
               </div>
             </div>
 
+            {/* Results Email */}
             <div className="qc__field">
-              <label className="qc__label">
-                EMAIL DE RÉCEPTION DES RÉSULTATS *
-              </label>
               <div className="qc__input-wrapper">
                 <input
                   className="qc__input"
                   type="email"
                   value={resultEmail}
                   onChange={(e) => setResultEmail(e.target.value)}
+                  placeholder="EMAIL DE RÉCEPTION DU DEVIS *"
                   required
+                />
+              </div>
+            </div>
+
+            {/* Message */}
+            <div className="qc__field">
+              <div className="qc__input-wrapper is-textarea">
+                <textarea
+                  className="qc__textarea"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={4}
+                  placeholder="MESSAGE / DÉTAILS DE VOTRE PROJET (OPTIONNEL)"
                 />
               </div>
             </div>
           </div>
 
-          <div className="qc__field">
-            <label className="qc__label">MESSAGE (OPTIONNEL)</label>
-            <div className="qc__input-wrapper" style={{ height: "auto" }}>
-              <textarea
-                className="qc__textarea"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                rows={4}
-              />
-            </div>
-          </div>
-
-          <div className="qc__brochure-box">
-            <a href="/brochure" className="qc__brochure-link">
-              → Télécharger la brochure complète PDF
-            </a>
-          </div>
-
-          {error && (
-            <div
-              style={{
-                color: "#ff4444",
-                fontWeight: "700",
-                marginBottom: "20px",
-              }}
-            >
-              ⚠️ {error}
-            </div>
-          )}
+          {error && <div className="qc__error">⚠️ {error}</div>}
 
           <div className="qc__actions">
             <button

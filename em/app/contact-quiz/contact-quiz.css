@@ -4,7 +4,7 @@
   --qc-fg: #fff;
   --qc-fg-dim: rgba(255, 255, 255, 0.85);
   --qc-bg: #000;
-  --qc-border: rgba(255, 255, 255, 0.9);
+  --qc-border: rgba(255, 255, 255, 0.3);
 }
 
 .qc {
@@ -25,7 +25,7 @@
 .qc__head {
   text-align: left;
   max-width: 900px;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
 }
 
 .qc__title {
@@ -58,25 +58,52 @@
   border: 1.5px solid rgba(255, 255, 255, 0.1);
   padding: 32px;
   cursor: pointer;
-  transition: all 0.2s ease;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
 }
 
-.qc__card:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-4px);
+.qc__card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: 2;
+}
+
+.qc__card:hover:not(.is-selected) {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(239, 68, 68, 0.1);
+}
+
+.qc__card:hover::after {
+  left: 100%;
 }
 
 .qc__card.is-selected {
   background: #fff;
   color: #000;
   border-color: #fff;
+  transform: translateY(-4px);
 }
 
-.qc__card-head {
-  margin-bottom: 24px;
+.qc__card-head,
+.qc__card-desc,
+.qc__features {
+  position: relative;
+  z-index: 3;
 }
 
 .qc__card-title {
@@ -92,59 +119,99 @@
   display: block;
 }
 
-.qc__card-desc {
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 24px;
-  opacity: 0.8;
-}
-
 .qc__features {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 20px 0 0;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.qc__features li {
-  margin-bottom: 12px;
-  display: flex;
-  gap: 8px;
 }
 
 .qc__features li::before {
-  content: "→";
+  content: "→ ";
+}
+
+/* ===== NEW: Brochure Button (Centered between cards and form) ===== */
+.qc__brochure-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.qc__brochure-btn {
+  display: inline-block;
+  padding: 18px 36px;
+  background: transparent;
+  border: 1.5px solid #fff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+/* Matching Card Shimmer */
+.qc__brochure-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: 2;
+}
+
+/* Matching Card Hover Effect */
+.qc__brochure-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(239, 68, 68, 0.1);
+}
+
+.qc__brochure-btn:hover::after {
+  left: 100%;
 }
 
 /* ===== Form Layout ===== */
 .qc__form-title {
-  font-weight: 900;
+  font-weight: 800;
   font-size: 24px;
   text-transform: uppercase;
   margin-bottom: 32px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #fff;
 }
 
-.qc__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+.qc__inputs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
 }
 
 .qc__field {
-  margin-bottom: 24px;
+  width: 100%;
 }
 
 .qc__label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-weight: 800;
   font-size: 14px;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* ===== Input System ===== */
@@ -152,8 +219,9 @@
   position: relative;
   width: 100%;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--qc-border);
   clip-path: polygon(0 0, 98.5% 0, 100% 100%, 0 100%);
+  transition: background-color 0.2s ease;
 }
 
 .qc__input-wrapper::before {
@@ -163,6 +231,10 @@
   background-color: var(--qc-bg);
   clip-path: polygon(0 0, 98.5% 0, 100% 100%, 0 100%);
   z-index: 1;
+}
+
+.qc__input-wrapper.is-textarea {
+  height: 160px;
 }
 
 .qc__input,
@@ -180,13 +252,13 @@
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .qc__textarea {
-  height: 160px;
   padding: 20px 24px;
-  text-transform: none;
+  resize: none;
 }
 
 .qc__input-wrapper:hover,
@@ -194,24 +266,16 @@
   background-color: #fff;
 }
 
-/* ===== Brochure & Actions ===== */
-.qc__brochure-box {
-  margin: 40px 0;
-  text-align: left;
-}
-
-.qc__brochure-link {
-  color: var(--qc-fg-dim);
-  text-decoration: underline;
+.qc__error {
+  color: #ff4444;
   font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
 .qc__actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .qc__btn {
@@ -222,10 +286,11 @@
   font-weight: 900;
   font-size: 14px;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
   border: 0;
   cursor: pointer;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .qc__btn:hover:not(:disabled) {
@@ -233,13 +298,59 @@
   background: #f5f5f5;
 }
 
-/* Mobile */
+.qc__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success State Styles */
+.qc__success {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 60px 24px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: successFadeIn 0.5s ease-out;
+}
+
+.qc__success-icon {
+  width: 64px;
+  height: 64px;
+  background: #fff;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+@keyframes successFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes iconScale {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 768px) {
   .qc__wrap {
     padding-top: 100px;
-  }
-  .qc__grid {
-    grid-template-columns: 1fr;
   }
   .qc__actions {
     justify-content: center;
