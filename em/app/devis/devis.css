@@ -67,7 +67,6 @@
   position: relative;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.3);
-  /* Geometric slant */
   clip-path: polygon(0 0, 99% 0, 100% 100%, 0 100%);
   transition: background-color 0.2s ease;
 }
@@ -108,7 +107,7 @@
   padding: 20px 24px;
   min-height: 200px;
   resize: vertical;
-  text-transform: none; /* Textarea usually stays normal case */
+  text-transform: none;
 }
 
 .qf__input-wrapper:hover,
@@ -116,7 +115,7 @@
   background-color: #fff;
 }
 
-/* ===== Select/Dropdown Custom Style ===== */
+/* ===== Select/Dropdown Custom Style (MODIFIED) ===== */
 .qf__select-trigger {
   display: flex;
   align-items: center;
@@ -149,31 +148,37 @@
 }
 
 .qf__menu.is-open {
-  max-height: 1000px;
+  /* Increased max-height to accommodate a long vertical list */
+  max-height: 2000px;
   transition: max-height 0.4s ease-in;
   padding: 24px;
 }
 
+/* CHANGED: From Grid to Flex Column for One Item Per Row */
 .qf__menuGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Gaps removed, spacing handled by padding/border */
 }
 
-/* ===== Custom Checkboxes (Matches Mini Test) ===== */
+/* ===== Custom Checkboxes (Matches Reference Page) ===== */
 .qf__option {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
+  justify-content: space-between; /* Label left, Checkbox right */
+  gap: 16px;
+  padding: 16px 0; /* Increased padding for better row separation */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 16px; /* Matches reference size */
   color: var(--qf-fg-dim);
-  transition: color 0.2s;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  width: 100%; /* Force full width */
 }
 
+/* Added Hover effect similar to reference */
 .qf__option:hover {
+  border-color: rgba(255, 255, 255, 0.35);
   color: #fff;
 }
 
@@ -183,9 +188,12 @@
   width: 20px;
   height: 20px;
   background-color: var(--qf-border);
+  /* Trapezoid Shape */
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   position: relative;
   cursor: pointer;
+  flex: 0 0 auto;
+  transition: background-color 0.2s ease;
 }
 
 .qf__check::before {
@@ -194,6 +202,7 @@
   inset: 1.5px;
   background-color: var(--qf-bg);
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
+  z-index: 1;
 }
 
 .qf__check::after {
@@ -204,10 +213,16 @@
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   transform: scale(0);
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
 }
 
 .qf__check:checked::after {
   transform: scale(1);
+}
+
+.qf__check:checked,
+.qf__check:hover {
+  background-color: #fff;
 }
 
 /* ===== Actions ===== */
@@ -255,8 +270,5 @@
   }
   .qf__btn {
     width: 100%;
-  }
-  .qf__menuGrid {
-    grid-template-columns: 1fr;
   }
 }

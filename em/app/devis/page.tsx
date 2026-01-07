@@ -221,6 +221,8 @@ export default function DevisPage() {
                 />
               </button>
             </div>
+
+            {/* The menu grid is now styled to be 1 column per row via CSS */}
             <div className={`qf__menu ${servicesOpen ? "is-open" : ""}`}>
               <div className="qf__menuGrid">
                 {options.map(([key, label]) => (
