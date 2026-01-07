@@ -91,7 +91,7 @@
   width: 100%; /* Changed from max-width 450px to full width */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
-  cursor: pointer;
+  cursor: none;
 }
 
 .mt__row:hover {
@@ -140,6 +140,12 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+.mt__input::placeholder {
+  color: #fff;
+  opacity: 1; /* Forces white color on Firefox */
+  font-weight: 800; /* Extra bold for label look */
+  text-transform: uppercase;
+}
 
 .mt__input-wrapper:hover,
 .mt__input-wrapper:focus-within {
@@ -157,7 +163,7 @@
   position: relative;
   background-color: var(--mt-border);
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
-  cursor: pointer;
+  cursor: none;
 }
 
 .mt__radio::before,
@@ -202,7 +208,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 0;
-  cursor: pointer;
+  cursor: none;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);
   transition: transform 0.2s ease, background 0.2s ease;
 }

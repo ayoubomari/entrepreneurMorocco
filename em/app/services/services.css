@@ -55,7 +55,7 @@
 .services-wrap {
   max-width: 80rem; /* Matches max-w-7xl / 1280px from Benefits */
   margin: 0 auto;
-  padding: 140px 1.5rem 0; /* Aligned with reference */
+  padding: 60px 1.5rem 0; /* Aligned with reference */
   position: relative;
   z-index: 10;
 }

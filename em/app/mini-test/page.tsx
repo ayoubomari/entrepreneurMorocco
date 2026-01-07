@@ -65,7 +65,50 @@ export default function MiniTestPage() {
 
   if (isSuccess) {
     return (
-      <main className="mintest">
+      <main className="mintest relative overflow-hidden">
+        {/* Background Cloud Divs */}
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "0px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            top: "800px",
+            transform: "translateY(-50%)",
+            left: "-30%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "1400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+
         <div className="mt__wrap">
           <div
             className="mt__success"
@@ -141,7 +184,50 @@ export default function MiniTestPage() {
   }
 
   return (
-    <main className="mintest">
+    <main className="mintest relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       <div className="mt__wrap">
         <header className="mt__head">
           <h1 className="mt__title">MINI TEST : PAR OÙ COMMENCER ?</h1>
@@ -208,7 +294,7 @@ export default function MiniTestPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="VOTRE EMAIL (OBLIGATOIRE) :"
+                placeholder="EMAIL (OBLIGATOIRE) :"
                 disabled={isSubmitting}
                 autoComplete="email"
               />

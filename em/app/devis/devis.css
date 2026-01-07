@@ -54,14 +54,6 @@
   margin-bottom: 34px;
 }
 
-.qf__label {
-  display: block;
-  margin-bottom: 14px;
-  font-weight: 800;
-  font-size: 20px;
-  text-transform: uppercase;
-}
-
 /* ===== Geometric Input Wrapper ===== */
 .qf__input-wrapper {
   position: relative;
@@ -93,9 +85,18 @@
   color: #fff;
   font-family: inherit;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   padding: 0 24px;
+}
+
+/* Placeholder Styling */
+.qf__input::placeholder,
+.qf__textarea::placeholder {
+  color: #fff;
+  opacity: 1;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .qf__input,
@@ -110,18 +111,26 @@
   text-transform: none;
 }
 
+.qf__textarea::placeholder {
+  text-transform: uppercase;
+}
+
 .qf__input-wrapper:hover,
 .qf__input-wrapper:focus-within {
   background-color: #fff;
 }
 
-/* ===== Select/Dropdown Custom Style (MODIFIED) ===== */
+/* ===== Select/Dropdown Custom Style ===== */
 .qf__select-trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+  cursor: none;
   text-align: left;
+}
+
+.qf__select-trigger span {
+  font-weight: 800;
 }
 
 .qf__caret {
@@ -138,45 +147,64 @@
   transform: rotate(-135deg);
 }
 
+/* ===== Updated Dropdown Menu (Matches Input Style) ===== */
 .qf__menu {
+  position: relative;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: none;
+  margin-top: 4px; /* Space between input and dropdown */
+  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1),
+    background-color 0.2s ease;
+
+  /* Outer "border" layer */
+  background-color: rgba(255, 255, 255, 0.3);
+  clip-path: polygon(0 0, 99% 0, 100% 100%, 0 100%);
+}
+
+.qf__menu::before {
+  content: "";
+  position: absolute;
+  inset: 1.5px;
+  background-color: var(--qf-bg);
+  clip-path: polygon(0 0, 99% 0, 100% 100%, 0 100%);
+  z-index: 1;
 }
 
 .qf__menu.is-open {
-  /* Increased max-height to accommodate a long vertical list */
   max-height: 2000px;
   transition: max-height 0.4s ease-in;
   padding: 24px;
 }
 
-/* CHANGED: From Grid to Flex Column for One Item Per Row */
-.qf__menuGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 0; /* Gaps removed, spacing handled by padding/border */
+/* Hover and Focus interaction */
+.qf__menu:hover,
+.qf__field:focus-within .qf__menu {
+  background-color: #fff;
 }
 
-/* ===== Custom Checkboxes (Matches Reference Page) ===== */
+.qf__menuGrid {
+  position: relative;
+  z-index: 2; /* Sits above the pseudo-background */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ===== Custom Checkboxes ===== */
 .qf__option {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Label left, Checkbox right */
+  justify-content: space-between;
   gap: 16px;
-  padding: 16px 0; /* Increased padding for better row separation */
+  padding: 16px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  font-size: 16px; /* Matches reference size */
+  cursor: none;
+  font-size: 16px;
   color: var(--qf-fg-dim);
   transition: border-color 0.15s ease, color 0.15s ease;
-  width: 100%; /* Force full width */
+  width: 100%;
 }
 
-/* Added Hover effect similar to reference */
 .qf__option:hover {
   border-color: rgba(255, 255, 255, 0.35);
   color: #fff;
@@ -188,10 +216,9 @@
   width: 20px;
   height: 20px;
   background-color: var(--qf-border);
-  /* Trapezoid Shape */
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   position: relative;
-  cursor: pointer;
+  cursor: none;
   flex: 0 0 auto;
   transition: background-color 0.2s ease;
 }
@@ -242,7 +269,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 0;
-  cursor: pointer;
+  cursor: none;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);
   transition: transform 0.2s ease, background 0.2s ease;
 }

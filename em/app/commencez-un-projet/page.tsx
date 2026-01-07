@@ -112,7 +112,50 @@ export default function CommencezUnProjetPage() {
 
   if (isSuccess) {
     return (
-      <main className="cproj">
+      <main className="cproj relative overflow-hidden">
+        {/* Background Cloud Divs */}
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "0px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            top: "800px",
+            transform: "translateY(-50%)",
+            left: "-30%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "1400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+
         <div className="cproj__wrap">
           <div
             className="cproj__success"
@@ -179,7 +222,50 @@ export default function CommencezUnProjetPage() {
   }
 
   return (
-    <main className="cproj">
+    <main className="cproj relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       <div className="cproj__wrap">
         <header className="cproj__head">
           <h1 className="cproj__title">DITES-NOUS OÙ VOUS EN ÊTES</h1>

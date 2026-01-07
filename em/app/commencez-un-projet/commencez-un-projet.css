@@ -120,7 +120,7 @@
   background-color: var(--cproj-border);
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   transition: background-color 0.2s ease;
-  cursor: pointer;
+  cursor: none;
 }
 
 .cproj__radio::before,
@@ -232,7 +232,7 @@
   border: 0;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);
   transition: transform 0.18s ease, background 0.18s ease;
-  cursor: pointer;
+  cursor: none;
 }
 
 .cproj__btn:hover:not(:disabled) {

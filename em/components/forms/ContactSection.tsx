@@ -172,7 +172,6 @@ const ContactSection = () => {
                   onChange={handlePhoneChange}
                   disabled={isSubmitting}
                   autoComplete="tel"
-                  placeholder="0612345678"
                   pattern="[\d\s\-\(\)\+]*"
                   inputMode="numeric"
                 />
@@ -190,7 +189,6 @@ const ContactSection = () => {
                 value={formData.message}
                 onChange={handleInputChange}
                 disabled={isSubmitting}
-                placeholder="Décrivez votre projet, vos besoins ou vos questions..."
               />
             </div>
 

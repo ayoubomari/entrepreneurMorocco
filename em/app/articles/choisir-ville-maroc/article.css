@@ -474,7 +474,7 @@ body {
   padding: 1rem 2rem;
   border-radius: 0.75rem;
   border: none;
-  cursor: pointer;
+  cursor: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
   display: inline-flex;
   align-items: center;

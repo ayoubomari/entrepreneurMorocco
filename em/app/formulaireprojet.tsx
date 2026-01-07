@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import "./formulaireprojet.css";
 
-
 /**
  * Drop this file at: app/plan/page.tsx (Next.js App Router)
  * TailwindCSS required.
@@ -151,9 +150,10 @@ export default function PlanPage() {
               <input
                 type="email"
                 required
-                placeholder="votre@email.com"
                 value={form.email}
-                onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, email: e.target.value }))
+                }
                 className="w-full bg-transparent text-white placeholder:text-neutral-600 border border-neutral-500 rounded-md px-4 py-3 md:py-3.5 focus:outline-none focus:ring-2 focus:ring-white/40"
               />
             </div>
@@ -164,9 +164,10 @@ export default function PlanPage() {
               </label>
               <input
                 type="tel"
-                placeholder="06 12 34 56 78"
                 value={form.phone}
-                onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, phone: e.target.value }))
+                }
                 className="w-full bg-transparent text-white placeholder:text-neutral-600 border border-neutral-500 rounded-md px-4 py-3 md:py-3.5 focus:outline-none focus:ring-2 focus:ring-white/40"
               />
             </div>
@@ -178,7 +179,9 @@ export default function PlanPage() {
               type="submit"
               className="relative inline-flex items-center justify-center px-6 md:px-7 py-3 md:py-3.5 bg-white text-black font-medium shadow-lg transition-transform active:scale-[0.99] skew-x-[-12deg] rounded-md"
             >
-              <span className="skew-x-[12deg]">Recevoir mon plan personnalisé</span>
+              <span className="skew-x-[12deg]">
+                Recevoir mon plan personnalisé
+              </span>
             </button>
           </div>
         </form>

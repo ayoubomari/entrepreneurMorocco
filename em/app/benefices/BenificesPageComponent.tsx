@@ -6,7 +6,50 @@ import "./benifices.css";
 
 export default function BenificesPageComponent(): React.ReactElement {
   return (
-    <main className="benefits-page">
+    <main className="benefits-page relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       {/* Wrapper matches Services Section: max-w-7xl, px-6 */}
       <div className="benefits-wrap">
         {/* Header */}

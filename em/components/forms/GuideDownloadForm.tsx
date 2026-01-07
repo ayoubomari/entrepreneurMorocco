@@ -297,7 +297,7 @@ const GuideDownloadForm = () => {
                     className="lm-input"
                     type="text"
                     name="firstName"
-                    placeholder="VOTRE PRÉNOM :"
+                    placeholder="VOTRE PRÉNOM:"
                     value={formData.firstName}
                     onChange={handleInputChange}
                     disabled={isSubmitting}
@@ -311,7 +311,7 @@ const GuideDownloadForm = () => {
                     className="lm-input"
                     type="email"
                     name="email"
-                    placeholder="VOTRE EMAIL :"
+                    placeholder="VOTRE EMAIL:"
                     value={formData.email}
                     onChange={handleInputChange}
                     disabled={isSubmitting}

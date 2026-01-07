@@ -346,7 +346,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  font-size: clamp(24px, 4.5vw, 36px);
+  font-size: clamp(20px, 4.5vw, 24px);
   width: 100%;
   text-align: left;
   grid-row: 1;
@@ -363,7 +363,7 @@
 /* Enhanced Description */
 .res-desc {
   color: rgba(255, 255, 255, 1);
-  font-size: clamp(16px, 2.2vw, 18px);
+  font-size: clamp(14px, 2.2vw, 15px);
   line-height: 1.6;
   text-align: left;
   max-width: 600px;
@@ -382,7 +382,7 @@
   display: inline-grid;
   place-items: center;
   text-align: center;
-  cursor: pointer;
+  cursor: none;
   width: 200px;
   aspect-ratio: 3.4 / 1;
   background: url("/ressourcebutton.svg") center / contain no-repeat;

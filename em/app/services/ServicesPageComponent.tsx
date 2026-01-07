@@ -135,7 +135,50 @@ export default function ServicesPageComponent(): React.ReactElement {
   ];
 
   return (
-    <main className="services-page">
+    <main className="services-page relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       <div className="services-wrap">
         <header className="services-header">
           <h1>Nos services pour entreprendre au Maroc et réussir</h1>

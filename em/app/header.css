@@ -13,7 +13,22 @@
   transform: translateY(0);
 }
 
-.hdr--scrolled {
+/* on scroll active in the start of the page */
+.hdr--scrolled.hdr--visible > .hdr__wrap {
+  margin-top: 35px;
+}
+@media (max-width: 979px) {
+  .hdr--scrolled.hdr--visible > .hdr__wrap {
+    padding-top: 10px;
+  }
+}
+
+/* on scroll in all pages */
+.hdr--scrolled.hdr--hidden.hdr--loaded {
+  .hdr__wrap {
+    padding-top: 0px;
+    margin-top: 35px;
+  }
 }
 
 /* Header stays fixed - no hide/show behavior */
@@ -343,7 +358,7 @@
   inset: 0;
   background: transparent;
   z-index: 35;
-  cursor: pointer;
+  cursor: none;
 }
 
 /* ===== RESPONSIVE ===== */

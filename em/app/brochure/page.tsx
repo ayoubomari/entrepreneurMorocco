@@ -45,7 +45,50 @@ export default function BrochurePage() {
 
   if (isSuccess) {
     return (
-      <main className="dlb">
+      <main className="dlb relative overflow-hidden">
+        {/* Background Cloud Divs */}
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "0px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            top: "800px",
+            transform: "translateY(-50%)",
+            left: "-30%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "1400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+
         <div className="dlb__wrap">
           <div
             className="dlb__success"
@@ -137,10 +180,53 @@ export default function BrochurePage() {
   }
 
   return (
-    <main className="dlb">
+    <main className="dlb relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       <div className="dlb__wrap">
         <header className="dlb__head">
-          <h1 className="dlb__title">TÉLÉCHARGER LA BROCHURE</h1>
+          <h1 className="dlb__title">TÉLÉCHARGER LA BROCHURE DE L’OFFRE</h1>
           <p className="dlb__lead">
             Lisez les détails complets de l'accompagnement (contenu, tarifs,
             délais…).
@@ -160,7 +246,7 @@ export default function BrochurePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="exemple@email.com"
+                  placeholder="EMAIL OBLIGATOIRE :"
                   disabled={isSubmitting}
                   autoComplete="email"
                 />

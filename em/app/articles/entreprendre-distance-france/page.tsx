@@ -19,7 +19,7 @@ const Article3Page: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white article-page-wrapper">
       {/* Navigation */}
-      <nav className="pt-[150px] md:pt-[225px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
+      <nav className="pt-[150px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"

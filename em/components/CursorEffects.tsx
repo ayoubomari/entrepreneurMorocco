@@ -13,16 +13,16 @@ export default function CursorEffects() {
     /* ─────────────────────────────
        1) Ensure layers
        ───────────────────────────── */
-    let blobLayer = document.getElementById(
-      "blob-layer"
-    ) as HTMLDivElement | null;
-    if (!blobLayer) {
-      blobLayer = document.createElement("div");
-      blobLayer.id = "blob-layer";
-      blobLayer.style.cssText =
-        "position:fixed;inset:0;z-index:10;pointer-events:none;";
-      document.body.appendChild(blobLayer);
-    }
+    // let blobLayer = document.getElementById(
+    //   "blob-layer"
+    // ) as HTMLDivElement | null;
+    // if (!blobLayer) {
+    //   blobLayer = document.createElement("div");
+    //   blobLayer.id = "blob-layer";
+    //   blobLayer.style.cssText =
+    //     "position:fixed;inset:0;z-index:10;pointer-events:none;";
+    //   document.body.appendChild(blobLayer);
+    // }
     if (!document.getElementById("site-bg")) {
       const siteBg = document.createElement("div");
       siteBg.id = "site-bg";
@@ -45,7 +45,7 @@ export default function CursorEffects() {
     /* ─────────────────────────────
        3) AKIRA-style trailing blobs
        ───────────────────────────── */
-    const mount = blobLayer ?? document.body;
+    // const mount = blobLayer ?? document.body;
     const trailCount = 5;
     const trails: HTMLDivElement[] = [];
 
@@ -70,7 +70,7 @@ export default function CursorEffects() {
         transition: opacity 0.3s ease;
         mix-blend-mode: screen;
       `;
-      mount.appendChild(trail);
+      // mount.appendChild(trail);
       trails.push(trail);
     }
 

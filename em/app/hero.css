@@ -215,7 +215,7 @@
   letter-spacing: 0.02em;
   text-decoration: none;
   border: none;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);

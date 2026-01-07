@@ -73,7 +73,40 @@ export default function DevisPage() {
 
   if (isSuccess) {
     return (
-      <main className="qf">
+      <main className="qf relative overflow-hidden">
+        {/* Background Cloud Divs */}
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "0px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            top: "800px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+
         <div className="qf__wrap">
           <div
             className="qf__success"
@@ -150,7 +183,40 @@ export default function DevisPage() {
   }
 
   return (
-    <main className="qf">
+    <main className="qf relative overflow-hidden">
+      {/* Background Cloud Divs - Scattered across the page */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+
       <div className="qf__wrap">
         <header className="qf__head">
           <h1 className="qf__title">DEMANDE DE DEVIS SUR-MESURE</h1>
@@ -162,7 +228,6 @@ export default function DevisPage() {
 
         <form className="qf__form" onSubmit={onSubmit}>
           <div className="qf__field">
-            <label className="qf__label">PRÉNOM & NOM :</label>
             <div className="qf__input-wrapper">
               <input
                 className="qf__input"
@@ -170,13 +235,13 @@ export default function DevisPage() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 disabled={isSubmitting}
+                placeholder="PRÉNOM & NOM :"
                 required
               />
             </div>
           </div>
 
           <div className="qf__field">
-            <label className="qf__label">EMAIL :</label>
             <div className="qf__input-wrapper">
               <input
                 className="qf__input"
@@ -184,13 +249,13 @@ export default function DevisPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
+                placeholder="EMAIL :"
                 required
               />
             </div>
           </div>
 
           <div className="qf__field">
-            <label className="qf__label">TÉLÉPHONE (OPTIONNEL) :</label>
             <div className="qf__input-wrapper">
               <input
                 className="qf__input"
@@ -198,12 +263,12 @@ export default function DevisPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 disabled={isSubmitting}
+                placeholder="TÉLÉPHONE :"
               />
             </div>
           </div>
 
           <div className="qf__field">
-            <label className="qf__label">SERVICES SOUHAITÉS :</label>
             <div className="qf__input-wrapper">
               <button
                 type="button"
@@ -213,8 +278,8 @@ export default function DevisPage() {
               >
                 <span>
                   {services.length > 0
-                    ? `${services.length} sélectionné(s)`
-                    : "SÉLECTIONNER..."}
+                    ? `${services.length} SÉLECTIONNÉ(S)`
+                    : "SERVICES DEMANDÉS (CASE À COCHER) :"}
                 </span>
                 <span
                   className={`qf__caret ${servicesOpen ? "is-open" : ""}`}
@@ -222,7 +287,6 @@ export default function DevisPage() {
               </button>
             </div>
 
-            {/* The menu grid is now styled to be 1 column per row via CSS */}
             <div className={`qf__menu ${servicesOpen ? "is-open" : ""}`}>
               <div className="qf__menuGrid">
                 {options.map(([key, label]) => (
@@ -242,14 +306,13 @@ export default function DevisPage() {
           </div>
 
           <div className="qf__field">
-            <label className="qf__label">VOTRE MESSAGE / PROJET :</label>
             <div className="qf__input-wrapper">
               <textarea
                 className="qf__textarea"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 disabled={isSubmitting}
-                placeholder="Décrivez votre besoin en quelques lignes..."
+                placeholder="DÉTAIL OU MESSAGE LIBRE :"
               />
             </div>
           </div>

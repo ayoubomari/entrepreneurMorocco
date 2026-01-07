@@ -93,7 +93,50 @@ export default function DevisPage() {
 
   if (isSuccess) {
     return (
-      <main className="qc">
+      <main className="qc relative overflow-hidden">
+        {/* Background Cloud Divs */}
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "0px",
+            transform: "translateY(-50%)",
+            left: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            top: "800px",
+            transform: "translateY(-50%)",
+            left: "-30%",
+          }}
+        ></div>
+        <div
+          className="cloud-red"
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            top: "1400px",
+            transform: "translateY(-50%)",
+            right: "-10%",
+          }}
+        ></div>
+
         <div className="qc__wrap">
           <div className="qc__success">
             <div className="qc__success-icon">
@@ -124,7 +167,50 @@ export default function DevisPage() {
   }
 
   return (
-    <main className="qc">
+    <main className="qc relative overflow-hidden">
+      {/* Background Cloud Divs */}
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "0px",
+          transform: "translateY(-50%)",
+          left: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "800px",
+          transform: "translateY(-50%)",
+          left: "-30%",
+        }}
+      ></div>
+      <div
+        className="cloud-red"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "1400px",
+          transform: "translateY(-50%)",
+          right: "-10%",
+        }}
+      ></div>
+
       <div className="qc__wrap">
         <header className="qc__head">
           <h1 className="qc__title">CHOISISSEZ VOTRE PACK D'ACCOMPAGNEMENT</h1>

@@ -180,13 +180,13 @@
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.02em;
-  font-size: clamp(14px, 2.5vw, 18px);
+  font-size: clamp(13px, 2.2vw, 14px);
   caret-color: #fff;
 }
 
 .lm-input::placeholder {
   color: rgba(255, 255, 255, 0.8);
-  font-size: clamp(13px, 2.2vw, 16px);
+  font-size: clamp(13px, 2.2vw, 14px);
 }
 
 /* Responsive button */
@@ -201,7 +201,7 @@
   font-size: 14px;
   padding: clamp(16px, 3vw, 22px) clamp(20px, 4vw, 28px);
   border: 0;
-  cursor: pointer;
+  cursor: none;
   transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
   width: 300px;
   margin-left: auto;
