@@ -3,12 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import "./benifices.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 export default function BenificesPageComponent(): React.ReactElement {
   return (
     <main className="benefits-page relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       {/* Wrapper matches Services Section: max-w-7xl, px-6 */}
       <div className="benefits-wrap">
@@ -23,9 +23,9 @@ export default function BenificesPageComponent(): React.ReactElement {
 
         {/* Intro */}
         <section className="benefits-intro">
-          <p className="intro-lead">
+          {/* <p className="intro-lead">
             Le Maroc est devenu une terre d’opportunités :
-          </p>
+          </p> */}
         </section>
 
         {/* KPI / Chiffres clés - Now with Shine Hover Effect */}

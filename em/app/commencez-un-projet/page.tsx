@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./commencez-un-projet.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 export default function CommencezUnProjetPage() {
   const [profile, setProfile] = useState<string | null>(null);
@@ -114,7 +114,7 @@ export default function CommencezUnProjetPage() {
   if (isSuccess) {
     return (
       <main className="cproj relative overflow-hidden">
-        <CloudRedEffect />
+        <CloudRedEffect1 />
 
         <div className="cproj__wrap">
           <div
@@ -183,7 +183,7 @@ export default function CommencezUnProjetPage() {
 
   return (
     <main className="cproj relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="cproj__wrap">
         <header className="cproj__head">

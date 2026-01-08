@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import "./formations.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 interface Formation {
   id: number;
@@ -63,7 +63,7 @@ export default function FormationsPageComponent(): React.ReactElement {
 
   return (
     <main className="formations-page relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="formations-wrap">
         <header className="formations-header">

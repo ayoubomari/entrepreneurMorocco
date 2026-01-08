@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./mini-test.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 export default function MiniTestPage() {
   const [project, setProject] = useState<string | null>(null);
@@ -67,7 +67,7 @@ export default function MiniTestPage() {
   if (isSuccess) {
     return (
       <main className="mintest relative overflow-hidden">
-        <CloudRedEffect />
+        <CloudRedEffect1 />
 
         <div className="mt__wrap">
           <div
@@ -145,7 +145,7 @@ export default function MiniTestPage() {
 
   return (
     <main className="mintest relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="mt__wrap">
         <header className="mt__head">

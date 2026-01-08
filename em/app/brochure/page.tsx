@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./brochure.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 export default function BrochurePage() {
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ export default function BrochurePage() {
     return (
       <main className="dlb relative overflow-hidden">
         {/* Background Cloud Divs */}
-        <CloudRedEffect />
+        <CloudRedEffect1 />
 
         <div className="dlb__wrap">
           <div
@@ -142,7 +142,7 @@ export default function BrochurePage() {
 
   return (
     <main className="dlb relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="dlb__wrap">
         <header className="dlb__head">

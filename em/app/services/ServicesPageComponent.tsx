@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import "./services.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 interface Service {
   id: number;
@@ -137,7 +137,7 @@ export default function ServicesPageComponent(): React.ReactElement {
 
   return (
     <main className="services-page relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="services-wrap">
         <header className="services-header">

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import "./setup.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 interface Step {
   id: number;
@@ -119,7 +119,7 @@ export default function SetupPageComponent(): React.ReactElement {
 
   return (
     <main className="setup-page relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="setup-wrap">
         <header className="setup-header">

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./contact-quiz.css";
-import CloudRedEffect from "@/components/CloudRedEffect";
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 export default function DevisPage() {
   const [selectedPlan, setSelectedPlan] = useState("");
@@ -95,7 +95,7 @@ export default function DevisPage() {
   if (isSuccess) {
     return (
       <main className="qc relative overflow-hidden">
-        <CloudRedEffect />
+        <CloudRedEffect1 />
 
         <div className="qc__wrap">
           <div className="qc__success">
@@ -128,7 +128,7 @@ export default function DevisPage() {
 
   return (
     <main className="qc relative overflow-hidden">
-      <CloudRedEffect />
+      <CloudRedEffect1 />
 
       <div className="qc__wrap">
         <header className="qc__head">

@@ -50,17 +50,14 @@
 }
 
 /* =========================================
-   WRAPPER (Layout Consistency)
+   WRAPPER
    ========================================= */
 .benefits-wrap {
-  /* Matches max-w-7xl and px-6 from Services */
-  max-width: 80rem; /* 1280px */
+  max-width: 80rem;
   margin: 0 auto;
-  padding: 60px 1.5rem 0; /* 24px */
+  padding: 60px 1.5rem 0;
   position: relative;
   z-index: 10;
-
-  /* Entrance Animation */
   opacity: 0;
   transform: translateY(30px);
   animation: sectionReveal 1s ease-out forwards;
@@ -95,7 +92,6 @@
   position: relative;
 }
 
-/* Red line added here */
 .benefits-header h2::after {
   content: "";
   position: absolute;
@@ -113,17 +109,6 @@
   font-size: clamp(16px, 2vw, 18px);
   font-weight: 400;
   line-height: 1.6;
-}
-
-.benefits-intro {
-  margin: 1rem 0 3rem;
-  text-align: center;
-}
-
-.intro-lead {
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 700;
 }
 
 /* =========================================
@@ -144,7 +129,6 @@
   display: inline-block;
 }
 
-/* Underline accent */
 .benefits-block__title::after {
   content: "";
   position: absolute;
@@ -156,7 +140,7 @@
 }
 
 /* =========================================
-   KPI GRID (Chiffres Clés) - With Shine Effect
+   KPI GRID (GLASS VERSION)
    ========================================= */
 .kpi-grid {
   display: grid;
@@ -179,15 +163,20 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  /* GLASS */
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+
   padding: 1.25rem;
   position: relative;
-  overflow: hidden; /* Necessary for the shine effect */
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-/* THE APPEALING HOVER EFFECT (Shine/Swipe) */
 .kpi-card::before {
   content: "";
   position: absolute;
@@ -201,16 +190,14 @@
     rgba(255, 255, 255, 0.1),
     transparent
   );
-  transition: left 0.5s ease;
+  transition: left 0.6s ease;
   z-index: 1;
-  pointer-events: none;
 }
 
 .kpi-card:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(239, 68, 68, 0.5); /* Red border on hover */
+  border-color: rgba(239, 68, 68, 0.5);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .kpi-card:hover::before {
@@ -225,31 +212,26 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   z-index: 2;
 }
 
 .kpi-content {
   z-index: 2;
 }
-
-.kpi-content .kpi-value {
+.kpi-value {
   color: #fff;
   font-weight: 800;
   font-size: 1.25rem;
-  line-height: 1.1;
   margin-bottom: 4px;
 }
-
-.kpi-content .kpi-label {
+.kpi-label {
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
-  font-weight: 400;
-  line-height: 1.4;
 }
 
 /* =========================================
-   LISTS & TESTIMONIALS
+   LIST ITEMS (GLASS VERSION)
    ========================================= */
 .benefits-list {
   list-style: none;
@@ -264,45 +246,40 @@
   display: grid;
   grid-template-columns: 28px 1fr;
   column-gap: 1rem;
-  align-items: start;
+  align-items: center;
+  /* GLASS */
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+
   padding: 1rem 1.25rem;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .benefits-list li:hover {
   background: rgba(255, 255, 255, 0.08);
-  transform: translateX(5px);
-}
-
-.benefit-text {
-  display: flex;
-  flex-direction: column;
-}
-
-@media (min-width: 768px) {
-  .benefit-text {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateX(10px);
 }
 
 .benefit-label {
   color: #fff;
   font-weight: 800;
 }
-
 .benefit-desc {
   color: rgba(255, 255, 255, 0.9);
 }
-
 .red-icon {
   filter: invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg)
     brightness(94%) contrast(91%);
 }
 
-/* Testimonials */
+/* =========================================
+   TESTIMONIALS (GLASS VERSION)
+   ========================================= */
 .testi-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -315,10 +292,46 @@
 }
 
 .testi-card {
+  /* GLASS */
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+
   padding: 1.5rem;
   color: rgba(255, 255, 255, 0.92);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.testi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.testi-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-5px);
+}
+
+.testi-card:hover::before {
+  left: 100%;
 }
 
 .testi-card p {
@@ -326,10 +339,14 @@
   font-weight: 600;
   font-size: 1.05rem;
   line-height: 1.5;
+  z-index: 2;
+  position: relative;
 }
 .testi-card footer {
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.9rem;
+  z-index: 2;
+  position: relative;
 }
 
 /* =========================================
@@ -348,20 +365,15 @@
   color: #fff;
   text-decoration: none;
   padding: 1.15rem 2.5rem;
-  border-radius: 12px;
   font-size: 1rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
   transition: all 0.3s ease;
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
   position: relative;
   overflow: hidden;
-  z-index: 5;
-  cursor: none;
 }
 
-/* Shine effect on Button */
 .cta-btn::before {
   content: "";
   position: absolute;
@@ -386,25 +398,13 @@
   transform: translateY(-3px);
   box-shadow: 0 12px 35px rgba(239, 68, 68, 0.4);
 }
-.cta-btn:active {
-  transform: translateY(-1px);
-}
 
 /* =========================================
-   RESPONSIVE ADJUSTMENTS
+   RESPONSIVE
    ========================================= */
 @media (max-width: 640px) {
-  .benefits-page {
-    padding: 60px 0;
-  }
   .benefits-wrap {
     padding-top: 190px;
-  }
-  .benefits-header h2 {
-    font-size: 26px;
-  }
-  .kpi-card {
-    padding: 1rem;
   }
   .cta-btn {
     width: 100%;
