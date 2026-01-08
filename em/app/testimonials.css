@@ -99,9 +99,10 @@
 .testimonials-description {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.2;
   font-size: clamp(16px, 2vw, 16px);
   margin: 0;
+  padding-bottom: 20px;
   text-align: center;
 }
 
@@ -179,7 +180,7 @@
 /* 2. The Inner Layer (Black Background) */
 .testimonial-card-inner {
   background-color: #000000;
-  padding: 2.5rem 2rem 2rem 2rem;
+  padding: 2.5rem 1.8rem 2rem 1.8rem;
   height: 100%;
 
   /* Matches outer clip-path exactly */
@@ -315,24 +316,35 @@
 .testimonial-name {
   color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
   margin-top: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   animation: contentFadeIn 0.8s ease-out 0.4s both;
+  line-height: 1.2rem;
+}
+/* Hide the break on mobile, show on large screens */
+.lg-only-break {
+  display: none;
 }
 
+@media (min-width: 1024px) {
+  .lg-only-break {
+    display: block;
+  }
+}
 .testimonial-subtitle {
-  color: #9ca3af;
-  font-size: 0.75rem;
+  color: #ffffff;
+  font-size: 0.85rem;
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.5s both;
+  line-height: 1rem;
 }
 
 .testimonial-quote {
   color: #d1d5db;
-  font-size: 0.7rem;
-  line-height: 1.625;
+  font-size: 0.85rem;
+  line-height: 1rem;
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.6s both;
 }
@@ -366,7 +378,7 @@
 }
 
 .star-empty {
-  color: #6b7280;
+  color: #ffffffd0;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;

@@ -146,12 +146,12 @@
   display: inline-block;
 
   /* Applying aus-title animation */
-  background: linear-gradient(45deg, #fff, #ff6b6b, #fff);
+  /* background: linear-gradient(45deg, #fff, #ff6b6b, #fff);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3s ease-in-out infinite;
+  animation: shimmer 3s ease-in-out infinite; */
 }
 
 .wave-caption__subtitle {

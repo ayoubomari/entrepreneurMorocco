@@ -43,12 +43,13 @@
   letter-spacing: 0.02em; /* Changed from 0.01em to 0.02em */
   line-height: 1.1; /* Changed from 1.05 to 1.1 */
   font-size: clamp(28px, 5vw, 36px); /* Changed from 40px to 36px */
-  background: linear-gradient(45deg, #fff, #ef4444, #fff);
+
+  /* background: linear-gradient(45deg, #fff, #ef4444, #fff);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3s ease-in-out infinite; /* Kept red animation */
+  animation: shimmer 3s ease-in-out infinite;  */
 }
 
 .faq-sub {
@@ -56,7 +57,7 @@
   color: rgba(255, 255, 255, 0.85); /* Changed from .9 to .85 */
   font-weight: 400; /* Added font-weight 400 */
   font-size: clamp(16px, 2vw, 16px); /* Changed from 2.5vw, 20px to 2vw, 16px */
-  line-height: 1.6; /* Changed from 1.55 to 1.6 */
+  line-height: 1.3; /* Changed from 1.55 to 1.6 */
   opacity: 0;
   animation: fadeIn 1s ease-out 1s forwards;
 }
@@ -238,7 +239,7 @@
 .fq-a {
   padding: 0 clamp(20px, 4vw, 32px) clamp(20px, 4vw, 28px);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.3;
   color: #1a1a1a;
   animation: fqFade 0.35s ease both;
 }

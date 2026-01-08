@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./brochure.css";
+import CloudRedEffect from "@/components/CloudRedEffect";
 
 export default function BrochurePage() {
   const [email, setEmail] = useState("");
@@ -47,47 +48,7 @@ export default function BrochurePage() {
     return (
       <main className="dlb relative overflow-hidden">
         {/* Background Cloud Divs */}
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "0px",
-            transform: "translateY(-50%)",
-            left: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "400px",
-            transform: "translateY(-50%)",
-            right: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            pointerEvents: "none",
-            top: "800px",
-            transform: "translateY(-50%)",
-            left: "-30%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "1400px",
-            transform: "translateY(-50%)",
-            right: "-10%",
-          }}
-        ></div>
+        <CloudRedEffect />
 
         <div className="dlb__wrap">
           <div
@@ -181,48 +142,7 @@ export default function BrochurePage() {
 
   return (
     <main className="dlb relative overflow-hidden">
-      {/* Background Cloud Divs */}
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "0px",
-          transform: "translateY(-50%)",
-          left: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "400px",
-          transform: "translateY(-50%)",
-          right: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          pointerEvents: "none",
-          top: "800px",
-          transform: "translateY(-50%)",
-          left: "-30%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "1400px",
-          transform: "translateY(-50%)",
-          right: "-10%",
-        }}
-      ></div>
+      <CloudRedEffect />
 
       <div className="dlb__wrap">
         <header className="dlb__head">

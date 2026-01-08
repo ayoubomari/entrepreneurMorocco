@@ -181,7 +181,6 @@
   gap: 14px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
   padding: 1.25rem;
   position: relative;
   overflow: hidden; /* Necessary for the shine effect */
@@ -268,7 +267,6 @@
   align-items: start;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
   padding: 1rem 1.25rem;
   transition: transform 0.2s ease;
 }
@@ -293,7 +291,6 @@
 .benefit-label {
   color: #fff;
   font-weight: 800;
-  white-space: nowrap;
 }
 
 .benefit-desc {
@@ -320,7 +317,6 @@
 .testi-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
   padding: 1.5rem;
   color: rgba(255, 255, 255, 0.92);
 }

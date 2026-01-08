@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./devis.css";
+import CloudRedEffect from "@/components/CloudRedEffect";
 
 export default function DevisPage() {
   const [fullName, setFullName] = useState("");
@@ -74,38 +75,7 @@ export default function DevisPage() {
   if (isSuccess) {
     return (
       <main className="qf relative overflow-hidden">
-        {/* Background Cloud Divs */}
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "0px",
-            transform: "translateY(-50%)",
-            left: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "400px",
-            transform: "translateY(-50%)",
-            right: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            pointerEvents: "none",
-            top: "800px",
-            transform: "translateY(-50%)",
-            left: "-10%",
-          }}
-        ></div>
+        <CloudRedEffect />
 
         <div className="qf__wrap">
           <div
@@ -184,38 +154,7 @@ export default function DevisPage() {
 
   return (
     <main className="qf relative overflow-hidden">
-      {/* Background Cloud Divs - Scattered across the page */}
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "0px",
-          transform: "translateY(-50%)",
-          left: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "400px",
-          transform: "translateY(-50%)",
-          right: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          pointerEvents: "none",
-          top: "800px",
-          transform: "translateY(-50%)",
-          left: "-10%",
-        }}
-      ></div>
+      <CloudRedEffect />
 
       <div className="qf__wrap">
         <header className="qf__head">

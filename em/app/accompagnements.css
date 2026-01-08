@@ -91,7 +91,7 @@
 .acc-wrap p {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.2;
   font-size: clamp(16px, 2vw, 16px);
   max-width: 900px;
   margin: 0 auto;
@@ -138,7 +138,7 @@
 
   /* Exact Dimensions */
   height: 56px;
-  padding: 0 35px;
+  padding: 0 40px;
   min-width: 200px; /* Ensures consistent width */
 
   /* Font Styling (Matching Hero) */

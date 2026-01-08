@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./mini-test.css";
+import CloudRedEffect from "@/components/CloudRedEffect";
 
 export default function MiniTestPage() {
   const [project, setProject] = useState<string | null>(null);
@@ -66,48 +67,7 @@ export default function MiniTestPage() {
   if (isSuccess) {
     return (
       <main className="mintest relative overflow-hidden">
-        {/* Background Cloud Divs */}
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "0px",
-            transform: "translateY(-50%)",
-            left: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "400px",
-            transform: "translateY(-50%)",
-            right: "-10%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            pointerEvents: "none",
-            top: "800px",
-            transform: "translateY(-50%)",
-            left: "-30%",
-          }}
-        ></div>
-        <div
-          className="cloud-red"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            top: "1400px",
-            transform: "translateY(-50%)",
-            right: "-10%",
-          }}
-        ></div>
+        <CloudRedEffect />
 
         <div className="mt__wrap">
           <div
@@ -185,48 +145,7 @@ export default function MiniTestPage() {
 
   return (
     <main className="mintest relative overflow-hidden">
-      {/* Background Cloud Divs */}
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "0px",
-          transform: "translateY(-50%)",
-          left: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "400px",
-          transform: "translateY(-50%)",
-          right: "-10%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          pointerEvents: "none",
-          top: "800px",
-          transform: "translateY(-50%)",
-          left: "-30%",
-        }}
-      ></div>
-      <div
-        className="cloud-red"
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          top: "1400px",
-          transform: "translateY(-50%)",
-          right: "-10%",
-        }}
-      ></div>
+      <CloudRedEffect />
 
       <div className="mt__wrap">
         <header className="mt__head">

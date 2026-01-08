@@ -29,6 +29,7 @@ export default function Header() {
     "/commencez-un-projet",
     "/mini-test",
     "/contact-quiz",
+    "/brochure",
   ];
 
   // Check if the current path starts with any of the defined paths

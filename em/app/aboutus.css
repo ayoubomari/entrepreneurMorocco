@@ -34,12 +34,6 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   margin: 0;
-  background: linear-gradient(45deg, #fff, #ff6b6b, #fff);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s ease-in-out infinite;
 }
 
 /* =========================================
@@ -54,15 +48,15 @@
 }
 
 /* 
-   CHANGED: Increased from 768px to 1024px 
-   This prevents the "half-width" issue on screens like 858px.
+   LARGE SCREEN CONFIGURATION
 */
 @media (min-width: 1024px) {
   .aus-grid {
-    gap: 40px;
+    gap: 48px; /* Slightly increased gap */
     align-content: flex-end;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-wrap: nowrap; /* Prevent wrapping on large screens so side-by-side logic holds */
   }
 }
 
@@ -71,17 +65,21 @@
    ========================================= */
 .aus-photoCol {
   position: relative;
-  width: 100%; /* Default to 100% */
+  width: 100%; /* Default to 100% on mobile */
   opacity: 0;
   animation: slideInRight 1.2s ease-out 1.2s forwards;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* CHANGED: Increased from 768px to 1024px */
+/* 
+   CHANGED: Configuration for Big Screens 
+   flex: 0 0 400px -> Don't grow, Don't shrink, Fixed at 400px
+*/
 @media (min-width: 1024px) {
   .aus-photoCol {
-    width: 45%;
-    max-width: 500px;
+    flex: 0 0 400px;
+    width: 400px;
+    min-width: 400px; /* Forces browser to respect the width */
     margin: 0;
   }
 }
@@ -109,17 +107,23 @@
   display: flex;
   flex-direction: column;
   gap: clamp(16px, 3vw, 24px);
-  width: 100%; /* Default to 100% */
+  width: 100%; /* Default to 100% on mobile */
   opacity: 0;
   animation: slideInLeft 1.2s ease-out 1s forwards;
 }
 
-/* CHANGED: Increased from 768px to 1024px */
+/* 
+   CHANGED: Configuration for Big Screens
+   flex: 1 1 auto -> Grow to fill space, Shrink if space is tight.
+*/
 @media (min-width: 1024px) {
   .aus-content {
-    width: 50%;
-    padding-left: 10px;
-    gap: clamp(8px, 2vw, 10px);
+    flex: 1 1 auto;
+    width: auto;
+    gap: clamp(8px, 2vw, 12px);
+    padding-left: 20px;
+    padding-right: 65px;
+    padding-top: 20px;
   }
 }
 
@@ -127,9 +131,9 @@
    TYPOGRAPHY
    ========================================= */
 .aus-p {
-  font-size: clamp(12px, 2vw, 15px);
+  font-size: clamp(14px, 2vw, 16px);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
   text-align: center;
@@ -163,6 +167,14 @@
   }
 }
 
+.aus-list {
+  list-style: disc;
+  padding-left: 20px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 10px 0;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
 .aus-highlight {
   font-size: clamp(12px, 2vw, 15px);
   font-weight: 500;
@@ -193,20 +205,19 @@
    ========================================= */
 
 /* 
-   ADJUSTED: Now targeting Tablets specifically between 481px and 1023px 
-   to ensure the image is centered and good width when stacked.
+   Tablets (between 481px and 1023px) 
 */
 @media (min-width: 481px) and (max-width: 1023px) {
   .aus-grid {
     gap: 40px;
   }
   .aus-photoCol {
-    width: 80%; /* Nice width for tablet view */
+    width: 100%; /* Nice width for tablet view */
     margin: 0 auto;
   }
 }
 
-/* Keyframes (unchanged) */
+/* Keyframes */
 @keyframes fadeInUp {
   from {
     opacity: 0;

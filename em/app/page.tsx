@@ -499,7 +499,8 @@ const TestimonialsSection = () => {
       rating: 4,
     },
     {
-      name: "Nadia & Karim B., Couple franco-marocain",
+      // UPDATED HERE: Added \n
+      name: "Nadia & Karim B., Couple\nfranco-marocain",
       subtitle: "Paris → Marrakech | Installés depuis septembre 2023",
       content:
         "On voulait revenir vivre au Maroc avec notre fille, mais on avait peur des démarches et de la scolarisation.\nGrâce au Pack Family, tout a été pris en charge : logement, école AEFE, démarches pour la carte de séjour...\nOn a même eu un accueil VIP à l'aéroport.\nRien à redire !",
@@ -529,15 +530,13 @@ const TestimonialsSection = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             {isFilled || isHalf ? (
-              // Sharp 6-pointed star (filled)
               <polygon points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9" />
             ) : (
-              // Sharp 6-pointed star (outline only)
               <polygon
                 points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="0.9"
               />
             )}
           </svg>
@@ -549,23 +548,21 @@ const TestimonialsSection = () => {
   return (
     <section className="testimonials-section">
       <div className="testimonials-container max-w-7xl mx-auto px-6">
-        {/* Header (Same as before) */}
         <div className="testimonials-header">
           <h2 className="testimonials-title">ILS L&apos;ONT FAIT AVEC NOUS</h2>
           <div className="testimonials-content-wrapper">
             <p className="testimonials-description">
               Découvrez comment nos clients ont concrétisé leur projet au Maroc,
+              <br />
               en quelques semaines, grâce à notre accompagnement sur mesure.
             </p>
           </div>
         </div>
 
-        {/* Testimonials Grid */}
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
-            /* WRAPPER: Handles Animation & Layout */
             <div key={index} className="testimonial-wrapper">
-              {/* 1. PROFILE ICON (Absolute, outside the clip-path) */}
+              {/* 1. PROFILE ICON */}
               <div className="profile-icon">
                 <div className="profile-circle">
                   <svg
@@ -584,12 +581,22 @@ const TestimonialsSection = () => {
                 </div>
               </div>
 
-              {/* 2. CARD (The Shape & Border) */}
+              {/* 2. CARD */}
               <div className="testimonial-card">
-                {/* 3. INNER (The Black Background & Content) */}
+                {/* 3. INNER */}
                 <div className="testimonial-card-inner">
-                  <h3 className="testimonial-name">{testimonial.name}</h3>
+                  {/* UPDATED HERE: Split logic added for Name */}
+                  <h3 className="testimonial-name">
+                    {testimonial.name.split("\n").map((line, i, arr) => (
+                      <span key={i}>
+                        {line}
+                        {i < arr.length - 1 && <br />}
+                      </span>
+                    ))}
+                  </h3>
+
                   <p className="testimonial-subtitle">{testimonial.subtitle}</p>
+
                   <blockquote className="testimonial-quote">
                     "
                     {testimonial.content.split("\n").map((line, i, arr) => (
@@ -610,7 +617,6 @@ const TestimonialsSection = () => {
     </section>
   );
 };
-
 /* =========================
    Network – Infinite Auto Carousel
    ========================= */
@@ -684,7 +690,6 @@ const NetworkSection = () => {
 /* =========================
    Podcast
    ========================= */
-
 const PodcastSection = () => {
   // Base items - you can add more here for variety
   const base = useMemo(
@@ -991,8 +996,9 @@ const PodcastSection = () => {
         <div className="pod-content">
           <p className="pod-sub">
             Découvrez les coulisses de l'entrepreneuriat au Maroc à travers des
-            échanges inspirants avec des experts, entrepreneurs, et MRE qui ont
-            franchi le pas.
+            échanges inspirants avec des experts, entrepreneurs,
+            <br className="pod-desktop-br" />
+            et MRE qui ont franchi le pas.
           </p>
         </div>
       </div>
@@ -1017,7 +1023,6 @@ const PodcastSection = () => {
                   </div>
 
                   {/* The play video button element has been removed from here. 
-                  
                   <div className="pod-play">
                     <svg
                       className="pod-play-ico"
@@ -1100,17 +1105,17 @@ const ResourcesSection = () => {
 
         <div className="res-grid">
           {articles.map((a, idx) => (
-            <article key={a.id} className="res-item">
-              {/* Combined title with natural flow */}
-              <div className="res-title-container">
-                <span className="res-num">{idx + 1}. </span>
-                <span className="res-h3">{a.title}</span>
-              </div>
+            <article key={a.id}>
+              <Link href={a.link} className="res-item">
+                <div className="res-title-container">
+                  <span className="res-num">{idx + 1}. </span>
+                  <span className="res-h3">{a.title}</span>
+                </div>
 
-              <p className="res-desc">{a.description}</p>
+                <p className="res-desc">{a.description}</p>
 
-              <Link href={a.link} className="res-btn">
-                LIRE L'ARTICLE
+                {/* This is now a div styled like a button to avoid nested <a> tags */}
+                <div className="res-btn">LIRE L'ARTICLE</div>
               </Link>
             </article>
           ))}
@@ -1126,28 +1131,24 @@ const ResourcesSection = () => {
 const AboutUsSection = () => {
   return (
     <section className="bg-black py-20 md:py-24">
-      {/* 
-         Updated Container: 
-         Added 'max-w-7xl mx-auto px-6' to match the Service Section width exactly 
-      */}
       <div className="max-w-7xl mx-auto px-6 aus-wrap">
+        {/* Header Section */}
         <div className="aus-lead">
           <h2 className="aus-title">
             DEUX ANCIENS PROFS DEVENUS ENTREPRENEURS.
           </h2>
         </div>
 
+        {/* Main Grid */}
         <div className="aus-grid">
-          {/* Photo column */}
+          {/* Left Column: Photo */}
           <div className="aus-photoCol">
-            <img
-              className="aus-photo"
-              src="/nous.png"
-              alt="Imad & Zakaria — Fondateurs d'Entrepreneurs Morocco"
-            />
+            <div className="aus-img-container">
+              <img className="aus-photo" src="/nous.png" alt="Imad & Zakaria" />
+            </div>
           </div>
 
-          {/* Text content */}
+          {/* Right Column: Content */}
           <div className="aus-content">
             <p className="aus-p">
               Nous sommes Imad et Zakaria, deux anciens enseignants qui ont
@@ -1163,15 +1164,11 @@ const AboutUsSection = () => {
             <p className="aus-p">
               Aujourd'hui, avec Entrepreneurs Morocco, notre mission est claire
               :
-            </p>
-
-            <p className="aus-p">
+              <br />
               Simplifier l'installation professionnelle au Maroc
-            </p>
-            <p className="aus-p">
+              <br />
               Offrir un accompagnement humain et structuré
-            </p>
-            <p className="aus-p">
+              <br />
               Mettre notre réseau au service des MRE, familles et porteurs de
               projets
             </p>
