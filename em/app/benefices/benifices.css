@@ -164,9 +164,9 @@
   align-items: center;
   gap: 14px;
   /* GLASS */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background: rgba(60, 60, 60, 0.15);
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari Support */
+  backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 
@@ -248,9 +248,9 @@
   column-gap: 1rem;
   align-items: center;
   /* GLASS */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background: rgba(60, 60, 60, 0.15);
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari Support */
+  backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 
@@ -293,7 +293,7 @@
 
 .testi-card {
   /* GLASS */
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(60, 60, 60, 0.15);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -374,6 +374,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 480px) {
+  .cta-btn > svg {
+    width: 48px;
+    height: 48px;
+  }
+}
 .cta-btn::before {
   content: "";
   position: absolute;

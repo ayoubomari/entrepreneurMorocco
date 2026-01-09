@@ -159,6 +159,15 @@
   contain: layout style;
 }
 
+@media (min-width: 1069px) and (max-width: 1138px) {
+  .pod-track {
+    gap: clamp(40px, 6vw, 75px) !important;
+  }
+  .pod-card {
+    min-width: 477.9px;
+  }
+}
+
 /* Desktop: Two cards per view */
 @media (min-width: 1024px) {
   .pod-card {
@@ -188,7 +197,13 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  transform: translateZ(0); /* Create new stacking context */
+  transform: translateZ(0);
+  cursor: pointer;
+}
+
+.pod-media:hover .pod-thumb img {
+  transform: scale(1.05);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Image optimizations */
@@ -248,12 +263,21 @@
   place-items: center;
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.pod-media:hover .pod-play {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .pod-play-ico {
   width: 34px;
   height: 34px;
   fill: #fff;
+  margin-left: 4px;
 }
 /* Meta */
 .pod-meta {
@@ -398,4 +422,81 @@
   -moz-user-drag: none;
   -o-user-drag: none;
   user-drag: none;
+}
+
+/* =========================================
+   VIDEO MODAL / POPUP STYLES
+   ========================================= */
+.pod-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+  padding: 20px;
+}
+
+.pod-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16/9;
+  background: black;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transform: scale(0.95);
+  animation: zoomIn 0.3s forwards 0.1s;
+}
+
+/* Portrait video support if needed, otherwise 16/9 covers most */
+@media (max-width: 768px) {
+  .pod-modal-content {
+    aspect-ratio: 9/16; /* If your reels are vertical */
+    max-height: 80vh;
+  }
+}
+
+.pod-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.pod-close-btn {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  z-index: 10000;
+  padding: 10px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.pod-close-btn:hover {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  to {
+    transform: scale(1);
+  }
 }

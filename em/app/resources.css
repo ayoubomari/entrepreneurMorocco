@@ -149,7 +149,7 @@
   }
 }
 
-.res-title::after {
+/* .res-title::after {
   content: "";
   position: absolute;
   bottom: -8px;
@@ -160,14 +160,14 @@
   background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
   animation: underlineGrow 1.5s ease-out 1s forwards;
   box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-}
+} */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .res-title::after {
     left: 0;
     transform: none;
   }
-}
+} */
 
 @keyframes underlineGrow {
   0% {
@@ -213,6 +213,7 @@
 @media (max-width: 768px) {
   .res-grid {
     justify-items: center;
+    gap: 10px;
   }
   .res-grid > article {
     width: 100%;

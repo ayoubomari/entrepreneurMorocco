@@ -196,6 +196,9 @@
 /* Hover Effects on Card */
 .testimonial-wrapper:hover .testimonial-card {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(220, 38, 38, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #ef4444 50%, #ffffff 100%);
+  background-size: 200% 200%;
+  animation: borderPulse 2s ease infinite;
 }
 
 /* =========================================
@@ -322,6 +325,13 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   animation: contentFadeIn 0.8s ease-out 0.4s both;
   line-height: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.testimonial-wrapper:hover .testimonial-name {
+  color: #ef4444;
+  transform: translateX(5px);
+  text-shadow: 0 0 7px rgba(239, 68, 68, 0.5);
 }
 /* Hide the break on mobile, show on large screens */
 .lg-only-break {
@@ -335,18 +345,33 @@
 }
 .testimonial-subtitle {
   color: #ffffff;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.5s both;
-  line-height: 1rem;
+  line-height: 1.15rem;
+  transition: all 0.3s ease;
+}
+
+.testimonial-wrapper:hover .testimonial-subtitle {
+  color: #ffe9e9;
+  text-shadow: 0 0 1px rgba(239, 68, 68, 0.5);
+  transform: translateX(5px);
 }
 
 .testimonial-quote {
   color: #d1d5db;
-  font-size: 0.85rem;
-  line-height: 1rem;
+  font-size: 0.88rem;
+  line-height: 1.15rem;
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.6s both;
+  transition: all 0.3s ease;
+}
+
+.testimonial-wrapper:hover .testimonial-quote {
+  color: #ffe9e9;
+  text-shadow: 0 0 1px rgba(239, 68, 68, 0.5);
+
+  transform: translateX(3px);
 }
 
 .quote-break {
@@ -368,6 +393,10 @@
   transition: all 0.2s ease;
 }
 
+.testimonial-wrapper:hover .star {
+  transform: scale(1.15);
+}
+
 .star:hover {
   transform: scale(1.2) rotate(15deg);
 }
@@ -378,7 +407,7 @@
 }
 
 .star-empty {
-  color: #ffffffd0;
+  color: #ffffff;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -530,6 +559,16 @@
   50% {
     transform: translateY(-30px) rotate(180deg) scale(1.2);
     opacity: 0.15;
+  }
+}
+
+@keyframes borderPulse {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 

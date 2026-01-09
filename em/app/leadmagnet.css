@@ -49,19 +49,15 @@
   align-items: start;
 }
 
-/* --- UPDATED SECTION START --- */
 @media (min-width: 768px) {
   .lm-grid {
     /* Changed to make the Form (right) much wider than the Image (left) */
     grid-template-columns: 0.7fr 1.3fr;
-
     gap: clamp(16px, 4vw, 48px); /* Increased gap slightly for balance */
-
     /* This aligns the content (image and form) to the center vertically */
     align-items: center;
   }
 }
-/* --- UPDATED SECTION END --- */
 
 @media (max-width: 767px) {
   .lm-grid {
@@ -181,6 +177,12 @@
   letter-spacing: 0.02em;
   font-size: clamp(13px, 2.2vw, 14px);
   caret-color: #fff;
+}
+
+@media (max-width: 480px) {
+  .lm-fields {
+    gap: 0px;
+  }
 }
 
 .lm-input::placeholder {

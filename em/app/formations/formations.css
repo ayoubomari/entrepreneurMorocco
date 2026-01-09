@@ -162,9 +162,9 @@
 
 .formation-card {
   /* GLASS SETTINGS */
-  background: rgba(255, 255, 255, 0.05); /* Semi-transparent gray background */
-  backdrop-filter: blur(30px); /* STRONG Blur */
-  -webkit-backdrop-filter: blur(30px); /* Safari Support */
+  background: rgba(60, 60, 60, 0.15); /* Semi-transparent gray background */
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari Support */
+  backdrop-filter: blur(10px) !important;
 
   /* BORDERS to define glass edges */
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -220,8 +220,8 @@
   height: 70px;
   border-radius: 50%;
   /* Make icon background glass-like too */
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(60, 60, 60, 0.15);
+  border: 1px solid rgba(60, 60, 60, 0.15);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -298,6 +298,12 @@
   position: relative;
   overflow: hidden;
   cursor: none;
+}
+@media (max-width: 480px) {
+  .cta-btn > svg {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .cta-btn::before {

@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import type { Metadata } from "next"; // Import Metadata type
 import {
   ArrowLeft,
   Globe,
@@ -27,6 +26,44 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+// --- Metadata Configuration ---
+export const metadata: Metadata = {
+  title: "Digital Nomad : Pourquoi choisir le Maroc plutôt que Dubaï ?",
+  description:
+    "Comparatif pour freelances et remote workers : Coût de vie (-40%), Fibre optique, Fuseau GMT et Lifestyle. Le guide ultime pour s'installer au Maroc.",
+  keywords: [
+    "Digital Nomad Maroc",
+    "Freelance Maroc",
+    "Maroc vs Dubaï",
+    "Coworking Casablanca",
+    "Expatriation Maroc",
+    "Télétravail soleil",
+    "Internet Maroc vs Dubaï",
+  ],
+  openGraph: {
+    type: "article",
+    title: "Freelances : Le Maroc, meilleure alternative à Dubaï ?",
+    description:
+      "300 jours de soleil, 3h de l'Europe et un budget maîtrisé. Découvrez pourquoi les Digital Nomads affluent vers Casablanca et Marrakech.",
+    url: "https://www.entrepreneursmorocco.com/articles/digital-nomad-maroc-dubai",
+    images: [
+      {
+        url: "/logofooter.png",
+        width: 1200,
+        height: 630,
+        alt: "Digital Nomad Maroc vs Dubaï",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Maroc vs Dubaï : Le choix malin pour les Digital Nomads",
+    description:
+      "Moins cher, plus proche, plus authentique. Lisez notre comparatif.",
+  },
+};
+// -----------------------------
+
 const Article4Page: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white article-page-wrapper">
@@ -38,7 +75,7 @@ const Article4Page: React.FC = () => {
             className="flex items-center gap-3 hover:text-red-500 transition-colors"
           >
             <ArrowLeft size={20} />
-            <span className="font-medium">Retour aux articles</span>
+            <span className="font-medium">Retour à la page d'accueil</span>
           </Link>
           <div className="text-sm text-gray-400">Article 4/4</div>
         </div>
@@ -50,7 +87,7 @@ const Article4Page: React.FC = () => {
         <div className="pt-24 sm:pt-0 pb-16">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-5xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full text-sm mb-6">
+              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 text-sm mb-6">
                 <Target size={16} />
                 ARTICLE 4 — Digital nomads et freelances
               </div>
@@ -105,7 +142,7 @@ const Article4Page: React.FC = () => {
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                <div className="p-6 bg-gray-900/30 border border-gray-800">
                   <Sun className="text-red-500 mb-3" size={24} />
                   <h4 className="font-bold text-white">300 Jours de Soleil</h4>
                   <p className="text-sm text-gray-400">
@@ -113,7 +150,7 @@ const Article4Page: React.FC = () => {
                     l&apos;année.
                   </p>
                 </div>
-                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                <div className="p-6 bg-gray-900/30 border border-gray-800">
                   <Clock className="text-red-500 mb-3" size={24} />
                   <h4 className="font-bold text-white">Fuseau GMT</h4>
                   <p className="text-sm text-gray-400">
@@ -121,7 +158,7 @@ const Article4Page: React.FC = () => {
                     clients.
                   </p>
                 </div>
-                <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
+                <div className="p-6 bg-gray-900/30 border border-gray-800">
                   <Wifi className="text-red-500 mb-3" size={24} />
                   <h4 className="font-bold text-white">100% Fibre Optique</h4>
                   <p className="text-sm text-gray-400">
@@ -129,7 +166,7 @@ const Article4Page: React.FC = () => {
                     grandes villes.
                   </p>
                 </div>
-                <div className="p-6 bg-red-500/10 rounded-xl border border-red-500/20">
+                <div className="p-6 bg-red-500/10 border border-red-500/20">
                   <DollarSign className="text-red-500 mb-3" size={24} />
                   <h4 className="font-bold text-red-400">Budget Maîtrisé</h4>
                   <p className="text-sm text-red-300/70">
@@ -148,7 +185,7 @@ const Article4Page: React.FC = () => {
                   Maroc vs Dubaï : Le match
                 </h2>
               </div>
-              <div className="overflow-hidden border border-gray-800 rounded-2xl">
+              <div className="overflow-hidden border border-gray-800">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gray-900/50">
@@ -206,7 +243,7 @@ const Article4Page: React.FC = () => {
                 </h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                <div className="bg-white/5 p-6 border border-gray-800 hover:border-red-500/50 transition-colors">
                   <h4 className="text-xl font-bold mb-2">Casablanca</h4>
                   <div className="text-red-500 text-sm mb-4">
                     Hub économique
@@ -220,7 +257,7 @@ const Article4Page: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                <div className="bg-white/5 p-6 border border-gray-800 hover:border-red-500/50 transition-colors">
                   <h4 className="text-xl font-bold mb-2">Marrakech</h4>
                   <div className="text-red-500 text-sm mb-4">
                     Lifestyle & Culture
@@ -234,7 +271,7 @@ const Article4Page: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-gray-800 hover:border-red-500/50 transition-colors">
+                <div className="bg-white/5 p-6 border border-gray-800 hover:border-red-500/50 transition-colors">
                   <h4 className="text-xl font-bold mb-2">Rabat</h4>
                   <div className="text-red-500 text-sm mb-4">
                     Innovation & Calme
@@ -259,7 +296,7 @@ const Article4Page: React.FC = () => {
                   Installation 360°
                 </h2>
               </div>
-              <div className="bg-gray-900/30 p-8 rounded-2xl border border-gray-800">
+              <div className="bg-gray-900/30 p-8 border border-gray-800">
                 <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
                   <Laptop className="text-red-500 shrink-0" size={48} />
                   <div>
@@ -285,7 +322,7 @@ const Article4Page: React.FC = () => {
                 <div className="text-center md:text-left">
                   <Link
                     href="/devis"
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-xl transition-colors inline-flex items-center gap-2"
+                    className="bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold py-4 px-8 transition-colors inline-flex items-center gap-2"
                   >
                     <ArrowRight size={20} />
                     Installez-vous au Maroc
@@ -303,7 +340,7 @@ const Article4Page: React.FC = () => {
                 </h2>
               </div>
               <div className="space-y-6">
-                <div className="bg-gray-900/30 rounded-2xl p-6">
+                <div className="bg-gray-900/30 p-6">
                   <h3 className="font-bold text-lg mb-2 text-red-400">
                     Comment est la connexion internet ?
                   </h3>
@@ -312,7 +349,7 @@ const Article4Page: React.FC = () => {
                     latence minimale vers l&apos;Europe.
                   </p>
                 </div>
-                <div className="bg-gray-900/30 rounded-2xl p-6">
+                <div className="bg-gray-900/30 p-6">
                   <h3 className="font-bold text-lg mb-2 text-red-400">
                     Quel budget prévoir ?
                   </h3>
@@ -325,7 +362,7 @@ const Article4Page: React.FC = () => {
             </div>
 
             {/* Final CTA Box */}
-            <div className="bg-red-500/5 border border-red-500/20 rounded-3xl p-8 md:p-12 text-center">
+            <div className="bg-red-500/5 border border-red-500/20 p-8 md:p-12 text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Prêt à faire le grand saut ?
               </h2>
@@ -335,7 +372,7 @@ const Article4Page: React.FC = () => {
               </p>
               <Link
                 href="/devis"
-                className="bg-white text-red-600 hover:bg-gray-100 font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2 group"
+                className="bg-white text-red-600 hover:bg-gray-100 font-bold py-3 px-6 transition-colors inline-flex items-center gap-2 group"
               >
                 <Globe size={20} />
                 Démarrer mon projet
@@ -343,13 +380,13 @@ const Article4Page: React.FC = () => {
             </div>
 
             {/* Navigation back */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 text-center">
+            <div className="bg-gray-900/50 border border-gray-800 p-8 text-center">
               <h3 className="text-xl font-bold mb-4">
                 Découvrir tous nos guides
               </h3>
               <Link
-                href="/"
-                className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl transition-colors group"
+                href="/" // Adjusted to home/articles root
+                className="bg-[#ef4444] hover:bg-[#dc2626] inline-flex items-center gap-2 text-white font-bold py-3 px-6 transition-colors group"
               >
                 Retour à l&apos;accueil
                 <ArrowRight

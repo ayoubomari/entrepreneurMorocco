@@ -1,17 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap");
 
-/* ===== HERO SECTION BASE ===== */
+/* =========================================
+   1. HERO SECTION BASE
+   ========================================= */
 .hero {
   position: relative;
+  /* On mobile, we keep the minimum height, but allow flow */
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* We remove the default flex centering here so we can control children individually on desktop */
+  display: block;
   overflow: hidden;
   font-family: "Montserrat";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== SIMPLE BACKGROUND ===== */
+/* =========================================
+   2. BACKGROUNDS & OVERLAYS
+   ========================================= */
 .hero__bg-container {
   position: absolute;
   inset: 0;
@@ -26,7 +32,7 @@
 
 .hero__bg--main {
   z-index: 1;
-  filter: brightness(0.8) contrast(1.1);
+  /* Removed the filter as requested in your snippet "filter: none" */
   filter: none;
 }
 
@@ -53,24 +59,31 @@
   z-index: 4;
 }
 
-/* ===== all CONTENT CONTAINER ===== */
+/* =========================================
+   3. CONTENT WRAPPERS
+   ========================================= */
+
+/* The wrapper for both sections */
 .heros {
   width: 100%;
-  margin-top: 300px;
   display: flex;
   flex-direction: column;
 }
-@media (max-width: 979px) {
+
+/* Mobile Default Margins (keep your original spacing for mobile) */
+.heros {
+  margin-top: 225px; /* Default for smallest screens */
+}
+
+@media (min-width: 641px) and (max-width: 979px) {
   .heros {
     margin-top: 250px;
   }
 }
-@media (max-width: 640px) {
-  .heros {
-    margin-top: 225px;
-  }
-}
-/* ===== CONTENT CONTAINER ===== */
+
+/* =========================================
+   4. CONTENT BLOCKS
+   ========================================= */
 .hero__content {
   position: relative;
   z-index: 10;
@@ -82,26 +95,23 @@
   margin-right: auto;
   margin-bottom: 50px;
 }
+
+.hero__inner {
+  padding: clamp(20px, 4vw, 40px) 0;
+}
+
+.hero__inner-secondary {
+  padding: 0;
+}
+
+/* Secondary Section specific spacing */
 .hero__content-secondary {
   margin-top: 60px;
 }
 
-@media (min-width: 768px) {
-  .hero__content {
-    text-align: left;
-  }
-}
-
-.hero__inner {
-  margin: 0 auto;
-  padding: clamp(20px, 4vw, 40px) 0;
-}
-
-.hero__title-word {
-  padding-bottom: clam(10px, 22px, 22px);
-}
-
-/* ===== SIMPLE TITLE WITH GLOW ===== */
+/* =========================================
+   5. TEXT STYLES & ANIMATIONS
+   ========================================= */
 .hero__title {
   color: #fff;
   font-size: clamp(32px, 5vw, 65px);
@@ -110,44 +120,31 @@
   margin: 0 0 clamp(12px, 2vw, 16px);
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
-    0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 255, 0.1),
-    3px 3px 12px rgba(0, 0, 0, 0.5); */
   opacity: 0;
-  /* MODIFIED: Add skewX(0deg) to the initial transform */
   transform: translateY(30px) skewX(0deg);
   animation: fadeInUp 0.8s ease 0.2s forwards;
-  /* Ensure font style is normal */
   font-style: normal;
+}
+
+.hero__title-secondary {
+  font-size: clamp(22px, 30px, 32px);
 }
 
 .hero__title-word {
   display: inline-block;
+  padding-bottom: clamp(10px, 22px, 22px); /* Fixed typo 'clam' to 'clamp' */
 }
 
 .hero__title-space {
   display: inline-block;
   width: 0.3em;
 }
-@media (max-width: 480px) {
-  .hero__title-space {
-    display: none;
-  }
-}
 
 .hero__title-letter {
   padding-inline: 1px;
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    /* MODIFIED: Add skewX(0deg) to the final transform */
-    transform: translateY(0) skewX(0deg);
-  }
-}
-
-/* ===== SIMPLE SUBTITLE (This is the second line of text, which also looked slanted) ===== */
+/* Subtitle */
 .hero__subtitle {
   color: #fff;
   font-size: clamp(28px, 6.5vw, 48px);
@@ -158,10 +155,8 @@
   letter-spacing: 0.01em;
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
   opacity: 0;
-  /* MODIFIED: Add skewX(0deg) to the initial transform */
   transform: translateY(30px) skewX(0deg);
   animation: fadeInUp 0.8s ease 0.4s forwards;
-  /* Ensure font style is normal */
   font-style: normal;
 }
 
@@ -174,7 +169,7 @@
   width: 0.3em;
 }
 
-/* ===== SIMPLE TEXT (The small description text) ===== */
+/* Body Text */
 .hero__text {
   color: #fff;
   font-size: 17px;
@@ -184,19 +179,14 @@
   line-height: 1.6;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   opacity: 0;
-  /* MODIFIED: Add skewX(0deg) to the initial transform */
   transform: translateY(30px) skewX(0deg);
   animation: fadeInUp 0.8s ease 0.6s forwards;
   font-style: normal;
 }
 
-@media (min-width: 768px) {
-  .hero__text {
-    margin: 0 0 25px;
-  }
-}
-
-/* ===== SIMPLE BUTTON ===== */
+/* =========================================
+   6. BUTTONS
+   ========================================= */
 .hero__btn-container {
   opacity: 0;
   transform: translateY(30px);
@@ -209,16 +199,20 @@
   gap: 12px;
   background: #fff;
   color: #000;
-  padding: 15px 25px 15px 15px;
+  padding: 15px 27px 15px 17px;
   font-size: clamp(15px, 15px, 15px);
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
   border: none;
-  cursor: none;
+  cursor: pointer; /* Fixed from 'none' to 'pointer' for usability */
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero__btn-secondary {
+  padding: 15px 35px 15px 17px;
 }
 
 .hero__btn-text {
@@ -248,7 +242,9 @@
   transform: translateY(-1px);
 }
 
-/* ===== SIMPLE SCROLL INDICATOR ===== */
+/* =========================================
+   7. SCROLL INDICATOR
+   ========================================= */
 .hero__scroll-indicator {
   position: absolute;
   bottom: 30px;
@@ -257,6 +253,7 @@
   z-index: 10;
   opacity: 0;
   animation: fadeInUp 0.8s ease 1s forwards;
+  pointer-events: none; /* Allows click-through */
 }
 
 .hero__scroll-line {
@@ -279,6 +276,25 @@
   animation: scrollMove 2s ease-in-out infinite;
 }
 
+.hero__scroll-dot {
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+/* =========================================
+   8. ANIMATION KEYFRAMES
+   ========================================= */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) skewX(0deg);
+  }
+}
+
 @keyframes scrollMove {
   0%,
   100% {
@@ -289,15 +305,6 @@
     transform: translateY(40px);
     opacity: 1;
   }
-}
-
-.hero__scroll-dot {
-  width: 6px;
-  height: 6px;
-  background: #fff;
-  border-radius: 50%;
-  margin: 0 auto;
-  animation: dotPulse 2s ease-in-out infinite;
 }
 
 @keyframes dotPulse {
@@ -312,7 +319,66 @@
   }
 }
 
-/* ===== RESPONSIVE ===== */
+/* =========================================
+   9. MEDIA QUERIES (TABLET & LARGER)
+   ========================================= */
+
+/* 
+   THIS IS THE CRITICAL SECTION FOR YOUR REQUEST.
+   From Tablet (768px) upwards, we change the layout strategy.
+*/
+.hero__content:first-child {
+  min-height: 65vh;
+}
+@media (min-width: 768px) {
+  /* Reset the text alignment */
+  .hero__content {
+    text-align: left;
+  }
+
+  /* Reset margin on the text */
+  .hero__text {
+    margin: 0 0 25px;
+  }
+
+  /* 
+     1. Remove the "margin-top" hack from the container 
+     because we are switching to flex centering for the 1st section.
+  */
+  .heros {
+    margin-top: 0;
+  }
+
+  /* 
+     2. FIRST HERO SECTION
+     Force it to take 100vh. This makes it occupy the full screen.
+     The user sees Navbar + This Section only.
+  */
+  .heros > .hero__content:first-child {
+    min-height: 100vh;
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack Title, Text, Button */
+    justify-content: center; /* Center vertically */
+    margin-bottom: 0; /* Remove bottom margin */
+    padding-top: 80px; /* Optional: Add if Navbar is fixed/sticky to prevent overlap */
+  }
+
+  /* 
+     3. SECOND HERO SECTION (The Test)
+     This naturally flows BELOW the first 100vh section.
+     
+  */
+  .hero__content-secondary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
+  }
+}
+
+/* =========================================
+   10. MEDIA QUERIES (MOBILE)
+   ========================================= */
 @media (max-width: 768px) {
   .hero__content {
     text-align: center;
@@ -321,9 +387,17 @@
   .hero__text {
     margin: 0 auto clamp(28px, 5vw, 40px);
   }
+
+  .hero__inner {
+    padding: 75px 0 60px;
+  }
 }
 
 @media (max-width: 480px) {
+  .hero__title-space {
+    display: none;
+  }
+
   .hero__btn {
     width: 100%;
     max-width: 245px;
@@ -334,9 +408,15 @@
   .hero__scroll-indicator {
     bottom: 20px;
   }
+
+  .hero__title-word {
+    padding: 0 5px;
+  }
 }
 
-/* ===== ACCESSIBILITY ===== */
+/* =========================================
+   11. ACCESSIBILITY
+   ========================================= */
 @media (prefers-reduced-motion: reduce) {
   .hero__title,
   .hero__subtitle,
@@ -352,14 +432,4 @@
   .hero__scroll-dot {
     animation: none;
   }
-}
-
-/* ===== PERFORMANCE ===== */
-.hero {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.hero__title-secondary {
-  font-size: clamp(22px, 30px, 32px);
 }

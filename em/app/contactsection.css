@@ -7,6 +7,11 @@
   position: relative;
   overflow: hidden;
 }
+@media (max-width: 768px) {
+  .cs-section {
+    padding: 25px 0 25px;
+  }
+}
 
 .cs-wrap {
   max-width: 1280px; /* Matched Service Section (max-w-7xl) */

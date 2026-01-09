@@ -88,6 +88,13 @@
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease 0.4s forwards;
+
+  /* --- ADD THIS BLOCK TO DISABLE SELECTION --- */
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+  -webkit-touch-callout: none; /* Disable iOS context menu on long press */
 }
 
 /* Main Carousel Track */
@@ -109,6 +116,12 @@
   width: clamp(182px, 23.5vw, 310px);
   transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: left;
+
+  /* --- ENSURE SELECTION IS DISABLED HERE TOO --- */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .wave-card img {
@@ -136,6 +149,7 @@
   opacity: 1;
   transform: translateY(0);
   transition: all 400ms ease;
+  user-select: none;
 }
 
 .wave-caption__title {
@@ -253,5 +267,95 @@
   .wave-carousel-container {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* =========================================
+   Interactive & Navigation
+   ========================================= */
+/* phone and tablet */
+@media (max-width: 1024px) {
+  /* Cursor Logic for Draggable Effect */
+  .wave-carousel-container {
+    /* Default cursor indicating it can be dragged */
+    cursor: grab;
+  }
+
+  .wave-carousel-container.grabbing {
+    cursor: grabbing;
+  }
+}
+
+/* Ensure images don't block dragging */
+.wave-img-wrapper {
+  cursor: none;
+}
+.wave-img-wrapper img {
+  pointer-events: none; /* Allows drag to pass through image to container logic if needed, but we used draggable=false in JSX which is safer */
+  user-select: none;
+}
+
+/* Navigation Arrows - Default Hidden (Mobile) */
+.carousel-arrow {
+  display: none; /* Hidden on small screens */
+  position: absolute;
+  top: 55%; /* Roughly aligned with card centers */
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  z-index: 200;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.carousel-arrow svg {
+  width: 28px;
+  height: 28px;
+}
+
+.carousel-arrow--left {
+  left: 5%;
+}
+
+.carousel-arrow--right {
+  right: 5%;
+}
+
+/* =========================================
+   Display Arrows ONLY on Large Screens
+   ========================================= */
+
+@media (min-width: 1024px) {
+  .carousel-arrow {
+    display: flex; /* Show flex to center the SVG */
+  }
+
+  /* Optional: Make the container wider on large screens to accommodate arrows if needed */
+  .wave-carousel-container {
+    padding: 0 20px;
+  }
+}
+
+/* Adjust Arrow positions for very large screens */
+@media (min-width: 1440px) {
+  .carousel-arrow--left {
+    left: 10%;
+  }
+  .carousel-arrow--right {
+    right: 10%;
   }
 }

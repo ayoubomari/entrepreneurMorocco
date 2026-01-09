@@ -157,9 +157,9 @@
    ========================================= */
 .service-card {
   /* GLASS SETTINGS */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background: rgba(60, 60, 60, 0.15);
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari Support */
+  backdrop-filter: blur(10px) !important;
 
   /* BORDERS */
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -295,7 +295,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: #ef4444;
   color: #fff;
   text-decoration: none;
   padding: 1.15rem 2.5rem;
@@ -306,6 +306,13 @@
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .cta-btn > svg {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .cta-btn::before {

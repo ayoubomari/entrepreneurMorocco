@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import type { Metadata } from "next"; // Import Metadata type
 import {
   ArrowLeft,
   TrendingUp,
@@ -16,19 +15,55 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+// --- Metadata Configuration ---
+export const metadata: Metadata = {
+  title: "Entreprendre au Maroc : L'opportunité incontournable d'ici 2030",
+  description:
+    "Analyse stratégique : Vision 2030, Casablanca Finance City et croissance record. Découvrez pourquoi investir au Maroc est l'opportunité unique de la décennie.",
+  keywords: [
+    "Investir au Maroc 2030",
+    "Entreprendre au Maroc",
+    "Casablanca Finance City",
+    "Croissance économique Maroc",
+    "Vision 2030 Maroc",
+    "Opportunités business Afrique",
+  ],
+  openGraph: {
+    type: "article",
+    title: "Pourquoi le Maroc est l'opportunité business de la décennie ?",
+    description:
+      "PIB doublé, Hub africain et Coupe du Monde 2030. Guide complet pour les investisseurs et la diaspora.",
+    url: "https://www.entrepreneursmorocco.com/articles/entreprendre-maroc-2030", // Adjust slug if necessary
+    images: [
+      {
+        url: "/logofooter.png", // Or a specific article cover image if you have one
+        width: 1200,
+        height: 630,
+        alt: "Entreprendre au Maroc - Vision 2030",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Maroc 2030 : Le nouvel eldorado des entrepreneurs",
+    description:
+      "Découvrez les chiffres clés et les secteurs porteurs pour votre projet.",
+  },
+};
+// -----------------------------
+
 const Article1Page: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white article-page-wrapper">
       {/* Navigation */}
       <nav className="pt-[150px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
-        {/* UPDATED: max-w-7xl to match Services */}
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-3 hover:text-red-500 transition-colors"
           >
             <ArrowLeft size={20} />
-            <span className="font-medium">Retour aux articles</span>
+            <span className="font-medium">Retour à la page d'accueil</span>
           </Link>
           <div className="text-sm text-gray-400">Article 1/4</div>
         </div>
@@ -38,10 +73,9 @@ const Article1Page: React.FC = () => {
       <main className="relative">
         {/* Hero Section */}
         <div className="pt-24 sm:pt-0 pb-16">
-          {/* UPDATED: max-w-7xl */}
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-5xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full text-sm mb-6">
+              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2  text-sm mb-6">
                 <Target size={16} />
                 ARTICLE 1 — Entreprendre au Maroc
               </div>
@@ -64,7 +98,6 @@ const Article1Page: React.FC = () => {
 
         {/* Stats Banner */}
         <div className="bg-red-500/5 border-y border-red-500/20 py-12 mb-16">
-          {/* UPDATED: max-w-7xl */}
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div className="group hover:scale-105 transition-transform">
@@ -88,9 +121,8 @@ const Article1Page: React.FC = () => {
         </div>
 
         {/* Article Content Wrapper */}
-        {/* UPDATED: max-w-7xl for the layout, but inner content constrained for readability */}
         <div className="max-w-7xl mx-auto px-6 space-y-16">
-          {/* Inner Content Constrainer (similar to .srv-content max-width: 900px) */}
+          {/* Inner Content Constrainer */}
           <div className="max-w-5xl mx-auto space-y-16">
             {/* Economic Transformation */}
             <div>
@@ -109,7 +141,7 @@ const Article1Page: React.FC = () => {
                   port Tanger Med classé 1er d&apos;Afrique, le pays est devenu
                   une plateforme incontournable.
                 </p>
-                <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
+                <div className="bg-gray-900/50 border border-gray-800 p-6 mb-6">
                   <p className="text-white font-medium m-0">
                     En 2030, le Maroc vise une croissance annuelle de 3,5 %, en
                     s&apos;appuyant sur la Vision 2030 : digitalisation
@@ -128,7 +160,7 @@ const Article1Page: React.FC = () => {
                 </h2>
               </div>
               <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -137,7 +169,7 @@ const Article1Page: React.FC = () => {
                     52 % d&apos;énergie renouvelable dans le mix national.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -146,7 +178,7 @@ const Article1Page: React.FC = () => {
                     Digitalisation intégrale des services publics.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -156,7 +188,7 @@ const Article1Page: React.FC = () => {
                     et Rabat.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -165,7 +197,7 @@ const Article1Page: React.FC = () => {
                     Lancement d&apos;une monnaie digitale nationale.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 ">
                   <Trophy
                     className="text-red-500 mt-1 flex-shrink-0"
                     size={20}
@@ -195,7 +227,7 @@ const Article1Page: React.FC = () => {
                 Casablanca est désormais une place financière reconnue :
               </p>
               <div className="space-y-4 mb-6">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -204,7 +236,7 @@ const Article1Page: React.FC = () => {
                     Top 3 des hubs africains selon GFCI.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -213,7 +245,7 @@ const Article1Page: React.FC = () => {
                     Avantages fiscaux pour les entreprises internationales.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -274,7 +306,7 @@ const Article1Page: React.FC = () => {
                 Nous vous aidons avant, pendant et après :
               </p>
               <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-green-500 mt-1 flex-shrink-0"
                     size={20}
@@ -284,7 +316,7 @@ const Article1Page: React.FC = () => {
                     macro/micro marché.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-yellow-500 mt-1 flex-shrink-0"
                     size={20}
@@ -294,7 +326,7 @@ const Article1Page: React.FC = () => {
                     bureaux.
                   </span>
                 </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 rounded-xl hover:bg-gray-900/50 transition-colors">
+                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
                   <CheckCircle
                     className="text-red-500 mt-1 flex-shrink-0"
                     size={20}
@@ -308,7 +340,7 @@ const Article1Page: React.FC = () => {
               <div className="text-center">
                 <Link
                   href="/devis"
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-xl transition-colors inline-flex items-center gap-2 group"
+                  className="bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold py-4 px-8  transition-colors inline-flex items-center gap-2 group"
                 >
                   <ArrowRight
                     size={20}
@@ -327,7 +359,7 @@ const Article1Page: React.FC = () => {
                 <h2 className="text-2xl md:text-3xl font-bold">FAQ</h2>
               </div>
               <div className="space-y-6">
-                <div className="bg-gray-900/30 rounded-2xl p-6 hover:bg-gray-900/50 transition-colors">
+                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
                   <h3 className="font-bold text-lg mb-3 text-red-400">
                     Pourquoi entreprendre au Maroc ?
                   </h3>
@@ -336,7 +368,7 @@ const Article1Page: React.FC = () => {
                     ouverture mondiale.
                   </p>
                 </div>
-                <div className="bg-gray-900/30 rounded-2xl p-6 hover:bg-gray-900/50 transition-colors">
+                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
                   <h3 className="font-bold text-lg mb-3 text-red-400">
                     Quels sont les secteurs porteurs ?
                   </h3>
@@ -345,7 +377,7 @@ const Article1Page: React.FC = () => {
                     éducation.
                   </p>
                 </div>
-                <div className="bg-gray-900/30 rounded-2xl p-6 hover:bg-gray-900/50 transition-colors">
+                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
                   <h3 className="font-bold text-lg mb-3 text-red-400">
                     Le Maroc est-il plus attractif que Dubaï ?
                   </h3>
@@ -358,11 +390,11 @@ const Article1Page: React.FC = () => {
             </div>
 
             {/* Navigation to next article */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 text-center">
+            <div className="bg-gray-900/50 border border-gray-800 p-8 text-center">
               <h3 className="text-xl font-bold mb-4">Article suivant</h3>
               <Link
                 href="/articles/financer-projet-etranger"
-                className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl transition-colors group"
+                className="bg-[#ef4444] hover:bg-[#dc2626] inline-flex items-center gap-2 text-white font-bold py-3 px-6  transition-colors group"
               >
                 Comment financer son projet depuis l&apos;étranger ?
                 <ArrowRight
