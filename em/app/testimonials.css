@@ -1,3 +1,272 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap");
+
+/* =========================================
+   PAGE CONTAINER & BACKGROUND
+   ========================================= */
+.benefits-page {
+  background: #000;
+  min-height: 100vh;
+  padding: 90px 0 60px;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Particles (Style Consistency) */
+.benefits-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+      1px 1px at 20% 30%,
+      rgba(220, 38, 38, 0.2),
+      transparent
+    ),
+    radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
+  background-size: 300px 200px;
+  animation: particleDrift 25s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes particleDrift {
+  0% {
+    transform: translateX(-50px) translateY(0px);
+  }
+  33% {
+    transform: translateX(20px) translateY(-30px);
+  }
+  66% {
+    transform: translateX(-10px) translateY(-15px);
+  }
+  100% {
+    transform: translateX(-50px) translateY(0px);
+  }
+}
+
+/* =========================================
+   WRAPPER
+   ========================================= */
+.benefits-wrap {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 60px 1.5rem 0;
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: sectionReveal 1s ease-out forwards;
+}
+
+/* =========================================
+   HEADER SECTION
+   ========================================= */
+.benefits-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.benefits-header h2 {
+  color: #fff;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.benefits-header h2::after {
+  content: "";
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  border-radius: 2px;
+}
+
+.benefits-meta {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* =========================================
+   BLOCKS & TITLES
+   ========================================= */
+.benefits-block {
+  margin-bottom: 4rem;
+}
+
+.benefits-block__title {
+  color: #fff;
+  font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.benefits-block__title::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: #ef4444;
+}
+
+/* =========================================
+   KPI GRID (GLASS VERSION)
+   ========================================= */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  /* GLASS */
+  background: rgba(60, 60, 60, 0.15);
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.kpi-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-5px);
+}
+
+.kpi-card:hover::before {
+  left: 100%;
+}
+
+.kpi-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  z-index: 2;
+}
+
+.kpi-content {
+  z-index: 2;
+}
+.kpi-value {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+.kpi-label {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   LIST ITEMS (GLASS VERSION)
+   ========================================= */
+.benefits-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.benefits-list li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  column-gap: 1rem;
+  align-items: center;
+  background: rgba(60, 60, 60, 0.15);
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1rem 1.25rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.benefits-list li:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateX(10px);
+}
+
+.benefit-label {
+  color: #fff;
+  font-weight: 800;
+}
+.benefit-desc {
+  color: rgba(255, 255, 255, 0.9);
+}
+.red-icon {
+  filter: invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg)
+    brightness(94%) contrast(91%);
+}
+
 /* =========================================
    TESTIMONIALS SECTION & BACKGROUNDS
    ========================================= */
@@ -7,60 +276,12 @@
   overflow: hidden;
 }
 
-/* Background animated elements */
-.testimonials-section::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-      circle at 25% 30%,
-      rgba(220, 38, 38, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 75% 70%,
-      rgba(239, 68, 68, 0.02) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 50% 10%,
-      rgba(220, 38, 38, 0.025) 0%,
-      transparent 60%
-    );
-  animation: testimonialsBackground 22s ease-in-out infinite;
-  z-index: 1;
-}
-
-.testimonials-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(
-      1px 1px at 20% 40%,
-      rgba(220, 38, 38, 0.2),
-      transparent
-    ),
-    radial-gradient(2px 2px at 80% 20%, rgba(239, 68, 68, 0.15), transparent),
-    radial-gradient(1px 1px at 60% 80%, rgba(220, 38, 38, 0.18), transparent),
-    radial-gradient(2px 2px at 40% 60%, rgba(239, 68, 68, 0.12), transparent);
-  background-size: 300px 220px;
-  animation: testimonialsParticles 28s linear infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-
 /* =========================================
    CONTAINER & HEADER
    ========================================= */
 .testimonials-container {
   width: 100%;
-  max-width: 80rem; /* max-w-7xl */
+  max-width: 80rem;
   margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;
@@ -138,11 +359,10 @@
    ========================================= */
 .testimonial-wrapper {
   position: relative;
-  /* Entrance animation applied to wrapper so icon and card move together */
   transform: translateY(30px);
   opacity: 0;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex; /* Ensures height stretches */
+  display: flex;
 }
 
 .testimonial-wrapper:nth-child(1) {
@@ -160,7 +380,7 @@
 }
 
 /* =========================================
-   CARD SHAPE & BORDER
+   TESTIMONIAL CARD SHAPE & ANIMATION
    ========================================= */
 
 /* 1. The Outer Layer (White Border) */
@@ -170,35 +390,66 @@
   padding: 1px; /* Border thickness */
   height: 100%;
   width: 100%;
-
   clip-path: polygon(0 0, 100% 20px, 100% 100%, 0% 100%);
-
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
-/* 2. The Inner Layer (Black Background) */
+/* 2. The Inner Layer (Background & Content) */
 .testimonial-card-inner {
   background-color: #000000;
   padding: 2.5rem 1.8rem 2rem 1.8rem;
   height: 100%;
+  position: relative; /* Essential for Shine Positioning */
+  overflow: hidden; /* Keeps Shine inside the clip-path */
 
   /* Matches outer clip-path exactly */
   clip-path: polygon(0 0, 100% 20px, 100% 100%, 0% 100%);
 
-  /* UPDATED: Flex Column Layout */
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  transition: background 0.4s ease;
 }
 
-/* Hover Effects on Card */
+/* --- NEW SHINE EFFECT (KPI Style) --- */
+.testimonial-card-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%; /* Start off-screen */
+  width: 100%;
+  height: 100%;
+  /* The "appealing bright" gradient swipe */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1; /* Above bg, below text */
+  pointer-events: none;
+}
+
+/* Hover Effects */
 .testimonial-wrapper:hover .testimonial-card {
+  /* Outer glow/pulse */
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(220, 38, 38, 0.15);
   background: linear-gradient(135deg, #ffffff 0%, #ef4444 50%, #ffffff 100%);
   background-size: 200% 200%;
   animation: borderPulse 2s ease infinite;
+}
+
+.testimonial-wrapper:hover .testimonial-card-inner {
+  /* Brighten background slightly on hover */
+  background: #111;
+}
+
+.testimonial-wrapper:hover .testimonial-card-inner::before {
+  /* Slide the shine across */
+  left: 100%;
 }
 
 /* =========================================
@@ -224,53 +475,39 @@
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: inset 0 0 10px rgba(15, 0, 0, 1);
-  overflow: hidden; /* ← ADD THIS to contain the flame */
+  overflow: hidden;
 }
 
-/* THE FLAME / GLOW EFFECT */
 .profile-circle::before {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  /* Center the glow */
   transform: translate(-50%, -50%);
-
-  /* Make the glow slightly larger than the border */
   width: 140%;
   height: 140%;
-
-  /* The Flame Gradient: Hot center to transparent edge */
   background: radial-gradient(
     circle,
     rgb(160, 0, 0) 0%,
-    /* Core (Red-600) */ rgba(26, 0, 0, 1) 60%,
-    /* Mid (Red-800) */ transparent 75% /* Edge */
+    rgba(26, 0, 0, 1) 60%,
+    transparent 75%
   );
-
-  /* This creates the soft "cloud" or "flame" texture */
   filter: blur(12px);
-
-  z-index: -1; /* Place behind the SVG */
-
-  /* Add a breathing animation to make it look alive */
+  z-index: -1;
   animation: flamePulse 3s ease-in-out infinite;
   transition: all 0.3s ease;
 }
 
-/* HOVER EFFECTS */
 .testimonial-wrapper:hover .profile-circle {
   transform: scale(1.1) rotate(5deg);
   border-color: #ffffff;
-  /* ← ADD THIS for the aura effect */
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2),
     0 0 25px rgba(220, 38, 38, 0.5), 0 0 40px rgba(220, 38, 38, 0.25);
 }
 
-/* Make the flame hotter/brighter on hover */
 .testimonial-wrapper:hover .profile-circle::before {
-  width: 150%; /* ← REDUCE from 160% */
-  height: 150%; /* ← REDUCE from 160% */
+  width: 150%;
+  height: 150%;
   background: radial-gradient(
     circle,
     rgb(160, 0, 0) 0%,
@@ -285,7 +522,6 @@
   height: 2.5rem;
   color: #ffffff;
   transition: transform 0.3s ease;
-  /* Add a slight drop shadow to pop against the glow */
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
@@ -293,7 +529,6 @@
   transform: scale(1.1);
 }
 
-/* NEW ANIMATION FOR FLAME PULSE */
 @keyframes flamePulse {
   0% {
     transform: translate(-50%, -50%) scale(0.95);
@@ -316,6 +551,7 @@
   padding-top: 1rem;
 }
 
+/* Ensure text is above the shine (z-index: 2) */
 .testimonial-name {
   color: #ffffff;
   font-weight: 600;
@@ -326,6 +562,8 @@
   animation: contentFadeIn 0.8s ease-out 0.4s both;
   line-height: 1.2rem;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .testimonial-wrapper:hover .testimonial-name {
@@ -333,16 +571,16 @@
   transform: translateX(5px);
   text-shadow: 0 0 7px rgba(239, 68, 68, 0.5);
 }
-/* Hide the break on mobile, show on large screens */
+
 .lg-only-break {
   display: none;
 }
-
 @media (min-width: 1024px) {
   .lg-only-break {
     display: block;
   }
 }
+
 .testimonial-subtitle {
   color: #ffffff;
   font-size: 0.88rem;
@@ -350,11 +588,11 @@
   animation: contentFadeIn 0.8s ease-out 0.5s both;
   line-height: 1.15rem;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .testimonial-wrapper:hover .testimonial-subtitle {
-  color: #ffe9e9;
-  text-shadow: 0 0 1px rgba(239, 68, 68, 0.5);
   transform: translateX(5px);
 }
 
@@ -365,12 +603,11 @@
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.6s both;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .testimonial-wrapper:hover .testimonial-quote {
-  color: #ffe9e9;
-  text-shadow: 0 0 1px rgba(239, 68, 68, 0.5);
-
   transform: translateX(3px);
 }
 
@@ -382,9 +619,10 @@
 .star-rating {
   display: flex;
   gap: 0.25rem;
-  /* UPDATED: Moves stars to the bottom of the flex container */
   margin-top: auto;
   animation: starsReveal 1s ease-out 0.7s both;
+  position: relative;
+  z-index: 2;
 }
 
 .star {
@@ -453,8 +691,71 @@
 }
 
 /* =========================================
+   CTA BUTTON
+   ========================================= */
+.benefits-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ef4444;
+  color: #fff;
+  text-decoration: none;
+  padding: 1.15rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .cta-btn > svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+.cta-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.cta-btn:hover::before {
+  left: 100%;
+}
+.cta-btn:hover {
+  background: #dc2626;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.4);
+}
+
+/* =========================================
    ANIMATIONS KEYFRAMES
    ========================================= */
+@keyframes sectionReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes testimonialsBackground {
   0%,
   100% {
@@ -479,13 +780,6 @@
   }
   100% {
     transform: translateX(-40px) translateY(0px) rotate(360deg);
-  }
-}
-
-@keyframes sectionReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -573,8 +867,18 @@
 }
 
 /* =========================================
-   MEDIA QUERIES & ACCESSIBILITY
+   RESPONSIVE & ACCESSIBILITY
    ========================================= */
+@media (max-width: 640px) {
+  .benefits-wrap {
+    padding-top: 190px;
+  }
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 767px) {
   .testimonials-container {
     padding: 0 1rem;
@@ -587,16 +891,9 @@
   .testimonials-container::after {
     display: none;
   }
-
-  .testimonials-section::before,
-  .testimonials-section::after {
-    opacity: 0.4;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .testimonials-section::before,
-  .testimonials-section::after,
   .testimonials-container::before,
   .testimonials-container::after,
   .testimonial-wrapper,

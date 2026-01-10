@@ -5,33 +5,6 @@
   padding: clamp(60px, 10vw, 120px) 0;
 }
 
-/* Background animated elements - UNCHANGED */
-.network-section::before {
-  content: "";
-  position: absolute;
-  top: -60%;
-  left: -60%;
-  width: 220%;
-  height: 220%;
-  background: radial-gradient(
-      circle at 20% 40%,
-      rgba(220, 38, 38, 0.025) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 60%,
-      rgba(239, 68, 68, 0.02) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(220, 38, 38, 0.015) 0%,
-      transparent 60%
-    );
-  animation: networkBackground 26s ease-in-out infinite;
-  z-index: 1;
-}
-
 @keyframes networkBackground {
   0%,
   100% {
@@ -42,28 +15,6 @@
     transform: rotate(180deg) scale(1.08);
     opacity: 0.9;
   }
-}
-
-/* Floating network particles - UNCHANGED */
-.network-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(
-      1px 1px at 15% 25%,
-      rgba(220, 38, 38, 0.18),
-      transparent
-    ),
-    radial-gradient(2px 2px at 85% 35%, rgba(239, 68, 68, 0.12), transparent),
-    radial-gradient(1px 1px at 55% 75%, rgba(220, 38, 38, 0.15), transparent),
-    radial-gradient(2px 2px at 25% 65%, rgba(239, 68, 68, 0.2), transparent);
-  background-size: 320px 240px;
-  animation: networkParticles 32s linear infinite;
-  z-index: 2;
-  pointer-events: none;
 }
 
 @keyframes networkParticles {
@@ -345,43 +296,6 @@
   transform: translateX(5px);
 }
 
-/* Add floating network icons */
-.net-bleed::before {
-  content: "";
-  position: absolute;
-  top: -80px;
-  right: 5%;
-  width: 80px;
-  height: 80px;
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/network.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.06;
-  animation: floatNetwork 10s ease-in-out infinite;
-  z-index: -1;
-  filter: invert(19%) sepia(98%) saturate(3067%) hue-rotate(346deg)
-    brightness(93%) contrast(94%);
-}
-
-.net-bleed::after {
-  content: "";
-  position: absolute;
-  bottom: -60px;
-  left: 8%;
-  width: 70px;
-  height: 70px;
-  background-image: url("https://cdn.jsdelivr.net/npm/lucide@latest/icons/handshake.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.08;
-  animation: floatNetwork 12s ease-in-out infinite reverse;
-  z-index: -1;
-  filter: invert(25%) sepia(100%) saturate(3045%) hue-rotate(346deg)
-    brightness(96%) contrast(94%);
-}
-
 @keyframes floatNetwork {
   0%,
   100% {
@@ -417,18 +331,6 @@
     height: 48px;
   }
 
-  /* Hide floating icons on mobile */
-  .net-bleed::before,
-  .net-bleed::after {
-    display: none;
-  }
-
-  /* Reduce background effects on mobile */
-  .network-section::before,
-  .network-section::after {
-    opacity: 0.3;
-  }
-
   /* Disable hover effects on touch devices */
   .net-item:hover {
     transform: none;
@@ -439,13 +341,6 @@
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  .network-section::before,
-  .network-section::after,
-  .net-bleed::before,
-  .net-bleed::after {
-    animation: none;
-  }
-
   .net-wrap,
   .net-bleed {
     /* Updated this rule */
@@ -480,11 +375,5 @@
   .net-item:active {
     transform: scale(0.98);
     background: rgba(220, 38, 38, 0.05);
-  }
-
-  /* Disable heavy animations on touch devices */
-  .network-section::before,
-  .network-section::after {
-    animation: none;
   }
 }

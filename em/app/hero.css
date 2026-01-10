@@ -389,7 +389,10 @@
   }
 
   .hero__inner {
-    padding: 75px 0 60px;
+    padding: 125px 0 0;
+  }
+  .hero__inner-secondary {
+    padding: 0;
   }
 }
 

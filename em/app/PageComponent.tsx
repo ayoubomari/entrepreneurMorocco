@@ -584,7 +584,9 @@ const MethodologySection = () => {
           <div key={i} className="methItem">
             <div className="methLabel">
               {s.title.split("\n").map((line, k) => (
-                <div key={k}>{line}</div>
+                <div key={k} className="methLabel-text">
+                  {line}
+                </div>
               ))}
             </div>
             <div className="methBox">
@@ -828,24 +830,33 @@ const PodcastSection = () => {
         image: "/podcast1.png",
         video: "/videos/reel-20.mp4",
       },
+      // duplicate
+      {
+        id: 2,
+        image: "/podcast2.png",
+        video: "/videos/reel-19.mp4",
+      },
     ],
     []
   );
 
-  const COPIES = 2;
+  const COPIES = 1;
   const items = useMemo(
     () => Array.from({ length: COPIES }).flatMap(() => base),
     [base]
   );
 
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isDown, setIsDown] = useState(false);
-  const [active, setActive] = useState(Math.floor(items.length / 2));
+
+  // State
+  const [active, setActive] = useState(0); // Initialize at 0, will be fixed in useEffect
   const [isDesktop, setIsDesktop] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
+  // Refs for Drag Logic
+  const isDownRef = useRef(false);
   const startXRef = useRef(0);
-  const scrollLeftRef = useRef(0);
+  const startScrollLeftRef = useRef(0);
   const isDraggingRef = useRef(false);
 
   useEffect(() => {
@@ -857,93 +868,118 @@ const PodcastSection = () => {
     return () => window.removeEventListener("resize", checkDesktop);
   }, []);
 
-  // ... (Keep getOneSetWidth, centerCardByIndex, findClosestCardToCenter logic exactly as is) ...
   const getOneSetWidth = useCallback(() => {
     const track = trackRef.current;
     if (!track) return 0;
     return track.scrollWidth / COPIES;
   }, [COPIES]);
 
-  const centerCardByIndex = useCallback((index: number, smooth = true) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = Array.from(track.querySelectorAll(".pod-card"));
-    if (!cards[index]) return;
-    const trackRect = track.getBoundingClientRect();
-    const cardRect = cards[index].getBoundingClientRect();
-    const currentIsDesktop = window.innerWidth >= 1024;
-    if (currentIsDesktop) {
-      const nextCard = cards[index + 1];
-      if (nextCard) {
-        const nextCardRect = nextCard.getBoundingClientRect();
-        const pairCenter = (cardRect.left + nextCardRect.right) / 2;
-        const targetScrollLeft =
-          track.scrollLeft + pairCenter - trackRect.left - trackRect.width / 2;
-        if (smooth) {
-          track.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-        } else {
-          track.scrollLeft = targetScrollLeft;
-        }
-      }
-    } else {
-      const targetScrollLeft =
-        track.scrollLeft +
-        (cardRect.left - trackRect.left + cardRect.width / 2) -
-        trackRect.width / 2;
-      if (smooth) {
-        track.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-      } else {
-        track.scrollLeft = targetScrollLeft;
-      }
-    }
-  }, []);
-
+  // --- Helper: Find which card is currently visually centered ---
   const findClosestCardToCenter = useCallback(() => {
     const track = trackRef.current;
     if (!track) return 0;
     const cards = Array.from(track.querySelectorAll(".pod-card"));
     if (!cards.length) return 0;
+
     const trackRect = track.getBoundingClientRect();
-    const centerX = trackRect.left + trackRect.width / 2;
+    const trackCenter = trackRect.left + trackRect.width / 2;
+
     let closestIndex = 0;
     let minDistance = Number.POSITIVE_INFINITY;
+
     cards.forEach((card, index) => {
       const cardRect = card.getBoundingClientRect();
-      const cardCenterX = cardRect.left + cardRect.width / 2;
-      const distance = Math.abs(cardCenterX - centerX);
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - trackCenter);
+
       if (distance < minDistance) {
         minDistance = distance;
         closestIndex = index;
       }
     });
-    const currentIsDesktop = window.innerWidth >= 1024;
-    if (currentIsDesktop && closestIndex % 2 !== 0) {
-      closestIndex = closestIndex - 1;
-    }
+
+    // On Desktop, we often want to align to the "pair" start (even indices)
+    // But for pure calculation, we return the strict closest.
     return closestIndex;
   }, []);
 
-  const handleScroll = useCallback(() => {
+  // --- Core: Move the Scrollbar to center a specific card ---
+  const centerCardByIndex = useCallback((index: number, smooth = true) => {
     const track = trackRef.current;
-    if (!track || isDraggingRef.current) return;
-    const closestIndex = findClosestCardToCenter();
-    setActive(closestIndex);
-  }, [findClosestCardToCenter]);
+    if (!track) return;
 
-  // ... (Keep useEffects for scroll, drag, touch exactly as is) ...
+    const cards = Array.from(track.querySelectorAll(".pod-card"));
+    // Bound check
+    if (index < 0) index = 0;
+    if (index >= cards.length) index = cards.length - 1;
+
+    const targetCard = cards[index];
+    if (!targetCard) return;
+
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = targetCard.getBoundingClientRect();
+
+    // Calculate new scroll position relative to current
+    // We want: CardCenter = TrackCenter
+    // Current CardCenter = cardRect.left + width/2
+    // Offset needed = (CardCenter) - (TrackCenter)
+    // Target ScrollLeft = Current ScrollLeft + Offset
+
+    const currentCardCenter = cardRect.left + cardRect.width / 2;
+    const currentTrackCenter = trackRect.left + trackRect.width / 2;
+    const offset = currentCardCenter - currentTrackCenter;
+
+    const targetScrollLeft = track.scrollLeft + offset;
+
+    // Desktop adjustment: If we are in pair mode, we might want to center the PAIR
+    const currentIsDesktop = window.innerWidth >= 1024;
+
+    if (currentIsDesktop) {
+      // Just center the target card normally, the CSS flex/gap handles the pair visual.
+      // Or if you want the pair centered:
+      const nextCard = cards[index + 1];
+      if (nextCard && index % 2 === 0) {
+        // Assuming even start
+        const nextRect = nextCard.getBoundingClientRect();
+        const pairCenter = (cardRect.left + nextRect.right) / 2;
+        const pairOffset = pairCenter - currentTrackCenter;
+        const pairTarget = track.scrollLeft + pairOffset;
+
+        track.scrollTo({
+          left: pairTarget,
+          behavior: smooth ? "smooth" : "auto",
+        });
+        return;
+      }
+    }
+
+    track.scrollTo({
+      left: targetScrollLeft,
+      behavior: smooth ? "smooth" : "auto",
+    });
+  }, []);
+
+  // --- Initial Position Setup ---
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+
     const initialPosition = () => {
       const oneSetWidth = getOneSetWidth();
       if (oneSetWidth > 0) {
+        // Start roughly in middle set logic or just 0
         track.scrollLeft = oneSetWidth * 2;
+
+        // Wait for layout paint then snap to correct card
         setTimeout(() => {
-          const startIndex = base.length * 2;
-          centerCardByIndex(startIndex, false);
+          const startIndex = base.length * 2; // Middle copy
+          const safeIndex = startIndex < items.length ? startIndex : 0;
+          centerCardByIndex(safeIndex, false);
+          setActive(safeIndex);
         }, 100);
       }
     };
+
     const images = track.querySelectorAll("img");
     if (images.length === 0) {
       initialPosition();
@@ -961,104 +997,172 @@ const PodcastSection = () => {
         }
       });
     }
-    track.addEventListener("scroll", handleScroll, { passive: true });
-    return () => track.removeEventListener("scroll", handleScroll);
-  }, [handleScroll, centerCardByIndex, getOneSetWidth, base.length]);
+  }, [base.length, items.length, getOneSetWidth, centerCardByIndex]);
 
+  // =========================================================
+  //  UNIFIED DRAG LOGIC (MOUSE & TOUCH)
+  // =========================================================
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const onDown = (e: MouseEvent) => {
-      setIsDown(true);
-      isDraggingRef.current = true;
-      startXRef.current = e.pageX - track.offsetLeft;
-      scrollLeftRef.current = track.scrollLeft;
+
+    // 1. START
+    const handleStart = (clientX: number) => {
+      isDownRef.current = true;
+      isDraggingRef.current = false; // Will set to true on first move
+      startXRef.current = clientX;
+      startScrollLeftRef.current = track.scrollLeft;
+
       track.style.cursor = "grabbing";
+      // We stop any ongoing smooth scroll by force-setting current position
+      track.style.scrollBehavior = "auto";
     };
-    const onUp = () => {
-      setIsDown(false);
-      isDraggingRef.current = false;
-      if (trackRef.current) trackRef.current.style.cursor = "grab";
-      setTimeout(() => {
-        const idx = findClosestCardToCenter();
-        setActive(idx);
-      }, 50);
-    };
-    const onLeave = () => {
-      setIsDown(false);
-      isDraggingRef.current = false;
-      if (trackRef.current) trackRef.current.style.cursor = "grab";
-      setTimeout(() => {
-        const idx = findClosestCardToCenter();
-        setActive(idx);
-      }, 50);
-    };
-    const onMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - track.offsetLeft;
-      const walk = (x - startXRef.current) * 1.2;
-      track.scrollLeft = scrollLeftRef.current - walk;
-    };
-    track.style.cursor = "grab";
-    track.addEventListener("mousedown", onDown);
-    track.addEventListener("mouseup", onUp);
-    track.addEventListener("mouseleave", onLeave);
-    track.addEventListener("mousemove", onMove);
-    return () => {
-      track.removeEventListener("mousedown", onDown);
-      track.removeEventListener("mouseup", onUp);
-      track.removeEventListener("mouseleave", onLeave);
-      track.removeEventListener("mousemove", onMove);
-    };
-  }, [isDown, findClosestCardToCenter]);
 
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    let tStartX = 0;
-    let tScrollLeft = 0;
+    const onMouseDown = (e: MouseEvent) => {
+      e.preventDefault(); // Prevent text selection
+      handleStart(e.pageX);
+    };
+
     const onTouchStart = (e: TouchEvent) => {
-      isDraggingRef.current = true;
+      // Don't prevent default immediately to allow vertical scroll check,
+      // but for this horizontal slider, usually we want to trap x-axis.
       const touch = e.touches[0];
-      tStartX = touch.pageX - track.offsetLeft;
-      tScrollLeft = track.scrollLeft;
+      handleStart(touch.pageX);
     };
+
+    // 2. MOVE
+    const handleMove = (clientX: number) => {
+      if (!isDownRef.current) return;
+
+      const x = clientX;
+      const dist = x - startXRef.current;
+
+      // Threshold to consider it a drag and not a click
+      if (Math.abs(dist) > 5) {
+        isDraggingRef.current = true;
+      }
+
+      // Move visually 1:1 with finger
+      track.scrollLeft = startScrollLeftRef.current - dist;
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDownRef.current) return;
+      e.preventDefault();
+      handleMove(e.pageX);
+    };
+
     const onTouchMove = (e: TouchEvent) => {
+      if (!isDownRef.current) return;
       const touch = e.touches[0];
-      const x = touch.pageX - track.offsetLeft;
-      const walk = (x - tStartX) * 1.2;
-      track.scrollLeft = tScrollLeft - walk;
+      handleMove(touch.pageX);
     };
-    const onTouchEnd = () => {
-      isDraggingRef.current = false;
+
+    // 3. END
+    const handleEnd = (clientX: number) => {
+      isDownRef.current = false;
+      track.style.cursor = "grab";
+      track.style.scrollBehavior = "smooth"; // Restore smooth for the snap
+
+      if (!isDraggingRef.current) return; // Was a click
+
+      const dist = clientX - startXRef.current;
+      const SWIPE_THRESHOLD = 50; // px needed to trigger a slide change
+
+      // Determine where we started (index)
+      // We calculate this based on the *start* scroll, or just the current Active state.
+      // Using 'active' state is safer for "Next/Prev" logic.
+      let targetIndex = active;
+
+      if (Math.abs(dist) > SWIPE_THRESHOLD) {
+        // Logic:
+        // Dragged LEFT (dist < 0) -> Next Card
+        // Dragged RIGHT (dist > 0) -> Prev Card
+
+        const moveAmount = isDesktop ? 2 : 1; // 2 for desktop pairs, 1 for mobile
+
+        if (dist < 0) {
+          targetIndex = active + moveAmount;
+        } else {
+          targetIndex = active - moveAmount;
+        }
+      } else {
+        // Drag wasn't far enough, snap back to current
+        targetIndex = active;
+      }
+
+      // Boundary Checks
+      if (targetIndex < 0) targetIndex = 0;
+      if (targetIndex >= items.length) {
+        // If we hit the end, logic might vary (loop or stop).
+        // Here we stop at last valid index.
+        targetIndex = items.length - 1;
+        if (isDesktop && targetIndex % 2 !== 0) targetIndex -= 1; // keep pairs
+      }
+
+      // Execute Snap
+      setActive(targetIndex);
+      centerCardByIndex(targetIndex, true);
+
+      // Reset drag ref after a short delay to prevent click events triggering immediately
       setTimeout(() => {
-        const idx = findClosestCardToCenter();
-        setActive(idx);
-      }, 50);
+        isDraggingRef.current = false;
+      }, 0);
     };
+
+    const onMouseUp = (e: MouseEvent) => {
+      handleEnd(e.pageX);
+    };
+
+    const onMouseLeave = () => {
+      if (isDownRef.current) {
+        // Treat leave as an end, or just reset?
+        // Usually safest to snap back to nearest or active.
+        isDownRef.current = false;
+        track.style.cursor = "grab";
+        track.style.scrollBehavior = "smooth";
+        centerCardByIndex(active, true);
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      // Changed touches are found in e.changedTouches
+      const touch = e.changedTouches[0];
+      handleEnd(touch.pageX);
+    };
+
+    // Attach Events
+    track.addEventListener("mousedown", onMouseDown);
+    track.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("mousemove", onMouseMove); // Window handles drag outside track
+    window.addEventListener("mouseup", onMouseUp);
+
     track.addEventListener("touchstart", onTouchStart, { passive: true });
-    track.addEventListener("touchmove", onTouchMove, { passive: true });
+    track.addEventListener("touchmove", onTouchMove, { passive: false }); // non-passive to allow blocking if needed, though we just scroll
     track.addEventListener("touchend", onTouchEnd);
-    track.addEventListener("touchcancel", onTouchEnd);
+
     return () => {
+      track.removeEventListener("mousedown", onMouseDown);
+      track.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+
       track.removeEventListener("touchstart", onTouchStart);
       track.removeEventListener("touchmove", onTouchMove);
       track.removeEventListener("touchend", onTouchEnd);
-      track.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [findClosestCardToCenter]);
+  }, [active, isDesktop, items.length, centerCardByIndex]); // Re-bind when active changes to ensure accurate next/prev calc
 
-  // --- HANDLERS ---
+  // --- Click Handlers ---
 
   const handlePlayClick = (e: React.MouseEvent, videoSrc: string) => {
-    e.stopPropagation(); // Stops the click from bubbling to the card (preventing centering logic)
+    e.stopPropagation();
+    if (isDraggingRef.current) return; // Don't play if we just dragged
     setSelectedVideo(videoSrc);
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Note: Because we use stopPropagation in handlePlayClick, we don't strictly need to check target here,
-    // but it's good practice.
+    if (isDraggingRef.current) return; // Don't act if dragging
     if ((e.target as HTMLElement).closest(".pod-media")) return;
 
     const cardElement = e.currentTarget;
@@ -1066,13 +1170,13 @@ const PodcastSection = () => {
     if (!track) return;
     const cards = Array.from(track.querySelectorAll(".pod-card"));
     let clickedIndex = cards.indexOf(cardElement);
+
     if (clickedIndex !== -1) {
-      const currentIsDesktop = window.innerWidth >= 1024;
-      if (currentIsDesktop && clickedIndex % 2 !== 0) {
-        clickedIndex = clickedIndex - 1;
+      if (isDesktop && clickedIndex % 2 !== 0) {
+        clickedIndex = clickedIndex - 1; // Align pair
       }
-      centerCardByIndex(clickedIndex, true);
       setActive(clickedIndex);
+      centerCardByIndex(clickedIndex, true);
     }
   };
 
@@ -1107,10 +1211,6 @@ const PodcastSection = () => {
                 className={`pod-card ${isActive ? "is-active" : ""}`}
                 onClick={handleCardClick}
               >
-                {/* 
-                   MOVED CLICK HANDLER HERE:
-                   The entire media container (image + play btn) is now clickable.
-                */}
                 <div
                   className="pod-media"
                   onClick={(e) => handlePlayClick(e, podcast.video)}
@@ -1134,12 +1234,14 @@ const PodcastSection = () => {
                   <a
                     href="https://www.youtube.com/@EntrepreneursMorocco"
                     className="pod-btn pod-btn--solid"
+                    onClick={(e) => isDraggingRef.current && e.preventDefault()}
                   >
                     ÉCOUTER SUR YOUTUBE
                   </a>
                   <a
                     href="https://www.instagram.com/entrepreneursmorocco?igsh=b2JucjcwNjcxZHB6"
                     className="pod-btn pod-btn--outline"
+                    onClick={(e) => isDraggingRef.current && e.preventDefault()}
                   >
                     ÉCOUTER SUR INSTAGRAM
                   </a>
