@@ -200,6 +200,7 @@ const AudienceCarousel: React.FC = () => {
         {/* --- NAVIGATION ARROWS (Large Screen Only) --- */}
         <button
           className="carousel-arrow carousel-arrow--left"
+          aria-label="Previous Slide"
           onClick={(e) => {
             e.stopPropagation();
             prev();
@@ -222,6 +223,7 @@ const AudienceCarousel: React.FC = () => {
 
         <button
           className="carousel-arrow carousel-arrow--right"
+          aria-label="Next Slide"
           onClick={(e) => {
             e.stopPropagation();
             next();
@@ -256,7 +258,13 @@ const AudienceCarousel: React.FC = () => {
                 onClick={() => handleCardClick(i)}
               >
                 <div className="wave-img-wrapper">
-                  <img src={src} alt={cap.title} draggable={false} />
+                  <Image
+                    src={src}
+                    alt={cap.title}
+                    width={765}
+                    height={966}
+                    draggable={false}
+                  />
                 </div>
 
                 <div className="wave-caption">
@@ -790,7 +798,7 @@ const NetworkSection = () => {
             {[...partners, ...partners].map((p, i) => (
               <div className="net-item" key={`${p.src}-${i}`}>
                 <div className="net-icon">
-                  <img src={p.src} alt={p.alt} width={64} height={64} />
+                  <Image src={p.src} alt={p.alt} width={64} height={64} />
                 </div>
                 <h3 className="net-title">
                   {p.title.split("\n").map((line, k) => (
@@ -1216,7 +1224,12 @@ const PodcastSection = () => {
                   onClick={(e) => handlePlayClick(e, podcast.video)}
                 >
                   <div className="pod-thumb">
-                    <img src={podcast.image} alt="Podcast" />
+                    <Image
+                      width={400}
+                      height={600}
+                      src={podcast.image}
+                      alt="Podcast"
+                    />
                   </div>
 
                   <div className="pod-play">
@@ -1362,10 +1375,36 @@ const AboutUsSection = () => {
 
         {/* Main Grid */}
         <div className="aus-grid">
-          {/* Left Column: Photo */}
+          {/* Left Column: Photos */}
           <div className="aus-photoCol">
-            <div className="aus-img-container">
-              <img className="aus-photo" src="/nous.png" alt="Imad & Zakaria" />
+            <div className="aus-duo-container">
+              {/* === NEW BLOB INSERTED HERE === */}
+              <div className="aus-internal-blob"></div>
+              {/* ============================== */}
+
+              {/* Zakaria's Photo */}
+              <div className="aus-img-card">
+                <Image
+                  width={350}
+                  height={700}
+                  className="aus-photo aus-photo-zakaria"
+                  src="/zakaria.png"
+                  alt="Zakaria"
+                  title="Zakaria"
+                />
+              </div>
+
+              {/* Imad's Photo */}
+              <div className="aus-img-card">
+                <Image
+                  width={700}
+                  height={1400}
+                  className="aus-photo aus-photo-imad"
+                  src="/imad.png"
+                  alt="Imad"
+                  title="Imad"
+                />
+              </div>
             </div>
           </div>
 
@@ -1602,7 +1641,7 @@ const Footer = () => {
                     className="ft-socialLink"
                   >
                     <span className="ft-iconWrap">
-                      <img
+                      <Image
                         src={s.icon}
                         alt=""
                         aria-hidden="true"
