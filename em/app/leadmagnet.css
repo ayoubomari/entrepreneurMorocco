@@ -3,7 +3,7 @@
   padding: 0 0;
 }
 
-/* Updated Wrapper to match Service Section (max-w-7xl) */
+/* Wrapper */
 .lm-wrap {
   width: 100%;
   max-width: 1280px;
@@ -22,7 +22,7 @@
   }
 }
 
-/* Updated Title to match Services H2 */
+/* Titles and Copy */
 .lm-title {
   color: #fff;
   text-transform: uppercase;
@@ -33,7 +33,6 @@
   margin: 0 0 10px;
 }
 
-/* Updated Subtitle to match Services P */
 .lm-head-copy p {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
@@ -41,7 +40,7 @@
   font-size: clamp(16px, 2vw, 16px);
 }
 
-/* Grid - align items to start and reduce gap */
+/* Grid Layout */
 .lm-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -51,10 +50,8 @@
 
 @media (min-width: 768px) {
   .lm-grid {
-    /* Changed to make the Form (right) much wider than the Image (left) */
     grid-template-columns: 0.7fr 1.3fr;
-    gap: clamp(16px, 4vw, 48px); /* Increased gap slightly for balance */
-    /* This aligns the content (image and form) to the center vertically */
+    gap: clamp(16px, 4vw, 48px);
     align-items: center;
   }
 }
@@ -65,7 +62,7 @@
   }
 }
 
-/* Left image - full height with flex-grow */
+/* Left Image Section */
 .lm-pdf {
   margin: 0;
   display: flex;
@@ -78,9 +75,7 @@
 
 @media (min-width: 768px) {
   .lm-pdf {
-    /* Center the image horizontally within its smaller column */
     justify-content: center;
-    /* Align center vertically */
     align-items: center;
   }
 }
@@ -90,7 +85,6 @@
   max-width: clamp(280px, 45vw, 450px);
   width: 100%;
   height: 100%;
-  /* Removed align-self stretch to allow centering */
   align-self: center;
 }
 
@@ -105,10 +99,10 @@
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: contain; /* Changed to contain to ensure full image shows without stretch */
+  object-fit: contain;
 }
 
-/* Right: form */
+/* Right Form Section */
 .lm-form {
   width: 100%;
   display: flex;
@@ -137,60 +131,85 @@
   opacity: 0.92;
 }
 
-/* Success */
-.lm-success {
-  margin-top: clamp(12px, 2vw, 14px);
-  padding: clamp(14px, 3vw, 18px) clamp(16px, 3vw, 20px);
-  border-radius: clamp(6px, 1.5vw, 10px);
-  background: rgba(255, 255, 255, 0.08);
-  font-size: clamp(14px, 2vw, 16px);
-}
-
-/* Fields wrap */
 .lm-fields {
   display: flex;
   flex-direction: column;
   gap: clamp(14px, 3vw, 18px);
 }
 
-/* Inputs using SVG frame (responsive) */
+/* ========================================= */
+/*       UPDATED GEOMETRIC INPUT STYLES      */
+/* ========================================= */
+
+/* The Wrapper acting as the Border */
 .lm-field {
   position: relative;
-  height: clamp(60px, 12vw, 78px);
-  background-image: url("/inputleadmagnet.svg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  display: flex;
-  align-items: center;
-  padding: 0 clamp(20px, 4vw, 28px);
   width: 100%;
+  height: clamp(60px, 12vw, 65px);
+
+  /* Initial Border Color (Dim White) */
+  background-color: #fff;
+
+  /* The Geometric Shape */
+  clip-path: polygon(0 0, 98.5% 0, 100% 100%, 0 100%);
+
+  transition: background-color 0.2s ease;
 }
 
+/* The Mask (Pseudo-element acting as background) */
+.lm-field::before {
+  content: "";
+  position: absolute;
+  inset: 2px; /* Controls border thickness */
+  background-color: #000; /* Matches the section background to create "hollow" effect */
+  clip-path: polygon(0 0, 98.5% 0, 100% 100%, 0 100%);
+  z-index: 1;
+}
+
+/* Input Styling */
 .lm-input {
+  display: block;
+  position: relative;
+  z-index: 2; /* Sits on top of the mask */
   width: 100%;
-  height: clamp(42px, 8vw, 54px);
-  background: transparent;
-  border: 0;
-  outline: 0;
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-size: clamp(13px, 2.2vw, 14px);
-  caret-color: #fff;
-}
+  height: 100%;
+  padding: 0 clamp(20px, 4vw, 28px);
 
-@media (max-width: 480px) {
-  .lm-fields {
-    gap: 0px;
-  }
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-size: clamp(14px, 2.2vw, 15px);
+  text-transform: uppercase;
+  caret-color: #fff;
 }
 
 .lm-input::placeholder {
   color: rgba(255, 255, 255, 0.8);
-  font-size: clamp(13px, 2.2vw, 14px);
+  font-size: clamp(14px, 2.2vw, 15px);
+  opacity: 1;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-/* Responsive button */
+/* Hover/Focus Effects */
+.lm-field:hover,
+.lm-field:focus-within {
+  background-color: #fff; /* Border becomes bright white */
+}
+
+/* ========================================= */
+
+@media (max-width: 480px) {
+  .lm-fields {
+    gap: 12px;
+  }
+}
+
+/* Button Styles */
 .lm-btn-left {
   -webkit-clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%);
   clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%);
@@ -202,8 +221,9 @@
   font-size: 14px;
   padding: clamp(16px, 3vw, 22px) clamp(20px, 4vw, 40px);
   border: 0;
-  cursor: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  cursor: none; /* As per your brochure style, or use pointer */
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease,
+    background 0.2s ease;
   width: auto;
   margin-left: auto;
   display: block;
@@ -212,25 +232,9 @@
   text-align: center;
 }
 
-/* Mobile: full width button */
-@media (max-width: 480px) {
-  .lm-btn-left {
-    width: 100%;
-    margin-left: 0;
-    -webkit-clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%);
-    clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
-
-/* Tablet adjustments */
-@media (min-width: 481px) and (max-width: 767px) {
-  .lm-btn-left {
-    width: clamp(180px, 45vw, 250px);
-  }
-}
-
-.lm-btn-left:hover {
+.lm-btn-left:hover:not(:disabled) {
   transform: translateY(-2px);
+  background: #f5f5f5;
   box-shadow: 0 10px 28px rgba(255, 255, 255, 0.14);
 }
 
@@ -245,20 +249,31 @@
   transform: none;
 }
 
-/* Touch device improvements */
+/* Mobile Button */
+@media (max-width: 480px) {
+  .lm-btn-left {
+    width: 100%;
+    margin-left: 0;
+    -webkit-clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .lm-btn-left {
+    width: clamp(180px, 45vw, 250px);
+  }
+}
+
+/* Touch optimizations */
 @media (hover: none) and (pointer: coarse) {
   .lm-btn-left:hover {
     transform: none;
     box-shadow: none;
   }
-
   .lm-btn-left:active {
     transform: scale(0.98);
     opacity: 0.9;
-  }
-
-  .lm-input {
-    font-size: clamp(16px, 3vw, 18px);
   }
 }
 
@@ -268,32 +283,18 @@
     width: 95%;
     padding: 0 12px;
   }
-
   .lm-field {
-    padding: 0 16px;
+    padding: 0;
   }
-
   .lm-subtitle {
     font-size: 16px;
     margin-bottom: 20px;
   }
 }
 
-/* Large screens optimization */
+/* Large screens */
 @media (min-width: 1400px) {
   .lm-grid {
     gap: 84px;
-  }
-}
-
-/* Print styles */
-@media print {
-  .lm-section {
-    background: #fff;
-    color: #000;
-  }
-
-  .lm-btn-left {
-    display: none;
   }
 }

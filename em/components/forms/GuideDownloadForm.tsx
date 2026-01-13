@@ -14,7 +14,7 @@ const GuideDownloadForm = () => {
       setTimeout(() => {
         setFormData({ firstName: "", email: "" });
         setDownloadTriggered(false);
-      }, 3000);
+      }, 5000);
     },
   });
 
@@ -26,7 +26,7 @@ const GuideDownloadForm = () => {
       "/assets/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
     ];
 
-    // Use the first path (most likely correct)
+    // Use the first path
     const pdfUrl = pdfPaths[0];
 
     // Create download
@@ -75,7 +75,6 @@ const GuideDownloadForm = () => {
         Source: "Site Web - Page Guide",
       });
     } catch (err) {
-      // Even if email submission fails, we've already downloaded the PDF
       console.log("Email submission failed, but PDF was downloaded:", err);
     }
   };
@@ -103,7 +102,7 @@ const GuideDownloadForm = () => {
         </header>
 
         <div className="lm-grid">
-          {/* Left: single image – visual only, no download */}
+          {/* Left: Image */}
           <figure className="lm-pdf">
             <div className="lm-pdf-link">
               <img
@@ -291,8 +290,11 @@ const GuideDownloadForm = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="lm-fields">
-                {/* input with SVG border background */}
-                <label className="lm-field">
+                {/* 
+                  UPDATED: Geometric Inputs using CSS clip-path 
+                  (No longer using SVG image)
+                */}
+                <div className="lm-field">
                   <input
                     className="lm-input"
                     type="text"
@@ -303,10 +305,9 @@ const GuideDownloadForm = () => {
                     disabled={isSubmitting}
                     required
                   />
-                </label>
+                </div>
 
-                {/* input with SVG border background */}
-                <label className="lm-field">
+                <div className="lm-field">
                   <input
                     className="lm-input"
                     type="email"
@@ -317,7 +318,7 @@ const GuideDownloadForm = () => {
                     disabled={isSubmitting}
                     required
                   />
-                </label>
+                </div>
 
                 {/* Error message */}
                 {error && (
@@ -329,14 +330,13 @@ const GuideDownloadForm = () => {
                       padding: "12px 16px",
                       color: "#fca5a5",
                       fontSize: "14px",
-                      marginTop: "8px",
                     }}
                   >
                     {error}
                   </div>
                 )}
 
-                {/* left-slanted button (clip-path only) */}
+                {/* Left-slanted button */}
                 <button
                   className="lm-btn-left"
                   type="submit"
