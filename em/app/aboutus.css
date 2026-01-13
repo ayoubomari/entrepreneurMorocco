@@ -48,7 +48,7 @@
 
 @media (min-width: 1024px) {
   .aus-grid {
-    gap: 48px;
+    gap: 40px;
     align-content: flex-end;
     align-items: center;
     justify-content: flex-start;
@@ -69,8 +69,8 @@
 @media (min-width: 1024px) {
   .aus-photoCol {
     flex: 0 0 400px;
-    width: 400px;
-    min-width: 400px;
+    width: 430px;
+    min-width: 430px;
     margin: 0;
   }
 }
@@ -100,9 +100,8 @@
   height: 60px;
   border: 2px solid rgba(255, 107, 107, 0.4);
   z-index: 0;
-  animation: pulse 3s ease-in-out infinite;
+  /* animation: pulse 3s ease-in-out infinite; */
 
-  /* IMPORTANT: Add transition so they move smoothly */
   transition: top 0.4s ease-out, bottom 0.4s ease-out;
 }
 
@@ -127,11 +126,11 @@
    ========================================= */
 
 /* Blob 1 - Top Left orbital */
-.aus-duo-container::before {
+/* .aus-duo-container::before {
   content: "";
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -141,21 +140,21 @@
     transparent 100%
   );
   filter: blur(40px);
-  top: -80px;
-  left: -60px;
+  top: -30px;
+  left: -30px;
   z-index: -1;
   opacity: 0.7;
   animation: floatOrbital1 15s ease-in-out infinite,
     colorPulse1 8s ease-in-out infinite;
   pointer-events: none;
-}
+} */
 
 /* Blob 2 - Bottom Right orbital */
-.aus-duo-container::after {
+/* .aus-duo-container::after {
   content: "";
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -165,14 +164,14 @@
     transparent 100%
   );
   filter: blur(40px);
-  bottom: -60px;
-  right: -80px;
+  bottom: -30px;
+  right: -30px;
   z-index: -1;
   opacity: 0.7;
   animation: floatOrbital2 18s ease-in-out infinite,
     colorPulse2 10s ease-in-out infinite;
   pointer-events: none;
-}
+} */
 
 /* =========================================
    ANIMATIONS
@@ -487,8 +486,8 @@
     transparent 80%
   );
   filter: blur(40px);
-  top: 10%;
-  right: 10%;
+  top: 15%;
+  right: 15%;
   z-index: 0;
   animation: floatUpperRegion 8s ease-in-out infinite;
   pointer-events: none;
@@ -499,7 +498,7 @@
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(-120%, 80%) scale(1.1);
+    transform: translate(-120%, 70%) scale(1.1);
   }
   100% {
     transform: translate(0, 0) scale(1);

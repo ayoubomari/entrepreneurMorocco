@@ -62,7 +62,7 @@ export default function FormationsPageComponent(): React.ReactElement {
   ];
 
   return (
-    <main className="formations-page relative overflow-hidden">
+    <main className="formations-page">
       <CloudRedEffect1 />
 
       <div className="formations-wrap">
@@ -85,9 +85,13 @@ export default function FormationsPageComponent(): React.ReactElement {
           <h3 className="formations-block__title">Nos 4 formations phares</h3>
 
           <div className="formation-grid">
-            {formations.map((f) => (
-              <article key={f.id} className="formation-card">
-                <div className="formation-icon">
+            {formations.map((f, index) => (
+              <article
+                key={f.id}
+                className="formation-card"
+                style={{ animationDelay: `${0.7 + index * 0.1}s` }}
+              >
+                <div className="formation-icon-container">
                   <img
                     src={f.iconUrl}
                     alt=""
@@ -111,14 +115,14 @@ export default function FormationsPageComponent(): React.ReactElement {
         </section>
 
         <div className="formations-cta">
-          <Link href="/contact-quiz" className="cta-btn">
+          <Link href="/contact-quiz" className="f-cta-btn">
             <svg
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             >

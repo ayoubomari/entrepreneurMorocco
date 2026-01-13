@@ -158,7 +158,7 @@
 
 .hdr__stripe--3.hdr__stripe--loaded {
   opacity: 1;
-  transform: translateX(-5px);
+  transform: translateX(-8px);
   transition-delay: 0.8s;
 }
 

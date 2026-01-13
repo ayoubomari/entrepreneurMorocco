@@ -1,6 +1,6 @@
 /* Section frame */
 .pod-section {
-  padding: 0 0 96px;
+  padding: 0 0 35px;
   position: relative;
   overflow: hidden;
 }
@@ -26,7 +26,7 @@
 
   /* Exact clamp size from Services */
   font-size: clamp(28px, 5vw, 36px);
-  margin: 0 0 10px;
+  margin: 0 0 -10px;
   text-align: center;
 }
 
@@ -159,12 +159,12 @@
   contain: layout style;
 }
 
-@media (min-width: 1069px) and (max-width: 1138px) {
+@media (min-width: 1180px) and (max-width: 1269px) {
   .pod-track {
     gap: clamp(40px, 6vw, 75px) !important;
   }
   .pod-card {
-    min-width: 477.9px;
+    max-width: 490px;
   }
 }
 
@@ -199,11 +199,6 @@
   isolation: isolate;
   transform: translateZ(0);
   cursor: pointer;
-}
-
-.pod-media:hover .pod-thumb img {
-  transform: scale(1.05);
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Image optimizations */
@@ -248,40 +243,48 @@
   pointer-events: none;
 }
 
-/* Play button */
+/* ============================
+   PLAY BUTTON (UPDATED)
+   ============================ */
 .pod-play {
   position: absolute;
   inset: auto;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
+  /* Dimensions for the button area */
   width: 88px;
   height: 88px;
-  border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  display: grid;
-  place-items: center;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(4px);
-  z-index: 2;
-  pointer-events: none;
-  transition: transform 0.3s ease, background-color 0.3s ease;
 
-  /* hide it for now */
-  display: none;
+  /* Remove old border/background styles to let the image shine */
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  backdrop-filter: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none; /* Clicks pass through to the media container */
+  transition: transform 0.3s ease;
 }
 
+/* Ensure the webp image fills the container */
+.pod-play img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Hover effect: Scale up slightly, no background change */
 .pod-media:hover .pod-play {
   transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(0, 0, 0, 0.4);
+  background: transparent;
 }
 
-.pod-play-ico {
-  width: 34px;
-  height: 34px;
-  fill: #fff;
-  margin-left: 4px;
-}
 /* Meta */
 .pod-meta {
   text-align: left;
@@ -358,11 +361,12 @@
 
   .pod-track {
     gap: 28px;
-    padding: 16px 6vw 40px;
+    padding: 16px 20px 40px;
   }
 
   .pod-card {
     flex: 0 0 86vw;
+    min-width: 100%;
   }
 
   /* Faster transitions on mobile */
@@ -375,11 +379,6 @@
   .pod-play {
     width: 68px;
     height: 68px;
-  }
-
-  .pod-play-ico {
-    width: 26px;
-    height: 26px;
   }
 
   .pod-btn {

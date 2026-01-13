@@ -305,7 +305,7 @@
   letter-spacing: 0.02em;
   line-height: 1.1;
   font-size: clamp(28px, 5vw, 36px);
-  margin-bottom: 10px;
+  margin-bottom: -10px;
   text-align: center;
 }
 
@@ -556,7 +556,7 @@
   color: #ffffff;
   font-weight: 600;
   font-size: 1.1rem;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   margin-top: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   animation: contentFadeIn 0.8s ease-out 0.4s both;

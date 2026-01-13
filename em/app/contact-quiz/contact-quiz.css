@@ -45,7 +45,9 @@
   line-height: 1.6;
 }
 
-/* ===== Plans Selection ===== */
+/* ========================================= 
+   PLANS SELECTION (New Glass Style) 
+   ========================================= */
 .qc__plans {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -54,16 +56,25 @@
 }
 
 .qc__card {
-  background: #111;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  /* Minimal Glass Morphism */
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+
+  /* Clean Border */
+  border: 1px solid rgba(255, 255, 255, 1);
+
+  /* Layout */
   padding: 32px;
-  cursor: none;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
   z-index: 1;
 }
 
+/* Shine Effect */
 .qc__card::after {
   content: "";
   position: absolute;
@@ -74,29 +85,31 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.08),
     transparent
   );
-  transition: left 0.5s ease;
-  z-index: 2;
+  transition: left 0.6s ease;
+  z-index: 1;
 }
 
+/* Hover Effects */
 .qc__card:hover:not(.is-selected) {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   border-color: rgba(239, 68, 68, 0.3);
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(239, 68, 68, 0.1);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(239, 68, 68, 0.1);
 }
 
 .qc__card:hover::after {
   left: 100%;
 }
 
+/* Selected State */
 .qc__card.is-selected {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
-  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ef4444; /* Red border to mark selection */
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
 }
 
 .qc__card-head,
@@ -106,33 +119,97 @@
   z-index: 3;
 }
 
+/* --- RADIO CIRCLE INDICATOR --- */
+.qc__card-radio {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  z-index: 5;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+}
+
+/* Hover state: Border turns red to suggest clickability */
+.qc__card:hover .qc__card-radio {
+  border-color: rgba(239, 68, 68, 0.8);
+  transform: scale(1.1);
+}
+
+/* Selected state: Fills with red and adds glow */
+.qc__card.is-selected .qc__card-radio {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  transform: scale(1.1);
+}
+/* Optional: White dot inside when selected */
+.qc__card.is-selected .qc__card-radio::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* --- TEXT STYLES --- */
 .qc__card-title {
   font-weight: 900;
   font-size: 20px;
   text-transform: uppercase;
   margin: 0 0 4px;
+  color: #fff;
+  transition: color 0.3s ease;
+  padding-right: 32px; /* Prevent overlap with radio */
+}
+
+/* Title turns red on hover or selection */
+.qc__card:hover .qc__card-title,
+.qc__card.is-selected .qc__card-title {
+  color: #ef4444;
 }
 
 .qc__card-price {
   font-weight: 900;
   font-size: 24px;
   display: block;
+  margin-top: 8px;
+}
+
+.qc__card-desc {
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .qc__features {
   list-style: none;
   padding: 0;
-  margin: 20px 0 0;
+  margin: 24px 0 0;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
 }
 
-.qc__features li::before {
-  content: "→ ";
+.qc__features li {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* ===== NEW: Brochure Button (Centered between cards and form) ===== */
+.qc__features li::before {
+  content: "→ ";
+  color: #ef4444; /* Red arrow */
+}
+
+/* ========================================= 
+   BROCHURE BUTTON 
+   ========================================= */
 .qc__brochure-container {
   display: flex;
   justify-content: center;
@@ -140,23 +217,37 @@
 }
 
 .qc__brochure-btn {
-  display: inline-block;
-  padding: 18px 36px;
-  background: transparent;
-  border: 1.5px solid #fff;
+  display: inline-grid;
+  place-items: center;
+  text-align: center;
+  width: auto;
+  min-width: 320px;
+  height: 56px;
+  padding: 0 2.5rem;
   color: #fff;
-  font-weight: 800;
-  font-size: 14px;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 14px;
   text-decoration: none;
-  letter-spacing: 0.1em;
   position: relative;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  z-index: 1;
+  z-index: 2;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.9);
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
+  transition: all 0.3s ease;
 }
 
-/* Matching Card Shimmer */
+.qc__brochure-btn::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background-color: #000;
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
+  z-index: -1;
+  transition: background-color 0.3s ease;
+}
+
 .qc__brochure-btn::after {
   content: "";
   position: absolute;
@@ -167,26 +258,26 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.15),
     transparent
   );
-  transition: left 0.5s ease;
-  z-index: 2;
+  transition: left 0.6s ease;
+  z-index: 1;
 }
 
-/* Matching Card Hover Effect */
 .qc__brochure-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(239, 68, 68, 0.3);
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(239, 68, 68, 0.1);
+  background-color: #fff;
+  filter: drop-shadow(0 8px 16px rgba(255, 255, 255, 0.15));
+  transform: translateY(-3px);
 }
 
 .qc__brochure-btn:hover::after {
   left: 100%;
 }
 
-/* ===== Form Layout ===== */
+/* ========================================= 
+   FORM & INPUTS 
+   ========================================= */
 .qc__form-title {
   font-weight: 800;
   font-size: 24px;
@@ -205,16 +296,7 @@
   width: 100%;
 }
 
-.qc__label {
-  display: block;
-  margin-bottom: 12px;
-  font-weight: 800;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ===== Input System ===== */
+/* Input Wrapper */
 .qc__input-wrapper {
   position: relative;
   width: 100%;
@@ -278,6 +360,9 @@
   margin-top: 32px;
 }
 
+/* ========================================= 
+   SUBMIT BUTTON 
+   ========================================= */
 .qc__btn {
   height: 60px;
   padding: 0 40px;
@@ -288,19 +373,22 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 0;
-  cursor: none;
+  cursor: pointer;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .qc__btn:hover:not(:disabled) {
   transform: translateY(-2px);
   background: #f5f5f5;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
 }
 
 .qc__btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  filter: grayscale(1);
 }
 
 /* Success State Styles */

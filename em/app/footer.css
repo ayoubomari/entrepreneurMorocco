@@ -12,9 +12,17 @@
 
 /* ===== Container & grid ===== */
 .ft-container {
-  max-width: 90%;
+  max-width: min(1600px, 90%);
   margin: 0 auto;
-  padding: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 20px);
+  padding: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 20px) 0;
+}
+
+.ft-contactLine {
+  padding-bottom: 10px;
+}
+
+.ft-contact-rapid-card {
+  max-width: min(95%, 280px);
 }
 
 .ft-grid {
@@ -33,12 +41,16 @@
    ================================================================= */
 
 @media (max-width: 767px) {
+  .ft-brand {
+    padding-top: 25px;
+  }
+
   .ft-container {
-    padding: 40px 0;
+    padding: 0;
   }
 
   .ft-grid {
-    gap: 40px; /* Space between major sections */
+    gap: 20px; /* Space between major sections */
   }
 
   /* Force Left Alignment on Mobile for columns */
@@ -90,12 +102,23 @@
   .ft-link {
     display: block;
     width: 100%;
-    padding: 11px 0; /* Vertical breathing room */
+    padding: 5px 0;
     font-size: 16px;
     text-decoration: none;
     color: #fff;
     background: transparent;
     border: none;
+  }
+
+  .ft-q-link {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    background: transparent;
+    border: none;
+    margin-top: 0 !important;
   }
 
   /* CONTACT SECTION - Now looks identical to Menu Links */
@@ -109,7 +132,7 @@
   .ft-contactLine {
     display: block;
     width: 100%;
-    padding: 11px 0; /* Match menu link padding */
+    padding: 5px 0; /* Match menu link padding */
     background: transparent; /* Removed card background */
     border: none; /* Removed card border */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added divider */
@@ -122,7 +145,7 @@
   /* Styling links inside contact (phone/email) */
   .ft-contactLine a {
     display: block;
-    margin-top: 4px;
+    margin-top: 8px;
     font-weight: 600;
     color: #fff;
   }
@@ -183,8 +206,18 @@
 /* Large Desktop */
 @media (min-width: 1101px) {
   .ft-grid {
-    grid-template-columns: 3fr 1.5fr 2fr 2fr;
-    gap: clamp(36px, 5vw, 80px);
+    grid-template-columns: auto auto auto auto;
+    justify-content: space-between;
+    gap: 40px; /* Reduces gap slightly so space-between handles the rest */
+  }
+
+  .ft-social-card {
+    justify-self: end;
+    text-align: right; /* Optional: aligns text inside the box to the right */
+  }
+
+  .ft-socialList {
+    justify-content: flex-end;
   }
 }
 
@@ -204,15 +237,15 @@
 /* Headings */
 .ft-heading {
   margin: 0 0 12px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.95);
 }
 
 @media (min-width: 768px) {
   .ft-heading {
-    font-size: 16px;
+    font-size: 1.2rem;
     text-align: left;
   }
 }
@@ -221,6 +254,9 @@
   text-transform: none;
 }
 
+.ft-list > li {
+  padding-bottom: 10px;
+}
 /* Links (Desktop) */
 .ft-link:hover {
   color: #ef4444;
@@ -233,38 +269,47 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 5px;
 }
 
 .ft-icon {
-  width: 16px;
-  height: 16px;
+  /* No fixed W/H here, controlled by React props usually, 
+     but good to keep as a fallback or if using class-based sizing */
+  width: 20px;
+  height: 20px;
   display: block;
+  /* Use "color" for SVGs, not filters */
+  color: #fff;
+  /* Smooth transition for the hover color change */
+  transition: color 0.2s ease;
+}
+
+.ft-socialLink {
+  display: flex; /* Makes the container a flexbox */
+  align-items: center; /* Vertically centers the icon and text */
+  gap: 10px; /* <--- THIS IS THE GAP YOU WANT */
+
+  /* Optional: Keep these to ensure consistency */
+  color: #fff;
+  text-decoration: none;
+  padding-bottom: 10px;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .ft-socialLink:hover {
   color: #ef4444; /* Turns the text red */
-  border-color: rgba(
-    239,
-    68,
-    68,
-    0.5
-  ); /* Optional: Turns border reddish for a cleaner look */
-}
-/* Hover effect for social icons */
-.ft-socialLink:hover .ft-icon {
-  filter: invert(36%) sepia(83%) saturate(3078%) hue-rotate(344deg)
-    brightness(98%) contrast(92%) !important;
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
-/* Force brand SVGs to white */
-.icon-invert {
-  filter: invert(1) brightness(2);
+/* Hover effect for social icons */
+.ft-socialLink:hover .ft-icon {
+  color: #ef4444;
 }
 
 /* Bottom Bar */
 .ft-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 24px;
+  padding: 15px;
   text-align: center;
   color: rgba(255, 255, 255, 0.5);
   font-size: 14px;

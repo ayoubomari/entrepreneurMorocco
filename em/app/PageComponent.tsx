@@ -20,6 +20,7 @@ import "./faqsection.css";
 import "./footer.css";
 import "./hero.css";
 import "./blockone.css";
+import { Linkedin, Instagram, Youtube } from "lucide-react";
 
 /* =========================
    3D Audience Carousel
@@ -42,33 +43,45 @@ const AudienceCarousel: React.FC = () => {
   const [visibleCards, setVisibleCards] = useState(5);
   const [isPaused, setIsPaused] = useState(false); // Pause auto-play on hover
 
+  // --- NEW: Track Mobile State ---
+  const [isMobile, setIsMobile] = useState(false);
+
   // Dragging State
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const dragThreshold = 50; // Minimum distance to trigger slide
 
-  // --- Auto-play Logic ---
+  // --- Auto-play Logic (Updated) ---
   useEffect(() => {
-    if (isPaused) return;
+    // Stop auto-play if paused OR if we are on mobile
+    if (isPaused || isMobile) return;
 
     const interval = setInterval(() => {
       setActive((prev) => (prev + 1) % IMAGES.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isPaused]); // Dependency on isPaused
+  }, [isPaused, isMobile]); // Added isMobile dependency
 
-  // --- Responsive Card Count ---
+  // --- Responsive Card Count & Mobile Detection (Updated) ---
   useEffect(() => {
-    const updateVisibleCards = () => {
-      if (window.innerWidth < 640) setVisibleCards(3);
-      else if (window.innerWidth < 1024) setVisibleCards(4);
+    const handleResize = () => {
+      const width = window.innerWidth;
+
+      // Update Mobile State (Threshold: 768px)
+      setIsMobile(width < 768);
+
+      // Update Visible Cards Count
+      if (width < 640) setVisibleCards(3);
+      else if (width < 1024) setVisibleCards(4);
       else setVisibleCards(5);
     };
 
-    updateVisibleCards();
-    window.addEventListener("resize", updateVisibleCards);
-    return () => window.removeEventListener("resize", updateVisibleCards);
+    // Run once on mount to set initial state
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // --- Navigation Logic ---
@@ -109,7 +122,8 @@ const AudienceCarousel: React.FC = () => {
     }
 
     setIsDragging(false);
-    setIsPaused(false); // Resume rotation
+    // Only resume if not on mobile (on mobile isPaused stays false, but isMobile stops the loop)
+    setIsPaused(false);
   };
 
   // Mouse Events
@@ -122,7 +136,7 @@ const AudienceCarousel: React.FC = () => {
     }
   };
 
-  // Touch Events (for consistency, though requirement is large screen)
+  // Touch Events
   const onTouchStart = (e: React.TouchEvent) =>
     handleDragStart(e.touches[0].clientX);
   const onTouchEnd = (e: React.TouchEvent) =>
@@ -165,14 +179,12 @@ const AudienceCarousel: React.FC = () => {
       opacity: opacity,
       filter: `brightness(${brightness})`,
       zIndex: 100 - distanceFromCenter,
-      // Fix cursor style on cards
       cursor: distanceFromCenter === 0 ? "default" : "pointer",
     };
   };
 
   // Prevent click triggering when dragging
   const handleCardClick = (index: number) => {
-    // Only allow click if we didn't just drag significantly
     if (!isDragging) {
       setActive(index);
     }
@@ -194,7 +206,7 @@ const AudienceCarousel: React.FC = () => {
         onMouseLeave={onMouseLeave}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        // Pause/Resume on hover
+        // Pause/Resume on hover (Only affects Desktop effectively due to isMobile check)
         onMouseEnter={() => setIsPaused(true)}
       >
         {/* --- NAVIGATION ARROWS (Large Screen Only) --- */}
@@ -264,6 +276,7 @@ const AudienceCarousel: React.FC = () => {
                     width={765}
                     height={966}
                     draggable={false}
+                    loading="lazy"
                   />
                 </div>
 
@@ -798,7 +811,13 @@ const NetworkSection = () => {
             {[...partners, ...partners].map((p, i) => (
               <div className="net-item" key={`${p.src}-${i}`}>
                 <div className="net-icon">
-                  <Image src={p.src} alt={p.alt} width={64} height={64} />
+                  <Image
+                    src={p.src}
+                    alt={p.alt}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                  />
                 </div>
                 <h3 className="net-title">
                   {p.title.split("\n").map((line, k) => (
@@ -826,7 +845,7 @@ const PodcastSection = () => {
       {
         id: 1,
         image: "/podcast1.png",
-        video: "/videos/reel-18.mp4",
+        video: "/videos/reel-1.mp4",
       },
       {
         id: 2,
@@ -836,13 +855,13 @@ const PodcastSection = () => {
       {
         id: 3,
         image: "/podcast1.png",
-        video: "/videos/reel-20.mp4",
+        video: "/videos/reel-1.mp4",
       },
       // duplicate
       {
-        id: 2,
+        id: 4,
         image: "/podcast2.png",
-        video: "/videos/reel-19.mp4",
+        video: "/videos/reel-20.mp4",
       },
     ],
     []
@@ -881,35 +900,6 @@ const PodcastSection = () => {
     if (!track) return 0;
     return track.scrollWidth / COPIES;
   }, [COPIES]);
-
-  // --- Helper: Find which card is currently visually centered ---
-  const findClosestCardToCenter = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return 0;
-    const cards = Array.from(track.querySelectorAll(".pod-card"));
-    if (!cards.length) return 0;
-
-    const trackRect = track.getBoundingClientRect();
-    const trackCenter = trackRect.left + trackRect.width / 2;
-
-    let closestIndex = 0;
-    let minDistance = Number.POSITIVE_INFINITY;
-
-    cards.forEach((card, index) => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      const distance = Math.abs(cardCenter - trackCenter);
-
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    // On Desktop, we often want to align to the "pair" start (even indices)
-    // But for pure calculation, we return the strict closest.
-    return closestIndex;
-  }, []);
 
   // --- Core: Move the Scrollbar to center a specific card ---
   const centerCardByIndex = useCallback((index: number, smooth = true) => {
@@ -1229,17 +1219,19 @@ const PodcastSection = () => {
                       height={600}
                       src={podcast.image}
                       alt="Podcast"
+                      loading="lazy"
                     />
                   </div>
 
+                  {/* --- PLAY BUTTON IMAGE ADDED HERE --- */}
                   <div className="pod-play">
-                    <svg
-                      className="pod-play-ico"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
+                    <Image
+                      src="/video-play-botton.webp"
+                      alt="Play Video"
+                      width={88}
+                      height={88}
+                      loading="lazy"
+                    />
                   </div>
                 </div>
 
@@ -1385,12 +1377,13 @@ const AboutUsSection = () => {
               {/* Zakaria's Photo */}
               <div className="aus-img-card">
                 <Image
-                  width={350}
-                  height={700}
+                  width={700}
+                  height={1400}
                   className="aus-photo aus-photo-zakaria"
                   src="/zakaria.png"
                   alt="Zakaria"
                   title="Zakaria"
+                  loading="lazy"
                 />
               </div>
 
@@ -1403,6 +1396,7 @@ const AboutUsSection = () => {
                   src="/imad.png"
                   alt="Imad"
                   title="Imad"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -1540,20 +1534,17 @@ const SOCIALS = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/entrepreneurs-morocco/about/",
-    icon: "https://unpkg.com/lucide-static@latest/icons/linkedin.svg",
-    invert: true,
+    icon: Linkedin,
   },
   {
     label: "Instagram",
     href: "https://www.instagram.com/entrepreneursmorocco?igsh=b2JucjcwNjcxZHB6",
-    icon: "https://unpkg.com/lucide-static@latest/icons/instagram.svg",
-    invert: true,
+    icon: Instagram,
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@EntrepreneursMorocco",
-    icon: "https://unpkg.com/lucide-static@latest/icons/youtube.svg",
-    invert: true,
+    icon: Youtube,
   },
 ];
 
@@ -1571,8 +1562,8 @@ const Footer = () => {
               alt="Entrepreneurs Morocco"
               width={340}
               height={70}
-              priority
               className="ft-logo"
+              loading="lazy"
             />
             <p className="ft-tagline">
               Accompagnement humain & stratégique pour entreprendre au Maroc.
@@ -1607,7 +1598,7 @@ const Footer = () => {
           </nav>
 
           {/* Contact Rapide */}
-          <div className="ft-col">
+          <div className="ft-col ft-contact-rapid-card">
             <h3 className="ft-heading">CONTACT RAPIDE</h3>
             <ul className="ft-contact">
               <li className="ft-contactLine">Adresse Maroc : Rabat, Maroc</li>
@@ -1616,20 +1607,20 @@ const Footer = () => {
                 Adresse EAU : Dubaï, Émirats arabes unis
               </li>
               <li className="ft-contactLine">
-                <a className="ft-link" href="tel:+33651024018">
+                <a className="ft-q-link" href="tel:+33651024018">
                   +33 6 51 02 40 18
                 </a>
               </li>
               <li className="ft-contactLine">
-                <a className="ft-link" href="mailto:contact@em.com">
-                  Email : salam@entrepreneursmorocco.com
+                <a className="ft-q-link" href="mailto:contact@em.com">
+                  salam@entrepreneursmorocco.com
                 </a>
               </li>
             </ul>
           </div>
 
           {/* Social */}
-          <div className="ft-col">
+          <div className="ft-col ft-social-card">
             <h3 className="ft-heading ft-heading-normal">Réseaux sociaux</h3>
             <ul className="ft-socialList">
               {SOCIALS.map((s) => (
@@ -1641,15 +1632,8 @@ const Footer = () => {
                     className="ft-socialLink"
                   >
                     <span className="ft-iconWrap">
-                      <Image
-                        src={s.icon}
-                        alt=""
-                        aria-hidden="true"
-                        width={20}
-                        height={20}
-                        className={`ft-icon ${s.invert ? "icon-invert" : ""}`}
-                        loading="lazy"
-                      />
+                      {/* 3. Render the Icon Component directly */}
+                      <s.icon size={30} strokeWidth={1.5} className="ft-icon" />
                     </span>
                     <span>{s.label}</span>
                   </a>

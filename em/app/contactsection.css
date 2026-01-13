@@ -1,6 +1,6 @@
 /* ========== Contact Section (cs-*) ========== */
 .cs-section {
-  padding: 90px 0 25px; /* Matched Service Section padding */
+  padding: 25px 0 25px; /* Matched Service Section padding */
   opacity: 0;
   animation: fadeInUp 1.2s ease-out 0.2s forwards;
   width: 100%;
@@ -38,7 +38,7 @@
   BUT keeps the Red Shimmer Animation
 */
 .cs-title {
-  margin: 0 0 25px;
+  margin: 0 0 10px;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.02em;

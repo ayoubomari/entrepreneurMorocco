@@ -36,7 +36,7 @@
 }
 
 .faq-title {
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   color: #fff;
   text-transform: uppercase;
   font-weight: 800; /* Changed from 900 to 800 */
@@ -297,10 +297,6 @@
 
 /* Tablet Specific */
 @media (min-width: 481px) and (max-width: 767px) {
-  .faq-wrap {
-    max-width: 95%;
-  }
-
   .faq-lead {
     text-align: center;
   }

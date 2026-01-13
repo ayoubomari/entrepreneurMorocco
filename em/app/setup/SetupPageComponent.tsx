@@ -140,9 +140,6 @@ export default function SetupPageComponent(): React.ReactElement {
           <div className="steps-grid">
             {steps.map((step) => (
               <div key={step.id} className="step-card">
-                <div className="step-number">
-                  <span>{step.id}</span>
-                </div>
                 <div className="step-icon">{step.icon}</div>
                 <h3 className="step-title">{step.title}</h3>
                 <ul className="step-features">
@@ -156,7 +153,7 @@ export default function SetupPageComponent(): React.ReactElement {
         </section>
 
         <div className="setup-cta">
-          <Link href="/devis" className="cta-btn">
+          <Link href="/devis" className="setup-cta-btn">
             <svg
               width="24"
               height="24"

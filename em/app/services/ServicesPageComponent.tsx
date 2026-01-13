@@ -2,6 +2,16 @@
 
 import React from "react";
 import Link from "next/link";
+import {
+  Building2,
+  TrendingUp,
+  Megaphone,
+  Users,
+  GraduationCap,
+  Network,
+  Crown,
+  Zap,
+} from "lucide-react";
 import "./services.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
@@ -9,129 +19,52 @@ interface Service {
   id: number;
   title: string;
   description: string;
-  icon: React.ReactElement;
+  icon: React.ReactNode;
 }
 
 export default function ServicesPageComponent(): React.ReactElement {
   const services: Service[] = [
     {
       id: 1,
-      title: "Création d'entreprise au Maroc",
-      description: "Statuts, fiscalité, ouverture bancaire.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/building-2.svg"
-          alt="Building icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Création d'entreprise",
+      description: "Statuts, fiscalité, ouverture bancaire et domiciliation.",
+      icon: <Building2 size={32} strokeWidth={1.5} />,
     },
     {
       id: 2,
-      title: "Étude de marché & stratégie",
-      description: "Analyse macro/micro, benchmark, go-to-market.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/trending-up.svg"
-          alt="Trending up icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Étude de marché",
+      description: "Analyse macro/micro, benchmark et stratégie go-to-market.",
+      icon: <TrendingUp size={32} strokeWidth={1.5} />,
     },
     {
       id: 3,
-      title: "Marketing digital & growth",
-      description: "Acquisition clients, branding, tunnels de vente.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/megaphone.svg"
-          alt="Megaphone icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Marketing & Growth",
+      description: "Acquisition clients, branding et tunnels de vente.",
+      icon: <Megaphone size={32} strokeWidth={1.5} />,
     },
     {
       id: 4,
-      title: "Recrutement & installation",
-      description: "Bureaux, coworkings, RH.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/users.svg"
-          alt="Users icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Installation & RH",
+      description: "Recherche de bureaux, coworking et recrutement local.",
+      icon: <Users size={32} strokeWidth={1.5} />,
     },
     {
       id: 5,
-      title: "Formations entrepreneuriales",
-      description: "E-commerce, IA, entrepreneuriat.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/graduation-cap.svg"
-          alt="Graduation cap icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Formations",
+      description: "E-commerce, IA, et masterclass entrepreneuriales.",
+      icon: <GraduationCap size={32} strokeWidth={1.5} />,
     },
     {
       id: 6,
-      title: "Réseaux business",
-      description: "Clubs, investisseurs, partenariats.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/network.svg"
-          alt="Network icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      title: "Réseaux Business",
+      description: "Mise en relation, clubs d'investisseurs et partenariats.",
+      icon: <Network size={32} strokeWidth={1.5} />,
     },
     {
       id: 7,
       title: "Club Privilège",
-      description: "Événements exclusifs, mentorat, deals privés.",
-      icon: (
-        <img
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/crown.svg"
-          alt="Crown icon"
-          width="32"
-          height="32"
-          style={{
-            filter:
-              "invert(34%) sepia(97%) saturate(3034%) hue-rotate(340deg) brightness(94%) contrast(91%)",
-          }}
-        />
-      ),
+      description: "Accès exclusif à des événements et deals privés au Maroc.",
+      icon: <Crown size={32} strokeWidth={1.5} />,
     },
   ];
 
@@ -141,27 +74,26 @@ export default function ServicesPageComponent(): React.ReactElement {
 
       <div className="services-wrap">
         <header className="services-header">
-          <h1>Nos services pour entreprendre au Maroc et réussir</h1>
-          <p className="intro-text">
-            Avec Entrepreneurs Morocco, vous bénéficiez d'un accompagnement
-            complet et sur mesure.
-          </p>
+          <h1>Nos services pour entreprendre au Maroc</h1>
+          <div className="services-intro">
+            <p className="intro-text">
+              Bénéficiez d'un accompagnement complet et sur mesure pour
+              transformer votre vision en succès.
+            </p>
+          </div>
         </header>
 
         <section className="services-section">
-          <h2>Nos 7 services principaux</h2>
+          <h2>Expertise & Solutions</h2>
 
           <div className="services-grid">
             {services.map((service) => (
               <div key={service.id} className="service-card">
-                <div className="service-number">
-                  <span>{service.id}</span>
+                <div className="service-icon-container">
+                  <div className="service-icon-inner">{service.icon}</div>
                 </div>
 
-                <div className="service-icon">{service.icon}</div>
-
                 <h3 className="service-title">{service.title}</h3>
-
                 <p className="service-description">{service.description}</p>
               </div>
             ))}
@@ -169,7 +101,7 @@ export default function ServicesPageComponent(): React.ReactElement {
         </section>
 
         <div className="services-cta">
-          <Link href="/devis" className="cta-btn">
+          <Link href="/devis" className="services-cta-btn">
             <svg
               width="24"
               height="24"
@@ -182,7 +114,7 @@ export default function ServicesPageComponent(): React.ReactElement {
             >
               <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
             </svg>
-            Découvrir tous nos services pour entreprendre au Maroc
+            Lancer mon projet maintenant
           </Link>
         </div>
       </div>

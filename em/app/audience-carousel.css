@@ -211,7 +211,7 @@
   }
 
   .wave-caption__subtitle {
-    font-size: clamp(9px, 1.8vw, 12px);
+    font-size: clamp(10px, 1.8vw, 12px);
   }
 }
 
@@ -230,7 +230,7 @@
   }
 
   .wave-caption__subtitle {
-    font-size: clamp(9px, 2vw, 10px);
+    font-size: clamp(10px, 2vw, 10px);
   }
 }
 

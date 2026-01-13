@@ -148,6 +148,9 @@ export default function DevisPage() {
               }`}
               onClick={() => setSelectedPlan(plan.id)}
             >
+              {/* Radio Selection Indicator */}
+              <div className="qc__card-radio" />
+
               <div className="qc__card-head">
                 <h3 className="qc__card-title">{plan.title}</h3>
                 <span className="qc__card-price">{plan.price}</span>
