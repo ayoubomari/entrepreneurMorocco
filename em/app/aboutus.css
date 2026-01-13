@@ -287,7 +287,7 @@
 }
 
 .aus-p {
-  font-size: clamp(14px, 2vw, 17px);
+  font-size: clamp(14px, 2vw, 18px);
   font-weight: 400;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);

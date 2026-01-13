@@ -172,7 +172,7 @@
 /* Body Text */
 .hero__text {
   color: #fff;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 400;
   max-width: clamp(300px, 80vw, 900px);
   margin: 0 auto clamp(32px, 6vw, 48px);
@@ -209,6 +209,7 @@
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  cursor: none;
 }
 
 .hero__btn-secondary {

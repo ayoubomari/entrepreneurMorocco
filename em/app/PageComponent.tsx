@@ -1004,14 +1004,13 @@ const PodcastSection = () => {
     const track = trackRef.current;
     if (!track) return;
 
-    // 1. START
     const handleStart = (clientX: number) => {
       isDownRef.current = true;
       isDraggingRef.current = false; // Will set to true on first move
       startXRef.current = clientX;
       startScrollLeftRef.current = track.scrollLeft;
 
-      track.style.cursor = "grabbing";
+      track.style.cursor = "none"; // grabbing
       // We stop any ongoing smooth scroll by force-setting current position
       track.style.scrollBehavior = "auto";
     };
@@ -1022,8 +1021,6 @@ const PodcastSection = () => {
     };
 
     const onTouchStart = (e: TouchEvent) => {
-      // Don't prevent default immediately to allow vertical scroll check,
-      // but for this horizontal slider, usually we want to trap x-axis.
       const touch = e.touches[0];
       handleStart(touch.pageX);
     };
@@ -1058,51 +1055,50 @@ const PodcastSection = () => {
 
     // 3. END
     const handleEnd = (clientX: number) => {
+      if (!isDownRef.current) return;
+
       isDownRef.current = false;
-      track.style.cursor = "grab";
-      track.style.scrollBehavior = "smooth"; // Restore smooth for the snap
+      track.style.cursor = "none";
+      track.style.scrollBehavior = "smooth";
 
       if (!isDraggingRef.current) return; // Was a click
 
       const dist = clientX - startXRef.current;
-      const SWIPE_THRESHOLD = 50; // px needed to trigger a slide change
 
-      // Determine where we started (index)
-      // We calculate this based on the *start* scroll, or just the current Active state.
-      // Using 'active' state is safer for "Next/Prev" logic.
+      // MOBILE: Always move exactly 1 card regardless of swipe force
+      // DESKTOP: Move 2 cards (pair)
       let targetIndex = active;
 
-      if (Math.abs(dist) > SWIPE_THRESHOLD) {
-        // Logic:
-        // Dragged LEFT (dist < 0) -> Next Card
-        // Dragged RIGHT (dist > 0) -> Prev Card
+      // Threshold much lower - any meaningful swipe triggers movement
+      const SWIPE_THRESHOLD = 30;
 
-        const moveAmount = isDesktop ? 2 : 1; // 2 for desktop pairs, 1 for mobile
+      if (Math.abs(dist) > SWIPE_THRESHOLD) {
+        const moveAmount = isDesktop ? 2 : 1; // Always 1 for mobile, 2 for desktop
 
         if (dist < 0) {
+          // Swiped left -> next
           targetIndex = active + moveAmount;
         } else {
+          // Swiped right -> prev
           targetIndex = active - moveAmount;
         }
       } else {
-        // Drag wasn't far enough, snap back to current
+        // Snap back to current if swipe too small
         targetIndex = active;
       }
 
       // Boundary Checks
       if (targetIndex < 0) targetIndex = 0;
       if (targetIndex >= items.length) {
-        // If we hit the end, logic might vary (loop or stop).
-        // Here we stop at last valid index.
         targetIndex = items.length - 1;
-        if (isDesktop && targetIndex % 2 !== 0) targetIndex -= 1; // keep pairs
+        if (isDesktop && targetIndex % 2 !== 0) targetIndex -= 1;
       }
 
       // Execute Snap
       setActive(targetIndex);
       centerCardByIndex(targetIndex, true);
 
-      // Reset drag ref after a short delay to prevent click events triggering immediately
+      // Reset drag ref
       setTimeout(() => {
         isDraggingRef.current = false;
       }, 0);
@@ -1114,17 +1110,15 @@ const PodcastSection = () => {
 
     const onMouseLeave = () => {
       if (isDownRef.current) {
-        // Treat leave as an end, or just reset?
-        // Usually safest to snap back to nearest or active.
         isDownRef.current = false;
-        track.style.cursor = "grab";
+        track.style.cursor = "none";
         track.style.scrollBehavior = "smooth";
         centerCardByIndex(active, true);
+        isDraggingRef.current = false;
       }
     };
 
     const onTouchEnd = (e: TouchEvent) => {
-      // Changed touches are found in e.changedTouches
       const touch = e.changedTouches[0];
       handleEnd(touch.pageX);
     };
@@ -1132,11 +1126,11 @@ const PodcastSection = () => {
     // Attach Events
     track.addEventListener("mousedown", onMouseDown);
     track.addEventListener("mouseleave", onMouseLeave);
-    window.addEventListener("mousemove", onMouseMove); // Window handles drag outside track
+    window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
 
     track.addEventListener("touchstart", onTouchStart, { passive: true });
-    track.addEventListener("touchmove", onTouchMove, { passive: false }); // non-passive to allow blocking if needed, though we just scroll
+    track.addEventListener("touchmove", onTouchMove, { passive: false });
     track.addEventListener("touchend", onTouchEnd);
 
     return () => {
@@ -1149,7 +1143,7 @@ const PodcastSection = () => {
       track.removeEventListener("touchmove", onTouchMove);
       track.removeEventListener("touchend", onTouchEnd);
     };
-  }, [active, isDesktop, items.length, centerCardByIndex]); // Re-bind when active changes to ensure accurate next/prev calc
+  }, [active, isDesktop, items.length, centerCardByIndex]);
 
   // --- Click Handlers ---
 

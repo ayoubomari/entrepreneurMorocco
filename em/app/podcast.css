@@ -52,7 +52,7 @@
 .pod-sub {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.4;
 
   /* Exact clamp size from Services */
   font-size: clamp(16px, 2vw, 16px);
@@ -131,6 +131,7 @@
   will-change: scroll-position;
   scrollbar-gutter: stable both-edges;
   contain: layout style paint;
+  cursor: none;
 
   /* Smooth scrolling on all browsers */
   -webkit-overflow-scrolling: touch;
@@ -198,7 +199,7 @@
   overflow: hidden;
   isolation: isolate;
   transform: translateZ(0);
-  cursor: pointer;
+  cursor: none;
 }
 
 /* Image optimizations */
@@ -318,6 +319,7 @@
   transition: transform 0.2s ease, background-color 0.2s ease;
   will-change: transform, background-color;
   transform: translateZ(0); /* Create new layer */
+  cursor: none;
 }
 
 /* Left button: slant on right */
@@ -342,6 +344,7 @@
   width: 100%;
   gap: 1rem;
   margin-top: 16px;
+  cursor: none;
 }
 
 .pod-actions .pod-btn {
@@ -478,7 +481,7 @@
   border: none;
   color: white;
   font-size: 32px;
-  cursor: pointer;
+  cursor: none;
   z-index: 10000;
   padding: 10px;
   line-height: 1;

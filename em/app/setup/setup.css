@@ -303,27 +303,9 @@
   height: 72px;
   background: rgba(239, 68, 68, 0.08);
   border: 1.5px solid rgba(239, 68, 68, 0.2);
-  border-radius: 50%;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
   position: relative;
-}
-
-.step-icon::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent,
-    rgba(239, 68, 68, 0.3),
-    transparent
-  );
-  transition: opacity 0.4s ease;
-  animation: iconRotate 5s linear infinite paused;
-  /* opacity: 1; */
-  animation-play-state: running;
 }
 
 .step-card:hover .step-icon {
@@ -356,6 +338,7 @@
   letter-spacing: 0.02em;
   z-index: 2;
   transition: color 0.3s ease;
+  min-height: 80px;
 }
 
 .step-card:hover .step-title {
@@ -373,7 +356,7 @@
 
 .step-features li {
   color: rgba(255, 255, 255, 0.85);
-  font-size: clamp(14px, 2vw, 15px);
+  font-size: clamp(14px, 16px, 16px);
   line-height: 1.5;
   margin-bottom: 0.875rem;
   position: relative;
@@ -448,7 +431,7 @@
   background-color: rgba(255, 255, 255, 0.9);
   clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: none;
 }
 
 /* Dark Inner Fill */
@@ -512,5 +495,9 @@
 
   .step-card {
     padding: 2rem 1.25rem 1.75rem;
+  }
+
+  .step-title {
+    min-height: auto;
   }
 }

@@ -182,12 +182,12 @@
 
   /* BOTTOM BAR - Centered */
   .ft-bottom {
-    text-align: center !important; /* Centered */
     padding-left: 0;
     padding-right: 0;
-    margin-top: 40px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 24px;
+    text-align: center;
+    margin-top: 10px;
   }
 }
 
@@ -257,6 +257,12 @@
 .ft-list > li {
   padding-bottom: 10px;
 }
+.ft-link {
+  cursor: none;
+}
+.ft-q-link {
+  cursor: none;
+}
 /* Links (Desktop) */
 .ft-link:hover {
   color: #ef4444;
@@ -294,6 +300,7 @@
   text-decoration: none;
   padding-bottom: 10px;
   transition: color 0.2s ease, border-color 0.2s ease;
+  cursor: none;
 }
 
 .ft-socialLink:hover {
@@ -308,18 +315,10 @@
 
 /* Bottom Bar */
 .ft-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgb(255, 255, 255);
   padding: 15px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
   margin-top: 40px;
-}
-
-@media (max-width: 767px) {
-  .ft-bottom {
-    text-align: left;
-    padding-left: 0;
-    margin-top: 10px;
-  }
 }

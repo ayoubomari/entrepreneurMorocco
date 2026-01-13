@@ -251,26 +251,9 @@
   height: 72px;
   background: rgba(239, 68, 68, 0.08);
   border: 1.5px solid rgba(239, 68, 68, 0.2);
-  border-radius: 50%;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
   position: relative;
-}
-
-.bn-icon-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent,
-    rgba(239, 68, 68, 0.3),
-    transparent
-  );
-  transition: opacity 0.4s ease;
-  animation: iconRotate 5s linear infinite paused;
-  animation-play-state: running;
 }
 
 .bn-card:hover .bn-icon-wrapper {
@@ -303,7 +286,7 @@
 
 .bn-label {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 15px;
+  font-size: 16px;
   z-index: 2;
 }
 
@@ -328,7 +311,6 @@
   height: 60px;
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -337,22 +319,6 @@
   transition: all 0.3s ease;
 }
 
-.bn-icon-small::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: 100%;
-  background: conic-gradient(
-    from 0deg,
-    transparent,
-    rgba(239, 68, 68, 0.5),
-    transparent
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  animation: iconRotate 4s linear infinite;
-  z-index: -1;
-}
 .bn-card:hover .bn-icon-small {
   background: rgba(239, 68, 68, 0.15);
   border-color: rgba(239, 68, 68, 0.5);
@@ -373,7 +339,7 @@
 
 .bn-desc {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
 }
 
@@ -399,7 +365,7 @@
 
 .bn-author {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  font-size: 16px;
   z-index: 2;
 }
 
@@ -457,7 +423,7 @@
   background-color: rgba(255, 255, 255, 0.9);
   clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: none;
 }
 
 /* Dark Inner Fill */

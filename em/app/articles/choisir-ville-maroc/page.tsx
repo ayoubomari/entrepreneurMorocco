@@ -1,5 +1,5 @@
 import React from "react";
-import type { Metadata } from "next"; // Import Metadata type
+import type { Metadata } from "next";
 import {
   ArrowLeft,
   TrendingUp,
@@ -15,400 +15,281 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+// Import your custom CSS
+import "../_styles/article.css";
+// Import the background effect used in other pages
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+
 // --- Metadata Configuration ---
 export const metadata: Metadata = {
   title: "Entreprendre au Maroc : L'opportunité incontournable d'ici 2030",
   description:
-    "Analyse stratégique : Vision 2030, Casablanca Finance City et croissance record. Découvrez pourquoi investir au Maroc est l'opportunité unique de la décennie.",
-  keywords: [
-    "Investir au Maroc 2030",
-    "Entreprendre au Maroc",
-    "Casablanca Finance City",
-    "Croissance économique Maroc",
-    "Vision 2030 Maroc",
-    "Opportunités business Afrique",
-  ],
-  openGraph: {
-    type: "article",
-    title: "Pourquoi le Maroc est l'opportunité business de la décennie ?",
-    description:
-      "PIB doublé, Hub africain et Coupe du Monde 2030. Guide complet pour les investisseurs et la diaspora.",
-    url: "https://www.entrepreneursmorocco.com/articles/entreprendre-maroc-2030", // Adjust slug if necessary
-    images: [
-      {
-        url: "/logofooter.png", // Or a specific article cover image if you have one
-        width: 1200,
-        height: 630,
-        alt: "Entreprendre au Maroc - Vision 2030",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Maroc 2030 : Le nouvel eldorado des entrepreneurs",
-    description:
-      "Découvrez les chiffres clés et les secteurs porteurs pour votre projet.",
-  },
+    "Analyse stratégique : Vision 2030, Casablanca Finance City et croissance record.",
 };
-// -----------------------------
 
 const Article1Page: React.FC = () => {
   return (
-    <div className="min-h-screen bg-black text-white article-page-wrapper">
-      {/* Navigation */}
-      <nav className="pt-[150px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-3 hover:text-red-500 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="font-medium">Retour à la page d'accueil</span>
-          </Link>
-          <div className="text-sm text-gray-400">Article 1/4</div>
+    <div className="article-page">
+      {/* Background Effect */}
+      <CloudRedEffect1 />
+
+      {/* Navigation (Absolute top) */}
+      <nav className="art-nav">
+        <Link href="/" className="nav-back group">
+          <ArrowLeft
+            size={18}
+            className="group-hover:-translate-x-1 transition-transform"
+          />
+          <span>Retour Accueil</span>
+        </Link>
+        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-800 px-3 py-1 rounded-full">
+          Article 1/4
         </div>
       </nav>
 
-      {/* Main Content Container */}
-      <main className="relative">
-        {/* Hero Section */}
-        <div className="pt-24 sm:pt-0 pb-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center max-w-5xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2  text-sm mb-6">
-                <Target size={16} />
-                ARTICLE 1 — Entreprendre au Maroc
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                L&apos;opportunité incontournable en{" "}
-                <span className="text-red-500">Afrique</span> d&apos;ici 2030
-              </h1>
-              <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                Hub stratégique, Vision 2030, Coupe du Monde et digitalisation.
-                Découvrez pourquoi investir au Maroc est une opportunité unique.
+      {/* Main Wrapper */}
+      <div className="article-wrap">
+        {/* --- HERO SECTION --- */}
+        <header className="article-hero">
+          <div className="article-tag">
+            <Target size={14} />
+            Guide Stratégique
+          </div>
+
+          <h1 className="article-title">
+            L&apos;opportunité Incontournable en{" "}
+            <span className="text-red-500">Afrique</span> d&apos;ici 2030
+          </h1>
+
+          <p className="article-lead">
+            Hub stratégique, Vision 2030, Coupe du Monde et digitalisation.
+            Découvrez pourquoi investir au Maroc est l'opportunité unique de la
+            décennie.
+          </p>
+
+          <div className="flex items-center justify-center gap-6 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+            <span>8 min de lecture</span>
+            <span className="text-red-500">•</span>
+            <span>Business & Investissement</span>
+          </div>
+        </header>
+
+        {/* --- STATS GRID (Glass Cards) --- */}
+        <section className="stats-grid">
+          <div className="stat-card">
+            <span className="stat-value">140B$</span>
+            <span className="stat-label">PIB doublé en 10 ans</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">TOP 3</span>
+            <span className="stat-label">Investissement en Afrique</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">100+</span>
+            <span className="stat-label">Zones industrielles</span>
+          </div>
+        </section>
+
+        {/* --- CONTENT CONTAINER --- */}
+        <main className="content-container">
+          {/* Block 1: Transformation */}
+          <div className="section-block">
+            <div className="section-header">
+              <TrendingUp className="text-red-500" size={32} />
+              <h2 className="section-title">Une Économie en Transformation</h2>
+            </div>
+            <div className="article-text">
+              <p>
+                En dix ans, le Maroc a doublé son PIB, atteignant plus de 140
+                milliards $, et s&apos;est hissé dans le Top 3 des pays
+                africains pour l&apos;investissement. Avec plus de 100 zones
+                industrielles, un TGV reliant Tanger à Casablanca en 2h, et le
+                port Tanger Med classé 1er d&apos;Afrique, le pays est devenu
+                une plateforme incontournable.
               </p>
-              <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
-                <span>8 min de lecture</span>
-                <span>•</span>
-                <span>Guide stratégique</span>
-              </div>
+            </div>
+            <div className="glass-box highlight">
+              <p className="text-white font-bold m-0 text-lg">
+                OBJECTIF 2030 : Le Maroc vise une croissance annuelle de 3,5 %,
+                en s&apos;appuyant sur la digitalisation complète et l'ouverture
+                mondiale.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Stats Banner */}
-        <div className="bg-red-500/5 border-y border-red-500/20 py-12 mb-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">
-                  140B$
-                </div>
-                <div className="text-gray-300">PIB doublé en 10 ans</div>
-              </div>
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">
-                  Top 3
-                </div>
-                <div className="text-gray-300">Investissement en Afrique</div>
-              </div>
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">100+</div>
-                <div className="text-gray-300">Zones industrielles</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Article Content Wrapper */}
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
-          {/* Inner Content Constrainer */}
-          <div className="max-w-5xl mx-auto space-y-16">
-            {/* Economic Transformation */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Le Maroc, une économie en transformation
-                </h2>
-              </div>
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  En dix ans, le Maroc a doublé son PIB, atteignant plus de 140
-                  milliards $, et s&apos;est hissé dans le Top 3 des pays
-                  africains pour l&apos;investissement. Avec plus de 100 zones
-                  industrielles, un TGV reliant Tanger à Casablanca en 2h, et le
-                  port Tanger Med classé 1er d&apos;Afrique, le pays est devenu
-                  une plateforme incontournable.
-                </p>
-                <div className="bg-gray-900/50 border border-gray-800 p-6 mb-6">
-                  <p className="text-white font-medium m-0">
-                    En 2030, le Maroc vise une croissance annuelle de 3,5 %, en
-                    s&apos;appuyant sur la Vision 2030 : digitalisation
-                    complète, énergie verte et ouverture mondiale.
-                  </p>
-                </div>
-              </div>
+          {/* Block 2: Vision 2030 */}
+          <div className="section-block">
+            <div className="section-header">
+              <Leaf className="text-red-500" size={32} />
+              <h2 className="section-title">Vision 2030 & Grands Projets</h2>
             </div>
 
-            {/* Vision 2030 */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Leaf className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Vision 2030 et grands événements
-                </h2>
-              </div>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    52 % d&apos;énergie renouvelable dans le mix national.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Digitalisation intégrale des services publics.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Data centers IA et infrastructures numériques à Casablanca
-                    et Rabat.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Lancement d&apos;une monnaie digitale nationale.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 ">
-                  <Trophy
-                    className="text-red-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-red-400">
-                    Coupe du Monde 2030 et CAN 2025 comme accélérateurs
-                    économiques.
-                  </span>
-                </div>
-              </div>
-              <p className="text-gray-300 leading-relaxed">
-                Ces événements transformeront les villes marocaines en hubs
-                modernes pour le tourisme, le sport, l&apos;immobilier et le
-                digital.
-              </p>
-            </div>
-
-            {/* Casablanca Finance City */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Briefcase className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Casablanca Finance City : un hub africain
-                </h2>
-              </div>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Casablanca est désormais une place financière reconnue :
-              </p>
-              <div className="space-y-4 mb-6">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Top 3 des hubs africains selon GFCI.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Avantages fiscaux pour les entreprises internationales.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    Accueil de multinationales dans la tech, l&apos;énergie, la
-                    banque et l&apos;assurance.
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-red-400 font-medium">
-                <ArrowRight size={20} />
-                <span>
-                  CFC, c&apos;est la porte d&apos;entrée vers l&apos;Afrique.
-                </span>
-              </div>
-            </div>
-
-            {/* Diaspora */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Globe className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Diaspora marocaine : 5 millions de talents
-                </h2>
-              </div>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Les 5 millions de Marocains du monde (MRE) transfèrent plus de
-                11 milliards $ par an, mais vont plus loin : ils créent des
-                startups, investissent dans l&apos;industrie, l&apos;éducation
-                et le digital.
-              </p>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Comme le disait Sa Majesté Hassan II :
-              </p>
-              <blockquote className="border-l-4 border-red-500 pl-6 py-4 mb-6 italic text-lg text-gray-200 bg-white/5 rounded-r-xl">
-                « Le Maroc est un arbre profondément enraciné en Afrique, qui
-                respire par ses feuilles en Europe. »
-              </blockquote>
-              <div className="flex items-center gap-2 text-red-400 font-medium">
-                <ArrowRight size={20} />
-                <span>
-                  Le Maroc compte sur ses enfants du monde entier pour bâtir son
-                  avenir.
-                </span>
-              </div>
-            </div>
-
-            {/* Entrepreneurs Morocco CTA */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <HandHeart className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Entrepreneurs Morocco : votre partenaire de A à Z
-                </h2>
-              </div>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Nous vous aidons avant, pendant et après :
-              </p>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    <strong>Avant :</strong> audit, bilan de compétences, étude
-                    macro/micro marché.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-yellow-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    <strong>Pendant :</strong> création, fiscalité, réseau,
-                    bureaux.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30  hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-red-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    <strong>Après :</strong> suivi, accompagnement et croissance
-                    durable.
-                  </span>
-                </div>
-              </div>
-              <div className="text-center">
-                <Link
-                  href="/devis"
-                  className="bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold py-4 px-8  transition-colors inline-flex items-center gap-2 group"
-                >
-                  <ArrowRight
-                    size={20}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                  Lancez votre projet dès aujourd&apos;hui → Entrepreneurs
-                  Morocco
-                </Link>
-              </div>
-            </div>
-
-            {/* FAQ */}
-            <div>
-              <div className="flex items-center gap-3 mb-8">
-                <HelpCircle className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">FAQ</h2>
-              </div>
-              <div className="space-y-6">
-                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
-                  <h3 className="font-bold text-lg mb-3 text-red-400">
-                    Pourquoi entreprendre au Maroc ?
-                  </h3>
-                  <p className="text-gray-300">
-                    Une économie stable, des infrastructures modernes, une
-                    ouverture mondiale.
-                  </p>
-                </div>
-                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
-                  <h3 className="font-bold text-lg mb-3 text-red-400">
-                    Quels sont les secteurs porteurs ?
-                  </h3>
-                  <p className="text-gray-300">
-                    Énergies renouvelables, digital/IA, logistique, tourisme et
-                    éducation.
-                  </p>
-                </div>
-                <div className="bg-gray-900/30 p-6 hover:bg-gray-900/50 transition-colors">
-                  <h3 className="font-bold text-lg mb-3 text-red-400">
-                    Le Maroc est-il plus attractif que Dubaï ?
-                  </h3>
-                  <p className="text-gray-300">
-                    Oui : coût de vie -40 %, proximité Europe, et hub vers
-                    l&apos;Afrique.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation to next article */}
-            <div className="bg-gray-900/50 border border-gray-800 p-8 text-center">
-              <h3 className="text-xl font-bold mb-4">Article suivant</h3>
-              <Link
-                href="/articles/financer-projet-etranger"
-                className="bg-[#ef4444] hover:bg-[#dc2626] inline-flex items-center gap-2 text-white font-bold py-3 px-6  transition-colors group"
-              >
-                Comment financer son projet depuis l&apos;étranger ?
-                <ArrowRight
+            <div className="space-y-2 mb-8">
+              <div className="glass-list-item">
+                <CheckCircle
+                  className="text-green-500 flex-shrink-0"
                   size={20}
-                  className="group-hover:translate-x-1 transition-transform"
                 />
-              </Link>
+                <span className="text-sm font-medium">
+                  52 % d&apos;énergie renouvelable dans le mix national.
+                </span>
+              </div>
+              <div className="glass-list-item">
+                <CheckCircle
+                  className="text-green-500 flex-shrink-0"
+                  size={20}
+                />
+                <span className="text-sm font-medium">
+                  Digitalisation intégrale des services publics.
+                </span>
+              </div>
+              <div className="glass-list-item">
+                <CheckCircle
+                  className="text-green-500 flex-shrink-0"
+                  size={20}
+                />
+                <span className="text-sm font-medium">
+                  Data centers IA & hubs technologiques à Casa/Rabat.
+                </span>
+              </div>
+              <div className="glass-list-item border-red-500/30 bg-red-500/5">
+                <Trophy className="text-red-500 flex-shrink-0" size={20} />
+                <span className="text-sm font-bold text-red-100">
+                  Coupe du Monde 2030 : L'accélérateur économique majeur.
+                </span>
+              </div>
+            </div>
+
+            <p className="article-text">
+              Ces événements transformeront les villes marocaines en hubs
+              modernes pour le tourisme, le sport, l&apos;immobilier et le
+              digital.
+            </p>
+          </div>
+
+          {/* Block 3: CFC */}
+          <div className="section-block">
+            <div className="section-header">
+              <Briefcase className="text-red-500" size={32} />
+              <h2 className="section-title">Casablanca Finance City</h2>
+            </div>
+            <p className="article-text">
+              Casablanca est désormais une place financière reconnue, agissant
+              comme la véritable porte d'entrée vers l'Afrique pour les
+              investisseurs internationaux.
+            </p>
+            <div className="glass-box">
+              <ul className="list-disc pl-5 space-y-2 text-gray-300">
+                <li>
+                  <strong>Top 3</strong> des hubs africains selon GFCI.
+                </li>
+                <li>
+                  <strong>Avantages fiscaux</strong> pour les entreprises
+                  internationales (statut CFC).
+                </li>
+                <li>Accueil de multinationales Tech, Énergie et Finance.</li>
+              </ul>
             </div>
           </div>
-        </div>
 
-        {/* Bottom spacing */}
-        <div className="pb-16" />
-      </main>
+          {/* Block 4: Diaspora */}
+          <div className="section-block">
+            <div className="section-header">
+              <Globe className="text-red-500" size={32} />
+              <h2 className="section-title">Diaspora : La Force Motrice</h2>
+            </div>
+
+            <div className="quote-box mb-8">
+              « Le Maroc est un arbre profondément enraciné en Afrique, qui
+              respire par ses feuilles en Europe. »
+              <div className="text-sm text-red-500 not-italic font-bold mt-2 uppercase">
+                — Hassan II
+              </div>
+            </div>
+
+            <p className="article-text">
+              Les 5 millions de Marocains du monde (MRE) ne se contentent plus
+              de transférer de l'argent. Ils investissent, créent des startups
+              et apportent une expertise technologique cruciale pour l'avenir du
+              Royaume.
+            </p>
+          </div>
+
+          {/* CTA SECTION */}
+          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+            <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
+            <h2 className="text-3xl font-black text-white uppercase mb-4">
+              Entrepreneurs Morocco
+            </h2>
+            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+              Audit, création de société, réseau et croissance. Nous sommes
+              votre partenaire de A à Z.
+            </p>
+
+            <Link href="/devis" className="poly-btn white group">
+              <span>Lancer mon projet</span>
+              <ArrowRight
+                size={18}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
+          </div>
+
+          {/* FAQ Accordion Style */}
+          <div className="section-block">
+            <div className="section-header">
+              <HelpCircle className="text-red-500" size={32} />
+              <h2 className="section-title">Questions Fréquentes</h2>
+            </div>
+            <div className="space-y-4">
+              <details className="group bg-white/5 border border-white/10 p-4 cursor-none open:bg-white/10 transition-colors">
+                <summary className="flex items-center justify-between font-bold text-white list-none">
+                  Pourquoi le Maroc plutôt que Dubaï ?
+                  <ArrowRight
+                    size={16}
+                    className="text-red-500 group-open:rotate-90 transition-transform"
+                  />
+                </summary>
+                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                  Coût de la vie -40%, proximité immédiate avec l'Europe (2h de
+                  vol), fuseau horaire aligné, et une culture authentique avec
+                  un boom technologique.
+                </p>
+              </details>
+
+              <details className="group bg-white/5 border border-white/10 p-4 cursor-none open:bg-white/10 transition-colors">
+                <summary className="flex items-center justify-between font-bold text-white list-none">
+                  Quels sont les secteurs les plus rentables ?
+                  <ArrowRight
+                    size={16}
+                    className="text-red-500 group-open:rotate-90 transition-transform"
+                  />
+                </summary>
+                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                  Les énergies renouvelables, l'AgriTech, le Tourisme, et
+                  surtout l'Offshoring digital (Dev, IA, Support).
+                </p>
+              </details>
+            </div>
+          </div>
+
+          {/* NEXT ARTICLE NAV */}
+          <div className="flex justify-end pt-10 border-t border-gray-800">
+            <Link
+              href="/articles/financer-projet-etranger"
+              className="cursor-none group text-right"
+            >
+              <span className="block text-xs text-gray-500 uppercase tracking-widest mb-1">
+                Article Suivant
+              </span>
+              <div className="flex items-center gap-3 text-white font-bold text-lg md:text-xl group-hover:text-red-500 transition-colors">
+                Comment financer son projet ?
+                <ArrowRight size={24} />
+              </div>
+            </Link>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

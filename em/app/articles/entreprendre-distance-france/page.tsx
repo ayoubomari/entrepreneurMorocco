@@ -1,5 +1,5 @@
 import React from "react";
-import type { Metadata } from "next"; // Import Metadata type
+import type { Metadata } from "next";
 import {
   ArrowLeft,
   Globe,
@@ -11,269 +11,285 @@ import {
   ArrowRight,
   Star,
   Lightbulb,
+  HandHeart,
+  HelpCircle, // Ajouté pour la FAQ
 } from "lucide-react";
 import Link from "next/link";
+
+// Import du CSS commun
+import "../_styles/article.css";
+
+// Import de l'effet de fond
+import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 // --- Metadata Configuration ---
 export const metadata: Metadata = {
   title: "MRE et Investisseurs : Bâtissez le Maroc de demain (Vision 2030)",
   description:
-    "MRE et investisseurs étrangers : Comment profiter de la Vision 2030, de la CAN 2025 et de la Coupe du Monde ? Guide stratégique pour le retour au pays.",
+    "MRE et investisseurs étrangers : Comment profiter de la Vision 2030 et des grands événements mondiaux ? Guide stratégique pour investir au Royaume.",
   keywords: [
     "MRE retour Maroc",
-    "Investissement MRE Maroc",
+    "Investissement MRE",
     "Vision 2030 Maroc",
-    "Transfert argent Maroc",
-    "Business MRE",
     "Diaspora marocaine",
-    "Opportunités Maroc 2030",
   ],
-  openGraph: {
-    type: "article",
-    title: "MRE : Comment devenir acteur du Maroc de 2030 ?",
-    description:
-      "5,5 millions de talents, 11 milliards de transferts. Découvrez comment la diaspora transforme l'économie marocaine au-delà de l'immobilier.",
-    url: "https://www.entrepreneursmorocco.com/articles/mre-investisseurs-maroc",
-    images: [
-      {
-        url: "/logofooter.png",
-        width: 1200,
-        height: 630,
-        alt: "MRE et Investisseurs Maroc",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Retour au Maroc : Le guide pour les MRE entrepreneurs",
-    description:
-      "Témoignages, secteurs porteurs et vision stratégique pour votre retour.",
-  },
 };
-// -----------------------------
 
 const Article3Page: React.FC = () => {
   return (
-    <div className="min-h-screen bg-black text-white article-page-wrapper">
+    <div className="article-page">
+      {/* Background Effect */}
+      <CloudRedEffect1 />
+
       {/* Navigation */}
-      <nav className="pt-[150px] w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-3 hover:text-red-500 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="font-medium">Retour à la page d'accueil</span>
-          </Link>
-          <div className="text-sm text-gray-400">Article 3/4</div>
+      <nav className="art-nav">
+        <Link href="/" className="nav-back group">
+          <ArrowLeft
+            size={18}
+            className="group-hover:-translate-x-1 transition-transform"
+          />
+          <span>Retour Accueil</span>
+        </Link>
+        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-800 px-3 py-1 rounded-full">
+          Article 3/4
         </div>
       </nav>
 
-      {/* Main Content Container */}
-      <main className="relative">
-        {/* Hero Section */}
-        <div className="pt-24 sm:pt-0 pb-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center max-w-5xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 text-sm mb-6">
-                <Target size={16} />
-                ARTICLE 3 — Retour au pays
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Comment les <span className="text-red-500">MRE</span> et
-                investisseurs bâtissent le Maroc de demain
-              </h1>
-              <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                MRE et investisseurs étrangers : découvrez comment Vision 2030,
-                la CAN 2025 et la Coupe du Monde 2030 font du Maroc une terre
-                d&apos;avenir.
-              </p>
-              <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
-                <span>12 min de lecture</span>
-                <span>•</span>
-                <span>Guide MRE & Investisseurs</span>
-              </div>
-            </div>
+      {/* Main Wrapper */}
+      <div className="article-wrap">
+        {/* --- HERO SECTION --- */}
+        <header className="article-hero">
+          <div className="article-tag">
+            <Users size={14} />
+            Retour au pays & Investissement
           </div>
-        </div>
-
-        {/* Stats Banner */}
-        <div className="bg-red-500/5 border-y border-red-500/20 py-12 mb-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">5,5M</div>
-                <div className="text-gray-300">MRE dans le monde</div>
-              </div>
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">
-                  11,4B$
-                </div>
-                <div className="text-gray-300">Transferts en 2023</div>
-              </div>
-              <div className="group hover:scale-105 transition-transform">
-                <div className="text-3xl font-bold text-red-500 mb-2">8%</div>
-                <div className="text-gray-300">Du PIB national</div>
-              </div>
-            </div>
+          <h1 className="article-title">
+            Comment les <span className="text-red-500">MRE</span> bâtissent le
+            Maroc de demain
+          </h1>
+          <p className="article-lead">
+            Vision 2030, CAN 2025 et Coupe du Monde. Découvrez comment la
+            diaspora marocaine et les investisseurs internationaux transforment
+            le Royaume en terre d&apos;avenir.
+          </p>
+          <div className="flex items-center justify-center gap-6 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+            <span>12 min de lecture</span>
+            <span className="text-red-500">•</span>
+            <span>Guide MRE & Investisseurs</span>
           </div>
-        </div>
+        </header>
 
-        {/* Article Content Wrapper */}
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
-          <div className="max-w-5xl mx-auto space-y-16">
-            {/* Diaspora Power */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Globe className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Une diaspora puissante au service du Maroc
-                </h2>
-              </div>
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-gray-300 leading-relaxed mb-8">
-                  Le Maroc compte plus de 5,5 millions de Marocains Résidant à
-                  l&apos;Étranger (MRE). Aujourd&apos;hui, leur impact dépasse
-                  largement les simples transferts financiers.
-                </p>
+        {/* --- STATS GRID --- */}
+        <section className="stats-grid">
+          <div className="stat-card">
+            <span className="stat-value">5,5M</span>
+            <span className="stat-label">MRE dans le monde</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">11,4B$</span>
+            <span className="stat-label">Transferts en 2023</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">8%</span>
+            <span className="stat-label">Part du PIB national</span>
+          </div>
+        </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                  <div className="p-6 bg-gray-900/30 border border-gray-800 text-center">
-                    <Lightbulb
-                      className="text-red-500 mx-auto mb-3"
-                      size={24}
-                    />
-                    <h4 className="font-bold text-white mb-1">Expertise</h4>
-                    <p className="text-sm text-gray-400">
-                      Transfert de compétences
-                    </p>
-                  </div>
-                  <div className="p-6 bg-gray-900/30 border border-gray-800 text-center">
-                    <Users className="text-red-500 mx-auto mb-3" size={24} />
-                    <h4 className="font-bold text-white mb-1">Réseaux</h4>
-                    <p className="text-sm text-gray-400">
-                      Connexions mondiales
-                    </p>
-                  </div>
-                  <div className="p-6 bg-gray-900/30 border border-gray-800 text-center">
-                    <Star className="text-red-500 mx-auto mb-3" size={24} />
-                    <h4 className="font-bold text-white mb-1">Innovation</h4>
-                    <p className="text-sm text-gray-400">Startups & Tech</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Vision 2030 */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Zap className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">Vision 2030</h2>
-              </div>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-gray-900/30 hover:bg-gray-900/50 transition-colors">
-                  <CheckCircle
-                    className="text-green-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-white">
-                    52% d&apos;énergie verte dans le mix énergétique.
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20">
-                  <Target
-                    className="text-red-500 mt-1 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-red-400">
-                    Monnaie digitale nationale et digitalisation complète.
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Success Stories */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="text-red-500" size={24} />
-                <h2 className="text-2xl md:text-3xl font-bold">Témoignages</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="bg-white/5 p-6 border border-gray-800">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-red-500 flex items-center justify-center font-bold">
-                      S
-                    </div>
-                    <div>
-                      <div className="font-bold">Sarah</div>
-                      <div className="text-xs text-gray-400">
-                        France → Maroc
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 italic text-sm">
-                    &quot;J&apos;ai lancé une EdTech IA à Casablanca.
-                    Aujourd&apos;hui, je collabore avec toute
-                    l&apos;Afrique.&quot;
-                  </p>
-                </div>
-                <div className="bg-white/5 p-6 border border-gray-800">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-red-500 flex items-center justify-center font-bold">
-                      A
-                    </div>
-                    <div>
-                      <div className="font-bold">Ahmed</div>
-                      <div className="text-xs text-gray-400">
-                        Belgique → Maroc
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 italic text-sm">
-                    &quot;J&apos;ai monté un atelier de cosmétiques bio pour
-                    l&apos;exportation.&quot;
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Final CTA Box */}
-            <div className="bg-red-500/5 border border-red-500/20 p-8 md:p-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Le Maroc a changé.
+        {/* --- CONTENT CONTAINER --- */}
+        <main className="content-container">
+          {/* Section 1: Diaspora Power */}
+          <div className="section-block">
+            <div className="section-header">
+              <Globe className="text-red-500" size={32} />
+              <h2 className="section-title">
+                Une Diaspora au service du Royaume
               </h2>
-              <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-                Il est stable, moderne et connecté. Ne restez pas spectateur.
-                Devenez acteur du changement avec Entrepreneurs Morocco.
-              </p>
-              {/* UPDATED BUTTON: padding py-3 px-6 (like bottom button) and reversed colors */}
-              <Link
-                href="/devis"
-                className="bg-white text-red-600 hover:bg-gray-100 font-bold py-3 px-6 transition-colors inline-flex items-center gap-2 group"
-              >
-                Démarrer mon projet
-              </Link>
             </div>
+            <p className="article-text">
+              Aujourd&apos;hui, l&apos;impact des Marocains Résidant à
+              l&apos;Étranger (MRE) dépasse largement les simples transferts
+              financiers. Ils apportent une expertise technologique, des réseaux
+              mondiaux et une vision entrepreneuriale cruciale pour
+              l&apos;accélération économique du pays.
+            </p>
 
-            {/* Navigation to next article */}
-            <div className="bg-gray-900/50 border border-gray-800 p-8 text-center">
-              <h3 className="text-xl font-bold mb-4">Article suivant</h3>
-              <Link
-                href="/articles/creer-entreprise-etapes"
-                className="bg-[#ef4444] hover:bg-[#dc2626] inline-flex items-center gap-2 text-white font-bold py-3 px-6 transition-colors group"
-              >
-                Guide complet : créer son entreprise au Maroc
-                <ArrowRight
-                  size={20}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+              <div className="glass-list-item">
+                <Zap className="text-red-500 flex-shrink-0" size={20} />
+                <div>
+                  <div className="font-bold text-white">Expertise</div>
+                  <div className="text-sm text-gray-400">
+                    Transfert de compétences pointues.
+                  </div>
+                </div>
+              </div>
+              <div className="glass-list-item">
+                <TrendingUp className="text-red-500 flex-shrink-0" size={20} />
+                <div>
+                  <div className="font-bold text-white">Réseaux</div>
+                  <div className="text-sm text-gray-400">
+                    Connexions avec les marchés mondiaux.
+                  </div>
+                </div>
+              </div>
+              <div className="glass-list-item">
+                <Lightbulb className="text-red-500 flex-shrink-0" size={20} />
+                <div>
+                  <div className="font-bold text-white">Innovation</div>
+                  <div className="text-sm text-gray-400">
+                    Création de Startups & Hubs Tech.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="pb-16" />
-      </main>
+          {/* Section 2: Vision 2030 */}
+          <div className="section-block">
+            <div className="section-header">
+              <Target className="text-red-500" size={32} />
+              <h2 className="section-title">Vision 2030 : Les Piliers</h2>
+            </div>
+            <div className="glass-box highlight">
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} className="text-red-500 mt-1" />
+                  <span>
+                    52% d&apos;énergie verte dans le mix énergétique national.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} className="text-red-500 mt-1" />
+                  <span>
+                    Digitalisation intégrale des services et monnaie digitale
+                    nationale.
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Section 3: Success Stories */}
+          <div className="section-block">
+            <div className="section-header">
+              <Star className="text-red-500" size={32} />
+              <h2 className="section-title">Témoignages de Réussite</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="glass-box">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center font-bold text-xl text-black">
+                    S
+                  </div>
+                  <div>
+                    <div className="font-bold text-white">Sarah</div>
+                    <div className="text-xs text-gray-500">
+                      France → Casablanca
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm italic text-gray-300">
+                  &quot;J&apos;ai lancé une EdTech IA à Casablanca. Le dynamisme
+                  actuel permet de collaborer avec toute l&apos;Afrique depuis
+                  le Maroc.&quot;
+                </p>
+              </div>
+              <div className="glass-box">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center font-bold text-xl text-black">
+                    A
+                  </div>
+                  <div>
+                    <div className="font-bold text-white">Ahmed</div>
+                    <div className="text-xs text-gray-500">
+                      Belgique → Agadir
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm italic text-gray-300">
+                  &quot;De retour pour monter un atelier de cosmétiques bio.
+                  L&apos;accompagnement à l&apos;exportation est un levier
+                  incroyable.&quot;
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA SECTION */}
+          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+            <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
+            <h2 className="text-3xl font-black text-white uppercase mb-4">
+              Le Maroc a changé.
+            </h2>
+            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+              Il est stable, moderne et connecté. Ne restez pas spectateur de
+              cette transformation. Devenez acteur avec Entrepreneurs Morocco.
+            </p>
+            <Link href="/contact" className="poly-btn red group">
+              <span>Lancer mon projet</span>
+              <ArrowRight
+                size={18}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
+          </div>
+
+          {/* FAQ SECTION */}
+          <div className="section-block">
+            <div className="section-header">
+              <HelpCircle className="text-red-500" size={32} />
+              <h2 className="section-title">Questions Fréquentes</h2>
+            </div>
+            <div className="space-y-4">
+              <details className="group bg-white/5 border border-white/10 p-4 cursor-none open:bg-white/10 transition-colors">
+                <summary className="flex items-center justify-between font-bold text-white list-none">
+                  Quels sont les avantages fiscaux pour les MRE ?
+                  <ArrowRight
+                    size={16}
+                    className="text-red-500 group-open:rotate-90 transition-transform"
+                  />
+                </summary>
+                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                  Le Maroc offre des incitations spécifiques comme la garantie
+                  de retransfert des fonds et des conventions de non-double
+                  imposition avec de nombreux pays. Certaines zones
+                  d&apos;accélération industrielle offrent aussi des
+                  exonérations d&apos;IS.
+                </p>
+              </details>
+
+              <details className="group bg-white/5 border border-white/10 p-4 cursor-none open:bg-white/10 transition-colors">
+                <summary className="flex items-center justify-between font-bold text-white list-none">
+                  Est-il facile d&apos;ouvrir un compte bancaire à distance ?
+                  <ArrowRight
+                    size={16}
+                    className="text-red-500 group-open:rotate-90 transition-transform"
+                  />
+                </summary>
+                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                  Oui, la plupart des grandes banques marocaines disposent de
+                  services dédiés aux MRE permettant d&apos;initier les
+                  démarches depuis votre pays de résidence via leurs filiales ou
+                  applications mobiles.
+                </p>
+              </details>
+            </div>
+          </div>
+
+          {/* NEXT ARTICLE NAV */}
+          <div className="flex justify-end pt-10 border-t border-gray-800">
+            <Link href="/article4" className="cursor-none group text-right">
+              <span className="block text-xs text-gray-500 uppercase tracking-widest mb-1">
+                Article suivant
+              </span>
+              <div className="flex items-center gap-3 text-white font-bold text-lg md:text-xl group-hover:text-red-500 transition-colors">
+                Maroc vs Dubaï : Le guide complet
+                <ArrowLeft size={24} className="rotate-180" />
+              </div>
+            </Link>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

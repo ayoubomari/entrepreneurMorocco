@@ -320,7 +320,7 @@
 .testimonials-description {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.4;
   font-size: clamp(16px, 2vw, 16px);
   margin: 0;
   padding-bottom: 20px;
@@ -398,7 +398,7 @@
 /* 2. The Inner Layer (Background & Content) */
 .testimonial-card-inner {
   background-color: #000000;
-  padding: 2.5rem 1.8rem 2rem 1.8rem;
+  padding: 2.5rem 1.75rem 2rem 1.75rem;
   height: 100%;
   position: relative; /* Essential for Shine Positioning */
   overflow: hidden; /* Keeps Shine inside the clip-path */
@@ -555,7 +555,7 @@
 .testimonial-name {
   color: #ffffff;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   margin-bottom: 6px;
   margin-top: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -564,6 +564,7 @@
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
+  min-height: 40px;
 }
 
 .testimonial-wrapper:hover .testimonial-name {
@@ -583,13 +584,14 @@
 
 .testimonial-subtitle {
   color: #ffffff;
-  font-size: 0.88rem;
-  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
   animation: contentFadeIn 0.8s ease-out 0.5s both;
   line-height: 1.15rem;
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
+  min-height: 48px;
 }
 
 .testimonial-wrapper:hover .testimonial-subtitle {
@@ -598,8 +600,8 @@
 
 .testimonial-quote {
   color: #d1d5db;
-  font-size: 0.88rem;
-  line-height: 1.15rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
   margin-bottom: 1.5rem;
   animation: contentFadeIn 0.8s ease-out 0.6s both;
   transition: all 0.3s ease;
@@ -713,6 +715,7 @@
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
   position: relative;
   overflow: hidden;
+  cursor: none;
 }
 
 @media (max-width: 480px) {

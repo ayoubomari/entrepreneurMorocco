@@ -154,7 +154,7 @@
 
 .wave-caption__title {
   font-weight: 600;
-  font-size: clamp(13px, 1.45vw, 18px);
+  font-size: clamp(16px, 1.45vw, 18px);
   color: #fff;
   position: relative;
   display: inline-block;
@@ -169,7 +169,7 @@
 }
 
 .wave-caption__subtitle {
-  font-size: clamp(10px, 1.1vw, 14px);
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.85);
 }
 
@@ -313,6 +313,7 @@
   justify-content: center;
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
+  cursor: none;
 }
 
 .carousel-arrow:hover {

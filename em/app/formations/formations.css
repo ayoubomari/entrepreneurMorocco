@@ -255,29 +255,13 @@
   height: 72px;
   background: rgba(239, 68, 68, 0.08);
   border: 1.5px solid rgba(239, 68, 68, 0.2);
-  border-radius: 50%;
+  /* border-radius: 50%; */
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
-}
-
-.formation-icon-container::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent,
-    rgba(239, 68, 68, 0.3),
-    transparent
-  );
-  transition: opacity 0.4s ease;
-  animation: iconRotate 5s linear infinite;
-  opacity: 0.6;
 }
 
 @keyframes iconRotate {
@@ -308,11 +292,11 @@
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
   letter-spacing: 0.02em;
   line-height: 1.3;
   transition: color 0.3s ease;
   z-index: 2;
+  min-height: 60px;
 }
 
 .formation-card:hover .formation-title {
@@ -330,7 +314,7 @@
 
 .formation-features li {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   margin-bottom: 0.875rem;
   position: relative;
@@ -402,6 +386,7 @@
   clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
   transition: all 0.3s ease;
   overflow: hidden;
+  cursor: none;
 }
 
 .f-cta-btn::before {
@@ -450,5 +435,10 @@
     width: 100%;
     min-width: unset;
     justify-content: center;
+  }
+
+  .formation-title {
+    margin-bottom: 1rem;
+    min-height: auto;
   }
 }
