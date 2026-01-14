@@ -21,11 +21,11 @@ import "./footer.css";
 import "./hero.css";
 import "./blockone.css";
 import { Linkedin, Instagram, Youtube } from "lucide-react";
+import { useIsVisible } from "../hooks/useIsVisible";
 
 /* =========================
    3D Audience Carousel
    ========================= */
-
 const IMAGES = [1, 2, 3, 4, 5].map((n) => `/caroussel-3D-${n}.png`);
 const CAPTIONS = [
   { title: "Étudiants", subtitle: "Installation, études, carte de séjour" },
@@ -39,52 +39,38 @@ const CAPTIONS = [
 ];
 
 const AudienceCarousel: React.FC = () => {
+  // --- HOOK FOR ANIMATION TRIGGER ---
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
+
   const [active, setActive] = useState(2);
   const [visibleCards, setVisibleCards] = useState(5);
-  const [isPaused, setIsPaused] = useState(false); // Pause auto-play on hover
-
-  // --- NEW: Track Mobile State ---
+  const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  // Dragging State
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const dragThreshold = 50; // Minimum distance to trigger slide
+  const dragThreshold = 50;
 
-  // --- Auto-play Logic (Updated) ---
   useEffect(() => {
-    // Stop auto-play if paused OR if we are on mobile
     if (isPaused || isMobile) return;
-
     const interval = setInterval(() => {
       setActive((prev) => (prev + 1) % IMAGES.length);
     }, 3000);
-
     return () => clearInterval(interval);
-  }, [isPaused, isMobile]); // Added isMobile dependency
+  }, [isPaused, isMobile]);
 
-  // --- Responsive Card Count & Mobile Detection (Updated) ---
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-
-      // Update Mobile State (Threshold: 768px)
       setIsMobile(width < 768);
-
-      // Update Visible Cards Count
       if (width < 640) setVisibleCards(3);
       else if (width < 1024) setVisibleCards(4);
       else setVisibleCards(5);
     };
-
-    // Run once on mount to set initial state
     handleResize();
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // --- Navigation Logic ---
   const prev = useCallback(() => {
     setActive((i) => (i - 1 + IMAGES.length) % IMAGES.length);
   }, []);
@@ -93,7 +79,6 @@ const AudienceCarousel: React.FC = () => {
     setActive((i) => (i + 1) % IMAGES.length);
   }, []);
 
-  // --- Keyboard Nav ---
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
@@ -103,46 +88,21 @@ const AudienceCarousel: React.FC = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, [prev, next]);
 
-  // --- Drag / Swipe Handlers ---
   const handleDragStart = (clientX: number) => {
     setIsDragging(true);
     setStartX(clientX);
-    setIsPaused(true); // Pause rotation while dragging
+    setIsPaused(true);
   };
 
   const handleDragEnd = (clientX: number) => {
     if (!isDragging) return;
-
     const diff = clientX - startX;
-
-    if (diff > dragThreshold) {
-      prev();
-    } else if (diff < -dragThreshold) {
-      next();
-    }
-
+    if (diff > dragThreshold) prev();
+    else if (diff < -dragThreshold) next();
     setIsDragging(false);
-    // Only resume if not on mobile (on mobile isPaused stays false, but isMobile stops the loop)
     setIsPaused(false);
   };
 
-  // Mouse Events
-  const onMouseDown = (e: React.MouseEvent) => handleDragStart(e.clientX);
-  const onMouseUp = (e: React.MouseEvent) => handleDragEnd(e.clientX);
-  const onMouseLeave = () => {
-    if (isDragging) {
-      setIsDragging(false);
-      setIsPaused(false);
-    }
-  };
-
-  // Touch Events
-  const onTouchStart = (e: React.TouchEvent) =>
-    handleDragStart(e.touches[0].clientX);
-  const onTouchEnd = (e: React.TouchEvent) =>
-    handleDragEnd(e.changedTouches[0].clientX);
-
-  // --- Card Styling ---
   const getCardStyle = (index: number) => {
     const diff = index - active;
     const totalCards = Math.min(IMAGES.length, visibleCards);
@@ -152,9 +112,7 @@ const AudienceCarousel: React.FC = () => {
     if (position > centerIndex) position -= IMAGES.length;
     if (position < -centerIndex) position += IMAGES.length;
 
-    if (Math.abs(position) > centerIndex) {
-      return { display: "none" };
-    }
+    if (Math.abs(position) > centerIndex) return { display: "none" };
 
     const distanceFromCenter = Math.abs(position);
     const scale = 1 - distanceFromCenter * 0.08;
@@ -183,15 +141,11 @@ const AudienceCarousel: React.FC = () => {
     };
   };
 
-  // Prevent click triggering when dragging
-  const handleCardClick = (index: number) => {
-    if (!isDragging) {
-      setActive(index);
-    }
-  };
-
   return (
-    <section className="wave-carousel-section">
+    <section
+      ref={elementRef}
+      className={`wave-carousel-section ${isVisible ? "visible" : ""}`}
+    >
       <div className="wave-carousel__header">
         <h2 className="wave-carousel__title">
           POUR CEUX QUI VEULENT S'INSTALLER, ENTREPRENDRE OU CHANGER DE VIE
@@ -200,16 +154,18 @@ const AudienceCarousel: React.FC = () => {
 
       <div
         className={`wave-carousel-container ${isDragging ? "grabbing" : ""}`}
-        // Add mouse/touch listeners to container
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-        // Pause/Resume on hover (Only affects Desktop effectively due to isMobile check)
+        onMouseDown={(e) => handleDragStart(e.clientX)}
+        onMouseUp={(e) => handleDragEnd(e.clientX)}
+        onMouseLeave={() => {
+          if (isDragging) {
+            setIsDragging(false);
+            setIsPaused(false);
+          }
+        }}
+        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+        onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
         onMouseEnter={() => setIsPaused(true)}
       >
-        {/* --- NAVIGATION ARROWS (Large Screen Only) --- */}
         <button
           className="carousel-arrow carousel-arrow--left"
           aria-label="Previous Slide"
@@ -255,40 +211,35 @@ const AudienceCarousel: React.FC = () => {
             <path d="m9 18 6-6-6-6" />
           </svg>
         </button>
-        {/* ------------------------------------------- */}
 
         <div className="wave-carousel">
-          {IMAGES.map((src, i) => {
-            const cap = CAPTIONS[i];
-            const isActive = i === active;
-
-            return (
-              <div
-                key={i}
-                className={`wave-card ${isActive ? "wave-card--active" : ""}`}
-                style={getCardStyle(i)}
-                onClick={() => handleCardClick(i)}
-              >
-                <div className="wave-img-wrapper">
-                  <Image
-                    src={src}
-                    alt={cap.title}
-                    width={765}
-                    height={966}
-                    draggable={false}
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="wave-caption">
-                  <div className="wave-caption__title">{cap.title}</div>
-                  {cap.subtitle && (
-                    <div className="wave-caption__subtitle">{cap.subtitle}</div>
-                  )}
-                </div>
+          {IMAGES.map((src, i) => (
+            <div
+              key={i}
+              className={`wave-card ${i === active ? "wave-card--active" : ""}`}
+              style={getCardStyle(i)}
+              onClick={() => !isDragging && setActive(i)}
+            >
+              <div className="wave-img-wrapper">
+                <Image
+                  src={src}
+                  alt={CAPTIONS[i].title}
+                  width={765}
+                  height={966}
+                  draggable={false}
+                  loading="lazy"
+                />
               </div>
-            );
-          })}
+              <div className="wave-caption">
+                <div className="wave-caption__title">{CAPTIONS[i].title}</div>
+                {CAPTIONS[i].subtitle && (
+                  <div className="wave-caption__subtitle">
+                    {CAPTIONS[i].subtitle}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -525,9 +476,18 @@ const HeroSection = () => {
    Accompagnements
    ========================= */
 const AccompagnementsSection = () => {
+  // Use the hook (Trigger when 20% of element is visible)
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
+
   return (
     <section className="bg-black py-12 md:py-16 acc-section">
-      <div className="max-w-7xl mx-auto px-6 acc-wrap">
+      {/* Attach ref here and toggle the class */}
+      <div
+        ref={elementRef}
+        className={`max-w-7xl mx-auto px-6 acc-wrap ${
+          isVisible ? "visible" : ""
+        }`}
+      >
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES ACCOMPAGNEMENTS ADAPTÉS À CHAQUE PROFIL
         </h2>
@@ -554,9 +514,18 @@ const AccompagnementsSection = () => {
    Services
    ========================= */
 const ServicesSection = () => {
+  // Use the hook (Trigger when 20% of element is visible)
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
+
   return (
     <section className="bg-black py-12 md:py-16 srv-section">
-      <div className="max-w-7xl mx-auto px-6 srv-wrap">
+      {/* Attach ref here and toggle the visible class */}
+      <div
+        ref={elementRef}
+        className={`max-w-7xl mx-auto px-6 srv-wrap ${
+          isVisible ? "visible" : ""
+        }`}
+      >
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           DES SERVICES SUR-MESURE POUR CHAQUE BESOIN
         </h2>
@@ -624,6 +593,9 @@ const MethodologySection = () => {
    Testimonials
    ========================= */
 const TestimonialsSection = () => {
+  // 1. Hook Integration
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
+
   const testimonials = [
     {
       name: "Sarah B., Lyon → Rabat",
@@ -640,7 +612,6 @@ const TestimonialsSection = () => {
       rating: 4,
     },
     {
-      // UPDATED HERE: Added \n
       name: "Nadia & Karim B., Couple\nfranco-marocain",
       subtitle: "Paris → Marrakech | Installés depuis septembre 2023",
       content:
@@ -660,7 +631,6 @@ const TestimonialsSection = () => {
       {Array.from({ length: total }).map((_, index) => {
         const isFilled = index < Math.floor(rating);
         const isHalf = index < rating && index >= Math.floor(rating);
-
         return (
           <svg
             key={index}
@@ -670,16 +640,12 @@ const TestimonialsSection = () => {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {isFilled || isHalf ? (
-              <polygon points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9" />
-            ) : (
-              <polygon
-                points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.9"
-              />
-            )}
+            <polygon
+              points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9"
+              fill={isFilled || isHalf ? "currentColor" : "none"}
+              stroke="currentColor"
+              strokeWidth={isFilled || isHalf ? "0" : "0.9"}
+            />
           </svg>
         );
       })}
@@ -687,7 +653,10 @@ const TestimonialsSection = () => {
   );
 
   return (
-    <section className="testimonials-section">
+    <section
+      ref={elementRef}
+      className={`testimonials-section ${isVisible ? "visible" : ""}`}
+    >
       <div className="testimonials-container max-w-7xl mx-auto px-6">
         <div className="testimonials-header">
           <h2 className="testimonials-title">ILS L&apos;ONT FAIT AVEC NOUS</h2>
@@ -703,7 +672,6 @@ const TestimonialsSection = () => {
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="testimonial-wrapper">
-              {/* 1. PROFILE ICON */}
               <div className="profile-icon">
                 <div className="profile-circle">
                   <svg
@@ -712,8 +680,6 @@ const TestimonialsSection = () => {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
                   >
                     <circle cx="12" cy="7" r="4"></circle>
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -722,11 +688,8 @@ const TestimonialsSection = () => {
                 </div>
               </div>
 
-              {/* 2. CARD */}
               <div className="testimonial-card">
-                {/* 3. INNER */}
                 <div className="testimonial-card-inner">
-                  {/* UPDATED HERE: Split logic added for Name */}
                   <h3 className="testimonial-name">
                     {testimonial.name.split("\n").map((line, i, arr) => (
                       <span key={i}>
@@ -735,9 +698,7 @@ const TestimonialsSection = () => {
                       </span>
                     ))}
                   </h3>
-
                   <p className="testimonial-subtitle">{testimonial.subtitle}</p>
-
                   <blockquote className="testimonial-quote">
                     "
                     {testimonial.content.split("\n").map((line, i, arr) => (
@@ -764,6 +725,9 @@ const TestimonialsSection = () => {
    ========================= */
 
 const NetworkSection = () => {
+  // --- NEW: Visibility Hook ---
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
+
   const partners = [
     {
       src: "/bank.svg",
@@ -790,8 +754,11 @@ const NetworkSection = () => {
 
   return (
     <section className="bg-black py-20 md:py-24 network-section">
-      {/* This structure now mirrors the srv-wrap from the Services Section */}
-      <div className="net-wrap max-w-7xl mx-auto">
+      {/* Header Wrapper with visibility trigger */}
+      <div
+        ref={elementRef}
+        className={`net-wrap max-w-7xl mx-auto ${isVisible ? "visible" : ""}`}
+      >
         <h2 className="text-white font-extrabold uppercase tracking-wide leading-tight">
           NOTRE RÉSEAU DE CONFIANCE
         </h2>
@@ -805,7 +772,8 @@ const NetworkSection = () => {
         </div>
       </div>
 
-      <div className="net-bleed">
+      {/* Carousel Wrapper with visibility trigger (slight delay via CSS) */}
+      <div className={`net-bleed ${isVisible ? "visible" : ""}`}>
         <div className="net-auto" style={{ minHeight: 96 }}>
           <div className="net-track">
             {[...partners, ...partners].map((p, i) => (
@@ -839,7 +807,10 @@ const NetworkSection = () => {
    Podcast
    ========================= */
 const PodcastSection = () => {
-  // 1. Data
+  // 1. Animation Hook (Trigger when 20% is visible)
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
+
+  // 2. Data
   const base = useMemo(
     () => [
       {
@@ -876,7 +847,7 @@ const PodcastSection = () => {
   const trackRef = useRef<HTMLDivElement>(null);
 
   // State
-  const [active, setActive] = useState(0); // Initialize at 0, will be fixed in useEffect
+  const [active, setActive] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
@@ -907,7 +878,6 @@ const PodcastSection = () => {
     if (!track) return;
 
     const cards = Array.from(track.querySelectorAll(".pod-card"));
-    // Bound check
     if (index < 0) index = 0;
     if (index >= cards.length) index = cards.length - 1;
 
@@ -917,24 +887,15 @@ const PodcastSection = () => {
     const trackRect = track.getBoundingClientRect();
     const cardRect = targetCard.getBoundingClientRect();
 
-    // Calculate new scroll position relative to current
-    // We want: CardCenter = TrackCenter
-    // Current CardCenter = cardRect.left + width/2
-    // Offset needed = (CardCenter) - (TrackCenter)
-    // Target ScrollLeft = Current ScrollLeft + Offset
-
     const currentCardCenter = cardRect.left + cardRect.width / 2;
     const currentTrackCenter = trackRect.left + trackRect.width / 2;
     const offset = currentCardCenter - currentTrackCenter;
 
     const targetScrollLeft = track.scrollLeft + offset;
 
-    // Desktop adjustment: If we are in pair mode, we might want to center the PAIR
     const currentIsDesktop = window.innerWidth >= 1024;
 
     if (currentIsDesktop) {
-      // Just center the target card normally, the CSS flex/gap handles the pair visual.
-      // Or if you want the pair centered:
       const nextCard = cards[index + 1];
       if (nextCard && index % 2 === 0) {
         // Assuming even start
@@ -965,12 +926,9 @@ const PodcastSection = () => {
     const initialPosition = () => {
       const oneSetWidth = getOneSetWidth();
       if (oneSetWidth > 0) {
-        // Start roughly in middle set logic or just 0
         track.scrollLeft = oneSetWidth * 2;
-
-        // Wait for layout paint then snap to correct card
         setTimeout(() => {
-          const startIndex = base.length * 2; // Middle copy
+          const startIndex = base.length * 2;
           const safeIndex = startIndex < items.length ? startIndex : 0;
           centerCardByIndex(safeIndex, false);
           setActive(safeIndex);
@@ -1006,17 +964,16 @@ const PodcastSection = () => {
 
     const handleStart = (clientX: number) => {
       isDownRef.current = true;
-      isDraggingRef.current = false; // Will set to true on first move
+      isDraggingRef.current = false;
       startXRef.current = clientX;
       startScrollLeftRef.current = track.scrollLeft;
 
-      track.style.cursor = "none"; // grabbing
-      // We stop any ongoing smooth scroll by force-setting current position
+      track.style.cursor = "none";
       track.style.scrollBehavior = "auto";
     };
 
     const onMouseDown = (e: MouseEvent) => {
-      e.preventDefault(); // Prevent text selection
+      e.preventDefault();
       handleStart(e.pageX);
     };
 
@@ -1025,19 +982,16 @@ const PodcastSection = () => {
       handleStart(touch.pageX);
     };
 
-    // 2. MOVE
     const handleMove = (clientX: number) => {
       if (!isDownRef.current) return;
 
       const x = clientX;
       const dist = x - startXRef.current;
 
-      // Threshold to consider it a drag and not a click
       if (Math.abs(dist) > 5) {
         isDraggingRef.current = true;
       }
 
-      // Move visually 1:1 with finger
       track.scrollLeft = startScrollLeftRef.current - dist;
     };
 
@@ -1053,7 +1007,6 @@ const PodcastSection = () => {
       handleMove(touch.pageX);
     };
 
-    // 3. END
     const handleEnd = (clientX: number) => {
       if (!isDownRef.current) return;
 
@@ -1061,44 +1014,33 @@ const PodcastSection = () => {
       track.style.cursor = "none";
       track.style.scrollBehavior = "smooth";
 
-      if (!isDraggingRef.current) return; // Was a click
+      if (!isDraggingRef.current) return;
 
       const dist = clientX - startXRef.current;
-
-      // MOBILE: Always move exactly 1 card regardless of swipe force
-      // DESKTOP: Move 2 cards (pair)
       let targetIndex = active;
-
-      // Threshold much lower - any meaningful swipe triggers movement
       const SWIPE_THRESHOLD = 30;
 
       if (Math.abs(dist) > SWIPE_THRESHOLD) {
-        const moveAmount = isDesktop ? 2 : 1; // Always 1 for mobile, 2 for desktop
+        const moveAmount = isDesktop ? 2 : 1;
 
         if (dist < 0) {
-          // Swiped left -> next
           targetIndex = active + moveAmount;
         } else {
-          // Swiped right -> prev
           targetIndex = active - moveAmount;
         }
       } else {
-        // Snap back to current if swipe too small
         targetIndex = active;
       }
 
-      // Boundary Checks
       if (targetIndex < 0) targetIndex = 0;
       if (targetIndex >= items.length) {
         targetIndex = items.length - 1;
         if (isDesktop && targetIndex % 2 !== 0) targetIndex -= 1;
       }
 
-      // Execute Snap
       setActive(targetIndex);
       centerCardByIndex(targetIndex, true);
 
-      // Reset drag ref
       setTimeout(() => {
         isDraggingRef.current = false;
       }, 0);
@@ -1123,7 +1065,6 @@ const PodcastSection = () => {
       handleEnd(touch.pageX);
     };
 
-    // Attach Events
     track.addEventListener("mousedown", onMouseDown);
     track.addEventListener("mouseleave", onMouseLeave);
     window.addEventListener("mousemove", onMouseMove);
@@ -1145,16 +1086,14 @@ const PodcastSection = () => {
     };
   }, [active, isDesktop, items.length, centerCardByIndex]);
 
-  // --- Click Handlers ---
-
   const handlePlayClick = (e: React.MouseEvent, videoSrc: string) => {
     e.stopPropagation();
-    if (isDraggingRef.current) return; // Don't play if we just dragged
+    if (isDraggingRef.current) return;
     setSelectedVideo(videoSrc);
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
-    if (isDraggingRef.current) return; // Don't act if dragging
+    if (isDraggingRef.current) return;
     if ((e.target as HTMLElement).closest(".pod-media")) return;
 
     const cardElement = e.currentTarget;
@@ -1165,7 +1104,7 @@ const PodcastSection = () => {
 
     if (clickedIndex !== -1) {
       if (isDesktop && clickedIndex % 2 !== 0) {
-        clickedIndex = clickedIndex - 1; // Align pair
+        clickedIndex = clickedIndex - 1;
       }
       setActive(clickedIndex);
       centerCardByIndex(clickedIndex, true);
@@ -1177,7 +1116,10 @@ const PodcastSection = () => {
   };
 
   return (
-    <section className="pod-section">
+    <section
+      className={`pod-section ${isVisible ? "visible" : ""}`}
+      ref={elementRef}
+    >
       <div className="pod-container">
         <h2 className="pod-title">LE PODCAST : ENTREPRENDRE LE MAROC</h2>
         <div className="pod-content">
@@ -1216,8 +1158,6 @@ const PodcastSection = () => {
                       loading="lazy"
                     />
                   </div>
-
-                  {/* --- PLAY BUTTON IMAGE ADDED HERE --- */}
                   <div className="pod-play">
                     <Image
                       src="/video-play-botton.webp"
@@ -1277,38 +1217,46 @@ const PodcastSection = () => {
    Resources Section
    ========================= */
 const ResourcesSection = () => {
+  // Trigger animation when 15% of the element is visible
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.15 });
+
   const articles = [
     {
       id: 1,
-      title: "COMMENT BIEN CHOISIR SA VILLE AU MAROC ?",
+      title: "POURQUOI INVESTIR AU MAROC D'ICI 2030 ?",
       description:
-        "Un guide pour trouver la ville idéale selon votre projet et votre profil.",
-      link: "/articles/choisir-ville-maroc",
+        "Vision 2030, Mondial et Tech : saisissez l'opportunité économique unique de la décennie.",
+      link: "/articles/pourquoi-investir-au-maroc",
     },
     {
       id: 2,
-      title: "COMMENT FINANCER SON PROJET DEPUIS L’ÉTRANGER ?",
+      title: "OÙ INVESTIR AU MAROC : LES SECTEURS PORTEURS",
       description:
-        "Découvrez les solutions de financement accessibles aux MRE: CPF, banques partenaires, aides publiques...",
-      link: "/articles/financer-projet-etranger",
+        "Énergie verte, IA et Tourisme : identifiez les véritables piliers de croissance du Royaume.",
+      link: "/articles/les-secteurs-porteurs",
     },
     {
       id: 3,
-      title: "ENTREPRENDRE À DISTANCE DEPUIS LA FRANCE",
-      description: "Nos conseils pour lancer sans être sur place.",
-      link: "/articles/entreprendre-distance-france",
+      title: "MRE : COMMENT BÂTIR LE MAROC DE DEMAIN",
+      description:
+        "Au-delà des transferts : transformez votre expertise et votre réseau en succès entrepreneurial.",
+      link: "/articles/comment-batir-le-maroc",
     },
     {
       id: 4,
-      title: "CRÉER SON ENTREPRISE: ÉTAPES CLÉS",
-      description: "De l’idée à l’immatriculation, tout ce qu’il faut savoir.",
-      link: "/articles/creer-entreprise-etapes",
+      title: "MAROC VS DUBAÏ : LE GUIDE DU DIGITAL NOMAD",
+      description:
+        "Accessible, proche et authentique : pourquoi les entrepreneurs préfèrent désormais le Maroc.",
+      link: "/articles/maroc-vs-dubai",
     },
   ];
 
   return (
-    <section className="res-sec">
-      <div className="res-wrap">
+    <section
+      ref={elementRef}
+      className={`res-sec ${isVisible ? "visible" : ""}`}
+    >
+      <div className={"res-wrap"}>
         <header className="res-head">
           <h2 className="res-title">RESSOURCES & ARTICLES UTILES</h2>
           <div className="res-intro">
@@ -1334,7 +1282,6 @@ const ResourcesSection = () => {
 
                 <p className="res-desc">{a.description}</p>
 
-                {/* This is now a div styled like a button to avoid nested <a> tags */}
                 <div className="res-btn">LIRE L'ARTICLE</div>
               </Link>
             </article>
@@ -1351,6 +1298,10 @@ const ResourcesSection = () => {
 const AboutUsSection = () => {
   return (
     <section className="bg-black py-10 md:py-20 md:py-24">
+      {/* 
+        Attached ref={elementRef} 
+        Added logic to toggle "visible" class 
+      */}
       <div className="max-w-7xl mx-auto px-6 aus-wrap">
         {/* Header Section */}
         <div className="aus-lead">
@@ -1364,9 +1315,7 @@ const AboutUsSection = () => {
           {/* Left Column: Photos */}
           <div className="aus-photoCol">
             <div className="aus-duo-container">
-              {/* === NEW BLOB INSERTED HERE === */}
               <div className="aus-internal-blob"></div>
-              {/* ============================== */}
 
               {/* Zakaria's Photo */}
               <div className="aus-img-card">
@@ -1463,9 +1412,20 @@ const faqs: Faq[] = [
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  // Trigger animation when 15% of the section is visible
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.15 });
+
   return (
     <section id="faq" className="faq-sec">
-      <div className="faq-wrap">
+      {/* 
+         Ref attached here. 
+         Added conditional 'visible' class based on hook state.
+      */}
+      <div
+        ref={elementRef}
+        className={`faq-wrap ${isVisible ? "visible" : ""}`}
+      >
         <header className="faq-lead">
           <h2 className="faq-title">QUESTIONS FRÉQUENTES</h2>
           <p className="faq-sub">
@@ -1496,7 +1456,7 @@ const FAQSection = () => {
                       className={`fq-plus ${open ? "is-open" : ""}`}
                       aria-hidden
                     >
-                      {/* “plus” drawn with CSS ::before/::after */}
+                      {/* Plus icon CSS */}
                     </span>
                   </button>
 
@@ -1510,7 +1470,7 @@ const FAQSection = () => {
                   </div>
                 </div>
 
-                {/* single thick black separator – auto, except after last */}
+                {/* Separator */}
                 <div className="fq-sep" aria-hidden />
               </div>
             );

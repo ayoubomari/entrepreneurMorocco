@@ -100,7 +100,7 @@ export default function RootLayout({
         <div id="app-content" className="relative z-20">
           <CursorEffects />
           <Header />
-          <main className="pt-[96px]">{children}</main>
+          <main>{children}</main>
         </div>
       </body>
     </html>

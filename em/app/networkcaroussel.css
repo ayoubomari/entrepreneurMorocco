@@ -33,10 +33,9 @@
 }
 
 /* =========================================
-   NEW STYLES for Network Title/Subtitle
+   Network Title/Subtitle
    ========================================= */
 
-/* Content Wrapper - Style copied from .srv-wrap */
 .net-wrap {
   position: relative;
   z-index: 10;
@@ -44,22 +43,13 @@
   flex-direction: column;
   gap: 24px;
   padding: 0 clamp(16px, 4vw, 25px);
-  margin-bottom: 48px; /* Space between text and carousel */
+  margin-bottom: 48px;
 
-  /* Entrance Animation (re-using the old one) */
-  opacity: 0;
-  transform: translateY(30px);
-  animation: networkTitleReveal 1s ease-out forwards;
+  /* DEFAULT STATE (Desktop): Visible immediately */
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes networkTitleReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Typography - Styles copied from .srv-wrap h2 */
 .net-wrap h2 {
   color: #fff;
   text-transform: uppercase;
@@ -71,16 +61,14 @@
   text-align: center;
 }
 
-/* Subtitle Content Wrapper - Style copied from .srv-content */
 .net-content {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Slight gap between paragraphs */
+  gap: 8px;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* Subtitle Paragraphs - Style copied from .srv-content p */
 .net-content p {
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
@@ -90,7 +78,6 @@
   text-align: center;
 }
 
-/* Media Query for left-alignment on larger screens */
 @media (min-width: 768px) {
   .net-wrap h2,
   .net-content,
@@ -100,9 +87,10 @@
   }
 }
 
-/* --- [BELOW THIS LINE, THE ORIGINAL NETWORK CSS IS UNCHANGED] --- */
+/* =========================================
+   Network Carousel
+   ========================================= */
 
-/* Enhanced full-bleed lane */
 .net-bleed {
   width: 100%;
   margin: 0 auto;
@@ -111,18 +99,10 @@
   justify-content: center;
   position: relative;
   z-index: 10;
-  animation: networkContainerReveal 1s ease-out 0.9s both;
-}
 
-@keyframes networkContainerReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* DEFAULT STATE (Desktop): Visible immediately */
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .net-auto {
@@ -136,7 +116,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* Enhanced soft fades at edges with glow */
 .net-auto::before,
 .net-auto::after {
   content: "";
@@ -158,16 +137,14 @@
   background: linear-gradient(270deg, #000 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-/* Enhanced moving belt with smooth animation */
 .net-track {
   display: flex;
   align-items: center;
   gap: var(--gap);
   animation: net-marquee var(--duration) linear infinite;
-  transition: animation-play-state 0.3s ease;
+  transition: animation-play-state 0.4s ease;
 }
 
-/* Pause on hover for better UX */
 .net-auto:hover .net-track {
   animation-play-state: paused;
 }
@@ -181,7 +158,6 @@
   }
 }
 
-/* Enhanced network items with 3D effects */
 .net-item {
   flex: 0 0 auto;
   display: flex;
@@ -196,7 +172,6 @@
   overflow: hidden;
 }
 
-/* Shine effect on items */
 .net-item::before {
   content: "";
   position: absolute;
@@ -226,11 +201,10 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 25px rgba(220, 38, 38, 0.2);
 }
 
-/* Enhanced icons with glow effects */
 .net-icon {
   position: relative;
   z-index: 2;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .net-icon img,
@@ -238,7 +212,7 @@
   width: 64px;
   height: 64px;
   display: block;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .net-icon img {
@@ -254,28 +228,6 @@
   transform: scale(1.1) rotate(5deg);
 }
 
-.net-icon svg {
-  color: #fff;
-  filter: drop-shadow(0 10px 30px rgba(255, 255, 255, 0.12));
-}
-
-.net-item:hover .net-icon svg {
-  color: #ef4444;
-  filter: drop-shadow(0 15px 40px rgba(220, 38, 38, 0.4))
-    drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
-  transform: scale(1.1) rotate(5deg);
-}
-
-.net-icon svg path,
-.net-icon svg * {
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Enhanced labels with animation */
 .net-title {
   font-weight: 600;
   text-transform: uppercase;
@@ -286,52 +238,51 @@
   white-space: normal;
   position: relative;
   z-index: 2;
-  transition: all 0.3s ease;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease;
 }
 
-.net-item:hover .net-title {
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 0 0 10px rgba(220, 38, 38, 0.5);
-  transform: translateX(5px);
-}
-
-@keyframes floatNetwork {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg) scale(1);
-    opacity: 0.06;
+/* =========================================
+   MOBILE ONLY ANIMATION LOGIC
+   ========================================= */
+@media (max-width: 767px) {
+  /* 1. Hide elements initially ONLY on mobile */
+  .net-wrap {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  50% {
-    transform: translateY(-40px) rotate(180deg) scale(1.15);
-    opacity: 0.12;
-  }
-}
 
-/* Mobile optimizations */
-@media (max-width: 768px) {
+  .net-bleed {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  /* 2. Apply animation ONLY on mobile when .visible is added */
+  .net-wrap.visible {
+    animation: networkTitleReveal 0.4s ease-out forwards;
+  }
+
+  .net-bleed.visible {
+    animation: networkContainerReveal 0.4s ease-out 0.4s both;
+  }
+
+  /* Mobile UI Adjustments */
   .net-auto {
     --gap: clamp(28px, 6vw, 48px);
     --duration: 28s;
   }
-
   .net-item {
     flex-direction: row;
     align-items: center;
     padding: 16px 20px;
   }
-
   .net-title {
     font-size: 14px;
   }
-
   .net-icon img,
   .net-icon svg {
     width: 48px;
     height: 48px;
   }
-
-  /* Disable hover effects on touch devices */
   .net-item:hover {
     transform: none;
     background: rgba(255, 255, 255, 0.02);
@@ -339,41 +290,27 @@
   }
 }
 
-/* Reduced Motion */
+/* Keyframes (Kept global so they can be called) */
+@keyframes networkTitleReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes networkContainerReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utilities */
 @media (prefers-reduced-motion: reduce) {
   .net-wrap,
   .net-bleed {
-    /* Updated this rule */
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-
-  .net-track {
-    animation: net-marquee var(--duration) linear infinite;
-  }
-
-  .net-item:hover {
-    transform: none;
-  }
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .net-auto:hover .net-track {
-    animation-play-state: running;
-  }
-
-  .net-item:hover {
-    opacity: 0.85;
-    transform: none;
-    background: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: none;
-  }
-
-  .net-item:active {
-    transform: scale(0.98);
-    background: rgba(220, 38, 38, 0.05);
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

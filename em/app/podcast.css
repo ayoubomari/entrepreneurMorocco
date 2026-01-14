@@ -1,30 +1,87 @@
+/* =========================================
+   PODCAST SECTION
+   ========================================= */
+
 /* Section frame */
 .pod-section {
   padding: 0 0 35px;
   position: relative;
   overflow: hidden;
 }
+
+/* =========================================
+   ANIMATIONS (Reveal on Scroll)
+   ========================================= */
+
+@keyframes sectionReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 
+   DEFAULT STATE (Desktop/Tablet): 
+   Visible immediately, no animation 
+*/
 .pod-container {
+  opacity: 1;
+  transform: translateY(0);
+  /* Structural styles */
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Matches .srv-wrap gap */
-
-  /* Matches .srv-wrap padding & max-width logic */
-  max-width: 1280px; /* Equivalent to max-w-7xl */
+  gap: 24px;
+  max-width: 1280px;
   margin: 0 auto 60px;
   padding: 0 clamp(16px, 4vw, 32px);
 }
 
+.pod-bleed {
+  opacity: 1;
+  transform: translateY(0);
+  /* Structural styles */
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* 
+   MOBILE ONLY ANIMATION 
+   ========================================= */
+@media (max-width: 767px) {
+  /* 1. Hide initially only on mobile */
+  .pod-container,
+  .pod-bleed {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* 2. Trigger Animation ONLY on mobile when .visible class is added */
+  .pod-section.visible .pod-container {
+    animation: sectionReveal 1s ease-out forwards;
+  }
+
+  .pod-section.visible .pod-bleed {
+    animation: sectionReveal 1s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+}
+
+/* =========================================
+   TYPOGRAPHY & LAYOUT
+   ========================================= */
+
 .pod-title {
   color: #fff;
   text-transform: uppercase;
-  font-weight: 800; /* Matches .srv-wrap h2 */
+  font-weight: 800;
   letter-spacing: 0.02em;
   line-height: 1.1;
-
-  /* Exact clamp size from Services */
   font-size: clamp(28px, 5vw, 36px);
   margin: 0 0 -10px;
   text-align: center;
@@ -42,7 +99,7 @@
   display: none;
 }
 
-/* On Large Screens (matching your 1024px logic), show the break */
+/* On Large Screens, show the break */
 @media (min-width: 1024px) {
   .pod-desktop-br {
     display: block;
@@ -53,8 +110,6 @@
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
   line-height: 1.4;
-
-  /* Exact clamp size from Services */
   font-size: clamp(16px, 2vw, 16px);
   margin: 0;
   text-align: center;
@@ -70,20 +125,13 @@
   }
 
   .pod-content {
-    margin-right: auto; /* Ensures it stays left aligned within flex */
+    margin-right: auto;
   }
 }
 
-/* full-bleed viewport zone with fades + nav */
-.pod-bleed {
-  position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
+/* =========================================
+   NAVIGATION ARROWS (Optional/Hidden in logic)
+   ========================================= */
 .pod-nav {
   position: absolute;
   top: 50%;
@@ -113,7 +161,9 @@
   height: 20px;
 }
 
-/* ---------- OPTIMIZED TRACK ---------- */
+/* =========================================
+   TRACK & CAROUSEL
+   ========================================= */
 .pod-track {
   display: flex;
   align-items: stretch;
@@ -135,14 +185,16 @@
 
   /* Smooth scrolling on all browsers */
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: none; /* Disable snap for infinite scroll */
+  scroll-snap-type: none;
 }
 
 .pod-track::-webkit-scrollbar {
   display: none;
 }
 
-/* ---------- STABILIZED CARDS ---------- */
+/* =========================================
+   CARDS
+   ========================================= */
 .pod-card {
   position: relative;
   flex: 0 0 min(86vw, 720px); /* Mobile default */
@@ -176,7 +228,7 @@
   }
 
   .pod-track {
-    gap: 85px; /* Slightly smaller gap for better fit */
+    gap: 85px;
   }
 }
 
@@ -193,7 +245,9 @@
   filter: none;
 }
 
-/* Media: prevent image reflow */
+/* =========================================
+   MEDIA & IMAGES
+   ========================================= */
 .pod-media {
   position: relative;
   overflow: hidden;
@@ -202,7 +256,6 @@
   cursor: none;
 }
 
-/* Image optimizations */
 .pod-thumb {
   position: relative;
   aspect-ratio: 16/9;
@@ -214,16 +267,13 @@
   object-fit: cover;
   display: block;
   width: 100%;
-
   transform: translateZ(0);
   backface-visibility: hidden;
-
-  /* Prevent image flickering during scroll */
   image-rendering: auto;
   -webkit-transform: translate3d(0, 0, 0);
 }
 
-/* Ethereal gradient rim (fine border) */
+/* Ethereal gradient rim */
 .pod-rim {
   pointer-events: none;
   position: absolute;
@@ -244,35 +294,29 @@
   pointer-events: none;
 }
 
-/* ============================
-   PLAY BUTTON (UPDATED)
-   ============================ */
+/* =========================================
+   PLAY BUTTON
+   ========================================= */
 .pod-play {
   position: absolute;
   inset: auto;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
-  /* Dimensions for the button area */
   width: 88px;
   height: 88px;
-
-  /* Remove old border/background styles to let the image shine */
   border-radius: 0;
   border: none;
   background: transparent;
   backdrop-filter: none;
-
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2;
-  pointer-events: none; /* Clicks pass through to the media container */
+  pointer-events: none;
   transition: transform 0.3s ease;
 }
 
-/* Ensure the webp image fills the container */
 .pod-play img {
   width: 100%;
   height: 100%;
@@ -280,13 +324,14 @@
   display: block;
 }
 
-/* Hover effect: Scale up slightly, no background change */
 .pod-media:hover .pod-play {
   transform: translate(-50%, -50%) scale(1.1);
   background: transparent;
 }
 
-/* Meta */
+/* =========================================
+   META & ACTIONS
+   ========================================= */
 .pod-meta {
   text-align: left;
   padding: 18px 6px 6px;
@@ -304,7 +349,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* ---------- OPTIMIZED BUTTONS ---------- */
+/* Buttons */
 .pod-btn {
   display: inline-block;
   padding: 14px 26px;
@@ -318,7 +363,7 @@
   position: relative;
   transition: transform 0.2s ease, background-color 0.2s ease;
   will-change: transform, background-color;
-  transform: translateZ(0); /* Create new layer */
+  transform: translateZ(0);
   cursor: none;
 }
 
@@ -352,7 +397,9 @@
   text-align: center;
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* =========================================
+   RESPONSIVE (General)
+   ========================================= */
 @media (max-width: 960px) {
   .pod-title {
     font-size: 32px;
@@ -370,10 +417,7 @@
   .pod-card {
     flex: 0 0 86vw;
     min-width: 100%;
-  }
-
-  /* Faster transitions on mobile */
-  .pod-card {
+    /* Faster transitions on mobile */
     transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       filter 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -391,7 +435,9 @@
   }
 }
 
-/* ---------- PERFORMANCE HINTS ---------- */
+/* =========================================
+   PERFORMANCE & UTILS
+   ========================================= */
 @media (prefers-reduced-motion: reduce) {
   .pod-track {
     scroll-behavior: auto;
@@ -403,7 +449,7 @@
   }
 }
 
-/* Force hardware acceleration for smooth scrolling */
+/* Force hardware acceleration */
 .pod-track,
 .pod-card,
 .pod-media,
@@ -430,7 +476,7 @@
 }
 
 /* =========================================
-   VIDEO MODAL / POPUP STYLES
+   VIDEO MODAL
    ========================================= */
 .pod-modal-overlay {
   position: fixed;
@@ -458,10 +504,10 @@
   animation: zoomIn 0.3s forwards 0.1s;
 }
 
-/* Portrait video support if needed, otherwise 16/9 covers most */
+/* Portrait video support */
 @media (max-width: 768px) {
   .pod-modal-content {
-    aspect-ratio: 9/16; /* If your reels are vertical */
+    aspect-ratio: 9/16;
     max-height: 80vh;
   }
 }
@@ -493,7 +539,7 @@
   opacity: 1;
 }
 
-/* Animations */
+/* Modal Animations */
 @keyframes fadeIn {
   to {
     opacity: 1;

@@ -77,18 +77,20 @@ const Article2Page: React.FC = () => {
         </header>
 
         {/* --- STATS GRID --- */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-value">TOP 3</span>
-            <span className="stat-label">En Afrique pour l&apos;IDE</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">3,5%</span>
-            <span className="stat-label">Croissance prévue / an</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">52%</span>
-            <span className="stat-label">Énergie verte visée 2030</span>
+        <section className="stats-container">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-value">TOP 3</span>
+              <span className="stat-label">En Afrique pour l&apos;IDE</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">3,5%</span>
+              <span className="stat-label">Croissance prévue / an</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">52%</span>
+              <span className="stat-label">Énergie verte visée 2030</span>
+            </div>
           </div>
         </section>
 
@@ -223,7 +225,7 @@ const Article2Page: React.FC = () => {
           </div>
 
           {/* CTA SECTION */}
-          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+          <div className="to-b-gradient from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
             <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
             <h2 className="text-3xl font-black text-white uppercase mb-4">
               Accompagnement 360°
@@ -285,7 +287,7 @@ const Article2Page: React.FC = () => {
           {/* NEXT ARTICLE NAV */}
           <div className="flex justify-end pt-10 border-t border-gray-800">
             <Link
-              href="/articles/entreprendre-distance-france"
+              href="/articles/comment-batir-le-maroc"
               className="cursor-none group text-right"
             >
               <span className="block text-xs text-gray-500 uppercase tracking-widest mb-1">

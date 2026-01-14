@@ -238,7 +238,7 @@ export default function MiniTestPage() {
               className="mt__btn"
               disabled={!canSubmit || isSubmitting}
             >
-              {isSubmitting ? "ENVOI EN COURS..." : "VOIR MES RECOMMANDATIONS"}
+              {isSubmitting ? "Envoi en cours..." : "Voir mes recommandations"}
             </button>
           </div>
         </form>

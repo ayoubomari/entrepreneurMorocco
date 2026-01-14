@@ -1,32 +1,120 @@
-/* =========================
-   FAQ Section
-   ========================= */
+/* ============================================================
+   FAQ SECTION - MAIN STYLES
+   ============================================================ */
 
-/* FAQ Section - Fully Responsive */
 .faq-sec {
-  padding-block: clamp(60px, 10vw, 90px); /* Adjusted vertical padding */
-  opacity: 0;
-  animation: fadeInUp 1.2s ease-out 0.2s forwards;
-  position: relative; /* Added for consistency with service section */
-  overflow: hidden; /* Added for consistency with service section */
+  padding-block: clamp(60px, 10vw, 90px);
+  position: relative;
+  overflow: hidden;
+  background-color: #0b0b0b; /* Assuming a dark background based on your text colors */
 }
 
 .faq-wrap {
-  max-width: 1280px; /* Aligned with max-w-7xl from service section */
-  margin: 0 auto; /* Centered alignment */
+  max-width: 1280px;
+  margin: 0 auto;
   padding-inline: clamp(16px, 4vw, 32px);
 }
 
-/* Header - Responsive */
+/* 
+   DEFAULT STATE: Desktop / Tablet
+   Everything is visible immediately. No entrance animations.
+*/
+.faq-lead,
+.faq-sub,
+.faq-list,
+.fq-item {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   MOBILE ONLY ANIMATIONS (Triggered by .visible)
+   Applied only on screens 767px and below
+   ============================================================ */
+
+@media (max-width: 767px) {
+  /* 1. Set Initial Hidden States (Starting Positions) */
+  .faq-lead {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  .faq-sub {
+    opacity: 0;
+  }
+
+  .faq-list {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fq-item {
+    opacity: 0;
+  }
+
+  .fq-item:nth-child(odd) {
+    transform: translateX(-40px);
+  }
+
+  .fq-item:nth-child(even) {
+    transform: translateX(40px);
+  }
+
+  /* 2. Animation Triggers (When .visible class is added) */
+  .faq-wrap.visible .faq-lead {
+    animation: slideInDown 0.8s ease-out forwards;
+  }
+
+  .faq-wrap.visible .faq-sub {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+  }
+
+  .faq-wrap.visible .faq-list {
+    animation: slideInUp 0.8s ease-out 0.2s forwards;
+  }
+
+  .faq-wrap.visible .fq-item {
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+
+  .faq-wrap.visible .fq-item:nth-child(odd) {
+    animation-name: slideInLeft;
+  }
+
+  .faq-wrap.visible .fq-item:nth-child(even) {
+    animation-name: slideInRight;
+  }
+
+  /* Staggered Delays for Items */
+  .faq-wrap.visible .fq-item:nth-child(1) {
+    animation-delay: 0.3s;
+  }
+  .faq-wrap.visible .fq-item:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  .faq-wrap.visible .fq-item:nth-child(3) {
+    animation-delay: 0.5s;
+  }
+  .faq-wrap.visible .fq-item:nth-child(4) {
+    animation-delay: 0.6s;
+  }
+  .faq-wrap.visible .fq-item:nth-child(5) {
+    animation-delay: 0.7s;
+  }
+  .faq-wrap.visible .fq-item:nth-child(6) {
+    animation-delay: 0.8s;
+  }
+}
+
+/* ============================================================
+   STANDARD UI STYLING (Typography, Buttons, Accordion)
+   ============================================================ */
+
 .faq-lead {
-  margin-bottom: clamp(
-    24px,
-    4vw,
-    24px
-  ); /* Adjusted for consistency with service section gap */
+  margin-bottom: clamp(24px, 4vw, 24px);
   text-align: center;
-  opacity: 0;
-  animation: slideInDown 1s ease-out 0.6s forwards;
 }
 
 @media (min-width: 768px) {
@@ -39,17 +127,10 @@
   margin: 0 0 10px;
   color: #fff;
   text-transform: uppercase;
-  font-weight: 800; /* Changed from 900 to 800 */
-  letter-spacing: 0.02em; /* Changed from 0.01em to 0.02em */
-  line-height: 1.1; /* Changed from 1.05 to 1.1 */
-  font-size: clamp(28px, 5vw, 36px); /* Changed from 40px to 36px */
-
-  /* background: linear-gradient(45deg, #fff, #ef4444, #fff);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s ease-in-out infinite;  */
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  font-size: clamp(28px, 5vw, 36px);
 }
 
 .faq-sub {
@@ -58,51 +139,19 @@
   font-weight: 400;
   font-size: clamp(16px, 2vw, 16px);
   line-height: 1.4;
-  opacity: 0;
-  animation: fadeIn 1s ease-out 1s forwards;
 }
 
-/* FAQ List */
 .faq-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  opacity: 0;
-  animation: slideInUp 1.2s ease-out 1.2s forwards;
   margin-top: 40px;
 }
 
 .fq-item {
   width: 100%;
-  opacity: 0;
-  transform: translateY(30px);
 }
 
-.fq-item:nth-child(1) {
-  animation: slideInLeft 0.8s ease-out 1.6s forwards;
-}
-
-.fq-item:nth-child(2) {
-  animation: slideInRight 0.8s ease-out 1.8s forwards;
-}
-
-.fq-item:nth-child(3) {
-  animation: slideInLeft 0.8s ease-out 2s forwards;
-}
-
-.fq-item:nth-child(4) {
-  animation: slideInRight 0.8s ease-out 2.2s forwards;
-}
-
-.fq-item:nth-child(5) {
-  animation: slideInLeft 0.8s ease-out 2.4s forwards;
-}
-
-.fq-item:nth-child(6) {
-  animation: slideInRight 0.8s ease-out 2.6s forwards;
-}
-
-/* FAQ Cards - Responsive */
 .fq-card {
   background: #fff;
   color: #0b0b0b;
@@ -123,7 +172,6 @@
   display: none;
 }
 
-/* FAQ Button - Responsive */
 .fq-btn {
   width: 100%;
   display: flex;
@@ -134,22 +182,14 @@
   border: none;
   background: transparent;
   text-align: left;
-  cursor: none;
-  transition: transform 0.15s ease, box-shadow 0.2s ease,
-    background-color 0.2s ease;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .fq-btn:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  background-color: rgba(79, 195, 247, 0.05);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
-.fq-btn:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
-}
-
-/* Question Text - Responsive */
 .fq-q {
   font-weight: 600;
   text-transform: uppercase;
@@ -165,8 +205,7 @@
   color: #ef4444;
 }
 
-/* Plus Icon - Responsive */
-/* ADJUSTED: Size reduced by x0.6 */
+/* Plus Icon Styling */
 .fq-plus {
   position: relative;
   width: clamp(12px, 1.8vw, 15px);
@@ -175,7 +214,6 @@
   transition: transform 0.3s ease;
 }
 
-/* ADJUSTED: Thickness increased by x2 */
 .fq-plus::before,
 .fq-plus::after {
   content: "";
@@ -184,11 +222,9 @@
   height: clamp(2px, 0.6vw, 4px);
   background: #6b6b6b;
   transform: translateY(-50%);
-  transition: transform 0.25s ease, opacity 0.25s ease,
-    background-color 0.2s ease;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-/* ADJUSTED: Thickness increased by x2 */
 .fq-plus::after {
   width: clamp(2px, 0.6vw, 4px);
   height: 100%;
@@ -197,20 +233,16 @@
   transform: translateX(-50%);
 }
 
-.fq-btn:hover .fq-plus::before,
-.fq-btn:hover .fq-plus::after {
-  background: #ef4444;
-}
-
 .fq-plus.is-open {
   transform: rotate(180deg);
 }
 
 .fq-plus.is-open::after {
   transform: translateX(-50%) scaleY(0);
+  opacity: 0;
 }
 
-/* FAQ Panel - Responsive */
+/* FAQ Panel (Accordion Logic) */
 .fq-panel {
   overflow: hidden;
   display: grid;
@@ -229,300 +261,50 @@
   min-height: 0;
 }
 
-/* Answer Text - Responsive */
 .fq-a {
   padding: clamp(16px, 4vw, 18px) clamp(20px, 4vw, 32px) clamp(16px, 4vw, 18px);
   font-size: 15px;
   line-height: 1.4;
   color: #1a1a1a;
-  animation: fqFade 0.35s ease both;
 }
 
-@keyframes fqFade {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ============================================================
+   RESPONSIVE OVERRIDES
+   ============================================================ */
 
-/* Mobile Specific Adjustments */
 @media (max-width: 480px) {
   .faq-sec {
-    padding-block: clamp(32px, 8vw, 48px);
+    padding-block: 40px;
   }
-
-  .faq-wrap {
-    padding-inline: clamp(12px, 3vw, 20px);
-  }
-
-  .faq-lead {
-    margin-bottom: clamp(20px, 5vw, 24px); /* Adjusted for consistency */
-  }
-
-  .fq-btn {
-    padding: clamp(16px, 3vw, 20px) clamp(16px, 3vw, 24px);
-    gap: clamp(8px, 2vw, 12px);
-  }
-
   .fq-q {
-    font-size: 15px;
-    line-height: 1.3;
-  }
-
-  .fq-a {
-    padding: 0 clamp(16px, 3vw, 24px) clamp(16px, 3vw, 24px);
-    font-size: 15px;
-    line-height: 1.5;
-  }
-
-  /* ADJUSTED: Mobile size reduced by x0.6 */
-  .fq-plus {
-    width: clamp(11px, 2.4vw, 13px);
-    height: clamp(11px, 2.4vw, 13px);
-  }
-
-  .faq-list {
-    gap: 5px;
-  }
-
-  .fq-sep {
-    height: clamp(6px, 1vw, 8px);
-    margin: clamp(8px, 1.5vw, 12px) 0 0;
-  }
-}
-
-/* Tablet Specific */
-@media (min-width: 481px) and (max-width: 767px) {
-  .faq-lead {
-    text-align: center;
-  }
-
-  .fq-btn {
-    padding: clamp(20px, 3.5vw, 24px) clamp(24px, 4vw, 28px);
-  }
-
-  .fq-q {
-    font-size: 15px;
-  }
-
-  .fq-a {
-    font-size: 15px;
-  }
-}
-
-/* Large Desktop */
-@media (min-width: 1280px) {
-  /* Aligned with max-w-7xl */
-  .faq-wrap {
-    max-width: 1280px;
-  }
-
-  .faq-title {
-    font-size: 36px; /* Capped at 36px */
-  }
-
-  .faq-sub {
-    font-size: 16px; /* Capped at 16px */
-  }
-
-  .fq-q {
-    font-size: 15px;
-  }
-
-  .fq-a {
-    font-size: 15px;
-  }
-}
-
-/* Landscape Mobile */
-@media (max-height: 600px) and (orientation: landscape) {
-  .faq-sec {
-    padding-block: clamp(24px, 4vw, 40px);
-  }
-
-  .faq-lead {
-    margin-bottom: clamp(20px, 4vw, 24px); /* Adjusted for consistency */
-  }
-
-  .faq-title {
-    font-size: clamp(24px, 4vw, 32px);
-  }
-
-  .faq-sub {
-    font-size: clamp(14px, 2vw, 16px); /* Capped at 16px */
-  }
-
-  .fq-btn {
-    padding: clamp(12px, 2vw, 18px) clamp(16px, 3vw, 24px);
-  }
-
-  .fq-q {
-    font-size: 15px;
-  }
-
-  .fq-a {
-    padding: 0 clamp(16px, 3vw, 24px) clamp(12px, 2vw, 20px);
-    font-size: 15px;
-  }
-}
-
-/* Very Small Screens */
-@media (max-width: 320px) {
-  .faq-sec {
-    padding-block: 28px;
-  }
-
-  .faq-wrap {
-    padding-inline: 12px;
-  }
-
-  .faq-title {
-    font-size: 24px;
-  }
-
-  .faq-sub {
     font-size: 14px;
   }
-
-  .fq-btn {
-    padding: 14px 16px;
-    gap: 8px;
-  }
-
-  .fq-q {
-    font-size: 12px;
-  }
-
   .fq-a {
-    padding: 0 16px 16px;
-    font-size: 15px;
-  }
-
-  /* ADJUSTED: Size reduced by x0.6 */
-  .fq-plus {
-    width: 10px;
-    height: 10px;
+    font-size: 14px;
   }
 }
 
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .fq-btn:hover {
-    transform: none;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-    background-color: transparent;
-  }
-
-  .fq-btn:active {
-    transform: scale(0.98);
-    background-color: rgba(0, 0, 0, 0.02);
-  }
-
-  .fq-card:hover {
-    transform: none;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-  }
-
-  .fq-btn:hover .fq-q {
-    color: #0b0b0b;
-  }
-
-  .fq-btn:hover .fq-plus {
-    transform: none;
-  }
-
-  /* Larger touch targets on mobile */
-  .fq-btn {
-    min-height: clamp(44px, 8vw, 56px);
-  }
-
-  /* ADJUSTED: Size reduced by x0.6 */
-  .fq-plus {
-    width: clamp(14px, 3vw, 19px);
-    height: clamp(14px, 3vw, 19px);
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .fq-card {
-    border: 2px solid #333;
-  }
-
-  .fq-plus::before,
-  .fq-plus::after {
-    background: #000;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .faq-sec {
-    background: #fff;
-    padding-block: 20px;
-  }
-
-  .faq-title {
-    color: #000;
-  }
-
-  .faq-sub {
-    color: #333;
-  }
-
-  .fq-panel {
-    grid-template-rows: 1fr !important;
-    opacity: 1 !important;
-  }
-
-  .fq-plus {
-    display: none;
-  }
-
-  .fq-sep {
-    background: #ddd;
-    height: 1px;
-  }
-}
-
-/* Reduced Motion */
+/* Reduced Motion Preference */
 @media (prefers-reduced-motion: reduce) {
-  .faq-sec,
   .faq-lead,
-  .faq-title,
   .faq-sub,
   .faq-list,
   .fq-item {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  .fq-btn,
-  .fq-panel,
-  .fq-a,
-  .fq-plus::before,
-  .fq-plus::after,
-  .fq-card,
-  .fq-plus {
     transition: none !important;
-    animation: none !important;
-  }
-
-  .fq-btn:hover {
-    transform: none;
   }
 }
 
-/* Animation keyframes */
-@keyframes fadeInUp {
+/* ============================================================
+   KEYFRAMES (Global)
+   ============================================================ */
+
+@keyframes slideInDown {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -530,10 +312,10 @@
   }
 }
 
-@keyframes slideInDown {
+@keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -563,34 +345,11 @@
   }
 }
 
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
   }
 }

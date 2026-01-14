@@ -3,21 +3,6 @@
   scroll-behavior: smooth;
 }
 
-/* Smooth scroll for anchor links */
-html {
-  scroll-padding-top: 102px;
-}
-
-/* Fix the broken Tailwind class that's being reset to 0px */
-.pt-\[96px\] {
-  padding-top: 0px !important;
-}
-
-/* Alternative: Apply directly to main elements */
-main {
-  padding-top: 102px !important;
-}
-
 /* Tailwind + theme vars */
 @import "tailwindcss";
 

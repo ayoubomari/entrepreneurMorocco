@@ -36,6 +36,16 @@
   margin-bottom: 20px;
 }
 
+/* Bottom Bar */
+.ft-bottom {
+  border-top: 1px solid rgb(255, 255, 255);
+  padding: 15px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  margin-top: 40px;
+}
+
 /* =================================================================
    MOBILE LAYOUT FIX (Breathing Room & Left Alignment)
    ================================================================= */
@@ -155,21 +165,41 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 12px;
+    justify-content: center;
+    gap: 20px;
   }
 
   .ft-socialLink {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    justify-content: center;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
     color: #fff;
     font-size: 14px;
     text-decoration: none;
+  }
+
+  /* HIDE THE TEXT NAME (The second span) */
+  .ft-socialLink > span:last-child {
+    display: none;
+  }
+
+  /* Reset margin on icon wrapper so it centers perfectly */
+  .ft-socialLink .ft-iconWrap {
+    margin-bottom: 0;
+  }
+
+  /* Optional: Make icons slightly larger on mobile since text is gone */
+  .ft-socialLink .ft-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ft-heading-normal {
+    display: none;
   }
 
   .ft-heading {
@@ -187,7 +217,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 24px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 0px;
   }
 }
 
@@ -311,14 +341,4 @@
 /* Hover effect for social icons */
 .ft-socialLink:hover .ft-icon {
   color: #ef4444;
-}
-
-/* Bottom Bar */
-.ft-bottom {
-  border-top: 1px solid rgb(255, 255, 255);
-  padding: 15px;
-  text-align: center;
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  margin-top: 40px;
 }

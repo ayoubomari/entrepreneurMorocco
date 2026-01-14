@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
+import { useIsVisible } from "@/hooks/useIsVisible";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,9 @@ const ContactSection = () => {
     phone: "",
     message: "",
   });
+
+  // Animation hook: Trigger when 10% of element is visible
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
 
   const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
     formId: "contact-form",
@@ -76,7 +80,8 @@ const ContactSection = () => {
 
   return (
     <section id="homecontact" className="cs-section">
-      <div className="cs-wrap">
+      {/* Attach ref and visible class here */}
+      <div ref={elementRef} className={`cs-wrap ${isVisible ? "visible" : ""}`}>
         <header className="cs-lead">
           <h2 className="cs-title">UNE QUESTION, UN PROJET ? PARLONS-EN.</h2>
           <div className="cs-desc-wrapper">

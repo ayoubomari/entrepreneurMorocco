@@ -80,18 +80,20 @@ const Article3Page: React.FC = () => {
         </header>
 
         {/* --- STATS GRID --- */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-value">5,5M</span>
-            <span className="stat-label">MRE dans le monde</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">11,4B$</span>
-            <span className="stat-label">Transferts en 2023</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">8%</span>
-            <span className="stat-label">Part du PIB national</span>
+        <section className="stats-container">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-value">5,5M</span>
+              <span className="stat-label">MRE dans le monde</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">11,4B$</span>
+              <span className="stat-label">Transferts en 2023</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">8%</span>
+              <span className="stat-label">Part du PIB national</span>
+            </div>
           </div>
         </section>
 
@@ -216,7 +218,7 @@ const Article3Page: React.FC = () => {
           </div>
 
           {/* CTA SECTION */}
-          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+          <div className="to-b-gradient from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
             <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
             <h2 className="text-3xl font-black text-white uppercase mb-4">
               Le Maroc a changé.
@@ -278,9 +280,12 @@ const Article3Page: React.FC = () => {
 
           {/* NEXT ARTICLE NAV */}
           <div className="flex justify-end pt-10 border-t border-gray-800">
-            <Link href="/article4" className="cursor-none group text-right">
+            <Link
+              href="/articles/maroc-vs-dubai"
+              className="cursor-none group text-right"
+            >
               <span className="block text-xs text-gray-500 uppercase tracking-widest mb-1">
-                Article suivant
+                C
               </span>
               <div className="flex items-center gap-3 text-white font-bold text-lg md:text-xl group-hover:text-red-500 transition-colors">
                 Maroc vs Dubaï : Le guide complet

@@ -26,7 +26,7 @@
     radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
     radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
   background-size: 300px 200px;
-  animation: particleDrift 25s linear infinite;
+  animation: particleDrift 0.4s linear infinite;
   z-index: 0;
   pointer-events: none;
 }
@@ -60,7 +60,7 @@
   /* Entrance Animation */
   opacity: 0;
   transform: translateY(30px);
-  animation: sectionReveal 1s ease-out forwards;
+  animation: sectionReveal 0.4s ease-out forwards;
 }
 
 @keyframes sectionReveal {
@@ -116,7 +116,7 @@
   z-index: 0;
   transform: scaleX(0);
   transform-origin: left;
-  animation: lineGrow 2s ease-out 1.5s forwards;
+  animation: lineGrow 2s ease-out 0.4s forwards;
 }
 
 @keyframes lineGrow {
@@ -142,19 +142,19 @@
 
 /* Simple fade-in animations */
 .methItem:nth-child(1) {
-  animation: simpleFadeIn 0.8s ease-out 1.2s;
+  animation: simpleFadeIn 0.4s ease-out 1.2s;
 }
 .methItem:nth-child(2) {
-  animation: simpleFadeIn 0.8s ease-out 1.4s;
+  animation: simpleFadeIn 0.4s ease-out 1.4s;
 }
 .methItem:nth-child(3) {
-  animation: simpleFadeIn 0.8s ease-out 1.6s;
+  animation: simpleFadeIn 0.4s ease-out 1.6s;
 }
 .methItem:nth-child(4) {
-  animation: simpleFadeIn 0.8s ease-out 1.8s;
+  animation: simpleFadeIn 0.4s ease-out 1.8s;
 }
 .methItem:nth-child(5) {
-  animation: simpleFadeIn 0.8s ease-out 2s;
+  animation: simpleFadeIn 0.4s ease-out 2s;
 }
 
 @keyframes simpleFadeIn {
@@ -206,7 +206,7 @@
   font-size: 36px;
   letter-spacing: 0.02em;
   text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: numberGlow 3s ease-in-out infinite alternate;
+  animation: numberGlow 0.4s ease-in-out infinite alternate;
 }
 
 @keyframes numberGlow {
@@ -281,7 +281,7 @@
     background: rgba(255, 255, 255, 0.3);
     transform: translateX(-50%);
     z-index: 0;
-    animation: verticalLineGrow 1.5s ease-out forwards;
+    animation: verticalLineGrow 0.4s ease-out forwards;
   }
 
   @keyframes verticalLineGrow {
@@ -375,19 +375,19 @@
      POP-IN ANIMATIONS
   */
   .methItem:nth-child(1) {
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
   }
   .methItem:nth-child(2) {
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
   }
   .methItem:nth-child(3) {
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s forwards;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
   }
   .methItem:nth-child(4) {
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
   }
   .methItem:nth-child(5) {
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
   }
 
   @keyframes popIn {

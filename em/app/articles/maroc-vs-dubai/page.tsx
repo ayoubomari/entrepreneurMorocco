@@ -85,18 +85,20 @@ const Article4Page: React.FC = () => {
         </header>
 
         {/* --- STATS GRID --- */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-value">-40%</span>
-            <span className="stat-label">Coût de vie vs Dubaï</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">GMT</span>
-            <span className="stat-label">Fuseau horaire Europe</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">300J</span>
-            <span className="stat-label">Ensoleillement / An</span>
+        <section className="stats-container">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-value">-40%</span>
+              <span className="stat-label">Coût de vie vs Dubaï</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">GMT</span>
+              <span className="stat-label">Fuseau horaire Europe</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">300J</span>
+              <span className="stat-label">Ensoleillement / An</span>
+            </div>
           </div>
         </section>
 
@@ -292,7 +294,7 @@ const Article4Page: React.FC = () => {
           </div>
 
           {/* CTA SECTION */}
-          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+          <div className="to-b-gradient from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
             <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
             <h2 className="text-3xl font-black text-white uppercase mb-4">
               Prêt pour l&apos;aventure ?

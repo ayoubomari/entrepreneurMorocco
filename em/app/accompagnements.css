@@ -63,10 +63,25 @@
   gap: 24px;
   padding: 0 clamp(16px, 4vw, 32px);
 
-  /* Entrance Animation */
-  opacity: 0;
-  transform: translateY(30px);
-  animation: sectionReveal 1s ease-out forwards;
+  /* DEFAULT STATE (Desktop): Visible immediately */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+   MOBILE ONLY ANIMATION
+   ========================================= */
+@media (max-width: 767px) {
+  /* 1. Hide it initially ONLY on mobile */
+  .acc-wrap {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* 2. Apply animation ONLY on mobile when class is added */
+  .acc-wrap.visible {
+    animation: sectionReveal 0.4s ease-out forwards;
+  }
 }
 
 @keyframes sectionReveal {

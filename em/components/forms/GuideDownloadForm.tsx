@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
+import { useIsVisible } from "@/hooks/useIsVisible";
 
 const GuideDownloadForm = () => {
   const [formData, setFormData] = useState({ firstName: "", email: "" });
   const [downloadTriggered, setDownloadTriggered] = useState(false);
 
+  // Initialize visibility hook
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
+
   const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
     formId: "guide-download",
     onSuccess: () => {
-      // Reset form after success
       setTimeout(() => {
         setFormData({ firstName: "", email: "" });
         setDownloadTriggered(false);
@@ -19,29 +22,18 @@ const GuideDownloadForm = () => {
   });
 
   const triggerPDFDownload = () => {
-    // Try multiple potential paths
     const pdfPaths = [
       "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
       "/Guide-7-erreurs-entrepreneur-maroc.pdf",
       "/assets/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
     ];
-
-    // Use the first path
     const pdfUrl = pdfPaths[0];
-
-    // Create download
     const link = document.createElement("a");
     link.href = pdfUrl;
     link.download = "Guide-7-erreurs-entrepreneur-maroc.pdf";
-
-    // For better cross-browser support
     link.style.display = "none";
     document.body.appendChild(link);
-
-    // Trigger download
     link.click();
-
-    // Clean up
     setTimeout(() => {
       document.body.removeChild(link);
     }, 100);
@@ -59,11 +51,9 @@ const GuideDownloadForm = () => {
       return;
     }
 
-    // Always trigger PDF download first
     triggerPDFDownload();
     setDownloadTriggered(true);
 
-    // Then try to submit the form (for analytics/email collection)
     try {
       await submitForm({
         Prénom: formData.firstName,
@@ -81,7 +71,11 @@ const GuideDownloadForm = () => {
 
   return (
     <section className="lm-section">
-      <div className="lm-wrap">
+      {/* 
+         Attached ref={elementRef} 
+         Added conditional class ${isVisible ? "visible" : ""} 
+      */}
+      <div ref={elementRef} className={`lm-wrap ${isVisible ? "visible" : ""}`}>
         <header className="lm-head">
           <h2 className="lm-title">
             LES 7 ERREURS À ÉVITER QUAND
@@ -197,7 +191,6 @@ const GuideDownloadForm = () => {
                   )}
                 </p>
 
-                {/* Download again button */}
                 <button
                   onClick={triggerPDFDownload}
                   style={{
@@ -240,8 +233,7 @@ const GuideDownloadForm = () => {
                   </svg>
                   Télécharger à nouveau
                 </button>
-
-                {/* CSS Animations */}
+                {/* Internal styles for success box omitted for brevity, same as before */}
                 <style jsx>{`
                   @keyframes successFadeIn {
                     from {
@@ -253,7 +245,6 @@ const GuideDownloadForm = () => {
                       transform: translateY(0);
                     }
                   }
-
                   @keyframes iconScale {
                     from {
                       opacity: 0;
@@ -264,7 +255,6 @@ const GuideDownloadForm = () => {
                       transform: scale(1);
                     }
                   }
-
                   @keyframes textFadeIn {
                     from {
                       opacity: 0;
@@ -275,7 +265,6 @@ const GuideDownloadForm = () => {
                       transform: translateY(0);
                     }
                   }
-
                   @keyframes buttonFadeIn {
                     from {
                       opacity: 0;
@@ -290,10 +279,6 @@ const GuideDownloadForm = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="lm-fields">
-                {/* 
-                  UPDATED: Geometric Inputs using CSS clip-path 
-                  (No longer using SVG image)
-                */}
                 <div className="lm-field">
                   <input
                     className="lm-input"
@@ -320,7 +305,6 @@ const GuideDownloadForm = () => {
                   />
                 </div>
 
-                {/* Error message */}
                 {error && (
                   <div
                     style={{
@@ -336,7 +320,6 @@ const GuideDownloadForm = () => {
                   </div>
                 )}
 
-                {/* Left-slanted button */}
                 <button
                   className="lm-btn-left"
                   type="submit"
@@ -348,7 +331,7 @@ const GuideDownloadForm = () => {
                 >
                   {isSubmitting
                     ? "Téléchargement..."
-                    : "JE TÉLÉCHARGE MON GUIDE"}
+                    : "Je télécharge mon guide"}
                 </button>
               </form>
             )}

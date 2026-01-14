@@ -1,63 +1,134 @@
 /* ========== Contact Section (cs-*) ========== */
+
+/* Base Container */
 .cs-section {
-  padding: 25px 0 25px; /* Matched Service Section padding */
-  opacity: 0;
-  animation: fadeInUp 1.2s ease-out 0.2s forwards;
+  padding: 25px 0 25px;
   width: 100%;
   position: relative;
   overflow: hidden;
 }
-@media (max-width: 768px) {
-  .cs-section {
-    padding: 25px 0 25px;
-  }
-}
 
 .cs-wrap {
-  max-width: 1280px; /* Matched Service Section (max-w-7xl) */
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 clamp(16px, 4vw, 32px); /* Matched Service Section padding */
+  padding: 0 clamp(16px, 4vw, 32px);
   display: flex;
   flex-direction: column;
 }
 
-/* Lead - Updated to match Service Section Alignment */
+/* =========================================
+   MOBILE ONLY ANIMATION (max-width: 768px)
+   ========================================= */
+@media (max-width: 768px) {
+  /* 1. Initial Hidden States - Only on Mobile */
+  .cs-lead,
+  .cs-desc,
+  .cs-form,
+  .cs-group,
+  .contact__submit {
+    opacity: 0;
+  }
+
+  /* Header Start Position */
+  .cs-lead {
+    transform: translateY(-30px);
+  }
+
+  /* Form Container Start Position */
+  .cs-form {
+    transform: translateY(20px);
+  }
+
+  /* Form Group Start Positions */
+  .cs-group:nth-child(1),
+  .cs-group:nth-child(3) {
+    transform: translateX(-40px);
+  }
+
+  .cs-group:nth-child(2),
+  .cs-group:nth-child(4) {
+    transform: translateX(40px);
+  }
+
+  .cs-group:nth-child(5),
+  .contact__submit {
+    transform: translateY(20px);
+  }
+
+  /* 2. Active States (When .visible class is added via JS) */
+
+  .cs-wrap.visible .cs-lead {
+    animation: slideInDown 0.4s ease-out forwards;
+  }
+
+  .cs-wrap.visible .cs-desc {
+    animation: fadeIn 0.4s ease-out 0.4s forwards;
+  }
+
+  .cs-wrap.visible .cs-desc:nth-of-type(2) {
+    animation-delay: 0.2s;
+  }
+
+  .cs-wrap.visible .cs-form {
+    animation: slideInUp 0.4s ease-out 0.4s forwards;
+  }
+
+  .cs-wrap.visible .cs-group:nth-child(1) {
+    animation: slideInLeft 0.4s ease-out 0.5s forwards;
+  }
+
+  .cs-wrap.visible .cs-group:nth-child(2) {
+    animation: slideInRight 0.4s ease-out 0.5s forwards;
+  }
+
+  .cs-wrap.visible .cs-group:nth-child(3) {
+    animation: slideInLeft 0.4s ease-out 0.4s forwards;
+  }
+
+  .cs-wrap.visible .cs-group:nth-child(4) {
+    animation: slideInRight 0.4s ease-out 0.5s forwards;
+  }
+
+  .cs-wrap.visible .cs-group:nth-child(5) {
+    animation: slideInUp 0.4s ease-out 0.4s forwards;
+  }
+
+  .cs-wrap.visible .contact__submit {
+    animation: slideInUp 0.4s ease-out 1s forwards,
+      pulse 0.4s ease-in-out 1s infinite;
+  }
+}
+
+/* =========================================
+   STANDARD STYLING (Universal)
+   ========================================= */
+
+/* Header Content */
 .cs-lead {
   margin-bottom: clamp(28px, 5vw, 48px);
-  opacity: 0;
-  animation: slideInDown 1s ease-out 0.6s forwards;
-  /* Center on mobile (Service style) */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* 
-  Title - Font size/weight matches Service Section 
-  BUT keeps the Red Shimmer Animation
-*/
+@media (min-width: 768px) {
+  .cs-lead {
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
 .cs-title {
   margin: 0 0 10px;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-
-  /* Service Section Font Specs */
   font-weight: 800;
   line-height: 1.1;
   font-size: clamp(28px, 5vw, 36px);
-
-  /* Keep Original Red Animation */
-  /* background: linear-gradient(45deg, #fff, #ef4444, #fff);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s ease-in-out infinite; */
 }
 
-/* Desc - Matches Service typography */
 .cs-desc-wrapper {
   display: flex;
   flex-direction: column;
@@ -68,68 +139,29 @@
 .cs-desc {
   margin: 0;
   color: rgba(255, 255, 255, 0.85);
-  font-size: clamp(16px, 2vw, 16px);
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  opacity: 0;
-  animation: fadeIn 1s ease-out 1s forwards;
 }
 
-.cs-desc:nth-of-type(2) {
-  animation-delay: 1.2s;
-}
-
-/* Desktop: Left Align (Match Service) */
-@media (min-width: 768px) {
-  .cs-lead {
-    text-align: left;
-    align-items: flex-start;
-  }
-}
-
-/* ----------------------------------------------------
-   REVERTED FORM STYLES (ORIGINAL)
-   ---------------------------------------------------- */
-
-/* --- Form: FLEX (not grid) --- */
+/* Form Layout */
 .cs-form {
   display: flex;
   flex-direction: column;
   gap: clamp(18px, 3vw, 28px);
-  opacity: 0;
-  animation: slideInUp 1.2s ease-out 1.4s forwards;
 }
 
 .cs-row {
   display: grid;
-  flex-wrap: wrap;
+  /* Use grid-template-columns in your specific implementation if needed */
   gap: clamp(18px, 3vw, 28px);
   align-items: flex-start;
 }
 
-/* two equal columns on large screens; stack on small */
 .cs-group {
   display: flex;
   flex-direction: column;
   min-width: 260px;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.cs-group:nth-child(1) {
-  animation: slideInLeft 0.8s ease-out 1.8s forwards;
-}
-.cs-group:nth-child(2) {
-  animation: slideInRight 0.8s ease-out 2s forwards;
-}
-.cs-group:nth-child(3) {
-  animation: slideInLeft 0.8s ease-out 2.2s forwards;
-}
-.cs-group:nth-child(4) {
-  animation: slideInRight 0.8s ease-out 2.4s forwards;
-}
-.cs-group:nth-child(5) {
-  animation: slideInUp 0.8s ease-out 2.6s forwards;
 }
 
 .cs-label {
@@ -155,7 +187,6 @@
 
 .cs-input::placeholder {
   color: rgba(255, 255, 255, 0.35);
-  transition: opacity 0.3s ease;
 }
 
 .cs-input:focus {
@@ -164,31 +195,12 @@
   transform: translateY(-2px);
 }
 
-.cs-input:focus::placeholder {
-  opacity: 0.6;
-}
-
-.cs-input:hover {
-  border-color: rgba(255, 255, 255, 0.95);
-  transform: translateY(-1px);
-}
-
 .cs-textarea {
   min-height: 240px;
   resize: vertical;
 }
 
-.cs-error {
-  color: #ef4444;
-  font-size: 14px;
-  margin-top: -10px;
-  display: flex;
-  align-items: center;
-}
-
-/* ----------------------------------------------------
-   ACTIONS / BUTTON (ORIGINAL)
-   ---------------------------------------------------- */
+/* Actions */
 .contact__actions {
   display: flex;
   justify-content: flex-end;
@@ -201,38 +213,43 @@
   justify-content: center;
   padding: 16px 50px;
   min-width: 320px;
-  width: max-content;
   font-size: 20px;
   font-weight: 700;
-  line-height: 1;
   background: #fff;
   color: #000;
   border: none;
-  cursor: none;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%);
-  transition: transform 0.15s ease, box-shadow 0.2s ease,
-    background-color 0.2s ease;
+  transition: all 0.2s ease;
   margin: 0 0 0 auto;
+}
+
+.contact__submit:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.35);
+}
+
+/* Success Message (Usually animated on both because it's a feedback state) */
+.cs-success {
+  width: min(100%, 820px);
+  margin: 20px auto 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 12px;
+  color: #fff;
+  padding: 18px 24px;
   opacity: 0;
   transform: translateY(20px);
-  animation: slideInUp 0.8s ease-out 2.8s forwards,
-    pulse 2s ease-in-out 4s infinite;
+  transition: all 0.5s ease;
 }
 
-.contact__submit:hover:not(:disabled),
-.contact__submit:focus-visible:not(:disabled) {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.35);
-  outline: none;
+.cs-success.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.contact__submit:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
+/* Loading Spinner */
 .contact__spinner {
   width: 18px;
   height: 18px;
@@ -240,9 +257,10 @@
   border: 2px solid transparent;
   border-top: 2px solid #000;
   border-radius: 50%;
-  animation: contact_spin 1s linear infinite;
+  animation: contact_spin 0.4s linear infinite;
 }
 
+/* Desktop Adjustments for Submit Button */
 @media (max-width: 768px) {
   .contact__actions {
     justify-content: stretch;
@@ -254,86 +272,23 @@
   }
 }
 
-/* Success */
-.cs-success {
-  width: min(100%, 820px);
-  margin: clamp(18px, 3vw, 28px) auto 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  color: #fff;
-  padding: clamp(14px, 2.5vw, 18px) clamp(18px, 3vw, 24px);
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: all 0.5s ease;
-}
-
-.cs-success.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  animation: successBounce 0.6s ease-out;
-}
-
-.cs-successIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  animation: iconSpin 0.8s ease-out 0.2s both;
-}
-
-.cs-successBody {
-  line-height: 1.4;
-}
-
-.cs-successTitle {
-  font-weight: 800;
-  font-size: clamp(15px, 1.9vw, 18px);
-  margin-bottom: 2px;
-}
-
-.cs-successText {
-  font-weight: 600;
-  opacity: 0.95;
-  font-size: clamp(14px, 1.8vw, 16px);
-}
-
-@media (max-width: 860px) {
-  .cs-success {
-    width: 100%;
-    margin-inline: 0;
-  }
-  .cs-submit {
-    width: 100%;
-    align-self: stretch;
-  }
-  .cs-textarea {
-    min-height: 180px;
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .cs-lead,
+  .cs-desc,
+  .cs-form,
+  .cs-group,
+  .contact__submit {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
-/* Animation keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+
 @keyframes slideInDown {
   from {
     opacity: 0;
@@ -344,26 +299,7 @@
     transform: translateY(0);
   }
 }
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -374,6 +310,29 @@
     transform: translateY(0);
   }
 }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -382,17 +341,7 @@
     opacity: 1;
   }
 }
-@keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 10px 28px rgba(255, 255, 255, 0.25);
@@ -404,29 +353,9 @@
     box-shadow: 0 10px 28px rgba(255, 255, 255, 0.25);
   }
 }
+
 @keyframes contact_spin {
   to {
     transform: rotate(360deg);
-  }
-}
-@keyframes successBounce {
-  0% {
-    transform: translateY(20px) scale(0.9);
-  }
-  60% {
-    transform: translateY(-5px) scale(1.02);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-  }
-}
-@keyframes iconSpin {
-  from {
-    transform: rotate(-180deg) scale(0.5);
-    opacity: 0;
-  }
-  to {
-    transform: rotate(0deg) scale(1);
-    opacity: 1;
   }
 }

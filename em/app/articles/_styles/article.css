@@ -1,9 +1,9 @@
 /* article.css */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
 
-main {
+/* main {
   padding-top: 0 !important;
-}
+} */
 
 :root {
   --art-bg: #000;
@@ -44,9 +44,10 @@ h6 {
 
 .article-hero {
   text-align: center;
-  max-width: 1000px;
+  /* UPDATED: Aligned with content width */
+  max-width: 1028px;
   margin: 0 auto 4rem;
-  animation: fadeUp 1s ease-out forwards;
+  animation: fadeUp 0.4s ease-out forwards;
 }
 
 .article-tag {
@@ -80,11 +81,17 @@ h6 {
 }
 
 /* --- GLASS STATS GRID --- */
+.stats-container {
+  display: flex;
+  justify-content: center;
+}
 .stats-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   margin-bottom: 5rem;
+  max-width: 1028px;
 }
 
 .stat-card {
@@ -141,7 +148,7 @@ h6 {
 
 /* --- CONTENT SECTIONS --- */
 .content-container {
-  max-width: 900px;
+  max-width: 1028px;
   margin: 0 auto;
 }
 
@@ -174,8 +181,9 @@ h6 {
 
 /* --- GLASS BOXES (Lists/Quotes) --- */
 .glass-box {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   padding: 24px;
   margin-bottom: 24px;
   position: relative;
@@ -187,7 +195,7 @@ h6 {
 
 .glass-list-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   margin-bottom: 16px;
   padding: 12px;
@@ -214,6 +222,8 @@ h6 {
     transparent 100%
   );
   padding: 40px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* --- BUTTONS (Trapezoid with ::before border) --- */
@@ -352,7 +362,7 @@ h6 {
     font-size: 32px;
   }
   .article-wrap {
-    padding-top: 100px;
+    padding-top: 124px;
   }
   .poly-btn {
     width: 100%;
@@ -366,4 +376,13 @@ h6 {
     padding-left: clamp(16px, 4vw, 32px);
     padding-right: clamp(16px, 4vw, 32px);
   }
+}
+
+.to-b-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(7, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
+  border-color: rgba(77, 16, 18, 1);
 }

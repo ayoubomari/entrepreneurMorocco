@@ -58,7 +58,7 @@
 .qf__input-wrapper {
   position: relative;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1);
   clip-path: polygon(0 0, 99% 0, 100% 100%, 0 100%);
   transition: background-color 0.2s ease;
 }
@@ -66,7 +66,7 @@
 .qf__input-wrapper::before {
   content: "";
   position: absolute;
-  inset: 1.5px;
+  inset: 1px;
   background-color: var(--qf-bg);
   clip-path: polygon(0 0, 99% 0, 100% 100%, 0 100%);
   z-index: 1;
@@ -85,7 +85,7 @@
   color: #fff;
   font-family: inherit;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   padding: 0 24px;
 }
@@ -95,7 +95,7 @@
 .qf__textarea::placeholder {
   color: #fff;
   opacity: 1;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -111,7 +111,7 @@
   text-transform: none;
 }
 
-.qf__textarea::placeholder {
+.qf__textarea {
   text-transform: uppercase;
 }
 
@@ -130,7 +130,7 @@
 }
 
 .qf__select-trigger span {
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .qf__caret {
@@ -264,9 +264,8 @@
   padding: 0 40px;
   background: #fff;
   color: #000;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 14px;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 0;
   cursor: none;

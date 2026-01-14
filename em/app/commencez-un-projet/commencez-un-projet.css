@@ -198,7 +198,7 @@
   outline: none !important;
   color: #fff;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -206,7 +206,7 @@
 .cproj__input::placeholder {
   color: #fff;
   opacity: 1;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .cproj__input-wrapper:hover,
@@ -225,9 +225,8 @@
   background: #fff;
   color: #000;
   padding: 14px 40px;
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.02em;
   border: 0;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%);

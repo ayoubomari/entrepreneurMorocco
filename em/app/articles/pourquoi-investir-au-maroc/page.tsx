@@ -67,7 +67,7 @@ const Article1Page: React.FC = () => {
             décennie.
           </p>
 
-          <div className="flex items-center justify-center gap-6 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+          <div className="flex items-center justify-center gap-6 text-md font-semibold text-gray-500 uppercase tracking-wider">
             <span>8 min de lecture</span>
             <span className="text-red-500">•</span>
             <span>Business & Investissement</span>
@@ -75,18 +75,20 @@ const Article1Page: React.FC = () => {
         </header>
 
         {/* --- STATS GRID (Glass Cards) --- */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-value">140B$</span>
-            <span className="stat-label">PIB doublé en 10 ans</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">TOP 3</span>
-            <span className="stat-label">Investissement en Afrique</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-value">100+</span>
-            <span className="stat-label">Zones industrielles</span>
+        <section className="stats-container">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-value">140B$</span>
+              <span className="stat-label">PIB doublé en 10 ans</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">TOP 3</span>
+              <span className="stat-label">Investissement en Afrique</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">100+</span>
+              <span className="stat-label">Zones industrielles</span>
+            </div>
           </div>
         </section>
 
@@ -109,7 +111,7 @@ const Article1Page: React.FC = () => {
               </p>
             </div>
             <div className="glass-box highlight">
-              <p className="text-white font-bold m-0 text-lg">
+              <p className="text-white font-semibold m-0 text-lg">
                 OBJECTIF 2030 : Le Maroc vise une croissance annuelle de 3,5 %,
                 en s&apos;appuyant sur la digitalisation complète et l'ouverture
                 mondiale.
@@ -130,7 +132,7 @@ const Article1Page: React.FC = () => {
                   className="text-green-500 flex-shrink-0"
                   size={20}
                 />
-                <span className="text-sm font-medium">
+                <span className="text-md font-medium">
                   52 % d&apos;énergie renouvelable dans le mix national.
                 </span>
               </div>
@@ -139,7 +141,7 @@ const Article1Page: React.FC = () => {
                   className="text-green-500 flex-shrink-0"
                   size={20}
                 />
-                <span className="text-sm font-medium">
+                <span className="text-md font-medium">
                   Digitalisation intégrale des services publics.
                 </span>
               </div>
@@ -148,13 +150,13 @@ const Article1Page: React.FC = () => {
                   className="text-green-500 flex-shrink-0"
                   size={20}
                 />
-                <span className="text-sm font-medium">
+                <span className="text-md font-medium">
                   Data centers IA & hubs technologiques à Casa/Rabat.
                 </span>
               </div>
               <div className="glass-list-item border-red-500/30 bg-red-500/5">
                 <Trophy className="text-red-500 flex-shrink-0" size={20} />
-                <span className="text-sm font-bold text-red-100">
+                <span className="text-md font-bold text-red-100">
                   Coupe du Monde 2030 : L'accélérateur économique majeur.
                 </span>
               </div>
@@ -202,7 +204,7 @@ const Article1Page: React.FC = () => {
             <div className="quote-box mb-8">
               « Le Maroc est un arbre profondément enraciné en Afrique, qui
               respire par ses feuilles en Europe. »
-              <div className="text-sm text-red-500 not-italic font-bold mt-2 uppercase">
+              <div className="text-md text-red-500 not-italic font-bold mt-2 uppercase">
                 — Hassan II
               </div>
             </div>
@@ -216,7 +218,7 @@ const Article1Page: React.FC = () => {
           </div>
 
           {/* CTA SECTION */}
-          <div className="bg-gradient-to-b from-gray-900 to-black border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
+          <div className="to-b-gradient from-gray-900 to-black  border border-gray-800 p-8 md:p-12 text-center relative overflow-hidden section-block">
             <HandHeart className="text-red-500 mx-auto mb-6" size={48} />
             <h2 className="text-3xl font-black text-white uppercase mb-4">
               Entrepreneurs Morocco
@@ -250,7 +252,7 @@ const Article1Page: React.FC = () => {
                     className="text-red-500 group-open:rotate-90 transition-transform"
                   />
                 </summary>
-                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                <p className="mt-4 text-gray-300 text-md leading-relaxed">
                   Coût de la vie -40%, proximité immédiate avec l'Europe (2h de
                   vol), fuseau horaire aligné, et une culture authentique avec
                   un boom technologique.
@@ -265,7 +267,7 @@ const Article1Page: React.FC = () => {
                     className="text-red-500 group-open:rotate-90 transition-transform"
                   />
                 </summary>
-                <p className="mt-4 text-gray-300 text-sm leading-relaxed">
+                <p className="mt-4 text-gray-300 text-md leading-relaxed">
                   Les énergies renouvelables, l'AgriTech, le Tourisme, et
                   surtout l'Offshoring digital (Dev, IA, Support).
                 </p>
@@ -276,7 +278,7 @@ const Article1Page: React.FC = () => {
           {/* NEXT ARTICLE NAV */}
           <div className="flex justify-end pt-10 border-t border-gray-800">
             <Link
-              href="/articles/financer-projet-etranger"
+              href="/articles/les-secteurs-porteurs"
               className="cursor-none group text-right"
             >
               <span className="block text-xs text-gray-500 uppercase tracking-widest mb-1">

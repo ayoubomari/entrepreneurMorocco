@@ -274,7 +274,7 @@ export default function DevisPage() {
               className="qf__btn"
               disabled={!fullName || !email || isSubmitting}
             >
-              {isSubmitting ? "ENVOI EN COURS..." : "ENVOYER MA DEMANDE"}
+              {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
             </button>
           </div>
         </form>

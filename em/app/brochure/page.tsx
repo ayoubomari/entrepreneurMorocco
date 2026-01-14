@@ -192,7 +192,9 @@ export default function BrochurePage() {
               className="dlb__btn"
               disabled={!canSubmit || isSubmitting}
             >
-              {isSubmitting ? "ENVOI EN COURS..." : "TÉLÉCHARGER LE PDF"}
+              {isSubmitting
+                ? "Envoi en cours..."
+                : "Télécharger la brochure pdf"}
             </button>
           </div>
         </form>

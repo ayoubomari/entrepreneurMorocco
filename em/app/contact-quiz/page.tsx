@@ -253,8 +253,8 @@ export default function DevisPage() {
               disabled={!canSubmit || isSubmitting}
             >
               {isSubmitting
-                ? "ENVOI EN COURS..."
-                : "RECEVOIR MON DEVIS PERSONNALISÉ"}
+                ? "Envoi en cours..."
+                : "Recevoir mon devis personnalisé"}
             </button>
           </div>
         </form>
