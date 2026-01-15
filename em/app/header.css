@@ -24,24 +24,13 @@
 
 /* Apply background ONLY when scrolled */
 .hdr.hdr--scrolled {
-  /* background: rgba(0, 0, 0, 0.95) !important; */
-  pointer-events: auto; /* Enable clicks on the full header bar */
+  pointer-events: auto;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-  background: rgba(
-    0,
-    0,
-    0,
-    0.75
-  ) !important; /* Semi-transparent gray background */
-  -webkit-backdrop-filter: blur(10px) !important; /* Safari Support */
+  background: rgba(0, 0, 0, 0.75) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   backdrop-filter: blur(10px) !important;
-}
-
-/* Ensure the wrapper inside is transparent so the main blur shows through */
-.hdr.hdr--scrolled .hdr__wrap {
-  background: transparent;
 }
 
 /* ========================================= */
@@ -50,26 +39,44 @@
 
 .hdr.hdr--scrolled .hdr__wrap {
   margin-top: 0;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   max-width: 1280px;
   width: 100%;
   margin-inline: auto;
   padding-inline: clamp(16px, 4vw, 32px);
   height: 100%;
+  background: transparent;
 }
 
-/* Hide the SVG frame when scrolled */
 .hdr.hdr--scrolled .hdr__frame {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease;
 }
 
-/* Adjust logo size */
-.hdr.hdr--scrolled .hdr__logo {
-  transform: scale(0.9);
-  transition: transform 0.4s ease;
+@media (min-width: 481px) {
+  .hdr.hdr--scrolled .hdr__logo {
+    min-width: 50px;
+    gap: 7px;
+    transform: none;
+  }
+
+  .hdr.hdr--scrolled .hdr__stripe {
+    height: 10px;
+  }
+
+  .hdr.hdr--scrolled .hdr__stripe--1 {
+    transform: translateX(15px);
+  }
+
+  .hdr.hdr--scrolled .hdr__stripe--2 {
+    transform: translateX(10px);
+  }
+
+  .hdr.hdr--scrolled .hdr__stripe--3 {
+    transform: translateX(2.5px);
+  }
 }
 
 .hdr.hdr--scrolled .hdr__box {
@@ -81,7 +88,6 @@
   justify-content: flex-end;
 }
 
-/* Brand/Text alignment */
 .hdr.hdr--scrolled .hdr__brand {
   margin-right: auto;
   padding-left: 20px;

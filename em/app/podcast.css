@@ -246,11 +246,10 @@
 }
 
 /* =========================================
-   MEDIA & IMAGES
+   MEDIA & IMAGES (UPDATED WITH ANIMATION)
    ========================================= */
 .pod-media {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
   transform: translateZ(0);
   cursor: none;
@@ -260,29 +259,79 @@
   position: relative;
   aspect-ratio: 16/9;
   display: block;
+
+  /* 2. THE BORDER THICKNESS: 
+     Adjust '4px' to make the animated border thicker/thinner. */
+  padding: 4px;
+  box-sizing: border-box;
+
+  /* 3. LAYOUT & BACKGROUND */
   overflow: hidden;
+  /* Removed static color, replaced with transparency for pseudo-element */
+  background: transparent;
+
+  /* Creates a stacking context so ::before sits behind the image */
+  isolation: isolate;
 }
 
-.pod-thumb img {
-  object-fit: cover;
+/* 
+   THE ANIMATED GRADIENT BACKGROUND
+*/
+.pod-thumb::before {
+  content: "";
+  position: absolute;
+  /* Make the background twice as big so it covers the corners while spinning */
+  top: -75%;
+  left: -50%;
+  width: 200%;
+  height: 250%;
+
+  /* Gradient Palette */
+  background: conic-gradient(from 0deg, #e63946, #9d0208, #ffc0cb, #e63946);
+
+  /* Place behind the image */
+  z-index: -1;
+  /* Infinite rotation */
+  animation: pod-border-spin 4s linear infinite;
+}
+
+@keyframes pod-border-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pod-thumb-to-down-r {
+  clip-path: polygon(0 0.8%, 99.9% 14.2%, 99.9% 99.5%, 0 99.5%);
+}
+.pod-thumb-to-down-l {
+  clip-path: polygon(0 14.2%, 99.9% 0.8%, 99.9% 99.5%, 0 99.5%);
+}
+
+/* 
+   Targeting the Next.js Image inside 
+*/
+.pod-thumb img,
+.pod-thumb-img {
   display: block;
+  /* 4. SIZE: Image takes 100% of the container (minus padding) */
   width: 100%;
+  height: 100%;
+
+  /* Ensures the image covers the area inside the border */
+  object-fit: cover;
+  border-radius: 0;
+
+  /* Ensure image sits on top of the spinning background */
+  position: relative;
+  z-index: 1;
+
   transform: translateZ(0);
   backface-visibility: hidden;
   image-rendering: auto;
-  -webkit-transform: translate3d(0, 0, 0);
-}
-
-/* Ethereal gradient rim */
-.pod-rim {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  padding: 1px;
-  opacity: 0.9;
-  mix-blend-mode: screen;
 }
 
 /* Soft ambient glow */

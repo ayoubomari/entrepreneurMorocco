@@ -820,18 +820,18 @@ const PodcastSection = () => {
       },
       {
         id: 2,
-        image: "/podcast2.png",
+        image: "/podcast2-1.png",
         video: "/videos/reel-19.mp4",
       },
       {
         id: 3,
-        image: "/podcast1.png",
+        image: "/podcast1-1.png",
         video: "/videos/reel-1.mp4",
       },
       // duplicate
       {
         id: 4,
-        image: "/podcast2.png",
+        image: "/podcast2-1.png",
         video: "/videos/reel-20.mp4",
       },
     ],
@@ -1149,15 +1149,23 @@ const PodcastSection = () => {
                   className="pod-media"
                   onClick={(e) => handlePlayClick(e, podcast.video)}
                 >
-                  <div className="pod-thumb">
+                  <div
+                    className={`pod-thumb ${
+                      index % 2 === 0
+                        ? "pod-thumb-to-down-r"
+                        : "pod-thumb-to-down-l"
+                    }`}
+                  >
                     <Image
                       width={400}
                       height={600}
                       src={podcast.image}
                       alt="Podcast"
                       loading="lazy"
+                      className="pod-thumb-img" // Added class for 100% width/height enforcement
                     />
                   </div>
+
                   <div className="pod-play">
                     <Image
                       src="/video-play-botton.webp"
@@ -1555,14 +1563,18 @@ const Footer = () => {
           <div className="ft-col ft-contact-rapid-card">
             <h3 className="ft-heading">CONTACT RAPIDE</h3>
             <ul className="ft-contact">
-              <li className="ft-contactLine">Adresse Maroc : Rabat, Maroc</li>
-              <li className="ft-contactLine">Adresse France : Paris, France</li>
               <li className="ft-contactLine">
-                Adresse EAU : Dubaï, Émirats arabes unis
+                Camp militaire, Immeuble STAVROULA , Gueliz route de, Av. 4ème
+                D.M.M., Marrakesh 40000, Maroc, deuxième étage porte 16
               </li>
               <li className="ft-contactLine">
                 <a className="ft-q-link" href="tel:+33651024018">
                   +33 6 51 02 40 18
+                </a>
+              </li>
+              <li className="ft-contactLine">
+                <a className="ft-q-link" href="tel:+212776868163">
+                  +212 7 76 86 81 63
                 </a>
               </li>
               <li className="ft-contactLine">
