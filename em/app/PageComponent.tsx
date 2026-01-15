@@ -602,14 +602,14 @@ const TestimonialsSection = () => {
       subtitle: "Coach business, installée depuis janvier 2024",
       content:
         "Je vivais à Lyon depuis 12 ans, avec l'envie de revenir au Maroc mais sans savoir par où commencer.\nEn 6 semaines, j'avais ma société, ma carte de séjour, et mes premiers clients.",
-      rating: 3,
+      rating: 5,
     },
     {
       name: "Youssef El Amrani, Consultant digital",
       subtitle: "Bruxelles → Casablanca | Installé depuis avril 2024",
       content:
         "J'étais salarié à Bruxelles dans un domaine qui ne me passionnait plus.\nGrâce à l'accompagnement d'Entrepreneurs Morocco, j'ai pu structurer un vrai projet, créer mon entreprise à distance, et m'installer à Casablanca en moins de 2 mois.\nAujourd'hui, je vis de mon activité et je me sens enfin à ma place.",
-      rating: 4,
+      rating: 5,
     },
     {
       name: "Nadia & Karim B., Couple\nfranco-marocain",
@@ -815,7 +815,7 @@ const PodcastSection = () => {
     () => [
       {
         id: 1,
-        image: "/podcast1.png",
+        image: "/podcast1-1.png",
         video: "/videos/reel-1.mp4",
       },
       {
@@ -1579,18 +1579,19 @@ const Footer = () => {
             <ul className="ft-socialList">
               {SOCIALS.map((s) => (
                 <li key={s.label} className="ft-socialItem">
-                  <a
+                  <Link
                     href={s.href}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="ft-socialLink"
+                    aria-label={`${s.label}`}
                   >
                     <span className="ft-iconWrap">
                       {/* 3. Render the Icon Component directly */}
                       <s.icon size={30} strokeWidth={1.5} className="ft-icon" />
                     </span>
                     <span>{s.label}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

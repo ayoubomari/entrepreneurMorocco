@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 
-/* Background Particles */
+/* Background Particles (Synced with Setup logic) */
 .benefits-page::after {
   content: "";
   position: absolute;
@@ -29,7 +29,7 @@
     radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
     radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
   background-size: 300px 200px;
-  animation: particleDrift 0.4s linear infinite;
+  animation: particleDrift 25s linear infinite;
   z-index: 0;
   pointer-events: none;
 }
@@ -61,7 +61,7 @@
 }
 
 /* ========================================= 
-   HEADER 
+   HEADER (Slower, smoother animation)
    ========================================= */
 .benefits-header {
   text-align: center;
@@ -71,11 +71,15 @@
   margin-right: auto;
   opacity: 0;
   transform: translateY(30px);
-  animation: headerSlideIn 0.4s ease-out 0.3s forwards;
+  animation: headerSlideIn 1s ease-out 0.3s forwards;
 }
 
 @keyframes headerSlideIn {
-  to {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
@@ -131,7 +135,7 @@
   text-align: center;
   opacity: 0;
   transform: translateY(30px);
-  animation: sectionTitleSlide 0.4s ease-out 0.5s forwards;
+  animation: sectionTitleSlide 1s ease-out 0.5s forwards;
 }
 
 @media (min-width: 768px) {
@@ -141,13 +145,17 @@
 }
 
 @keyframes sectionTitleSlide {
-  to {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Base Grid (4 columns for KPIs) */
+/* Base Grid */
 .benefits-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -155,7 +163,7 @@
   margin-top: 2rem;
   opacity: 0;
   transform: translateY(40px);
-  animation: gridReveal 0.4s ease-out 0.6s forwards;
+  animation: gridReveal 1s ease-out 0.6s forwards;
 }
 
 /* 2 columns for Testimonials / Wide cards */
@@ -186,14 +194,18 @@
 }
 
 @keyframes gridReveal {
-  to {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 /* ========================================= 
-   CARDS (GLASS STYLE) 
+   CARDS (GLASS STYLE + STAGGERED ANIMATION) 
    ========================================= */
 .bn-card {
   background: rgba(0, 0, 0, 0.4);
@@ -208,6 +220,38 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  /* SETUP STYLE ANIMATION INITIAL STATE */
+  opacity: 0;
+  transform: translateY(60px) scale(0.95);
+}
+
+/* Staggered Animation Logic (Matches Setup Page) */
+.bn-card:nth-child(1) {
+  animation: cardSlideUp 0.8s ease-out 0.8s forwards;
+}
+.bn-card:nth-child(2) {
+  animation: cardSlideUp 0.8s ease-out 1s forwards;
+}
+.bn-card:nth-child(3) {
+  animation: cardSlideUp 0.8s ease-out 1.2s forwards;
+}
+.bn-card:nth-child(4) {
+  animation: cardSlideUp 0.8s ease-out 1.4s forwards;
+}
+
+@keyframes cardSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+  }
+  60% {
+    transform: translateY(-8px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Shine Effect */
@@ -325,9 +369,6 @@
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
 }
-.bn-card:hover .bn-icon-small::before {
-  opacity: 1;
-}
 
 .bn-title {
   color: #fff;
@@ -380,13 +421,14 @@
 }
 
 /* ========================================= 
-   CTA SECTION (Aligned with Resources Button) 
+   CTA SECTION 
    ========================================= */
 .benefits-cta {
   text-align: center;
   margin-top: 4rem;
   opacity: 0;
-  animation: ctaFadeIn 0.4s ease-out 1.8s forwards;
+  /* Smoother transition matching setup page */
+  animation: ctaFadeIn 1s ease-out 1.8s forwards;
 }
 
 @keyframes ctaFadeIn {
