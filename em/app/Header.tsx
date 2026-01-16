@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import "./header.css";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -30,6 +31,7 @@ export default function Header() {
     "/mini-test",
     "/contact-quiz",
     "/brochure",
+    "/diagnostic-projet-maroc",
   ];
 
   // Check if the current path starts with any of the defined paths
@@ -155,21 +157,39 @@ export default function Header() {
               isClient && loaded ? "hdr__stripe--loaded" : ""
             }`}
           >
-            <img src="/logo-stripe-1.svg" alt="" className="hdr__stripe-svg" />
+            <Image
+              width={60}
+              height={20}
+              src="/logo-stripe-1.svg"
+              alt="logo-line"
+              className="hdr__stripe-svg"
+            />
           </div>
           <div
             className={`hdr__stripe hdr__stripe--2 ${
               isClient && loaded ? "hdr__stripe--loaded" : ""
             }`}
           >
-            <img src="/logo-stripe-2.svg" alt="" className="hdr__stripe-svg" />
+            <Image
+              width={60}
+              height={20}
+              src="/logo-stripe-2.svg"
+              alt="logo-line"
+              className="hdr__stripe-svg"
+            />
           </div>
           <div
             className={`hdr__stripe hdr__stripe--3 ${
               isClient && loaded ? "hdr__stripe--loaded" : ""
             }`}
           >
-            <img src="/logo-stripe-3.svg" alt="" className="hdr__stripe-svg" />
+            <Image
+              width={60}
+              height={20}
+              src="/logo-stripe-3.svg"
+              alt="logo-line"
+              className="hdr__stripe-svg"
+            />
           </div>
         </Link>
 

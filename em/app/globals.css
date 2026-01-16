@@ -150,6 +150,9 @@ section {
 .cursor.click {
   transform: scale(0.8);
 }
+.cursor.zindex {
+  z-index: 99999;
+}
 
 /* ADDED: Ensure text and interactive elements are visible above blob */
 p,

@@ -39,6 +39,7 @@ export default function CursorEffects() {
       cursor = document.createElement("div");
       cursor.id = "cursor-el";
       cursor.className = "cursor";
+      cursor!.classList.add("zindex");
       document.body.appendChild(cursor);
     }
 

@@ -285,7 +285,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className={`hero ${loaded ? "hero--loaded" : ""}`}>
+    <div className={`hero ${loaded ? "hero--loaded" : ""}`}>
       {/* Enhanced Background with Multiple Layers */}
       <div className="hero__bg-container">
         <div
@@ -468,7 +468,7 @@ const HeroSection = () => {
         <div className="hero__floating-shape hero__floating-shape--3"></div>
         <div className="hero__floating-shape hero__floating-shape--4"></div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -190,7 +190,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const toAddress = "salam@entrepreneursmorocco.com";
+    const toAddress = "ayoubomari799@gmail.com"; // salam@entrepreneursmorocco.com
     const template = FORM_TEMPLATES[formId];
     const mailSubject =
       subject ||

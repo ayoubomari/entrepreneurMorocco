@@ -10,7 +10,7 @@ import {
   GraduationCap,
   Network,
   Crown,
-  Zap,
+  Scale,
 } from "lucide-react";
 import "./services.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
@@ -38,13 +38,13 @@ export default function ServicesPageComponent(): React.ReactElement {
     },
     {
       id: 3,
-      title: "Marketing & Growth",
+      title: "Marketing et Growth",
       description: "Acquisition clients, branding et tunnels de vente.",
       icon: <Megaphone size={32} strokeWidth={1.5} />,
     },
     {
       id: 4,
-      title: "Installation & RH",
+      title: "Installation et RH",
       description: "Recherche de bureaux, coworking et recrutement local.",
       icon: <Users size={32} strokeWidth={1.5} />,
     },
@@ -65,6 +65,13 @@ export default function ServicesPageComponent(): React.ReactElement {
       title: "Club Privilège",
       description: "Accès exclusif à des événements et deals privés au Maroc.",
       icon: <Crown size={32} strokeWidth={1.5} />,
+    },
+    {
+      id: 8,
+      title: "Accompagnement juridique",
+      description:
+        "Contrats, propriété intellectuelle et conformité réglementaire.",
+      icon: <Scale size={32} strokeWidth={1.5} />,
     },
   ];
 
