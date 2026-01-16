@@ -4,6 +4,8 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "./Header";
 import CursorEffects from "../components/CursorEffects";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import BotpressChat from "@/components/BotpressChat";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -102,6 +104,9 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
         </div>
+
+        <WhatsAppButton />
+        <BotpressChat />
       </body>
     </html>
   );

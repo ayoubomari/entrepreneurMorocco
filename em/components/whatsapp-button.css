@@ -1,0 +1,22 @@
+/* app/whatsapp-button.css */
+.whatsapp-float {
+  position: fixed;
+  bottom: 110px;
+  right: 25px; /* Ensure this is RIGHT to keep it on the right side */
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #20bd5a;
+}
