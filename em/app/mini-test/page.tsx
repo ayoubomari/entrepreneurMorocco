@@ -1,62 +1,78 @@
 "use client";
 
-import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./mini-test.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// 1. Define Zod Schema
+const formSchema = z.object({
+  project: z.string().min(1, "Veuillez sélectionner un projet."),
+  obstacles: z.array(z.string()).optional(),
+  email: z.email("Format d'email invalide"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function MiniTestPage() {
-  const [project, setProject] = useState<string | null>(null);
-  const [obstacles, setObstacles] = useState<string[]>([]);
-  const [email, setEmail] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting: isRHFSubmitting, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      project: "",
+      obstacles: [],
+      email: "",
+    },
+  });
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
+  const {
+    submitForm,
+    isSubmitting: isApiSubmitting,
+    isSuccess,
+    error: apiError,
+  } = useContactForm({
     formId: "mini-test",
     onSuccess: () => {
       setTimeout(() => {
-        setProject(null);
-        setObstacles([]);
-        setEmail("");
+        reset();
       }, 5000);
     },
   });
 
-  const toggleObstacle = (key: string) =>
-    setObstacles((arr) =>
-      arr.includes(key) ? arr.filter((k) => k !== key) : [...arr, key]
-    );
+  const isSubmitting = isRHFSubmitting || isApiSubmitting;
 
-  const canSubmit = !!email.trim();
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!canSubmit) return;
-
+  const onSubmit = async (data: FormValues) => {
     const getProjectLabel = (key: string | null) => {
       const map: Record<string, string> = {
         create: "Créer une entreprise",
         family: "S'installer en famille",
         invest: "Investir au Maroc",
       };
-      return key ? map[key] : "Non renseigné";
+      return key ? map[key] || key : "Non renseigné";
     };
 
-    const getObstaclesLabels = (keys: string[]) => {
+    const getObstaclesLabels = (keys: string[] | undefined | null) => {
+      if (!keys || keys.length === 0) return "Aucun";
       const map: Record<string, string> = {
         tax: "Statut / fiscalité",
         housing: "Logement / papiers",
         info: "Manque d'infos fiables",
         start: "Je ne sais pas par où commencer",
       };
-      return keys.length > 0
-        ? keys.map((k) => map[k] || k).join(", ")
-        : "Aucun";
+      return keys.map((k) => map[k] || k).join(", ");
     };
 
     await submitForm({
-      Email: email,
-      "Projet principal": getProjectLabel(project),
-      Obstacles: getObstaclesLabels(obstacles),
+      Email: data.email,
+      "Projet principal": getProjectLabel(data.project),
+      Obstacles: getObstaclesLabels(data.obstacles),
       Source: "Mini Test - Plan Action",
       "Date de soumission": new Date().toLocaleString("fr-FR", {
         timeZone: "Africa/Casablanca",
@@ -73,8 +89,8 @@ export default function MiniTestPage() {
           <div
             className="mt__success"
             style={{
-              background: "#111",
-              border: "1px solid rgba(255,255,255,0.1)",
+              background: "#000",
+              border: "1px solid #fff",
               padding: "60px 24px",
               textAlign: "center",
               maxWidth: "800px",
@@ -156,7 +172,7 @@ export default function MiniTestPage() {
           </p>
         </header>
 
-        <form className="mt__form" onSubmit={onSubmit}>
+        <form className="mt__form" onSubmit={handleSubmit(onSubmit)}>
           <section className="mt__block">
             <div className="mt__qtitle">
               1. Quel est votre projet principal ?
@@ -171,15 +187,17 @@ export default function MiniTestPage() {
                   <span>{label}</span>
                   <input
                     type="radio"
-                    name="project"
+                    value={key}
                     className="mt__radio"
-                    checked={project === key}
-                    onChange={() => setProject(key)}
                     disabled={isSubmitting}
+                    {...register("project")}
                   />
                 </label>
               ))}
             </div>
+            {errors.project && (
+              <p className="mt__error-msg">{errors.project.message}</p>
+            )}
           </section>
 
           <section className="mt__block">
@@ -195,10 +213,10 @@ export default function MiniTestPage() {
                   <span>{label}</span>
                   <input
                     type="checkbox"
+                    value={key}
                     className="mt__check"
-                    checked={obstacles.includes(key)}
-                    onChange={() => toggleObstacle(key)}
                     disabled={isSubmitting}
+                    {...register("obstacles")}
                   />
                 </label>
               ))}
@@ -206,29 +224,31 @@ export default function MiniTestPage() {
           </section>
 
           <div className="mt__inputs">
-            <div className="mt__input-wrapper">
+            <div className={`mt__input-wrapper ${errors.email ? "error" : ""}`}>
               <input
                 type="email"
                 className="mt__input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
                 placeholder="EMAIL (OBLIGATOIRE) :"
                 disabled={isSubmitting}
                 autoComplete="email"
+                {...register("email")}
               />
             </div>
+            {errors.email && (
+              <p className="mt__error-msg">{errors.email.message}</p>
+            )}
           </div>
 
-          {error && (
+          {apiError && (
             <div
               style={{
                 color: "#ff4444",
                 fontWeight: "700",
                 marginBottom: "20px",
+                textAlign: "right",
               }}
             >
-              ⚠️ {error}
+              ⚠️ {apiError}
             </div>
           )}
 
@@ -236,7 +256,7 @@ export default function MiniTestPage() {
             <button
               type="submit"
               className="mt__btn"
-              disabled={!canSubmit || isSubmitting}
+              disabled={isSubmitting || !isValid}
             >
               {isSubmitting ? "Envoi en cours..." : "Voir mes recommandations"}
             </button>

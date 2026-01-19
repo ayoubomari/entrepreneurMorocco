@@ -42,7 +42,6 @@
   font-size: clamp(32px, 5vw, 40px);
   line-height: 1.1;
   letter-spacing: 0.01em;
-  text-transform: uppercase;
 }
 
 .cproj__lead {
@@ -107,7 +106,7 @@
   border-color: rgba(255, 255, 255, 0.35);
 }
 
-/* ===== Custom RADIO & CHECKBOX (Trapezoidal) ===== */
+/* ===== Custom RADIO (Circular Disk) & CHECKBOX (Trapezoidal) ===== */
 .cproj__radio,
 .cproj__check {
   appearance: none;
@@ -118,12 +117,37 @@
   position: relative;
   outline: none;
   background-color: var(--cproj-border);
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   transition: background-color 0.2s ease;
   cursor: none;
 }
 
-.cproj__radio::before,
+/* RADIO SPECIFIC: Circle Shape */
+.cproj__radio {
+  border-radius: 50%;
+}
+.cproj__radio::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background-color: var(--cproj-bg);
+  border-radius: 50%;
+  z-index: 1;
+}
+.cproj__radio::after {
+  content: "";
+  position: absolute;
+  inset: 5px; /* Creates the Disk space */
+  background-color: #fff;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
+}
+
+/* CHECKBOX SPECIFIC: Kept Original Trapezoidal Shape */
+.cproj__check {
+  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
+}
 .cproj__check::before {
   content: "";
   position: absolute;
@@ -132,8 +156,6 @@
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   z-index: 1;
 }
-
-.cproj__radio::after,
 .cproj__check::after {
   content: "";
   position: absolute;
@@ -145,6 +167,7 @@
   z-index: 2;
 }
 
+/* States */
 .cproj__radio:checked::after,
 .cproj__check:checked::after {
   transform: scale(1);
@@ -200,7 +223,6 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .cproj__input::placeholder {
@@ -262,5 +284,43 @@
   }
   .cproj__btn {
     width: 100%;
+  }
+}
+
+/* ===== Error Handling ===== */
+.cproj__error-msg {
+  color: #ff6b6b;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.cproj__input-wrapper.error {
+  background-color: #ff6b6b;
+}
+
+.cproj__input-wrapper.error::before {
+  background-color: #000 !important;
+}
+
+.cproj__error-global {
+  color: #fca5a5;
+  font-size: 14px;
+  margin: 16px 0;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

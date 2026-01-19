@@ -1,22 +1,50 @@
 "use client";
 
-import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./brochure.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// 1. Define Zod Schema
+const brochureSchema = z.object({
+  email: z.string().email("Veuillez entrer une adresse email valide."),
+});
+
+type FormValues = z.infer<typeof brochureSchema>;
 
 export default function BrochurePage() {
-  const [email, setEmail] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isSubmitting: isRHFSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(brochureSchema),
+    mode: "onChange", // Real-time validation for button sync
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
+  const {
+    submitForm,
+    isSubmitting: isApiSubmitting,
+    isSuccess,
+    error: apiError,
+  } = useContactForm({
     formId: "brochure-download",
     onSuccess: () => {
       triggerPDFDownload();
       setTimeout(() => {
-        setEmail("");
+        reset();
       }, 5000);
     },
   });
+
+  // Combine loading states
+  const isSubmitting = isRHFSubmitting || isApiSubmitting;
 
   const triggerPDFDownload = () => {
     const a = document.createElement("a");
@@ -28,12 +56,9 @@ export default function BrochurePage() {
     a.remove();
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-
+  const onSubmit = async (data: FormValues) => {
     await submitForm({
-      Email: email,
+      Email: data.email,
       "Document demandé": "Brochure détaillée de l'offre",
       Source: "Site Web - Page Brochure",
       "Date de soumission": new Date().toLocaleString("fr-FR", {
@@ -41,8 +66,6 @@ export default function BrochurePage() {
       }),
     });
   };
-
-  const canSubmit = !!email.trim();
 
   if (isSuccess) {
     return (
@@ -54,13 +77,12 @@ export default function BrochurePage() {
           <div
             className="dlb__success"
             style={{
-              background: "#111",
-              border: "1px solid rgba(255,255,255,0.1)",
-              padding: "60px 24px",
+              background: "#000",
+              border: "2px solid #fff", // Updated to match reference
+              padding: "40px", // Updated to match reference
               textAlign: "center",
-              maxWidth: "800px",
+              maxWidth: "900px", // Updated to match reference
               margin: "0 auto",
-              animation: "successFadeIn 0.5s ease-out",
             }}
           >
             <div
@@ -73,8 +95,6 @@ export default function BrochurePage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                animation:
-                  "iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both",
               }}
             >
               <svg
@@ -92,8 +112,24 @@ export default function BrochurePage() {
                 />
               </svg>
             </div>
-            <h2 className="dlb__title">C'EST ENVOYÉ !</h2>
-            <p className="dlb__lead">
+            <h2
+              style={{
+                color: "#fff",
+                fontSize: "28px", // Updated to match reference
+                fontWeight: "700",
+                margin: "0 0 16px",
+              }}
+            >
+              C'EST ENVOYÉ !
+            </h2>
+            <p
+              style={{
+                color: "rgba(255, 255, 255, 0.8)", // Updated to match reference
+                fontSize: "18px",
+                lineHeight: "1.5",
+                marginBottom: "24px",
+              }}
+            >
               Votre brochure est en cours de téléchargement.
             </p>
             <button
@@ -112,28 +148,6 @@ export default function BrochurePage() {
             >
               Relancer le téléchargement
             </button>
-            <style jsx>{`
-              @keyframes successFadeIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-              @keyframes iconScale {
-                from {
-                  opacity: 0;
-                  transform: scale(0);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
-            `}</style>
           </div>
         </div>
       </main>
@@ -153,36 +167,40 @@ export default function BrochurePage() {
           </p>
         </header>
 
-        <form className="dlb__form" onSubmit={onSubmit}>
+        <form className="dlb__form" onSubmit={handleSubmit(onSubmit)}>
           <section className="dlb__block">
             <div className="dlb__inputLabel">
               1. VOTRE EMAIL (OBLIGATOIRE) :
             </div>
             <div className="dlb__inputs">
-              <div className="dlb__input-wrapper">
+              <div
+                className={`dlb__input-wrapper ${errors.email ? "error" : ""}`}
+              >
                 <input
                   type="email"
                   className="dlb__input"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
                   placeholder="EMAIL OBLIGATOIRE :"
                   disabled={isSubmitting}
                   autoComplete="email"
+                  {...register("email")}
                 />
               </div>
+              {errors.email && (
+                <p className="dlb__error-msg">{errors.email.message}</p>
+              )}
             </div>
           </section>
 
-          {error && (
+          {apiError && (
             <div
               style={{
                 color: "#ff4444",
                 fontWeight: "700",
                 marginBottom: "20px",
+                textAlign: "center",
               }}
             >
-              ⚠️ {error}
+              ⚠️ {apiError}
             </div>
           )}
 
@@ -190,7 +208,8 @@ export default function BrochurePage() {
             <button
               type="submit"
               className="dlb__btn"
-              disabled={!canSubmit || isSubmitting}
+              // Sync logic: disabled if validating, submitting, or invalid
+              disabled={isSubmitting || !isValid}
             >
               {isSubmitting
                 ? "Envoi en cours..."

@@ -228,20 +228,30 @@
   box-shadow: 0 15px 40px rgba(255, 255, 255, 0.35);
 }
 
+/* =========================================
+   SUCCESS MESSAGE (Black & White Style)
+   ========================================= */
 /* Success Message (Usually animated on both because it's a feedback state) */
 .cs-success {
-  width: min(100%, 820px);
-  margin: 20px auto 0;
+  /* Layout & Box Model */
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding: 60px 24px;
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  /* Visual Style (Matches mt__success) */
+  background: #000;
+  border: 1px solid #fff;
   color: #fff;
-  padding: 18px 24px;
+
+  /* Initial Animation State */
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .cs-success.show {
@@ -249,39 +259,58 @@
   transform: translateY(0);
 }
 
-/* Loading Spinner */
-.contact__spinner {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  border: 2px solid transparent;
-  border-top: 2px solid #000;
+/* White Circular Icon Container */
+.cs-successIconBox {
+  width: 64px;
+  height: 64px;
+  background: #fff;
   border-radius: 50%;
-  animation: contact_spin 0.4s linear infinite;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Icon Pop Animation */
+  opacity: 0;
+  transform: scale(0);
 }
 
-/* Desktop Adjustments for Submit Button */
-@media (max-width: 768px) {
-  .contact__actions {
-    justify-content: stretch;
-  }
-  .contact__submit {
-    width: 100%;
-    min-width: 0;
-    font-size: 16px;
-  }
+/* Trigger Icon Animation when parent has .show */
+.cs-success.show .cs-successIconBox {
+  animation: iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s forwards;
 }
 
-/* Reduced Motion Preference */
-@media (prefers-reduced-motion: reduce) {
-  .cs-lead,
-  .cs-desc,
-  .cs-form,
-  .cs-group,
-  .contact__submit {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+.cs-successTitle {
+  margin: 0 0 16px;
+  font-weight: 900;
+  font-size: clamp(24px, 5vw, 36px); /* Responsive font size */
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.cs-successText {
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.85); /* Dimmed white */
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* =========================================
+   KEYFRAMES (Add these if not present)
+   ========================================= */
+
+@keyframes iconScale {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

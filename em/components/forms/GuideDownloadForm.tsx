@@ -121,7 +121,6 @@ const GuideDownloadForm = () => {
                 style={{
                   background: "#1a1a1a",
                   border: "2px solid #ef4444",
-                  borderRadius: "8px",
                   padding: "24px",
                   textAlign: "center",
                   position: "relative",
@@ -198,7 +197,6 @@ const GuideDownloadForm = () => {
                     color: "#ef4444",
                     border: "1px solid #ef4444",
                     padding: "10px 20px",
-                    borderRadius: "4px",
                     fontSize: "14px",
                     fontWeight: "600",
                     cursor: "pointer",

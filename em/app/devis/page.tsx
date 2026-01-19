@@ -4,73 +4,103 @@ import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./devis.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
+// 1. Define Zod Schema
+const formSchema = z.object({
+  fullName: z.string().min(2, "Le nom est requis."),
+  email: z.email("Format d'email invalide."),
+  phone: z.string().refine((val) => {
+    if (!val) return true; // Optional field
+    const phoneNumber = parsePhoneNumberFromString(val);
+    if (phoneNumber?.isValid()) {
+      return true;
+    }
+    const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
+    return /^\+?\d{6,15}$/.test(cleaned);
+  }, "Numéro de téléphone invalide"),
+  services: z.array(z.string()).optional(),
+  message: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+const SERVICES_OPTS: Array<[string, string]> = [
+  ["site", "Site web"],
+  ["seo", "SEO"],
+  ["content", "Contenu / blog"],
+  ["brand", "Branding / identité"],
+  ["ads", "Publicité en ligne"],
+  ["other", "Autre"],
+];
 
 export default function DevisPage() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
-  const [services, setServices] = useState<string[]>([]);
   const [servicesOpen, setServicesOpen] = useState(false);
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting: isRHFSubmitting, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      services: [],
+      message: "",
+    },
+  });
+
+  // Watch services to update the placeholder text dynamically
+  const selectedServices = watch("services") || [];
+
+  const {
+    submitForm,
+    isSubmitting: isApiSubmitting,
+    isSuccess,
+    error: apiError,
+  } = useContactForm({
     formId: "custom-quote",
     onSuccess: () => {
       setTimeout(() => {
-        setFullName("");
-        setEmail("");
-        setPhone("");
-        setMessage("");
-        setServices([]);
+        reset();
         setServicesOpen(false);
       }, 5000);
     },
   });
 
-  const toggleService = (key: string) =>
-    setServices((arr) =>
-      arr.includes(key) ? arr.filter((k) => k !== key) : [...arr, key]
-    );
+  const isSubmitting = isRHFSubmitting || isApiSubmitting;
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!fullName || !email) return;
-
-    const getServicesLabels = (keys: string[]) => {
-      const map: Record<string, string> = {
-        site: "Site web",
-        seo: "SEO",
-        content: "Contenu / blog",
-        brand: "Branding / identité",
-        ads: "Publicité en ligne",
-        other: "Autre",
-      };
-      return keys.length > 0
-        ? keys.map((k) => map[k] || k).join(", ")
-        : "Aucun sélectionné";
+  const onSubmit = async (data: FormValues) => {
+    const getServicesLabels = (keys: string[] | undefined) => {
+      if (!keys || keys.length === 0) return "Aucun sélectionné";
+      return keys
+        .map((k) => {
+          const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
+          return found ? found[1] : k;
+        })
+        .join(", ");
     };
 
     await submitForm({
-      "Nom complet": fullName,
-      Email: email,
-      Téléphone: phone || "Non renseigné",
-      "Services demandés": getServicesLabels(services),
-      Message: message || "Aucun message",
+      "Nom complet": data.fullName,
+      Email: data.email,
+      Téléphone: data.phone || "Non renseigné",
+      "Services demandés": getServicesLabels(data.services),
+      Message: data.message || "Aucun message",
       Source: "Demande de devis sur-mesure",
       "Date de soumission": new Date().toLocaleString("fr-FR", {
         timeZone: "Africa/Casablanca",
       }),
     });
   };
-
-  const options: Array<[string, string]> = [
-    ["site", "Site web"],
-    ["seo", "SEO"],
-    ["content", "Contenu / blog"],
-    ["brand", "Branding / identité"],
-    ["ads", "Publicité en ligne"],
-    ["other", "Autre"],
-  ];
 
   if (isSuccess) {
     return (
@@ -81,11 +111,11 @@ export default function DevisPage() {
           <div
             className="qf__success"
             style={{
-              background: "#111",
-              border: "1px solid rgba(255,255,255,0.1)",
-              padding: "60px 24px",
+              background: "#000",
+              border: "2px solid #fff",
+              padding: "40px",
               textAlign: "center",
-              maxWidth: "800px",
+              maxWidth: "900px",
               margin: "0 auto",
               animation: "successFadeIn 0.5s ease-out",
             }}
@@ -100,8 +130,6 @@ export default function DevisPage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                animation:
-                  "iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both",
               }}
             >
               <svg
@@ -119,8 +147,26 @@ export default function DevisPage() {
                 />
               </svg>
             </div>
-            <h2 className="qf__title">DEMANDE REÇUE !</h2>
-            <p className="qf__lead">
+            <h2
+              className="qf__title"
+              style={{
+                color: "#fff",
+                fontSize: "28px",
+                fontWeight: "700",
+                marginBottom: "16px",
+              }}
+            >
+              DEMANDE REÇUE !
+            </h2>
+            <p
+              className="qf__lead"
+              style={{
+                color: "rgba(255, 255, 255, 0.8)",
+                fontSize: "18px",
+                lineHeight: "1.5",
+                marginBottom: 0,
+              }}
+            >
               Notre équipe analyse votre projet. Vous recevrez une offre
               personnalisée sous 48h.
             </p>
@@ -133,16 +179,6 @@ export default function DevisPage() {
                 to {
                   opacity: 1;
                   transform: translateY(0);
-                }
-              }
-              @keyframes iconScale {
-                from {
-                  opacity: 0;
-                  transform: scale(0);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
                 }
               }
             `}</style>
@@ -165,46 +201,52 @@ export default function DevisPage() {
           </p>
         </header>
 
-        <form className="qf__form" onSubmit={onSubmit}>
+        <form className="qf__form" onSubmit={handleSubmit(onSubmit)}>
           <div className="qf__field">
-            <div className="qf__input-wrapper">
+            <div
+              className={`qf__input-wrapper ${errors.fullName ? "error" : ""}`}
+            >
               <input
                 className="qf__input"
                 type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                disabled={isSubmitting}
                 placeholder="PRÉNOM & NOM :"
-                required
+                disabled={isSubmitting}
+                {...register("fullName")}
               />
             </div>
+            {errors.fullName && (
+              <p className="qf__error-msg">{errors.fullName.message}</p>
+            )}
           </div>
 
           <div className="qf__field">
-            <div className="qf__input-wrapper">
+            <div className={`qf__input-wrapper ${errors.email ? "error" : ""}`}>
               <input
                 className="qf__input"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isSubmitting}
                 placeholder="EMAIL :"
-                required
+                disabled={isSubmitting}
+                {...register("email")}
               />
             </div>
+            {errors.email && (
+              <p className="qf__error-msg">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="qf__field">
-            <div className="qf__input-wrapper">
+            <div className={`qf__input-wrapper ${errors.phone ? "error" : ""}`}>
               <input
                 className="qf__input"
                 type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                disabled={isSubmitting}
                 placeholder="TÉLÉPHONE :"
+                disabled={isSubmitting}
+                {...register("phone")}
               />
             </div>
+            {errors.phone && (
+              <p className="qf__error-msg">{errors.phone.message}</p>
+            )}
           </div>
 
           <div className="qf__field">
@@ -216,8 +258,8 @@ export default function DevisPage() {
                 disabled={isSubmitting}
               >
                 <span>
-                  {services.length > 0
-                    ? `${services.length} SÉLECTIONNÉ(S)`
+                  {selectedServices.length > 0
+                    ? `${selectedServices.length} SÉLECTIONNÉ(S)`
                     : "SERVICES DEMANDÉS (CASE À COCHER) :"}
                 </span>
                 <span
@@ -228,15 +270,15 @@ export default function DevisPage() {
 
             <div className={`qf__menu ${servicesOpen ? "is-open" : ""}`}>
               <div className="qf__menuGrid">
-                {options.map(([key, label]) => (
+                {SERVICES_OPTS.map(([key, label]) => (
                   <label key={key} className="qf__option">
                     <span>{label}</span>
                     <input
                       type="checkbox"
+                      value={key}
                       className="qf__check"
-                      checked={services.includes(key)}
-                      onChange={() => toggleService(key)}
                       disabled={isSubmitting}
+                      {...register("services")}
                     />
                   </label>
                 ))}
@@ -248,31 +290,20 @@ export default function DevisPage() {
             <div className="qf__input-wrapper">
               <textarea
                 className="qf__textarea"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                disabled={isSubmitting}
                 placeholder="DÉTAIL OU MESSAGE LIBRE :"
+                disabled={isSubmitting}
+                {...register("message")}
               />
             </div>
           </div>
 
-          {error && (
-            <div
-              style={{
-                color: "#ff4444",
-                fontWeight: "700",
-                marginBottom: "20px",
-              }}
-            >
-              ⚠️ {error}
-            </div>
-          )}
+          {apiError && <div className="qf__error-global">⚠️ {apiError}</div>}
 
           <div className="qf__actions">
             <button
               type="submit"
               className="qf__btn"
-              disabled={!fullName || !email || isSubmitting}
+              disabled={isSubmitting || !isValid}
             >
               {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
             </button>

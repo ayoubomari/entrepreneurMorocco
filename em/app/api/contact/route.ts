@@ -1,5 +1,4 @@
 // app/api/contact/route.ts - Optimized for Hostinger SMTP
-import { Console } from "console";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -47,6 +46,13 @@ const FORM_TEMPLATES: Record<string, any> = {
     color: "#8b5cf6",
     description: "Nouvelle demande de devis personnalisé",
   },
+  "diagnostic-maroc-2030": {
+    title: "Diagnostic Projet Maroc 2030",
+    icon: "https://cdn.jsdelivr.net/npm/lucide@latest/icons/clipboard-check.svg",
+    color: "#e11d48",
+    description:
+      "Nouveau diagnostic complet pour un projet d'installation au Maroc",
+  },
 };
 
 function generateEmailHTML(formId: string, fields: Record<string, any>) {
@@ -56,6 +62,9 @@ function generateEmailHTML(formId: string, fields: Record<string, any>) {
     color: "#ef4444",
     description: "Nouvelle soumission de formulaire",
   };
+
+  // Default to red if template color is missing
+  const themeColor = template.color || "#ef4444";
 
   const fieldsHTML = Object.entries(fields)
     .map(([key, value]) => {
@@ -85,11 +94,12 @@ function generateEmailHTML(formId: string, fields: Record<string, any>) {
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     </head>
     <body style="margin: 0; padding: 20px; font-family: 'Montserrat', Arial, sans-serif; background-color: #000; color: #ffffff;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 650px; margin: 0 auto; background-color: #000; border-radius: 16px; overflow: hidden; border: 2px solid #ef4444;">
+      <!-- Main Table Border Color Updated -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 650px; margin: 0 auto; background-color: #000; border-radius: 16px; overflow: hidden; border: 2px solid ${themeColor};">
         
-        <!-- Header -->
+        <!-- Header Background Color Updated -->
         <tr>
-          <td style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 40px 30px; text-align: center; position: relative;">
+          <td style="background-color: ${themeColor}; padding: 40px 30px; text-align: center; position: relative;">
             <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; font-family: 'Montserrat', Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px;">
               ${template.title}
             </h1>
@@ -99,10 +109,10 @@ function generateEmailHTML(formId: string, fields: Record<string, any>) {
           </td>
         </tr>
 
-        <!-- Info Section with left border accent -->
+        <!-- Info Section Left Border Color Updated -->
         <tr>
           <td style="padding: 30px;">
-            <div style="background-color: #111; border-radius: 12px; border-left: 6px solid #ef4444; padding: 24px; margin-bottom: 30px;">
+            <div style="background-color: #111; border-radius: 12px; border-left: 6px solid ${themeColor}; padding: 24px; margin-bottom: 30px;">
               <p style="margin: 0 0 12px; color: #ffffff; font-size: 14px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 600;">
                 <strong>Reçu le:</strong> ${new Date().toLocaleString("fr-FR", {
                   timeZone: "Africa/Casablanca",
@@ -130,9 +140,9 @@ function generateEmailHTML(formId: string, fields: Record<string, any>) {
           </td>
         </tr>
 
-        <!-- Footer -->
+        <!-- Footer Top Border Color Updated -->
         <tr>
-          <td style="background-color: #111; padding: 30px; text-align: center; border-top: 2px solid #ef4444;">
+          <td style="background-color: #111; padding: 30px; text-align: center; border-top: 2px solid ${themeColor};">
             <p style="margin: 0 0 8px; color: #ffffff; font-size: 18px; font-weight: 700; font-family: 'Montserrat', Arial, sans-serif;">
               Entrepreneurs Morocco
             </p>

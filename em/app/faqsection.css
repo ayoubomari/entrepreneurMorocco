@@ -182,7 +182,7 @@
   border: none;
   background: transparent;
   text-align: left;
-  cursor: pointer;
+  cursor: none;
   transition: background-color 0.2s ease;
 }
 

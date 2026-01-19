@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "libphonenumber-js": "^1.12.34",
     "lucide-react": "^0.534.0",
     "next": "15.4.5",
     "nodemailer": "^7.0.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "zod": "^4.0.17"
+    "react-hook-form": "^7.71.1",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

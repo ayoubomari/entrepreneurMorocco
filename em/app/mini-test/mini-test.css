@@ -37,7 +37,6 @@
   font-size: clamp(32px, 5vw, 40px);
   line-height: 1.1;
   letter-spacing: 0.01em;
-  text-transform: uppercase;
 }
 
 .mt__lead {
@@ -71,7 +70,6 @@
   margin: 0 0 14px;
   font-weight: 800;
   font-size: 24px;
-  text-transform: uppercase;
 }
 
 .mt__group {
@@ -88,7 +86,7 @@
   padding: 12px 0;
   color: var(--mt-fg-dim);
   font-size: 18px;
-  width: 100%; /* Changed from max-width 450px to full width */
+  width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
   cursor: none;
@@ -102,7 +100,7 @@
 
 /* ===== Inputs ===== */
 .mt__inputs {
-  width: 100%; /* Changed from max-width 500px to full width */
+  width: 100%;
   margin: 40px 0 20px;
 }
 
@@ -139,13 +137,11 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 .mt__input::placeholder {
   color: #fff;
   opacity: 1;
   font-weight: 600;
-  text-transform: uppercase;
 }
 
 .mt__input-wrapper:hover,
@@ -153,7 +149,7 @@
   background-color: #fff;
 }
 
-/* ===== Custom Check/Radio ===== */
+/* ===== Custom Check/Radio (Only Radio updated to Circle) ===== */
 .mt__radio,
 .mt__check {
   appearance: none;
@@ -163,11 +159,37 @@
   flex: 0 0 auto;
   position: relative;
   background-color: var(--mt-border);
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
   cursor: none;
+  transition: background-color 0.2s ease;
 }
 
-.mt__radio::before,
+/* RADIO STYLE: Circular Ring with Disk */
+.mt__radio {
+  border-radius: 50%;
+}
+.mt__radio::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background-color: var(--mt-bg);
+  border-radius: 50%;
+  z-index: 1;
+}
+.mt__radio::after {
+  content: "";
+  position: absolute;
+  inset: 5px; /* Creates the Disk space */
+  background-color: #fff;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
+}
+
+/* CHECKBOX STYLE: Original Trapezoidal */
+.mt__check {
+  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
+}
 .mt__check::before {
   content: "";
   position: absolute;
@@ -175,8 +197,6 @@
   background-color: var(--mt-bg);
   clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
 }
-
-.mt__radio::after,
 .mt__check::after {
   content: "";
   position: absolute;
@@ -192,11 +212,18 @@
   transform: scale(1);
 }
 
+.mt__radio:checked,
+.mt__check:checked,
+.mt__radio:hover,
+.mt__check:hover {
+  background-color: #fff;
+}
+
 /* ===== Actions (Right Aligned) ===== */
 .mt__actions {
   margin-top: 32px;
   display: flex;
-  justify-content: flex-end; /* Align button to the right */
+  justify-content: flex-end;
 }
 
 .mt__btn {
@@ -218,13 +245,47 @@
   background: #f5f5f5;
 }
 
+/* NEW: Disabled state */
+.mt__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* NEW: Error States */
+.mt__error-msg {
+  color: #ff6b6b;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.mt__input-wrapper.error {
+  background-color: #ff6b6b;
+}
+
+.mt__input-wrapper.error::before {
+  background-color: #000 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 720px) {
   .mt__wrap {
     padding: 100px 1.25rem 60px;
   }
   .mt__actions {
     justify-content: center;
-  } /* Center on mobile */
+  }
   .mt__btn {
     width: 100%;
   }

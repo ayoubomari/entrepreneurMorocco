@@ -98,16 +98,23 @@ const ContactSection = () => {
 
         {isSuccess ? (
           <div className="cs-success show" role="status" aria-live="polite">
-            <span className="cs-successIcon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18">
-                <path
-                  fill="currentColor"
-                  d="M9.00039 16.2002L4.80039 12.0002L3.40039 13.4002L9.00039 19.0002L21.0004 7.0002L19.6004 5.6002L9.00039 16.2002Z"
-                />
+            <div className="cs-successIconBox">
+              {/* Icon: Simple Checkmark with Stroke */}
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#000"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 6L9 17l-5-5" />
               </svg>
-            </span>
+            </div>
             <div className="cs-successBody">
-              <div className="cs-successTitle">Merci pour votre message !</div>
+              <h2 className="cs-successTitle">MERCI POUR VOTRE MESSAGE !</h2>
               <div className="cs-successText">
                 Notre équipe vous recontactera dans les plus brefs délais.
               </div>

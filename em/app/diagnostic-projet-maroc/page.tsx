@@ -1,118 +1,206 @@
 "use client";
 
-import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./diagnostic-projet-maroc.css";
 import { CloudRedEffect2 } from "@/components/CloudRedEffect";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
+// --- SCHEMA ZOD ---
+const formSchema = z
+  .object({
+    firstName: z.string().min(1, "Le prénom est requis"),
+    lastName: z.string().min(1, "Le nom est requis"),
+    email: z.email("Format d'email invalide"),
+    phone: z.string().refine((val) => {
+      if (!val) return false;
+      const phoneNumber = parsePhoneNumberFromString(val);
+      if (phoneNumber?.isValid()) {
+        return true;
+      }
+      const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
+      return /^\+?\d{6,15}$/.test(cleaned);
+    }, "Numéro de téléphone invalide"),
+
+    // Section 2
+    projectDate: z.string().min(1, "Veuillez sélectionner une date"),
+
+    // Section 3
+    situation: z.string().min(1, "Veuillez sélectionner votre situation"),
+    familyStatus: z
+      .string()
+      .min(1, "Veuillez sélectionner votre statut familial"),
+    childrenCount: z.string().optional(),
+    childrenAges: z.string().optional(),
+
+    // Section 4
+    motivations: z
+      .array(z.string())
+      .min(1, "Sélectionnez au moins une motivation"),
+
+    // Section 5
+    mainSkill: z.string().min(1, "Votre compétence principale est requise"),
+    expYears: z.string().min(1, "Veuillez indiquer vos années d'expérience"),
+    revenueGen: z.string().min(1, "Veuillez indiquer la génération de revenus"),
+
+    // Section 6
+    budget: z.string().min(1, "Veuillez sélectionner un budget"),
+    runway: z.string().min(1, "Veuillez indiquer votre autonomie financière"),
+
+    // Section 7
+    path: z.string().min(1, "Veuillez sélectionner la voie envisagée"),
+
+    // Section 8
+    network: z.string().min(1, "Veuillez indiquer l'état de votre réseau"),
+
+    // Section 9
+    message: z.string().optional(),
+
+    // Section 10
+    callOptIn: z.string().min(1, "Veuillez faire un choix pour l'appel"),
+    availabilities: z.array(z.string()).optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Validation Conditionnelle : Enfants
+    if (data.familyStatus === "famille") {
+      if (!data.childrenCount || data.childrenCount === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["childrenCount"],
+          message: "Veuillez indiquer le nombre d'enfants",
+        });
+      }
+    }
+
+    // Validation Conditionnelle : Disponibilités Appel
+    if (data.callOptIn === "oui") {
+      if (!data.availabilities || data.availabilities.length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["availabilities"],
+          message: "Veuillez sélectionner au moins une disponibilité",
+        });
+      }
+    }
+  });
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function DiagnosticProjectMaroc() {
-  // --- STATE MANAGEMENT ---
-
-  // Section 1: Identity
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-
-  // Section 2: Projection
-  const [projectDate, setProjectDate] = useState("");
-
-  // Section 3: Situation
-  const [situation, setSituation] = useState("");
-  const [familyStatus, setFamilyStatus] = useState(""); // seul, couple, famille
-  const [childrenCount, setChildrenCount] = useState("");
-  const [childrenAges, setChildrenAges] = useState("");
-
-  // Section 4: Motivation (Multi-select)
-  const [motivations, setMotivations] = useState<string[]>([]);
-
-  // Section 5: Competences
-  const [mainSkill, setMainSkill] = useState("");
-  const [expYears, setExpYears] = useState("");
-  const [revenueGen, setRevenueGen] = useState("");
-
-  // Section 6: Finance
-  const [budget, setBudget] = useState("");
-  const [runway, setRunway] = useState("");
-
-  // Section 7: Voie
-  const [path, setPath] = useState("");
-
-  // Section 8: Reseau
-  const [network, setNetwork] = useState("");
-
-  // Section 9: Message
-  const [message, setMessage] = useState("");
-
-  // Section 10: Call Availability
-  const [callOptIn, setCallOptIn] = useState(""); // yes/no
-  const [availabilities, setAvailabilities] = useState<string[]>([]);
-
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
-    formId: "diagnostic-maroc-2030",
-    onSuccess: () => {
-      // Optional: Reset form or redirect
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isValid, isSubmitting: isRHFSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      projectDate: "",
+      situation: "",
+      familyStatus: "",
+      childrenCount: "",
+      childrenAges: "",
+      motivations: [],
+      mainSkill: "",
+      expYears: "",
+      revenueGen: "",
+      budget: "",
+      runway: "",
+      path: "",
+      network: "",
+      message: "",
+      callOptIn: "",
+      availabilities: [],
     },
   });
 
-  // --- HELPERS ---
+  const {
+    submitForm,
+    isSubmitting: isApiSubmitting,
+    isSuccess,
+    error: apiError,
+  } = useContactForm({
+    formId: "diagnostic-maroc-2030",
+    onSuccess: () => {
+      // Logic gérée par l'état isSuccess
+    },
+  });
 
-  const toggleMotivation = (val: string) => {
-    setMotivations((prev) =>
-      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]
-    );
+  const isSubmitting = isRHFSubmitting || isApiSubmitting;
+
+  // Watch pour la logique UI
+  const w = watch();
+
+  // --- HELPERS UI ---
+
+  const handleSetChoice = (field: keyof FormValues, value: string) => {
+    setValue(field, value, { shouldValidate: true });
   };
 
-  const toggleAvailability = (val: string) => {
-    setAvailabilities((prev) =>
-      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]
-    );
+  const toggleArrayItem = (
+    field: "motivations" | "availabilities",
+    val: string
+  ) => {
+    const current = (w[field] as string[]) || [];
+    const next = current.includes(val)
+      ? current.filter((v) => v !== val)
+      : [...current, val];
+    setValue(field, next, { shouldValidate: true });
   };
 
-  // --- SCORING LOGIC ---
-  const calculateScore = () => {
+  // --- LOGIQUE DE SCORING ---
+  const calculateScore = (data: FormValues) => {
     let score = 0;
 
     // 1. Temporalité
-    if (projectDate === "less_3") score += 15;
-    else if (projectDate === "3_6") score += 12;
-    else if (projectDate === "6_12") score += 8;
-    else if (projectDate === "plus_1") score += 5;
+    if (data.projectDate === "moins_3") score += 15;
+    else if (data.projectDate === "3_6") score += 12;
+    else if (data.projectDate === "6_12") score += 8;
+    else if (data.projectDate === "plus_1") score += 5;
 
     // 2. Situation Actuelle
-    if (situation === "entrepreneur" || situation === "freelance") score += 10;
-    else if (situation === "salarie") score += 8;
-    else if (situation === "reconversion") score += 5;
-    else if (situation === "sans") score += 2;
+    if (data.situation === "entrepreneur" || data.situation === "independant")
+      score += 10;
+    else if (data.situation === "salarie") score += 8;
+    else if (data.situation === "reconversion") score += 5;
+    else if (data.situation === "sans_activite") score += 2;
 
     // 3. Compétences & Exp
-    if (expYears === "plus_5") score += 10;
-    else if (expYears === "3_5") score += 8;
-    else if (expYears === "1_3") score += 5;
-    else if (expYears === "less_1") score += 2;
+    if (data.expYears === "plus_5") score += 10;
+    else if (data.expYears === "3_5") score += 8;
+    else if (data.expYears === "1_3") score += 5;
+    else if (data.expYears === "moins_1") score += 2;
 
-    if (revenueGen === "regulier") score += 10;
-    else if (revenueGen === "ponctuel") score += 5;
+    if (data.revenueGen === "regulier") score += 10;
+    else if (data.revenueGen === "ponctuel") score += 5;
 
     // 4. Finances
-    if (budget === "plus_30") score += 10;
-    else if (budget === "15_30") score += 8;
-    else if (budget === "5_15") score += 5;
-    else if (budget === "less_5") score += 2;
+    if (data.budget === "plus_30") score += 10;
+    else if (data.budget === "15_30") score += 8;
+    else if (data.budget === "5_15") score += 5;
+    else if (data.budget === "moins_5") score += 2;
 
-    if (runway === "plus_12") score += 10;
-    else if (runway === "6_12") score += 8;
-    else if (runway === "3_6") score += 5;
-    else if (runway === "less_3") score += 2;
+    if (data.runway === "plus_12") score += 10;
+    else if (data.runway === "6_12") score += 8;
+    else if (data.runway === "3_6") score += 5;
+    else if (data.runway === "moins_3") score += 2;
 
     // 5. Voie envisagée
-    if (path === "creation" || path === "invest") score += 15;
-    else if (path === "freelance") score += 12;
-    else if (path === "salariat") score += 10;
+    if (data.path === "creation" || data.path === "investissement") score += 15;
+    else if (data.path === "independant") score += 12;
+    else if (data.path === "salariat") score += 10;
 
     // 6. Réseau
-    if (network === "solide") score += 20;
-    else if (network === "contacts") score += 10;
+    if (data.network === "solide") score += 20;
+    else if (data.network === "contacts") score += 10;
 
     return Math.min(score, 100);
   };
@@ -123,87 +211,64 @@ export default function DiagnosticProjectMaroc() {
     return "Projet à Risque";
   };
 
-  // --- SUBMISSION LOGIC ---
-  // 1. Conditional Validation
-  const isFamilyValid =
-    familyStatus === "famille" ? childrenCount !== "" : true;
-  const isCallValid = callOptIn === "yes" ? availabilities.length > 0 : true;
-
-  const canSubmit =
-    firstName &&
-    lastName &&
-    email &&
-    phone &&
-    projectDate &&
-    situation &&
-    familyStatus &&
-    isFamilyValid && // Checks conditional requirements
-    motivations.length > 0 &&
-    mainSkill &&
-    expYears &&
-    revenueGen &&
-    budget &&
-    runway &&
-    path &&
-    network &&
-    callOptIn &&
-    isCallValid; // Checks conditional requirements
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!canSubmit) return;
-
-    const finalScore = calculateScore();
+  const onSubmit = async (data: FormValues) => {
+    const finalScore = calculateScore(data);
     const scoreLabel = getScoreLabel(finalScore);
 
-    // 2. Prepare Payload with Safe Defaults
     const payload = {
-      Prénom: firstName,
-      Nom: lastName,
-      Email: email,
-      "Téléphone (WhatsApp)": phone,
+      Prénom: data.firstName,
+      Nom: data.lastName,
+      Email: data.email,
+      "Téléphone (WhatsApp)": data.phone,
 
       // Section 2
-      "Date installation": projectDate,
+      "Date installation": data.projectDate,
 
       // Section 3
-      "Situation actuelle": situation,
-      "Projet Family": familyStatus,
-      // CONDITIONAL LOGIC: If 'famille' not selected, send "Non concerné"
+      "Situation actuelle": data.situation,
+      "Statut Familial": data.familyStatus,
       "Nombre enfants":
-        familyStatus === "famille" ? childrenCount : "Non concerné",
+        data.familyStatus === "famille"
+          ? data.childrenCount || "Non précisé"
+          : "Non concerné",
       "Ages enfants":
-        familyStatus === "famille" ? childrenAges || "Non précisé" : "N/A",
+        data.familyStatus === "famille"
+          ? data.childrenAges || "Non précisé"
+          : "N/A",
 
       // Section 4
-      Motivations: motivations.join(", "),
+      Motivations: data.motivations.join(", "),
 
       // Section 5
-      "Compétence principale": mainSkill,
-      "Années expérience": expYears,
-      "Revenus générés": revenueGen,
+      "Compétence principale": data.mainSkill,
+      "Années expérience": data.expYears,
+      "Revenus générés": data.revenueGen,
 
       // Section 6
-      "Budget projet": budget,
-      "Autonomie financière": runway,
+      "Budget projet": data.budget,
+      "Autonomie financière": data.runway,
 
       // Section 7
-      "Voie envisagée": path,
+      "Voie envisagée": data.path,
 
       // Section 8
-      "Réseau Maroc": network,
+      "Réseau Maroc": data.network,
 
       // Section 9
-      Message: message || "Aucun",
+      Message: data.message || "Aucun",
 
-      // Section 10 - CONDITIONAL LOGIC
-      "Appel offert demandé": callOptIn,
+      // Section 10
+      "Appel offert demandé": data.callOptIn,
       "Disponibilités appel":
-        callOptIn === "yes" ? availabilities.join(", ") : "N/A",
+        data.callOptIn === "oui" &&
+        data.availabilities &&
+        data.availabilities.length > 0
+          ? data.availabilities.join(", ")
+          : "N/A",
 
       // Scoring & Metadata
       "SCORE DIAGNOSTIC": `${finalScore}/100`,
-      "": scoreLabel,
+      Resultat: scoreLabel,
       Source: "Formulaire Diagnostic Projet Maroc 2030",
       "Date de soumission": new Date().toLocaleString("fr-FR", {
         timeZone: "Africa/Casablanca",
@@ -218,8 +283,29 @@ export default function DiagnosticProjectMaroc() {
       <main className="dpm relative overflow-hidden">
         <CloudRedEffect2 />
         <div className="dpm__wrap">
-          <div className="dpm__success">
-            <div className="dpm__success-icon">
+          <div
+            className="dpm__success"
+            style={{
+              background: "#000",
+              border: "2px solid #fff",
+              padding: "40px",
+              textAlign: "center",
+              maxWidth: "900px",
+              margin: "0 auto",
+            }}
+          >
+            <div
+              style={{
+                width: "64px",
+                height: "64px",
+                background: "#fff",
+                borderRadius: "50%",
+                margin: "0 auto 24px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <svg
                 width="32"
                 height="32"
@@ -235,11 +321,27 @@ export default function DiagnosticProjectMaroc() {
                 />
               </svg>
             </div>
-            <h2 className="dpm__title">Diagnostic envoyé !</h2>
-            <p className="dpm__lead">
-              Merci {firstName}. Votre score a été calculé. Vous recevrez votre
-              synthèse par email d'ici quelques minutes.
-              {callOptIn === "yes" &&
+            <h2
+              style={{
+                color: "#fff",
+                fontSize: "28px",
+                fontWeight: "700",
+                margin: "0 0 16px",
+              }}
+            >
+              Diagnostic envoyé !
+            </h2>
+            <p
+              style={{
+                color: "rgba(255, 255, 255, 0.8)",
+                fontSize: "18px",
+                lineHeight: "1.5",
+              }}
+            >
+              Merci {w.firstName}. Nous allons maintenant analyser vos réponses
+              pour établir votre score. Vous recevrez votre synthèse par email
+              d'ici quelques minutes.
+              {w.callOptIn === "oui" &&
                 " Notre équipe vous contactera sur WhatsApp pour convenir du rendez-vous."}
             </p>
           </div>
@@ -263,8 +365,7 @@ export default function DiagnosticProjectMaroc() {
           </p>
         </header>
 
-        <form className="dpm__form" onSubmit={onSubmit}>
-          {/* TECHNICAL HIDDEN INPUT */}
+        <form className="dpm__form" onSubmit={handleSubmit(onSubmit)}>
           <input
             type="hidden"
             name="spec_technique"
@@ -276,58 +377,86 @@ export default function DiagnosticProjectMaroc() {
             <h3 className="dpm__section-title">1. Informations personnelles</h3>
             <div className="dpm__grid-2">
               <div className="dpm__field">
-                <div className="dpm__input-wrapper">
+                <div
+                  className={`dpm__input-wrapper ${
+                    errors.firstName ? "error" : ""
+                  }`}
+                >
                   <input
                     className="dpm__input"
                     type="text"
                     placeholder="PRÉNOM *"
-                    required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    {...register("firstName")}
                     disabled={isSubmitting}
                   />
                 </div>
+                {errors.firstName && (
+                  <div className="dpm__error" style={{ textAlign: "left" }}>
+                    {errors.firstName.message}
+                  </div>
+                )}
               </div>
               <div className="dpm__field">
-                <div className="dpm__input-wrapper">
+                <div
+                  className={`dpm__input-wrapper ${
+                    errors.lastName ? "error" : ""
+                  }`}
+                >
                   <input
                     className="dpm__input"
                     type="text"
                     placeholder="NOM *"
-                    required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    {...register("lastName")}
                     disabled={isSubmitting}
                   />
                 </div>
+                {errors.lastName && (
+                  <div className="dpm__error" style={{ textAlign: "left" }}>
+                    {errors.lastName.message}
+                  </div>
+                )}
               </div>
             </div>
             <div className="dpm__grid-2">
               <div className="dpm__field">
-                <div className="dpm__input-wrapper">
+                <div
+                  className={`dpm__input-wrapper ${
+                    errors.email ? "error" : ""
+                  }`}
+                >
                   <input
                     className="dpm__input"
                     type="email"
                     placeholder="ADRESSE E-MAIL *"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email")}
                     disabled={isSubmitting}
                   />
                 </div>
+                {errors.email && (
+                  <div className="dpm__error" style={{ textAlign: "left" }}>
+                    {errors.email.message}
+                  </div>
+                )}
               </div>
               <div className="dpm__field">
-                <div className="dpm__input-wrapper">
+                <div
+                  className={`dpm__input-wrapper ${
+                    errors.phone ? "error" : ""
+                  }`}
+                >
                   <input
                     className="dpm__input"
                     type="tel"
                     placeholder="TÉLÉPHONE (WHATSAPP) *"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    {...register("phone")}
                     disabled={isSubmitting}
                   />
                 </div>
+                {errors.phone && (
+                  <div className="dpm__error" style={{ textAlign: "left" }}>
+                    {errors.phone.message}
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -340,24 +469,27 @@ export default function DiagnosticProjectMaroc() {
             </p>
             <div className="dpm__options-grid">
               {[
-                ["less_3", "Moins de 3 mois"],
+                ["moins_3", "Moins de 3 mois"],
                 ["3_6", "Entre 3 et 6 mois"],
                 ["6_12", "Entre 6 et 12 mois"],
                 ["plus_1", "Plus d’un an"],
-                ["dk", "Je ne sais pas encore"],
+                ["nsp", "Je ne sais pas encore"],
               ].map(([val, label]) => (
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    projectDate === val ? "is-selected" : ""
+                    w.projectDate === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setProjectDate(val)}
+                  onClick={() => handleSetChoice("projectDate", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.projectDate && (
+              <div className="dpm__error">{errors.projectDate.message}</div>
+            )}
           </section>
 
           {/* SECTION 3 */}
@@ -369,22 +501,25 @@ export default function DiagnosticProjectMaroc() {
               {[
                 ["salarie", "Salarié"],
                 ["entrepreneur", "Entrepreneur"],
-                ["freelance", "Freelance"],
+                ["independant", "Freelance / Indépendant"],
                 ["reconversion", "En reconversion"],
-                ["sans", "Sans activité"],
+                ["sans_activite", "Sans activité"],
               ].map(([val, label]) => (
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    situation === val ? "is-selected" : ""
+                    w.situation === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setSituation(val)}
+                  onClick={() => handleSetChoice("situation", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.situation && (
+              <div className="dpm__error">{errors.situation.message}</div>
+            )}
 
             <p className="dpm__label mt-6">
               Ton projet d’installation est-il prévu… *
@@ -398,17 +533,20 @@ export default function DiagnosticProjectMaroc() {
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    familyStatus === val ? "is-selected" : ""
+                    w.familyStatus === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setFamilyStatus(val)}
+                  onClick={() => handleSetChoice("familyStatus", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.familyStatus && (
+              <div className="dpm__error">{errors.familyStatus.message}</div>
+            )}
 
-            {familyStatus === "famille" && (
+            {w.familyStatus === "famille" && (
               <div className="dpm__sub-group">
                 <p className="dpm__label">
                   Combien d’enfants feront partie du projet ? *
@@ -423,15 +561,20 @@ export default function DiagnosticProjectMaroc() {
                     <div
                       key={opt}
                       className={`dpm__option-card ${
-                        childrenCount === opt ? "is-selected" : ""
+                        w.childrenCount === opt ? "is-selected" : ""
                       }`}
-                      onClick={() => setChildrenCount(opt)}
+                      onClick={() => handleSetChoice("childrenCount", opt)}
                     >
                       <span>{opt}</span>
                       <div className="dpm__card-radio" />
                     </div>
                   ))}
                 </div>
+                {errors.childrenCount && (
+                  <div className="dpm__error">
+                    {errors.childrenCount.message}
+                  </div>
+                )}
 
                 <div className="dpm__field mt-4">
                   <div className="dpm__input-wrapper">
@@ -439,8 +582,7 @@ export default function DiagnosticProjectMaroc() {
                       className="dpm__input"
                       type="text"
                       placeholder="ÂGE DES ENFANTS (EX: 3 ANS, 7 ANS) FACULTATIF"
-                      value={childrenAges}
-                      onChange={(e) => setChildrenAges(e.target.value)}
+                      {...register("childrenAges")}
                     />
                   </div>
                 </div>
@@ -448,7 +590,7 @@ export default function DiagnosticProjectMaroc() {
             )}
           </section>
 
-          {/* SECTION 4 (CHECKBOXES) */}
+          {/* SECTION 4 */}
           <section className="dpm__section">
             <h3 className="dpm__section-title">4. Motivation</h3>
             <p className="dpm__label">
@@ -466,31 +608,41 @@ export default function DiagnosticProjectMaroc() {
                 <div
                   key={opt}
                   className={`dpm__option-card ${
-                    motivations.includes(opt) ? "is-selected" : ""
+                    w.motivations?.includes(opt) ? "is-selected" : ""
                   }`}
-                  onClick={() => toggleMotivation(opt)}
+                  onClick={() => toggleArrayItem("motivations", opt)}
                 >
                   <span>{opt}</span>
                   <div className="dpm__card-radio is-checkbox" />
                 </div>
               ))}
             </div>
+            {errors.motivations && (
+              <div className="dpm__error">{errors.motivations.message}</div>
+            )}
           </section>
 
           {/* SECTION 5 */}
           <section className="dpm__section">
             <h3 className="dpm__section-title">5. Compétences & expérience</h3>
             <div className="dpm__field mb-6">
-              <div className="dpm__input-wrapper">
+              <div
+                className={`dpm__input-wrapper ${
+                  errors.mainSkill ? "error" : ""
+                }`}
+              >
                 <input
                   className="dpm__input"
                   type="text"
                   placeholder="QUELLE EST TA COMPÉTENCE OU ACTIVITÉ PRINCIPALE ? *"
-                  required
-                  value={mainSkill}
-                  onChange={(e) => setMainSkill(e.target.value)}
+                  {...register("mainSkill")}
                 />
               </div>
+              {errors.mainSkill && (
+                <div className="dpm__error" style={{ textAlign: "left" }}>
+                  {errors.mainSkill.message}
+                </div>
+              )}
             </div>
 
             <p className="dpm__label">
@@ -498,7 +650,7 @@ export default function DiagnosticProjectMaroc() {
             </p>
             <div className="dpm__options-grid mb-6">
               {[
-                ["less_1", "Moins d’1 an"],
+                ["moins_1", "Moins d’1 an"],
                 ["1_3", "1 à 3 ans"],
                 ["3_5", "3 à 5 ans"],
                 ["plus_5", "Plus de 5 ans"],
@@ -506,15 +658,18 @@ export default function DiagnosticProjectMaroc() {
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    expYears === val ? "is-selected" : ""
+                    w.expYears === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setExpYears(val)}
+                  onClick={() => handleSetChoice("expYears", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.expYears && (
+              <div className="dpm__error">{errors.expYears.message}</div>
+            )}
 
             <p className="dpm__label">
               As-tu déjà généré des revenus avec cette compétence ? *
@@ -523,20 +678,23 @@ export default function DiagnosticProjectMaroc() {
               {[
                 ["regulier", "Oui, de manière régulière"],
                 ["ponctuel", "Oui, ponctuellement"],
-                ["none", "Non, pas encore"],
+                ["aucun", "Non, pas encore"],
               ].map(([val, label]) => (
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    revenueGen === val ? "is-selected" : ""
+                    w.revenueGen === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setRevenueGen(val)}
+                  onClick={() => handleSetChoice("revenueGen", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.revenueGen && (
+              <div className="dpm__error">{errors.revenueGen.message}</div>
+            )}
           </section>
 
           {/* SECTION 6 */}
@@ -550,7 +708,7 @@ export default function DiagnosticProjectMaroc() {
             </p>
             <div className="dpm__options-grid mb-6">
               {[
-                ["less_5", "Moins de 5k€"],
+                ["moins_5", "Moins de 5k€"],
                 ["5_15", "5k€ - 15k€"],
                 ["15_30", "15k€ - 30k€"],
                 ["plus_30", "Plus de 30k€"],
@@ -558,22 +716,25 @@ export default function DiagnosticProjectMaroc() {
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    budget === val ? "is-selected" : ""
+                    w.budget === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setBudget(val)}
+                  onClick={() => handleSetChoice("budget", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.budget && (
+              <div className="dpm__error">{errors.budget.message}</div>
+            )}
 
             <p className="dpm__label">
               Combien de mois peux-tu vivre sans revenu ? *
             </p>
             <div className="dpm__options-grid">
               {[
-                ["less_3", "Moins de 3 mois"],
+                ["moins_3", "Moins de 3 mois"],
                 ["3_6", "3 à 6 mois"],
                 ["6_12", "6 à 12 mois"],
                 ["plus_12", "Plus de 12 mois"],
@@ -581,15 +742,18 @@ export default function DiagnosticProjectMaroc() {
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    runway === val ? "is-selected" : ""
+                    w.runway === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setRunway(val)}
+                  onClick={() => handleSetChoice("runway", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.runway && (
+              <div className="dpm__error">{errors.runway.message}</div>
+            )}
           </section>
 
           {/* SECTION 7 */}
@@ -599,23 +763,26 @@ export default function DiagnosticProjectMaroc() {
             <div className="dpm__options-grid">
               {[
                 ["salariat", "Salariat"],
-                ["freelance", "Freelance"],
+                ["independant", "Freelance / Indépendant"],
                 ["creation", "Création d’entreprise"],
-                ["invest", "Investissement"],
-                ["dk", "Je ne sais pas encore"],
+                ["investissement", "Investissement"],
+                ["nsp", "Je ne sais pas encore"],
               ].map(([val, label]) => (
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    path === val ? "is-selected" : ""
+                    w.path === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setPath(val)}
+                  onClick={() => handleSetChoice("path", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.path && (
+              <div className="dpm__error">{errors.path.message}</div>
+            )}
           </section>
 
           {/* SECTION 8 */}
@@ -628,20 +795,23 @@ export default function DiagnosticProjectMaroc() {
               {[
                 ["solide", "Oui, un réseau solide"],
                 ["contacts", "Oui, quelques contacts"],
-                ["none", "Non, aucun"],
+                ["aucun", "Non, aucun"],
               ].map(([val, label]) => (
                 <div
                   key={val}
                   className={`dpm__option-card ${
-                    network === val ? "is-selected" : ""
+                    w.network === val ? "is-selected" : ""
                   }`}
-                  onClick={() => setNetwork(val)}
+                  onClick={() => handleSetChoice("network", val)}
                 >
                   <span>{label}</span>
                   <div className="dpm__card-radio" />
                 </div>
               ))}
             </div>
+            {errors.network && (
+              <div className="dpm__error">{errors.network.message}</div>
+            )}
           </section>
 
           {/* SECTION 9 */}
@@ -652,8 +822,7 @@ export default function DiagnosticProjectMaroc() {
                 <textarea
                   className="dpm__textarea"
                   placeholder="SOUHAITES-TU NOUS PRÉCISER QUELQUE CHOSE SUR TON PROJET ?"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  {...register("message")}
                 />
               </div>
             </div>
@@ -668,18 +837,18 @@ export default function DiagnosticProjectMaroc() {
             <div className="dpm__options-grid">
               <div
                 className={`dpm__option-card ${
-                  callOptIn === "yes" ? "is-selected" : ""
+                  w.callOptIn === "oui" ? "is-selected" : ""
                 }`}
-                onClick={() => setCallOptIn("yes")}
+                onClick={() => handleSetChoice("callOptIn", "oui")}
               >
                 <span>Oui, je souhaite échanger lors d’un appel offert</span>
                 <div className="dpm__card-radio" />
               </div>
               <div
                 className={`dpm__option-card ${
-                  callOptIn === "no" ? "is-selected" : ""
+                  w.callOptIn === "non" ? "is-selected" : ""
                 }`}
-                onClick={() => setCallOptIn("no")}
+                onClick={() => handleSetChoice("callOptIn", "non")}
               >
                 <span>
                   Pas pour le moment, je souhaite d’abord recevoir mon
@@ -688,8 +857,11 @@ export default function DiagnosticProjectMaroc() {
                 <div className="dpm__card-radio" />
               </div>
             </div>
+            {errors.callOptIn && (
+              <div className="dpm__error">{errors.callOptIn.message}</div>
+            )}
 
-            {callOptIn === "yes" && (
+            {w.callOptIn === "oui" && (
               <div className="dpm__sub-group mt-6">
                 <p className="dpm__label">
                   Quelles sont tes disponibilités pour cet appel ? *
@@ -704,26 +876,31 @@ export default function DiagnosticProjectMaroc() {
                     <div
                       key={opt}
                       className={`dpm__option-card ${
-                        availabilities.includes(opt) ? "is-selected" : ""
+                        w.availabilities?.includes(opt) ? "is-selected" : ""
                       }`}
-                      onClick={() => toggleAvailability(opt)}
+                      onClick={() => toggleArrayItem("availabilities", opt)}
                     >
                       <span>{opt}</span>
                       <div className="dpm__card-radio is-checkbox" />
                     </div>
                   ))}
                 </div>
+                {errors.availabilities && (
+                  <div className="dpm__error">
+                    {errors.availabilities.message}
+                  </div>
+                )}
               </div>
             )}
           </section>
 
-          {error && <div className="dpm__error">⚠️ {error}</div>}
+          {apiError && <div className="dpm__error">⚠️ {apiError}</div>}
 
           <div className="dpm__actions">
             <button
               type="submit"
               className="dpm__btn"
-              disabled={!canSubmit || isSubmitting}
+              disabled={!isValid || isSubmitting}
             >
               {isSubmitting
                 ? "Analyse en cours..."

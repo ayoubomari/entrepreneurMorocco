@@ -1,81 +1,114 @@
 "use client";
 
-import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./commencez-un-projet.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
+// 1. Define Zod Schema
+const formSchema = z.object({
+  profile: z.string().min(1, "Veuillez sélectionner un profil."),
+  stage: z.string().min(1, "Veuillez indiquer l'étape du projet."),
+  needs: z.array(z.string()).optional(),
+  email: z.email("Format d'email invalide"),
+  phone: z.string().refine((val) => {
+    if (!val) return true;
+    const phoneNumber = parsePhoneNumberFromString(val);
+    if (phoneNumber?.isValid()) {
+      return true;
+    }
+    const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
+    return /^\+?\d{6,15}$/.test(cleaned);
+  }, "Numéro de téléphone invalide"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+const PROFIL_OPTS: [string, string][] = [
+  ["mre", "Marocain du monde"],
+  ["freelance", "Freelance"],
+  ["family", "Famille en retour"],
+  ["invest", "Investisseur"],
+  ["reconv", "En reconversion"],
+];
+
+const STAGE_OPTS: [string, string][] = [
+  ["idea", "J'ai une idée"],
+  ["prep", "Je prépare mon départ"],
+  ["launch", "Je veux lancer mon activité"],
+  ["structure", "J'ai déjà une structure"],
+];
+
+const NEEDS_OPTS: [string, string][] = [
+  ["creation", "Création d'entreprise"],
+  ["tax", "Fiscalité / Statut"],
+  ["housing", "Séjour / logement"],
+  ["digital", "Digitalisation"],
+  ["school", "Scolarité / santé"],
+];
 
 export default function CommencezUnProjetPage() {
-  const [profile, setProfile] = useState<string | null>(null);
-  const [stage, setStage] = useState<string | null>(null);
-  const [needs, setNeeds] = useState<string[]>([]);
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    // 👇 CHANGE 1: Destructure `isValid` here
+    formState: { errors, isSubmitting: isRHFSubmitting, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    // 👇 CHANGE 2: Set mode to "onChange" for real-time validation checks
+    mode: "onChange",
+    defaultValues: {
+      needs: [],
+      email: "",
+      phone: "",
+    },
+  });
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
+  const {
+    submitForm,
+    isSubmitting: isApiSubmitting,
+    isSuccess,
+    error: apiError,
+  } = useContactForm({
     formId: "profile-quiz",
     onSuccess: () => {
       setTimeout(() => {
-        setProfile(null);
-        setStage(null);
-        setNeeds([]);
-        setEmail("");
-        setPhone("");
+        reset();
       }, 3000);
     },
   });
 
-  const canSubmit = !!email.trim();
+  const isSubmitting = isRHFSubmitting || isApiSubmitting;
 
-  const toggleNeed = (key: string) =>
-    setNeeds((arr) =>
-      arr.includes(key) ? arr.filter((k) => k !== key) : [...arr, key]
-    );
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!canSubmit) return;
-
-    const getProfileLabel = (key: string | null) => {
-      const map: Record<string, string> = {
-        mre: "Marocain du monde",
-        freelance: "Freelance",
-        family: "Famille en retour",
-        invest: "Investisseur",
-        reconv: "En reconversion",
-      };
-      return key ? map[key] : "Non renseigné";
+  const onSubmit = async (data: FormValues) => {
+    const getLabel = (
+      key: string | null | undefined,
+      map: [string, string][]
+    ) => {
+      const found = map.find(([k]) => k === key);
+      return found ? found[1] : "Non renseigné";
     };
 
-    const getStageLabel = (key: string | null) => {
-      const map: Record<string, string> = {
-        idea: "J'ai une idée",
-        prep: "Je prépare mon départ",
-        launch: "Je veux lancer mon activité",
-        structure: "J'ai déjà une structure",
-      };
-      return key ? map[key] : "Non renseigné";
-    };
-
-    const getNeedsLabels = (keys: string[]) => {
-      const map: Record<string, string> = {
-        creation: "Création d'entreprise",
-        tax: "Fiscalité / Statut",
-        housing: "Séjour / logement",
-        digital: "Digitalisation",
-        school: "Scolarité / santé",
-      };
-      return keys.length > 0
-        ? keys.map((k) => map[k] || k).join(", ")
-        : "Aucun besoin sélectionné";
+    const getNeedsLabels = (keys: string[] | undefined) => {
+      if (!keys || keys.length === 0) return "Aucun besoin sélectionné";
+      return keys
+        .map((k) => {
+          const found = NEEDS_OPTS.find(([optKey]) => optKey === k);
+          return found ? found[1] : k;
+        })
+        .join(", ");
     };
 
     await submitForm({
-      Email: email,
-      Téléphone: phone || "Non renseigné",
-      Profil: getProfileLabel(profile),
-      "Étape du projet": getStageLabel(stage),
-      "Besoins d'accompagnement": getNeedsLabels(needs),
+      Email: data.email,
+      Téléphone: data.phone || "Non renseigné",
+      Profil: getLabel(data.profile, PROFIL_OPTS),
+      "Étape du projet": getLabel(data.stage, STAGE_OPTS),
+      "Besoins d'accompagnement": getNeedsLabels(data.needs),
       "Date de soumission": new Date().toLocaleString("fr-FR", {
         timeZone: "Africa/Casablanca",
         year: "numeric",
@@ -88,29 +121,6 @@ export default function CommencezUnProjetPage() {
     });
   };
 
-  const PROFIL_OPTS: [string, string][] = [
-    ["mre", "Marocain du monde"],
-    ["freelance", "Freelance"],
-    ["family", "Famille en retour"],
-    ["invest", "Investisseur"],
-    ["reconv", "En reconversion"],
-  ];
-
-  const STAGE_OPTS: [string, string][] = [
-    ["idea", "J'ai une idée"],
-    ["prep", "Je prépare mon départ"],
-    ["launch", "Je veux lancer mon activité"],
-    ["structure", "J'ai déjà une structure"],
-  ];
-
-  const NEEDS_OPTS: [string, string][] = [
-    ["creation", "Création d'entreprise"],
-    ["tax", "Fiscalité / Statut"],
-    ["housing", "Séjour / logement"],
-    ["digital", "Digitalisation"],
-    ["school", "Scolarité / santé"],
-  ];
-
   if (isSuccess) {
     return (
       <main className="cproj relative overflow-hidden">
@@ -120,8 +130,8 @@ export default function CommencezUnProjetPage() {
           <div
             className="cproj__success"
             style={{
-              background: "#1a1a1a",
-              border: "2px solid #ef4444",
+              background: "#000",
+              border: "2px solid #fff",
               padding: "40px",
               textAlign: "center",
               maxWidth: "900px",
@@ -132,7 +142,7 @@ export default function CommencezUnProjetPage() {
               style={{
                 width: "64px",
                 height: "64px",
-                background: "#ef4444",
+                background: "#fff",
                 borderRadius: "50%",
                 margin: "0 auto 24px",
                 display: "flex",
@@ -145,7 +155,7 @@ export default function CommencezUnProjetPage() {
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#fff"
+                stroke="#000"
                 strokeWidth="3"
               >
                 <path
@@ -194,7 +204,7 @@ export default function CommencezUnProjetPage() {
           </p>
         </header>
 
-        <form className="cproj__form" onSubmit={onSubmit}>
+        <form className="cproj__form" onSubmit={handleSubmit(onSubmit)}>
           <section className="cproj__block">
             <div className="cproj__qtitle">1. Quel est votre profil ?</div>
             <div className="cproj__group">
@@ -208,17 +218,20 @@ export default function CommencezUnProjetPage() {
                   <input
                     id={`profile-${key}`}
                     type="radio"
-                    name="profile"
+                    value={key}
                     className="cproj__radio"
-                    checked={profile === key}
-                    onChange={() => setProfile(key)}
                     disabled={isSubmitting}
+                    {...register("profile")}
                   />
                 </label>
               ))}
             </div>
+            {errors.profile && (
+              <p className="cproj__error-msg">{errors.profile.message}</p>
+            )}
           </section>
 
+          {/* Section 2: Stage */}
           <section className="cproj__block">
             <div className="cproj__group">
               <div className="cproj__qtitle">
@@ -234,17 +247,20 @@ export default function CommencezUnProjetPage() {
                   <input
                     id={`stage-${key}`}
                     type="radio"
-                    name="stage"
+                    value={key}
                     className="cproj__radio"
-                    checked={stage === key}
-                    onChange={() => setStage(key)}
                     disabled={isSubmitting}
+                    {...register("stage")}
                   />
                 </label>
               ))}
             </div>
+            {errors.stage && (
+              <p className="cproj__error-msg">{errors.stage.message}</p>
+            )}
           </section>
 
+          {/* Section 3: Needs */}
           <section className="cproj__block">
             <div className="cproj__group">
               <div className="cproj__qtitle">
@@ -256,64 +272,59 @@ export default function CommencezUnProjetPage() {
                   <input
                     id={`need-${key}`}
                     type="checkbox"
+                    value={key}
                     className="cproj__check"
-                    checked={needs.includes(key)}
-                    onChange={() => toggleNeed(key)}
                     disabled={isSubmitting}
+                    {...register("needs")}
                   />
                 </label>
               ))}
             </div>
           </section>
 
+          {/* Inputs: Email & Phone */}
           <div className="cproj__inputs">
             <div className="cproj__inputRow">
-              <div className="cproj__input-wrapper">
+              <div
+                className={`cproj__input-wrapper ${
+                  errors.email ? "error" : ""
+                }`}
+              >
                 <input
                   type="email"
                   className="cproj__input"
                   placeholder="EMAIL (OBLIGATOIRE) :"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                   disabled={isSubmitting}
-                  required
+                  {...register("email")}
                 />
               </div>
+              {errors.email && (
+                <p className="cproj__error-msg">{errors.email.message}</p>
+              )}
             </div>
+
             <div className="cproj__inputRow">
               <div className="cproj__input-wrapper">
                 <input
                   type="tel"
                   className="cproj__input"
                   placeholder="TÉLÉPHONE (OPTIONNEL) :"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
                   autoComplete="tel"
                   disabled={isSubmitting}
+                  {...register("phone")}
                 />
               </div>
             </div>
           </div>
 
-          {error && (
-            <div
-              style={{
-                color: "#fca5a5",
-                fontSize: "14px",
-                margin: "16px 0",
-                textAlign: "center",
-              }}
-            >
-              ⚠️ {error}
-            </div>
-          )}
+          {apiError && <div className="cproj__error-global">⚠️ {apiError}</div>}
 
           <div className="cproj__actions">
             <button
               type="submit"
               className="cproj__btn"
-              disabled={!canSubmit || isSubmitting}
+              disabled={isSubmitting || !isValid}
             >
               {isSubmitting
                 ? "Envoi en cours..."
