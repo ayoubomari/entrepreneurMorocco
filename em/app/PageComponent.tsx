@@ -605,17 +605,17 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      name: "Youssef El Amrani, Consultant digital",
-      subtitle: "Bruxelles → Casablanca | Installé depuis avril 2024",
+      name: "Youssef E., Bruxelles → Casablanca",
+      subtitle: "Consultant digital, installé depuis avril 2024",
       content:
-        "J'étais salarié à Bruxelles dans un domaine qui ne me passionnait plus.\nGrâce à l'accompagnement d'Entrepreneurs Morocco, j'ai pu structurer un vrai projet, créer mon entreprise à distance, et m'installer à Casablanca en moins de 2 mois.\nAujourd'hui, je vis de mon activité et je me sens enfin à ma place.",
+        "Je voulais quitter le salariat, mais j'avais besoin d'un cadre pour me lancer. J'ai pu tout gérer à distance : structuration du projet et création de la société. En moins de 2 mois, j'étais opérationnel à Casablanca.",
       rating: 5,
     },
     {
-      name: "Nadia & Karim B., Couple\nfranco-marocain",
-      subtitle: "Paris → Marrakech | Installés depuis septembre 2023",
+      name: "Nadia & Karim, Paris → Marrakech",
+      subtitle: "Couple franco-marocain, installés depuis sept. 2023",
       content:
-        "On voulait revenir vivre au Maroc avec notre fille, mais on avait peur des démarches et de la scolarisation.\nGrâce au Pack Family, tout a été pris en charge : logement, école AEFE, démarches pour la carte de séjour...\nOn a même eu un accueil VIP à l'aéroport.\nRien à redire !",
+        "Le retour avec notre fille nous angoissait, surtout pour l'école et les papiers. Finalement, tout a été pris en charge : logement, inscription scolaire et cartes de séjour. Une installation clé en main, sans aucun stress.",
       rating: 5,
     },
   ];
@@ -835,13 +835,13 @@ const PodcastSection = () => {
         video: "/videos/reel-20.mp4",
       },
     ],
-    []
+    [],
   );
 
   const COPIES = 1;
   const items = useMemo(
     () => Array.from({ length: COPIES }).flatMap(() => base),
-    [base]
+    [base],
   );
 
   const trackRef = useRef<HTMLDivElement>(null);
