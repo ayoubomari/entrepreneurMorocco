@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./commencez-un-projet.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { parsePhoneToE164 } from "@/lib/phone-utils";
 
 // 1. Define Zod Schema
 const formSchema = z.object({
@@ -15,14 +16,9 @@ const formSchema = z.object({
   needs: z.array(z.string()).optional(),
   email: z.email("Format d'email invalide"),
   phone: z.string().refine((val) => {
-    if (!val) return true;
-    const phoneNumber = parsePhoneNumberFromString(val);
-    if (phoneNumber?.isValid()) {
-      return true;
-    }
-    const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
-    return /^\+?\d{6,15}$/.test(cleaned);
-  }, "Numéro de téléphone invalide"),
+    if (!val) return true; // Optional field
+    return !!parsePhoneToE164(val);
+  }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -51,15 +47,17 @@ const NEEDS_OPTS: [string, string][] = [
 ];
 
 export default function CommencezUnProjetPage() {
+  // Local state for DB success/error priority
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
-    // 👇 CHANGE 1: Destructure `isValid` here
     formState: { errors, isSubmitting: isRHFSubmitting, isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    // 👇 CHANGE 2: Set mode to "onChange" for real-time validation checks
     mode: "onChange",
     defaultValues: {
       needs: [],
@@ -68,64 +66,99 @@ export default function CommencezUnProjetPage() {
     },
   });
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "profile-quiz",
-    onSuccess: () => {
+  // We still use the hook for the email part, but we decouple the UI success from it
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "profile-quiz",
+      onError: (err) => console.error("Email sending failed:", err), // Log email errors silently if DB succeeded
+    });
+
+  // Helper to format labels for the Email
+  const getLabel = (
+    key: string | null | undefined,
+    map: [string, string][],
+  ) => {
+    const found = map.find(([k]) => k === key);
+    return found ? found[1] : "Non renseigné";
+  };
+
+  const getNeedsLabels = (keys: string[] | undefined) => {
+    if (!keys || keys.length === 0) return "Aucun besoin sélectionné";
+    return keys
+      .map((k) => {
+        const found = NEEDS_OPTS.find(([optKey]) => optKey === k);
+        return found ? found[1] : k;
+      })
+      .join(", ");
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
+
+    try {
+      // 1. Prepare Data
+      const formattedPhone = parsePhoneToE164(data.phone) || "";
+
+      // 2. Submit to Database
+      const dbResponse = await fetch("/api/profile-quiz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profile: data.profile,
+          stage: data.stage,
+          needs: data.needs || [],
+          email: data.email,
+          phone: data.phone,
+        }),
+      });
+
+      // Check if response is JSON before parsing to avoid the "Unexpected token '<'" crash
+      const contentType = dbResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Erreur de connexion au serveur");
+      }
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 3. Trigger UI Success
+      setShowSuccess(true);
+
       setTimeout(() => {
         reset();
       }, 3000);
-    },
-  });
 
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
-
-  const onSubmit = async (data: FormValues) => {
-    const getLabel = (
-      key: string | null | undefined,
-      map: [string, string][]
-    ) => {
-      const found = map.find(([k]) => k === key);
-      return found ? found[1] : "Non renseigné";
-    };
-
-    const getNeedsLabels = (keys: string[] | undefined) => {
-      if (!keys || keys.length === 0) return "Aucun besoin sélectionné";
-      return keys
-        .map((k) => {
-          const found = NEEDS_OPTS.find(([optKey]) => optKey === k);
-          return found ? found[1] : k;
-        })
-        .join(", ");
-    };
-
-    await submitForm({
-      Email: data.email,
-      Téléphone: data.phone || "Non renseigné",
-      Profil: getLabel(data.profile, PROFIL_OPTS),
-      "Étape du projet": getLabel(data.stage, STAGE_OPTS),
-      "Besoins d'accompagnement": getNeedsLabels(data.needs),
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      Source: "Questionnaire - Plan personnalisé",
-    });
+      // 4. Send Email
+      submitEmail({
+        Email: data.email,
+        Téléphone: formattedPhone || "Non renseigné",
+        Profil: getLabel(data.profile, PROFIL_OPTS),
+        "Étape du projet": getLabel(data.stage, STAGE_OPTS),
+        "Besoins d'accompagnement": getNeedsLabels(data.needs),
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        Source: "Questionnaire - Plan personnalisé",
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
+    }
   };
 
-  if (isSuccess) {
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
+
+  if (showSuccess) {
     return (
       <main className="cproj relative overflow-hidden">
         <CloudRedEffect1 />
-
         <div className="cproj__wrap">
           <div
             className="cproj__success"
@@ -205,6 +238,7 @@ export default function CommencezUnProjetPage() {
         </header>
 
         <form className="cproj__form" onSubmit={handleSubmit(onSubmit)}>
+          {/* ... Profile Section ... */}
           <section className="cproj__block">
             <div className="cproj__qtitle">1. Quel est votre profil ?</div>
             <div className="cproj__group">
@@ -231,7 +265,7 @@ export default function CommencezUnProjetPage() {
             )}
           </section>
 
-          {/* Section 2: Stage */}
+          {/* ... Stage Section ... */}
           <section className="cproj__block">
             <div className="cproj__group">
               <div className="cproj__qtitle">
@@ -260,7 +294,7 @@ export default function CommencezUnProjetPage() {
             )}
           </section>
 
-          {/* Section 3: Needs */}
+          {/* ... Needs Section ... */}
           <section className="cproj__block">
             <div className="cproj__group">
               <div className="cproj__qtitle">
@@ -286,9 +320,7 @@ export default function CommencezUnProjetPage() {
           <div className="cproj__inputs">
             <div className="cproj__inputRow">
               <div
-                className={`cproj__input-wrapper ${
-                  errors.email ? "error" : ""
-                }`}
+                className={`cproj__input-wrapper ${errors.email ? "error" : ""}`}
               >
                 <input
                   type="email"
@@ -305,7 +337,9 @@ export default function CommencezUnProjetPage() {
             </div>
 
             <div className="cproj__inputRow">
-              <div className="cproj__input-wrapper">
+              <div
+                className={`cproj__input-wrapper ${errors.phone ? "error" : ""}`}
+              >
                 <input
                   type="tel"
                   className="cproj__input"
@@ -315,10 +349,15 @@ export default function CommencezUnProjetPage() {
                   {...register("phone")}
                 />
               </div>
+              {errors.phone && (
+                <p className="cproj__error-msg">{errors.phone.message}</p>
+              )}
             </div>
           </div>
 
-          {apiError && <div className="cproj__error-global">⚠️ {apiError}</div>}
+          {globalError && (
+            <div className="cproj__error-global">⚠️ {globalError}</div>
+          )}
 
           <div className="cproj__actions">
             <button

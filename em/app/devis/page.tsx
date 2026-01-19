@@ -7,21 +7,18 @@ import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
+// Replaced libphonenumber-js with your helper
+import { parsePhoneToE164 } from "@/lib/phone-utils";
 
 // 1. Define Zod Schema
 const formSchema = z.object({
   fullName: z.string().min(2, "Le nom est requis."),
   email: z.email("Format d'email invalide."),
+  // Updated phone validation to match profile-quiz example
   phone: z.string().refine((val) => {
     if (!val) return true; // Optional field
-    const phoneNumber = parsePhoneNumberFromString(val);
-    if (phoneNumber?.isValid()) {
-      return true;
-    }
-    const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
-    return /^\+?\d{6,15}$/.test(cleaned);
-  }, "Numéro de téléphone invalide"),
+    return !!parsePhoneToE164(val);
+  }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   services: z.array(z.string()).optional(),
   message: z.string().optional(),
 });
@@ -39,6 +36,10 @@ const SERVICES_OPTS: Array<[string, string]> = [
 
 export default function DevisPage() {
   const [servicesOpen, setServicesOpen] = useState(false);
+
+  // Local state for DB success/error priority
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
   const {
     register,
@@ -61,48 +62,82 @@ export default function DevisPage() {
   // Watch services to update the placeholder text dynamically
   const selectedServices = watch("services") || [];
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "custom-quote",
-    onSuccess: () => {
+  // Decoupled Email submission
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "custom-quote",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
+
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
+
+  const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
+
+    try {
+      // 1. Prepare Data
+      const formattedPhone = parsePhoneToE164(data.phone) || "";
+
+      // 2. Submit to Database (New API Route)
+      const dbResponse = await fetch("/api/custom-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          services: data.services || [],
+          message: data.message,
+        }),
+      });
+
+      const contentType = dbResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Erreur de connexion au serveur");
+      }
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 3. Trigger UI Success
+      setShowSuccess(true);
+
       setTimeout(() => {
         reset();
         setServicesOpen(false);
       }, 5000);
-    },
-  });
 
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
+      // 4. Send Email (Fire and forget or subsequent)
+      const getServicesLabels = (keys: string[] | undefined) => {
+        if (!keys || keys.length === 0) return "Aucun sélectionné";
+        return keys
+          .map((k) => {
+            const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
+            return found ? found[1] : k;
+          })
+          .join(", ");
+      };
 
-  const onSubmit = async (data: FormValues) => {
-    const getServicesLabels = (keys: string[] | undefined) => {
-      if (!keys || keys.length === 0) return "Aucun sélectionné";
-      return keys
-        .map((k) => {
-          const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
-          return found ? found[1] : k;
-        })
-        .join(", ");
-    };
-
-    await submitForm({
-      "Nom complet": data.fullName,
-      Email: data.email,
-      Téléphone: data.phone || "Non renseigné",
-      "Services demandés": getServicesLabels(data.services),
-      Message: data.message || "Aucun message",
-      Source: "Demande de devis sur-mesure",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-      }),
-    });
+      submitEmail({
+        "Nom complet": data.fullName,
+        Email: data.email,
+        Téléphone: formattedPhone || "Non renseigné",
+        "Services demandés": getServicesLabels(data.services),
+        Message: data.message || "Aucun message",
+        Source: "Demande de devis sur-mesure",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
+    }
   };
 
-  if (isSuccess) {
+  if (showSuccess) {
     return (
       <main className="qf relative overflow-hidden">
         <CloudRedEffect1 />
@@ -297,7 +332,9 @@ export default function DevisPage() {
             </div>
           </div>
 
-          {apiError && <div className="qf__error-global">⚠️ {apiError}</div>}
+          {globalError && (
+            <div className="qf__error-global">⚠️ {globalError}</div>
+          )}
 
           <div className="qf__actions">
             <button

@@ -6,12 +6,20 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "test": "vitest",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "drizzle-orm": "^0.45.1",
     "libphonenumber-js": "^1.12.34",
     "lucide-react": "^0.534.0",
+    "mysql2": "^3.16.1",
     "next": "15.4.5",
     "nodemailer": "^7.0.5",
     "react": "19.1.0",
@@ -21,11 +29,19 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20.19.30",
     "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.1.2",
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.8",
+    "jsdom": "^27.4.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.0.4",
+    "vitest": "^4.0.17"
   }
 }

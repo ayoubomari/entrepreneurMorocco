@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./mini-test.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
@@ -17,6 +18,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function MiniTestPage() {
+  // Local state for DB success/error priority
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -32,23 +37,19 @@ export default function MiniTestPage() {
     },
   });
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "mini-test",
-    onSuccess: () => {
-      setTimeout(() => {
-        reset();
-      }, 5000);
-    },
-  });
+  // Decoupled Email hook: we log errors but don't block the user if DB succeeded
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "mini-test",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
 
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
   const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
+
+    // Helpers for Email formatting
     const getProjectLabel = (key: string | null) => {
       const map: Record<string, string> = {
         create: "Créer une entreprise",
@@ -69,18 +70,55 @@ export default function MiniTestPage() {
       return keys.map((k) => map[k] || k).join(", ");
     };
 
-    await submitForm({
-      Email: data.email,
-      "Projet principal": getProjectLabel(data.project),
-      Obstacles: getObstaclesLabels(data.obstacles),
-      Source: "Mini Test - Plan Action",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-      }),
-    });
+    try {
+      // 1. Submit to Database (Primary Action)
+      const dbResponse = await fetch("/api/mini-test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          project: data.project,
+          obstacles: data.obstacles || [],
+          email: data.email,
+        }),
+      });
+
+      // --- FIX START: Check if response is actually JSON ---
+      const contentType = dbResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        // If it's HTML (404/500), throw error manually to avoid parsing crash
+        throw new Error("Erreur de connexion au serveur");
+      }
+      // --- FIX END ---
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 2. Trigger UI Success Immediately
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        reset();
+      }, 5000);
+
+      // 3. Send Email (Secondary Action - Fire and Forget)
+      submitEmail({
+        Email: data.email,
+        "Projet principal": getProjectLabel(data.project),
+        Obstacles: getObstaclesLabels(data.obstacles),
+        Source: "Mini Test - Plan Action",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
+    }
   };
 
-  if (isSuccess) {
+  if (showSuccess) {
     return (
       <main className="mintest relative overflow-hidden">
         <CloudRedEffect1 />
@@ -239,7 +277,7 @@ export default function MiniTestPage() {
             )}
           </div>
 
-          {apiError && (
+          {globalError && (
             <div
               style={{
                 color: "#ff4444",
@@ -248,7 +286,7 @@ export default function MiniTestPage() {
                 textAlign: "right",
               }}
             >
-              ⚠️ {apiError}
+              ⚠️ {globalError}
             </div>
           )}
 

@@ -1,27 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./contact-quiz.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { parsePhoneToE164 } from "@/lib/phone-utils";
 
 // 1. Define Zod Schema
 const formSchema = z.object({
   selectedPlan: z.string().min(1, "Veuillez sélectionner une formule."),
   fullName: z.string().min(2, "Le nom complet est requis."),
   email: z.string().email("Format d'email invalide."),
+  // Updated phone validation to match the profile-quiz example
   phone: z.string().refine((val) => {
     if (!val) return true; // Optional field
-    const phoneNumber = parsePhoneNumberFromString(val);
-    if (phoneNumber?.isValid()) {
-      return true;
-    }
-    const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
-    return /^\+?\d{6,15}$/.test(cleaned);
-  }, "Numéro de téléphone invalide."),
+    return !!parsePhoneToE164(val);
+  }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   resultEmail: z.string().email("Format d'email invalide."),
   message: z.string().optional(),
 });
@@ -69,6 +66,10 @@ const plans = [
 ];
 
 export default function DevisPage() {
+  // Local state for DB success/error priority
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -92,51 +93,86 @@ export default function DevisPage() {
   // Watch selected plan for visual styling
   const currentPlanId = watch("selectedPlan");
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "plan-selection",
-    onSuccess: () => {
+  // We decouple the UI success from the email hook, similar to the example
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "plan-selection",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
+
+  const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
+    const selectedPlanData = plans.find((p) => p.id === data.selectedPlan);
+
+    try {
+      // 1. Prepare Data
+      const formattedPhone = parsePhoneToE164(data.phone) || "";
+
+      // 2. Submit to Database
+      const dbResponse = await fetch("/api/plan-selection", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          selectedPlan: data.selectedPlan,
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          resultEmail: data.resultEmail,
+          message: data.message,
+        }),
+      });
+
+      // Check content type before parsing JSON
+      const contentType = dbResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Erreur de connexion au serveur");
+      }
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 3. Trigger UI Success
+      setShowSuccess(true);
+
       setTimeout(() => {
         reset();
       }, 5000);
-    },
-  });
 
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
-
-  const onSubmit = async (data: FormValues) => {
-    const selectedPlanData = plans.find((p) => p.id === data.selectedPlan);
-
-    await submitForm({
-      "Nom complet": data.fullName,
-      "Email principal": data.email,
-      Téléphone: data.phone || "Non renseigné",
-      "Email pour résultats": data.resultEmail,
-      Message: data.message || "Aucun message",
-      "Plan sélectionné": selectedPlanData?.title || data.selectedPlan,
-      "Prix du plan": selectedPlanData?.price || "Non défini",
-      Source: "Sélection de plan - Page devis",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    });
+      // 4. Send Email (via HubSpot/Hook)
+      await submitEmail({
+        "Nom complet": data.fullName,
+        "Email principal": data.email,
+        Téléphone: formattedPhone || "Non renseigné",
+        "Email pour résultats": data.resultEmail,
+        Message: data.message || "Aucun message",
+        "Plan sélectionné": selectedPlanData?.title || data.selectedPlan,
+        "Prix du plan": selectedPlanData?.price || "Non défini",
+        Source: "Sélection de plan - Page devis",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
+    }
   };
+
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
   // Helper to handle card click as radio selection
   const handlePlanSelect = (id: string) => {
     setValue("selectedPlan", id, { shouldValidate: true });
   };
 
-  if (isSuccess) {
+  if (showSuccess) {
     return (
       <main className="qc relative overflow-hidden">
         <CloudRedEffect1 />
@@ -362,7 +398,9 @@ export default function DevisPage() {
             </div>
           </div>
 
-          {apiError && <div className="qc__error-global">⚠️ {apiError}</div>}
+          {globalError && (
+            <div className="qc__error-global">⚠️ {globalError}</div>
+          )}
 
           <div className="qc__actions">
             <button

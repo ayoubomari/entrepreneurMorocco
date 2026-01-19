@@ -3,84 +3,122 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import { useIsVisible } from "@/hooks/useIsVisible";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { parsePhoneToE164 } from "@/lib/phone-utils";
+
+// 1. Define Zod Schema
+const formSchema = z.object({
+  firstName: z.string().min(1, "Le prénom est requis"),
+  lastName: z.string().min(1, "Le nom est requis"),
+  email: z.email("Format d'email invalide"),
+  // Phone validation aligned with your example
+  phone: z.string().refine((val) => {
+    if (!val) return true; // Optional field, so empty is okay
+    return !!parsePhoneToE164(val);
+  }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
+  message: z.string().min(1, "Le message ne peut pas être vide"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  // Local state for UI success/error feedback
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
-  // Animation hook: Trigger when 10% of element is visible
+  // Animation hook
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
-    formId: "contact-form",
-    onSuccess: () => {
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      }, 3000);
+  // 2. React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting: isRHFSubmitting, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
     },
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // 3. Existing Email Hook (decoupled from UI success state to allow DB priority)
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "contact-form",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const phoneRegex = /^[\d\s\-\(\)\+]*$/;
-    if (phoneRegex.test(value) || value === "") {
-      setFormData((prev) => ({ ...prev, phone: value }));
+  const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
+
+    try {
+      // Prepare Data
+      const formattedPhone = parsePhoneToE164(data.phone) || "";
+      const currentUrl =
+        typeof window !== "undefined" ? window.location.href : "";
+
+      // 1. Submit to Database (API Route)
+      const dbResponse = await fetch("/api/contact-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: formattedPhone, // Send the standardized phone
+          message: data.message,
+          sourcePage: currentUrl,
+        }),
+      });
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 2. Trigger UI Success Immediately
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        reset();
+        setShowSuccess(false); // Optional: hide success message after delay to show form again
+      }, 5000);
+
+      // 3. Send Email (in background)
+      submitEmail({
+        Prénom: data.firstName,
+        Nom: data.lastName,
+        Email: data.email,
+        Téléphone: formattedPhone || "Non renseigné",
+        Message: data.message,
+        "Page source": currentUrl || "Contact Section",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
     }
   };
 
-  const isFormValid =
-    formData.firstName.trim() &&
-    formData.lastName.trim() &&
-    formData.email.trim() &&
-    formData.message.trim();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isFormValid) return;
-
-    await submitForm({
-      Prénom: formData.firstName,
-      Nom: formData.lastName,
-      Email: formData.email,
-      Téléphone: formData.phone || "Non renseigné",
-      Message: formData.message,
-      "Page source":
-        typeof window !== "undefined"
-          ? window.location.href
-          : "Contact Section",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    });
-  };
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
   return (
     <section id="homecontact" className="cs-section">
-      {/* Attach ref and visible class here */}
       <div ref={elementRef} className={`cs-wrap ${isVisible ? "visible" : ""}`}>
         <header className="cs-lead">
           <h2 className="cs-title">UNE QUESTION, UN PROJET ? PARLONS-EN.</h2>
@@ -96,10 +134,9 @@ const ContactSection = () => {
           </div>
         </header>
 
-        {isSuccess ? (
+        {showSuccess ? (
           <div className="cs-success show" role="status" aria-live="polite">
             <div className="cs-successIconBox">
-              {/* Icon: Simple Checkmark with Stroke */}
               <svg
                 width="32"
                 height="32"
@@ -121,90 +158,107 @@ const ContactSection = () => {
             </div>
           </div>
         ) : (
-          <form className="cs-form" onSubmit={handleSubmit}>
+          <form className="cs-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="cs-row">
-              <div className="cs-group">
+              <div
+                className={`cs-group ${errors.firstName ? "cs-input-error" : ""}`}
+              >
                 <label htmlFor="firstName" className="cs-label">
                   Prénom
                 </label>
                 <input
                   id="firstName"
-                  name="firstName"
                   type="text"
                   className="cs-input"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
                   disabled={isSubmitting}
                   autoComplete="given-name"
+                  {...register("firstName")}
                 />
+                {errors.firstName && (
+                  <span className="cs-error-msg">
+                    {errors.firstName.message}
+                  </span>
+                )}
               </div>
-              <div className="cs-group">
+              <div
+                className={`cs-group ${errors.lastName ? "cs-input-error" : ""}`}
+              >
                 <label htmlFor="lastName" className="cs-label">
                   Nom
                 </label>
                 <input
                   id="lastName"
-                  name="lastName"
                   type="text"
                   className="cs-input"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
                   disabled={isSubmitting}
                   autoComplete="family-name"
+                  {...register("lastName")}
                 />
+                {errors.lastName && (
+                  <span className="cs-error-msg">
+                    {errors.lastName.message}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="cs-row">
-              <div className="cs-group">
+              <div
+                className={`cs-group ${errors.email ? "cs-input-error" : ""}`}
+              >
                 <label htmlFor="email" className="cs-label">
                   Email
                 </label>
                 <input
                   id="email"
-                  name="email"
                   type="email"
                   className="cs-input"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   disabled={isSubmitting}
                   autoComplete="email"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <span className="cs-error-msg">{errors.email.message}</span>
+                )}
               </div>
-              <div className="cs-group">
+              <div
+                className={`cs-group ${errors.phone ? "cs-input-error" : ""}`}
+              >
                 <label htmlFor="phone" className="cs-label">
                   Téléphone
                 </label>
                 <input
                   id="phone"
-                  name="phone"
                   type="tel"
                   className="cs-input"
-                  value={formData.phone}
-                  onChange={handlePhoneChange}
                   disabled={isSubmitting}
                   autoComplete="tel"
-                  pattern="[\d\s\-\(\)\+]*"
-                  inputMode="numeric"
+                  {...register("phone")}
                 />
+                {errors.phone && (
+                  <span className="cs-error-msg">{errors.phone.message}</span>
+                )}
               </div>
             </div>
 
-            <div className="cs-group">
+            <div
+              className={`cs-group ${errors.message ? "cs-input-error" : ""}`}
+            >
               <label htmlFor="message" className="cs-label">
                 Message
               </label>
               <textarea
                 id="message"
-                name="message"
                 className="cs-input cs-textarea"
-                value={formData.message}
-                onChange={handleInputChange}
                 disabled={isSubmitting}
+                {...register("message")}
               />
+              {errors.message && (
+                <span className="cs-error-msg">{errors.message.message}</span>
+              )}
             </div>
 
-            {error && (
+            {globalError && (
               <p className="cs-error">
                 <svg
                   width="16"
@@ -221,14 +275,14 @@ const ContactSection = () => {
                   <line x1="15" y1="9" x2="9" y2="15" />
                   <line x1="9" y1="9" x2="15" y2="15" />
                 </svg>
-                {error}
+                {globalError}
               </p>
             )}
 
             <div className="contact__actions">
               <button
                 type="submit"
-                disabled={isSubmitting || !isFormValid}
+                disabled={isSubmitting || !isValid}
                 className="contact__submit"
               >
                 {isSubmitting ? (

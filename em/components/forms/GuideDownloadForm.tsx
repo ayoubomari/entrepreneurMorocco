@@ -3,31 +3,58 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import { useIsVisible } from "@/hooks/useIsVisible";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// 1. Define Zod Schema
+// Note: 'Phone' is omitted because it does not exist in the guideDownload Drizzle schema provided.
+const formSchema = z.object({
+  firstName: z.string().min(2, "Veuillez entrer votre prénom."),
+  email: z.string().email("Format d'email invalide."),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const GuideDownloadForm = () => {
-  const [formData, setFormData] = useState({ firstName: "", email: "" });
   const [downloadTriggered, setDownloadTriggered] = useState(false);
 
   // Initialize visibility hook
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
 
-  const { submitForm, isSubmitting, isSuccess, error } = useContactForm({
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting: isRHFSubmitting, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      email: "",
+    },
+  });
+
+  // Use existing hook for email sending (decoupled from DB logic)
+  const {
+    submitForm: submitEmail,
+    isSubmitting: isEmailSubmitting,
+    error: emailError,
+  } = useContactForm({
     formId: "guide-download",
     onSuccess: () => {
-      setTimeout(() => {
-        setFormData({ firstName: "", email: "" });
-        setDownloadTriggered(false);
-      }, 5000);
+      // Optional: Reset logic if needed, though usually we leave the success message up
+      // setTimeout(() => {
+      //   reset();
+      //   setDownloadTriggered(false);
+      // }, 5000);
     },
   });
 
   const triggerPDFDownload = () => {
-    const pdfPaths = [
-      "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
-      "/Guide-7-erreurs-entrepreneur-maroc.pdf",
-      "/assets/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf",
-    ];
-    const pdfUrl = pdfPaths[0];
+    const pdfUrl = "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf"; // Ensure this path is correct
     const link = document.createElement("a");
     link.href = pdfUrl;
     link.download = "Guide-7-erreurs-entrepreneur-maroc.pdf";
@@ -39,42 +66,51 @@ const GuideDownloadForm = () => {
     }, 100);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.firstName.trim() || !formData.email.trim()) {
-      return;
-    }
-
+  const onSubmit = async (data: FormValues) => {
+    // 1. Immediate Feedback: Trigger Download
     triggerPDFDownload();
     setDownloadTriggered(true);
 
     try {
-      await submitForm({
-        Prénom: formData.firstName,
-        Email: formData.email,
+      // 2. Submit to Database (Drizzle)
+      const dbResponse = await fetch("/api/guide-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          email: data.email,
+          guideName: "7 Erreurs à Éviter - Entrepreneur Maroc",
+          source: "Site Web - Page Guide",
+        }),
+      });
+
+      if (!dbResponse.ok) {
+        console.error("DB Save failed");
+        // We do not stop execution here because the user already "got" the PDF
+        // We silently log it or handle it for analytics
+      }
+
+      // 3. Send Notification Email (HubSpot/EmailJS etc)
+      await submitEmail({
+        Prénom: data.firstName,
+        Email: data.email,
         "Guide demandé": "7 Erreurs à Éviter - Entrepreneur Maroc",
         "Date de téléchargement": new Date().toLocaleString("fr-FR", {
           timeZone: "Africa/Casablanca",
         }),
         Source: "Site Web - Page Guide",
       });
+
+      reset(); // Clear form internals
     } catch (err) {
-      console.log("Email submission failed, but PDF was downloaded:", err);
+      console.error("Submission workflow failed:", err);
     }
   };
 
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
+
   return (
     <section className="lm-section">
-      {/* 
-         Attached ref={elementRef} 
-         Added conditional class ${isVisible ? "visible" : ""} 
-      */}
       <div ref={elementRef} className={`lm-wrap ${isVisible ? "visible" : ""}`}>
         <header className="lm-head">
           <h2 className="lm-title">
@@ -115,7 +151,7 @@ const GuideDownloadForm = () => {
               <span className="lm-sub-accent">7 ERREURS À ÉVITER</span>
             </h3>
 
-            {isSuccess || downloadTriggered ? (
+            {downloadTriggered ? (
               <div
                 className="lm-success"
                 style={{
@@ -179,7 +215,7 @@ const GuideDownloadForm = () => {
                   }}
                 >
                   Le téléchargement du PDF a commencé automatiquement.
-                  {error && (
+                  {emailError && (
                     <>
                       <br />
                       <span style={{ color: "#fca5a5", fontSize: "12px" }}>
@@ -194,8 +230,8 @@ const GuideDownloadForm = () => {
                   onClick={triggerPDFDownload}
                   style={{
                     background: "transparent",
-                    color: "#ef4444",
-                    border: "1px solid #ef4444",
+                    color: "#fff",
+                    border: "1px solid #fff",
                     padding: "10px 20px",
                     fontSize: "14px",
                     fontWeight: "600",
@@ -207,12 +243,12 @@ const GuideDownloadForm = () => {
                     gap: "8px",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#ef4444";
-                    e.currentTarget.style.color = "#ffffff";
+                    e.currentTarget.style.background = "#fff";
+                    e.currentTarget.style.color = "#ef4444";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "#ef4444";
+                    e.currentTarget.style.color = "#fff";
                   }}
                 >
                   <svg
@@ -231,7 +267,6 @@ const GuideDownloadForm = () => {
                   </svg>
                   Télécharger à nouveau
                 </button>
-                {/* Internal styles for success box omitted for brevity, same as before */}
                 <style jsx>{`
                   @keyframes successFadeIn {
                     from {
@@ -276,56 +311,57 @@ const GuideDownloadForm = () => {
                 `}</style>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="lm-fields">
+              <form onSubmit={handleSubmit(onSubmit)} className="lm-fields">
+                {/* First Name */}
                 <div className="lm-field">
                   <input
-                    className="lm-input"
+                    className={`lm-input ${errors.firstName ? "border-red-500" : ""}`}
                     type="text"
-                    name="firstName"
                     placeholder="VOTRE PRÉNOM:"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
                     disabled={isSubmitting}
-                    required
+                    {...register("firstName")}
                   />
+                  {errors.firstName && (
+                    <span
+                      style={{
+                        color: "#ef4444",
+                        fontSize: "12px",
+                        marginTop: "4px",
+                        display: "block",
+                      }}
+                    >
+                      {errors.firstName.message}
+                    </span>
+                  )}
                 </div>
 
+                {/* Email */}
                 <div className="lm-field">
                   <input
-                    className="lm-input"
+                    className={`lm-input ${errors.email ? "border-red-500" : ""}`}
                     type="email"
-                    name="email"
                     placeholder="VOTRE EMAIL:"
-                    value={formData.email}
-                    onChange={handleInputChange}
                     disabled={isSubmitting}
-                    required
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <span
+                      style={{
+                        color: "#ef4444",
+                        fontSize: "12px",
+                        marginTop: "4px",
+                        display: "block",
+                      }}
+                    >
+                      {errors.email.message}
+                    </span>
+                  )}
                 </div>
-
-                {error && (
-                  <div
-                    style={{
-                      background: "rgba(239, 68, 68, 0.1)",
-                      border: "1px solid rgba(239, 68, 68, 0.3)",
-                      borderRadius: "6px",
-                      padding: "12px 16px",
-                      color: "#fca5a5",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {error}
-                  </div>
-                )}
 
                 <button
                   className="lm-btn-left"
                   type="submit"
-                  disabled={
-                    isSubmitting ||
-                    !formData.firstName.trim() ||
-                    !formData.email.trim()
-                  }
+                  disabled={isSubmitting || !isValid}
                 >
                   {isSubmitting
                     ? "Téléchargement..."

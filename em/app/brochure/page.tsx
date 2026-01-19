@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./brochure.css";
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
@@ -10,11 +11,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // 1. Define Zod Schema
 const brochureSchema = z.object({
   email: z.string().email("Veuillez entrer une adresse email valide."),
+  // Note: Phone is removed here because 'brochureDownload' schema has no phone column.
 });
 
 type FormValues = z.infer<typeof brochureSchema>;
 
 export default function BrochurePage() {
+  // Local state for UI feedback
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -22,29 +28,18 @@ export default function BrochurePage() {
     formState: { errors, isValid, isSubmitting: isRHFSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(brochureSchema),
-    mode: "onChange", // Real-time validation for button sync
+    mode: "onChange",
     defaultValues: {
       email: "",
     },
   });
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "brochure-download",
-    onSuccess: () => {
-      triggerPDFDownload();
-      setTimeout(() => {
-        reset();
-      }, 5000);
-    },
-  });
-
-  // Combine loading states
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
+  // Email hook - used for notification, but errors here won't block the user flow
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "brochure-download",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
 
   const triggerPDFDownload = () => {
     const a = document.createElement("a");
@@ -57,20 +52,57 @@ export default function BrochurePage() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    await submitForm({
-      Email: data.email,
-      "Document demandé": "Brochure détaillée de l'offre",
-      Source: "Site Web - Page Brochure",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-      }),
-    });
+    setGlobalError(null);
+
+    try {
+      // 1. Submit to Database (First priority)
+      const dbResponse = await fetch("/api/brochure-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+        }),
+      });
+
+      // Handle non-JSON responses gracefully
+      const contentType = dbResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Erreur de connexion au serveur");
+      }
+
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
+
+      // 2. Trigger Success UI & Download
+      setShowSuccess(true);
+      triggerPDFDownload();
+
+      setTimeout(() => {
+        reset();
+      }, 5000);
+
+      // 3. Send Email (Background)
+      submitEmail({
+        Email: data.email,
+        "Document demandé": "Brochure détaillée de l'offre",
+        Source: "Site Web - Page Brochure",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
+    }
   };
 
-  if (isSuccess) {
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
+
+  if (showSuccess) {
     return (
       <main className="dlb relative overflow-hidden">
-        {/* Background Cloud Divs */}
         <CloudRedEffect1 />
 
         <div className="dlb__wrap">
@@ -78,10 +110,10 @@ export default function BrochurePage() {
             className="dlb__success"
             style={{
               background: "#000",
-              border: "2px solid #fff", // Updated to match reference
-              padding: "40px", // Updated to match reference
+              border: "2px solid #fff",
+              padding: "40px",
               textAlign: "center",
-              maxWidth: "900px", // Updated to match reference
+              maxWidth: "900px",
               margin: "0 auto",
             }}
           >
@@ -115,7 +147,7 @@ export default function BrochurePage() {
             <h2
               style={{
                 color: "#fff",
-                fontSize: "28px", // Updated to match reference
+                fontSize: "28px",
                 fontWeight: "700",
                 margin: "0 0 16px",
               }}
@@ -124,7 +156,7 @@ export default function BrochurePage() {
             </h2>
             <p
               style={{
-                color: "rgba(255, 255, 255, 0.8)", // Updated to match reference
+                color: "rgba(255, 255, 255, 0.8)",
                 fontSize: "18px",
                 lineHeight: "1.5",
                 marginBottom: "24px",
@@ -191,7 +223,7 @@ export default function BrochurePage() {
             </div>
           </section>
 
-          {apiError && (
+          {globalError && (
             <div
               style={{
                 color: "#ff4444",
@@ -200,7 +232,7 @@ export default function BrochurePage() {
                 textAlign: "center",
               }}
             >
-              ⚠️ {apiError}
+              ⚠️ {globalError}
             </div>
           )}
 
@@ -208,7 +240,6 @@ export default function BrochurePage() {
             <button
               type="submit"
               className="dlb__btn"
-              // Sync logic: disabled if validating, submitting, or invalid
               disabled={isSubmitting || !isValid}
             >
               {isSubmitting

@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./diagnostic-projet-maroc.css";
 import { CloudRedEffect2 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { parsePhoneToE164 } from "@/lib/phone-utils";
 
 // --- SCHEMA ZOD ---
 const formSchema = z
@@ -14,14 +15,10 @@ const formSchema = z
     firstName: z.string().min(1, "Le prénom est requis"),
     lastName: z.string().min(1, "Le nom est requis"),
     email: z.email("Format d'email invalide"),
+    // Update phone validation to use helper function
     phone: z.string().refine((val) => {
       if (!val) return false;
-      const phoneNumber = parsePhoneNumberFromString(val);
-      if (phoneNumber?.isValid()) {
-        return true;
-      }
-      const cleaned = val.replace(/[\s\-\.\(\)]/g, "");
-      return /^\+?\d{6,15}$/.test(cleaned);
+      return !!parsePhoneToE164(val);
     }, "Numéro de téléphone invalide"),
 
     // Section 2
@@ -89,11 +86,15 @@ const formSchema = z
 type FormValues = z.infer<typeof formSchema>;
 
 export default function DiagnosticProjectMaroc() {
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors, isValid, isSubmitting: isRHFSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -122,19 +123,14 @@ export default function DiagnosticProjectMaroc() {
     },
   });
 
-  const {
-    submitForm,
-    isSubmitting: isApiSubmitting,
-    isSuccess,
-    error: apiError,
-  } = useContactForm({
-    formId: "diagnostic-maroc-2030",
-    onSuccess: () => {
-      // Logic gérée par l'état isSuccess
-    },
-  });
+  // Email hook (decoupled from UI success state)
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
+    useContactForm({
+      formId: "diagnostic-maroc-2030",
+      onError: (err) => console.error("Email sending failed:", err),
+    });
 
-  const isSubmitting = isRHFSubmitting || isApiSubmitting;
+  const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
   // Watch pour la logique UI
   const w = watch();
@@ -147,7 +143,7 @@ export default function DiagnosticProjectMaroc() {
 
   const toggleArrayItem = (
     field: "motivations" | "availabilities",
-    val: string
+    val: string,
   ) => {
     const current = (w[field] as string[]) || [];
     const next = current.includes(val)
@@ -212,73 +208,106 @@ export default function DiagnosticProjectMaroc() {
   };
 
   const onSubmit = async (data: FormValues) => {
+    setGlobalError(null);
     const finalScore = calculateScore(data);
     const scoreLabel = getScoreLabel(finalScore);
 
-    const payload = {
-      Prénom: data.firstName,
-      Nom: data.lastName,
-      Email: data.email,
-      "Téléphone (WhatsApp)": data.phone,
+    try {
+      // 1. Submit to Database
+      const dbResponse = await fetch("/api/diagnostic-maroc-2030", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          // Handle explicit null/empty conversions if needed, though Zod handles most
+          childrenCount: data.childrenCount || null,
+          childrenAges: data.childrenAges || null,
+          message: data.message || null,
+          availabilities: data.availabilities || [],
+          // Add calculated fields
+          score: finalScore,
+          resultLabel: scoreLabel,
+        }),
+      });
 
-      // Section 2
-      "Date installation": data.projectDate,
+      if (!dbResponse.ok) {
+        const errData = await dbResponse.json();
+        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      }
 
-      // Section 3
-      "Situation actuelle": data.situation,
-      "Statut Familial": data.familyStatus,
-      "Nombre enfants":
-        data.familyStatus === "famille"
-          ? data.childrenCount || "Non précisé"
-          : "Non concerné",
-      "Ages enfants":
-        data.familyStatus === "famille"
-          ? data.childrenAges || "Non précisé"
-          : "N/A",
+      // 2. Trigger UI Success
+      setShowSuccess(true);
 
-      // Section 4
-      Motivations: data.motivations.join(", "),
+      // Optional: clear form after delay
+      // setTimeout(() => reset(), 3000);
 
-      // Section 5
-      "Compétence principale": data.mainSkill,
-      "Années expérience": data.expYears,
-      "Revenus générés": data.revenueGen,
+      // 3. Send Email (Legacy system side-effect)
+      submitEmail({
+        Prénom: data.firstName,
+        Nom: data.lastName,
+        Email: data.email,
+        "Téléphone (WhatsApp)": parsePhoneToE164(data.phone) || data.phone,
 
-      // Section 6
-      "Budget projet": data.budget,
-      "Autonomie financière": data.runway,
+        // Section 2
+        "Date installation": data.projectDate,
 
-      // Section 7
-      "Voie envisagée": data.path,
+        // Section 3
+        "Situation actuelle": data.situation,
+        "Statut Familial": data.familyStatus,
+        "Nombre enfants":
+          data.familyStatus === "famille"
+            ? data.childrenCount || "Non précisé"
+            : "Non concerné",
+        "Ages enfants":
+          data.familyStatus === "famille"
+            ? data.childrenAges || "Non précisé"
+            : "N/A",
 
-      // Section 8
-      "Réseau Maroc": data.network,
+        // Section 4
+        Motivations: data.motivations.join(", "),
 
-      // Section 9
-      Message: data.message || "Aucun",
+        // Section 5
+        "Compétence principale": data.mainSkill,
+        "Années expérience": data.expYears,
+        "Revenus générés": data.revenueGen,
 
-      // Section 10
-      "Appel offert demandé": data.callOptIn,
-      "Disponibilités appel":
-        data.callOptIn === "oui" &&
-        data.availabilities &&
-        data.availabilities.length > 0
-          ? data.availabilities.join(", ")
-          : "N/A",
+        // Section 6
+        "Budget projet": data.budget,
+        "Autonomie financière": data.runway,
 
-      // Scoring & Metadata
-      "SCORE DIAGNOSTIC": `${finalScore}/100`,
-      Resultat: scoreLabel,
-      Source: "Formulaire Diagnostic Projet Maroc 2030",
-      "Date de soumission": new Date().toLocaleString("fr-FR", {
-        timeZone: "Africa/Casablanca",
-      }),
-    };
+        // Section 7
+        "Voie envisagée": data.path,
 
-    await submitForm(payload);
+        // Section 8
+        "Réseau Maroc": data.network,
+
+        // Section 9
+        Message: data.message || "Aucun",
+
+        // Section 10
+        "Appel offert demandé": data.callOptIn,
+        "Disponibilités appel":
+          data.callOptIn === "oui" &&
+          data.availabilities &&
+          data.availabilities.length > 0
+            ? data.availabilities.join(", ")
+            : "N/A",
+
+        // Scoring & Metadata
+        "SCORE DIAGNOSTIC": `${finalScore}/100`,
+        Resultat: scoreLabel,
+        Source: "Formulaire Diagnostic Projet Maroc 2030",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+      });
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setGlobalError("Une erreur technique est survenue. Veuillez réessayer.");
+    }
   };
 
-  if (isSuccess) {
+  if (showSuccess) {
     return (
       <main className="dpm relative overflow-hidden">
         <CloudRedEffect2 />
@@ -894,7 +923,7 @@ export default function DiagnosticProjectMaroc() {
             )}
           </section>
 
-          {apiError && <div className="dpm__error">⚠️ {apiError}</div>}
+          {globalError && <div className="dpm__error">⚠️ {globalError}</div>}
 
           <div className="dpm__actions">
             <button
