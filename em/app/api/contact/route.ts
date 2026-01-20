@@ -166,7 +166,7 @@ export async function POST(req: Request) {
     if (!formId || !fields) {
       return NextResponse.json(
         { ok: false, error: "Form ID and fields are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -196,11 +196,12 @@ export async function POST(req: Request) {
       console.error("❌ SMTP verify error:", JSON.stringify(e));
       return NextResponse.json(
         { ok: false, error: `SMTP connection failed: ${e}` },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
-    const toAddress = "ayoubomari799@gmail.com"; // salam@entrepreneursmorocco.com
+    const toAddress =
+      process.env.SMTP_To_USER || "salam@entrepreneursmorocco.com";
     const template = FORM_TEMPLATES[formId];
     const mailSubject =
       subject ||
@@ -256,7 +257,7 @@ entrepreneursmorocco.com
     console.error("❌ Email error:", e);
     return NextResponse.json(
       { ok: false, error: `Failed to send email: ${e}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
