@@ -19,11 +19,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(
-      1px 1px at 20% 30%,
-      rgba(220, 38, 38, 0.2),
-      transparent
-    ),
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(220, 38, 38, 0.2), transparent),
     radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.15), transparent),
     radial-gradient(2px 2px at 60% 20%, rgba(220, 38, 38, 0.1), transparent),
     radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.2), transparent);
@@ -160,7 +157,7 @@
   text-decoration: none;
   white-space: nowrap;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: pointer;
+  cursor: none;
   border: none;
   z-index: 1;
 }
