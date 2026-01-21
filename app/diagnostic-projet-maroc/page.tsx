@@ -553,7 +553,7 @@ export default function DiagnosticProjectMaroc() {
 
           {/* SECTION 4 */}
           <section className="dpm__section">
-            <h3 className="dpm__section-title">4. Motivation</h3>
+            <h3 className="dpm__section-title">4. Intention & motivation</h3>
             <p className="dpm__label">
               Motivation principale pour venir au Maroc ? (Choix multiples) *
             </p>
@@ -658,10 +658,10 @@ export default function DiagnosticProjectMaroc() {
             </p>
             <div className="dpm__options-grid mb-6">
               {[
-                ["moins_5", "Moins de 5k€"],
-                ["5_15", "5k€ - 15k€"],
-                ["15_30", "15k€ - 30k€"],
-                ["plus_30", "Plus de 30k€"],
+                ["moins_5", "Moins de 5 000 €"],
+                ["5_15", "Entre 5 000 € - 15 000 €"],
+                ["15_30", "Entre 15 000 € - 30 000 €"],
+                ["plus_30", "Plus de 30 000 €"],
               ].map(([val, label]) => (
                 <div
                   key={val}
@@ -704,7 +704,7 @@ export default function DiagnosticProjectMaroc() {
 
           {/* SECTION 7 */}
           <section className="dpm__section">
-            <h3 className="dpm__section-title">7. Voie envisagée</h3>
+            <h3 className="dpm__section-title">7. Voie envisagée au Maroc</h3>
             <p className="dpm__label">Quelle voie envisages-tu au Maroc ? *</p>
             <div className="dpm__options-grid">
               {[

@@ -3,7 +3,7 @@ import HomePageClient from "./PageComponent";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.entrepreneursmorocco.com"),
-  title: "S'installer & Entreprendre au Maroc | Entrepreneurs Morocco",
+  title: "Entrepreneurs Morocco",
   description:
     "Accompagnement expert pour MRE et entrepreneurs au Maroc. De la création d'entreprise à l'installation de votre famille, nous simplifions votre projet de vie.",
   keywords: [
