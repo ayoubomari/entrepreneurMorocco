@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logofooter.png",
-        width: 1200,
-        height: 630,
+        url: "/logo.jpg",
+        width: 403,
+        height: 120,
         alt: "Entrepreneurs Morocco - Catalogue de Formations",
       },
     ],

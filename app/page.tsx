@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logofooter.png",
-        width: 1200,
-        height: 630,
+        url: "/logo.jpg",
+        width: 403,
+        height: 120,
         alt: "Entrepreneurs Morocco - Accompagnement Business et Installation",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Entrepreneurs Morocco | Entreprendre au Maroc",
     description:
       "Accompagnement sur mesure pour réussir votre retour ou votre installation au Maroc.",
-    images: ["/logofooter.png"],
+    images: ["/logo.jpg"],
   },
 };
 

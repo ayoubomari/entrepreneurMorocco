@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logofooter.png",
-        width: 1200,
-        height: 630,
+        url: "/logo.jpg",
+        width: 403,
+        height: 120,
         alt: "Investir au Maroc - Opportunités et Vision 2030",
       },
     ],
