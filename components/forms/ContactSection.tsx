@@ -7,15 +7,15 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
+import { supabase } from "@/lib/supabase"; // Import your Supabase client
 
 // 1. Define Zod Schema
 const formSchema = z.object({
   firstName: z.string().min(1, "Le prénom est requis"),
   lastName: z.string().min(1, "Le nom est requis"),
   email: z.email("Format d'email invalide"),
-  // Phone validation aligned with your example
   phone: z.string().refine((val) => {
-    if (!val) return true; // Optional field, so empty is okay
+    if (!val) return true; // Optional field
     return !!parsePhoneToE164(val);
   }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   message: z.string().min(1, "Le message ne peut pas être vide"),
@@ -24,14 +24,11 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const ContactSection = () => {
-  // Local state for UI success/error feedback
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
-  // Animation hook
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
 
-  // 2. React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -49,7 +46,6 @@ const ContactSection = () => {
     },
   });
 
-  // 3. Existing Email Hook (decoupled from UI success state to allow DB priority)
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
     useContactForm({
       formId: "contact-form",
@@ -60,39 +56,33 @@ const ContactSection = () => {
     setGlobalError(null);
 
     try {
-      // Prepare Data
-      const formattedPhone = parsePhoneToE164(data.phone) || "";
+      // 1. Prepare Data
+      const formattedPhone = parsePhoneToE164(data.phone);
       const currentUrl =
         typeof window !== "undefined" ? window.location.href : "";
 
-      // 1. Submit to Database (API Route)
-      const dbResponse = await fetch("/api/contact-form", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: data.firstName,
-          lastName: data.lastName,
+      // 2. Submit directly to Supabase
+      // Map frontend camelCase to your DB snake_case columns
+      const { error } = await supabase.from("contact_form").insert([
+        {
+          first_name: data.firstName,
+          last_name: data.lastName,
           email: data.email,
-          phone: formattedPhone, // Send the standardized phone
+          phone: formattedPhone || null,
           message: data.message,
-          sourcePage: currentUrl,
-        }),
-      });
+          source_page: currentUrl,
+        },
+      ]);
 
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
-      // 2. Trigger UI Success Immediately
+      // 3. Trigger UI Success
       setShowSuccess(true);
 
-      setTimeout(() => {
-        reset();
-        setShowSuccess(false); // Optional: hide success message after delay to show form again
-      }, 5000);
-
-      // 3. Send Email (in background)
+      // 4. Send Email Notification (via existing hook)
       submitEmail({
         Prénom: data.firstName,
         Nom: data.lastName,

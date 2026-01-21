@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
+import { supabase } from "@/lib/supabase";
 
 // --- SCHEMA ZOD ---
 const formSchema = z
@@ -15,16 +16,12 @@ const formSchema = z
     firstName: z.string().min(1, "Le prénom est requis"),
     lastName: z.string().min(1, "Le nom est requis"),
     email: z.email("Format d'email invalide"),
-    // Update phone validation to use helper function
     phone: z.string().refine((val) => {
       if (!val) return false;
       return !!parsePhoneToE164(val);
     }, "Numéro de téléphone invalide"),
 
-    // Section 2
     projectDate: z.string().min(1, "Veuillez sélectionner une date"),
-
-    // Section 3
     situation: z.string().min(1, "Veuillez sélectionner votre situation"),
     familyStatus: z
       .string()
@@ -32,35 +29,27 @@ const formSchema = z
     childrenCount: z.string().optional(),
     childrenAges: z.string().optional(),
 
-    // Section 4
     motivations: z
       .array(z.string())
       .min(1, "Sélectionnez au moins une motivation"),
 
-    // Section 5
     mainSkill: z.string().min(1, "Votre compétence principale est requise"),
     expYears: z.string().min(1, "Veuillez indiquer vos années d'expérience"),
     revenueGen: z.string().min(1, "Veuillez indiquer la génération de revenus"),
 
-    // Section 6
     budget: z.string().min(1, "Veuillez sélectionner un budget"),
     runway: z.string().min(1, "Veuillez indiquer votre autonomie financière"),
 
-    // Section 7
     path: z.string().min(1, "Veuillez sélectionner la voie envisagée"),
 
-    // Section 8
     network: z.string().min(1, "Veuillez indiquer l'état de votre réseau"),
 
-    // Section 9
     message: z.string().optional(),
 
-    // Section 10
     callOptIn: z.string().min(1, "Veuillez faire un choix pour l'appel"),
     availabilities: z.array(z.string()).optional(),
   })
   .superRefine((data, ctx) => {
-    // Validation Conditionnelle : Enfants
     if (data.familyStatus === "famille") {
       if (!data.childrenCount || data.childrenCount === "") {
         ctx.addIssue({
@@ -71,7 +60,6 @@ const formSchema = z
       }
     }
 
-    // Validation Conditionnelle : Disponibilités Appel
     if (data.callOptIn === "oui") {
       if (!data.availabilities || data.availabilities.length === 0) {
         ctx.addIssue({
@@ -123,7 +111,6 @@ export default function DiagnosticProjectMaroc() {
     },
   });
 
-  // Email hook (decoupled from UI success state)
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
     useContactForm({
       formId: "diagnostic-maroc-2030",
@@ -131,11 +118,7 @@ export default function DiagnosticProjectMaroc() {
     });
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
-
-  // Watch pour la logique UI
   const w = watch();
-
-  // --- HELPERS UI ---
 
   const handleSetChoice = (field: keyof FormValues, value: string) => {
     setValue(field, value, { shouldValidate: true });
@@ -152,24 +135,19 @@ export default function DiagnosticProjectMaroc() {
     setValue(field, next, { shouldValidate: true });
   };
 
-  // --- LOGIQUE DE SCORING ---
   const calculateScore = (data: FormValues) => {
     let score = 0;
-
-    // 1. Temporalité
     if (data.projectDate === "moins_3") score += 15;
     else if (data.projectDate === "3_6") score += 12;
     else if (data.projectDate === "6_12") score += 8;
     else if (data.projectDate === "plus_1") score += 5;
 
-    // 2. Situation Actuelle
     if (data.situation === "entrepreneur" || data.situation === "independant")
       score += 10;
     else if (data.situation === "salarie") score += 8;
     else if (data.situation === "reconversion") score += 5;
     else if (data.situation === "sans_activite") score += 2;
 
-    // 3. Compétences & Exp
     if (data.expYears === "plus_5") score += 10;
     else if (data.expYears === "3_5") score += 8;
     else if (data.expYears === "1_3") score += 5;
@@ -178,7 +156,6 @@ export default function DiagnosticProjectMaroc() {
     if (data.revenueGen === "regulier") score += 10;
     else if (data.revenueGen === "ponctuel") score += 5;
 
-    // 4. Finances
     if (data.budget === "plus_30") score += 10;
     else if (data.budget === "15_30") score += 8;
     else if (data.budget === "5_15") score += 5;
@@ -189,12 +166,10 @@ export default function DiagnosticProjectMaroc() {
     else if (data.runway === "3_6") score += 5;
     else if (data.runway === "moins_3") score += 2;
 
-    // 5. Voie envisagée
     if (data.path === "creation" || data.path === "investissement") score += 15;
     else if (data.path === "independant") score += 12;
     else if (data.path === "salariat") score += 10;
 
-    // 6. Réseau
     if (data.network === "solide") score += 20;
     else if (data.network === "contacts") score += 10;
 
@@ -211,47 +186,52 @@ export default function DiagnosticProjectMaroc() {
     setGlobalError(null);
     const finalScore = calculateScore(data);
     const scoreLabel = getScoreLabel(finalScore);
+    const cleanPhone = parsePhoneToE164(data.phone) || data.phone;
 
     try {
-      // 1. Submit to Database
-      const dbResponse = await fetch("/api/diagnostic-maroc-2030", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          // Handle explicit null/empty conversions if needed, though Zod handles most
-          childrenCount: data.childrenCount || null,
-          childrenAges: data.childrenAges || null,
-          message: data.message || null,
-          availabilities: data.availabilities || [],
-          // Add calculated fields
-          score: finalScore,
-          resultLabel: scoreLabel,
-        }),
-      });
+      // 1. Soumission directe à Supabase (remplace le fetch API)
+      const { error: dbError } = await supabase
+        .from("diagnostic_maroc_2030")
+        .insert([
+          {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            phone: cleanPhone,
+            project_date: data.projectDate,
+            situation: data.situation,
+            family_status: data.familyStatus,
+            children_count: data.childrenCount || null,
+            children_ages: data.childrenAges || null,
+            motivations: data.motivations,
+            main_skill: data.mainSkill,
+            exp_years: data.expYears,
+            revenue_gen: data.revenueGen,
+            budget: data.budget,
+            runway: data.runway,
+            path: data.path,
+            network: data.network,
+            message: data.message || null,
+            call_opt_in: data.callOptIn,
+            availabilities: data.availabilities || [],
+            score: finalScore,
+            result_label: scoreLabel,
+          },
+        ]);
 
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
-      }
+      if (dbError) throw new Error(dbError.message);
 
-      // 2. Trigger UI Success
+      // 2. Affichage du succès dans l'UI
       setShowSuccess(true);
+      setTimeout(() => reset(), 3000);
 
-      // Optional: clear form after delay
-      // setTimeout(() => reset(), 3000);
-
-      // 3. Send Email (Legacy system side-effect)
+      // 3. Envoi de l'email (Side-effect système legacy)
       submitEmail({
         Prénom: data.firstName,
         Nom: data.lastName,
         Email: data.email,
-        "Téléphone (WhatsApp)": parsePhoneToE164(data.phone) || data.phone,
-
-        // Section 2
+        "Téléphone (WhatsApp)": cleanPhone,
         "Date installation": data.projectDate,
-
-        // Section 3
         "Situation actuelle": data.situation,
         "Statut Familial": data.familyStatus,
         "Nombre enfants":
@@ -262,29 +242,15 @@ export default function DiagnosticProjectMaroc() {
           data.familyStatus === "famille"
             ? data.childrenAges || "Non précisé"
             : "N/A",
-
-        // Section 4
         Motivations: data.motivations.join(", "),
-
-        // Section 5
         "Compétence principale": data.mainSkill,
         "Années expérience": data.expYears,
         "Revenus générés": data.revenueGen,
-
-        // Section 6
         "Budget projet": data.budget,
         "Autonomie financière": data.runway,
-
-        // Section 7
         "Voie envisagée": data.path,
-
-        // Section 8
         "Réseau Maroc": data.network,
-
-        // Section 9
         Message: data.message || "Aucun",
-
-        // Section 10
         "Appel offert demandé": data.callOptIn,
         "Disponibilités appel":
           data.callOptIn === "oui" &&
@@ -292,8 +258,6 @@ export default function DiagnosticProjectMaroc() {
           data.availabilities.length > 0
             ? data.availabilities.join(", ")
             : "N/A",
-
-        // Scoring & Metadata
         "SCORE DIAGNOSTIC": `${finalScore}/100`,
         Resultat: scoreLabel,
         Source: "Formulaire Diagnostic Projet Maroc 2030",
@@ -303,7 +267,9 @@ export default function DiagnosticProjectMaroc() {
       });
     } catch (err: any) {
       console.error("Submission error:", err);
-      setGlobalError("Une erreur technique est survenue. Veuillez réessayer.");
+      setGlobalError(
+        "Une erreur technique est survenue lors de l'enregistrement.",
+      );
     }
   };
 
@@ -367,9 +333,8 @@ export default function DiagnosticProjectMaroc() {
                 lineHeight: "1.5",
               }}
             >
-              Merci {w.firstName}. Nous allons maintenant analyser vos réponses
-              pour établir votre score. Vous recevrez votre synthèse par email
-              d'ici quelques minutes.
+              Merci {w.firstName}. Nous analysons vos réponses. Vous recevrez
+              votre synthèse par email d'ici quelques minutes.
               {w.callOptIn === "oui" &&
                 " Notre équipe vous contactera sur WhatsApp pour convenir du rendez-vous."}
             </p>
@@ -382,7 +347,6 @@ export default function DiagnosticProjectMaroc() {
   return (
     <main className="dpm relative overflow-hidden">
       <CloudRedEffect2 />
-
       <div className="dpm__wrap">
         <header className="dpm__head">
           <h1 className="dpm__title">
@@ -395,21 +359,13 @@ export default function DiagnosticProjectMaroc() {
         </header>
 
         <form className="dpm__form" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="hidden"
-            name="spec_technique"
-            value="DIAGNOSTIC PROJET MAROC 2030 – SCORE LOGIC: 70-100 Solide, 40-69 Améliorable, 0-39 Risque."
-          />
-
           {/* SECTION 1 */}
           <section className="dpm__section">
             <h3 className="dpm__section-title">1. Informations personnelles</h3>
             <div className="dpm__grid-2">
               <div className="dpm__field">
                 <div
-                  className={`dpm__input-wrapper ${
-                    errors.firstName ? "error" : ""
-                  }`}
+                  className={`dpm__input-wrapper ${errors.firstName ? "error" : ""}`}
                 >
                   <input
                     className="dpm__input"
@@ -420,16 +376,12 @@ export default function DiagnosticProjectMaroc() {
                   />
                 </div>
                 {errors.firstName && (
-                  <div className="dpm__error" style={{ textAlign: "left" }}>
-                    {errors.firstName.message}
-                  </div>
+                  <div className="dpm__error">{errors.firstName.message}</div>
                 )}
               </div>
               <div className="dpm__field">
                 <div
-                  className={`dpm__input-wrapper ${
-                    errors.lastName ? "error" : ""
-                  }`}
+                  className={`dpm__input-wrapper ${errors.lastName ? "error" : ""}`}
                 >
                   <input
                     className="dpm__input"
@@ -440,18 +392,14 @@ export default function DiagnosticProjectMaroc() {
                   />
                 </div>
                 {errors.lastName && (
-                  <div className="dpm__error" style={{ textAlign: "left" }}>
-                    {errors.lastName.message}
-                  </div>
+                  <div className="dpm__error">{errors.lastName.message}</div>
                 )}
               </div>
             </div>
             <div className="dpm__grid-2">
               <div className="dpm__field">
                 <div
-                  className={`dpm__input-wrapper ${
-                    errors.email ? "error" : ""
-                  }`}
+                  className={`dpm__input-wrapper ${errors.email ? "error" : ""}`}
                 >
                   <input
                     className="dpm__input"
@@ -462,16 +410,12 @@ export default function DiagnosticProjectMaroc() {
                   />
                 </div>
                 {errors.email && (
-                  <div className="dpm__error" style={{ textAlign: "left" }}>
-                    {errors.email.message}
-                  </div>
+                  <div className="dpm__error">{errors.email.message}</div>
                 )}
               </div>
               <div className="dpm__field">
                 <div
-                  className={`dpm__input-wrapper ${
-                    errors.phone ? "error" : ""
-                  }`}
+                  className={`dpm__input-wrapper ${errors.phone ? "error" : ""}`}
                 >
                   <input
                     className="dpm__input"
@@ -482,9 +426,7 @@ export default function DiagnosticProjectMaroc() {
                   />
                 </div>
                 {errors.phone && (
-                  <div className="dpm__error" style={{ textAlign: "left" }}>
-                    {errors.phone.message}
-                  </div>
+                  <div className="dpm__error">{errors.phone.message}</div>
                 )}
               </div>
             </div>
@@ -506,9 +448,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.projectDate === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.projectDate === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("projectDate", val)}
                 >
                   <span>{label}</span>
@@ -524,7 +464,6 @@ export default function DiagnosticProjectMaroc() {
           {/* SECTION 3 */}
           <section className="dpm__section">
             <h3 className="dpm__section-title">3. Situation actuelle</h3>
-
             <p className="dpm__label">Quelle est ta situation actuelle ? *</p>
             <div className="dpm__options-grid">
               {[
@@ -536,9 +475,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.situation === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.situation === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("situation", val)}
                 >
                   <span>{label}</span>
@@ -561,9 +498,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.familyStatus === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.familyStatus === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("familyStatus", val)}
                 >
                   <span>{label}</span>
@@ -589,9 +524,7 @@ export default function DiagnosticProjectMaroc() {
                   ].map((opt) => (
                     <div
                       key={opt}
-                      className={`dpm__option-card ${
-                        w.childrenCount === opt ? "is-selected" : ""
-                      }`}
+                      className={`dpm__option-card ${w.childrenCount === opt ? "is-selected" : ""}`}
                       onClick={() => handleSetChoice("childrenCount", opt)}
                     >
                       <span>{opt}</span>
@@ -604,7 +537,6 @@ export default function DiagnosticProjectMaroc() {
                     {errors.childrenCount.message}
                   </div>
                 )}
-
                 <div className="dpm__field mt-4">
                   <div className="dpm__input-wrapper">
                     <input
@@ -636,9 +568,7 @@ export default function DiagnosticProjectMaroc() {
               ].map((opt) => (
                 <div
                   key={opt}
-                  className={`dpm__option-card ${
-                    w.motivations?.includes(opt) ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.motivations?.includes(opt) ? "is-selected" : ""}`}
                   onClick={() => toggleArrayItem("motivations", opt)}
                 >
                   <span>{opt}</span>
@@ -656,9 +586,7 @@ export default function DiagnosticProjectMaroc() {
             <h3 className="dpm__section-title">5. Compétences & expérience</h3>
             <div className="dpm__field mb-6">
               <div
-                className={`dpm__input-wrapper ${
-                  errors.mainSkill ? "error" : ""
-                }`}
+                className={`dpm__input-wrapper ${errors.mainSkill ? "error" : ""}`}
               >
                 <input
                   className="dpm__input"
@@ -668,9 +596,7 @@ export default function DiagnosticProjectMaroc() {
                 />
               </div>
               {errors.mainSkill && (
-                <div className="dpm__error" style={{ textAlign: "left" }}>
-                  {errors.mainSkill.message}
-                </div>
+                <div className="dpm__error">{errors.mainSkill.message}</div>
               )}
             </div>
 
@@ -686,9 +612,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.expYears === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.expYears === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("expYears", val)}
                 >
                   <span>{label}</span>
@@ -711,9 +635,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.revenueGen === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.revenueGen === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("revenueGen", val)}
                 >
                   <span>{label}</span>
@@ -731,7 +653,6 @@ export default function DiagnosticProjectMaroc() {
             <h3 className="dpm__section-title">
               6. Situation financière (confidentiel)
             </h3>
-
             <p className="dpm__label">
               Budget pour le projet Maroc (hors logement) ? *
             </p>
@@ -744,9 +665,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.budget === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.budget === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("budget", val)}
                 >
                   <span>{label}</span>
@@ -770,9 +689,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.runway === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.runway === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("runway", val)}
                 >
                   <span>{label}</span>
@@ -799,9 +716,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.path === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.path === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("path", val)}
                 >
                   <span>{label}</span>
@@ -828,9 +743,7 @@ export default function DiagnosticProjectMaroc() {
               ].map(([val, label]) => (
                 <div
                   key={val}
-                  className={`dpm__option-card ${
-                    w.network === val ? "is-selected" : ""
-                  }`}
+                  className={`dpm__option-card ${w.network === val ? "is-selected" : ""}`}
                   onClick={() => handleSetChoice("network", val)}
                 >
                   <span>{label}</span>
@@ -865,18 +778,14 @@ export default function DiagnosticProjectMaroc() {
             </p>
             <div className="dpm__options-grid">
               <div
-                className={`dpm__option-card ${
-                  w.callOptIn === "oui" ? "is-selected" : ""
-                }`}
+                className={`dpm__option-card ${w.callOptIn === "oui" ? "is-selected" : ""}`}
                 onClick={() => handleSetChoice("callOptIn", "oui")}
               >
                 <span>Oui, je souhaite échanger lors d’un appel offert</span>
                 <div className="dpm__card-radio" />
               </div>
               <div
-                className={`dpm__option-card ${
-                  w.callOptIn === "non" ? "is-selected" : ""
-                }`}
+                className={`dpm__option-card ${w.callOptIn === "non" ? "is-selected" : ""}`}
                 onClick={() => handleSetChoice("callOptIn", "non")}
               >
                 <span>
@@ -904,9 +813,7 @@ export default function DiagnosticProjectMaroc() {
                   ].map((opt) => (
                     <div
                       key={opt}
-                      className={`dpm__option-card ${
-                        w.availabilities?.includes(opt) ? "is-selected" : ""
-                      }`}
+                      className={`dpm__option-card ${w.availabilities?.includes(opt) ? "is-selected" : ""}`}
                       onClick={() => toggleArrayItem("availabilities", opt)}
                     >
                       <span>{opt}</span>

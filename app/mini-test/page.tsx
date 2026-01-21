@@ -7,6 +7,7 @@ import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/lib/supabase"; // Import your Supabase client
 
 // 1. Define Zod Schema
 const formSchema = z.object({
@@ -71,28 +72,18 @@ export default function MiniTestPage() {
     };
 
     try {
-      // 1. Submit to Database (Primary Action)
-      const dbResponse = await fetch("/api/mini-test", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      // 1. Submit directly to Supabase
+      const { error } = await supabase.from("mini_test").insert([
+        {
           project: data.project,
-          obstacles: data.obstacles || [],
+          obstacles: data.obstacles || [], // Supabase handles array -> jsonb automatic conversion
           email: data.email,
-        }),
-      });
+        },
+      ]);
 
-      // --- FIX START: Check if response is actually JSON ---
-      const contentType = dbResponse.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        // If it's HTML (404/500), throw error manually to avoid parsing crash
-        throw new Error("Erreur de connexion au serveur");
-      }
-      // --- FIX END ---
-
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
       // 2. Trigger UI Success Immediately

@@ -8,15 +8,15 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
+import { supabase } from "@/lib/supabase"; // Import du client Supabase
 
 // 1. Define Zod Schema
 const formSchema = z.object({
   selectedPlan: z.string().min(1, "Veuillez sélectionner une formule."),
   fullName: z.string().min(2, "Le nom complet est requis."),
   email: z.string().email("Format d'email invalide."),
-  // Updated phone validation to match the profile-quiz example
   phone: z.string().refine((val) => {
-    if (!val) return true; // Optional field
+    if (!val) return true; // Facultatif
     return !!parsePhoneToE164(val);
   }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   resultEmail: z.string().email("Format d'email invalide."),
@@ -66,7 +66,6 @@ const plans = [
 ];
 
 export default function DevisPage() {
-  // Local state for DB success/error priority
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
@@ -90,10 +89,8 @@ export default function DevisPage() {
     },
   });
 
-  // Watch selected plan for visual styling
   const currentPlanId = watch("selectedPlan");
 
-  // We decouple the UI success from the email hook, similar to the example
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
     useContactForm({
       formId: "plan-selection",
@@ -106,31 +103,24 @@ export default function DevisPage() {
 
     try {
       // 1. Prepare Data
-      const formattedPhone = parsePhoneToE164(data.phone) || "";
+      const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Submit to Database
-      const dbResponse = await fetch("/api/plan-selection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          selectedPlan: data.selectedPlan,
-          fullName: data.fullName,
+      // 2. Submit directly to Supabase
+      // Note: On utilise les noms de colonnes définis dans le schéma Drizzle (snake_case)
+      const { error } = await supabase.from("plan_selection").insert([
+        {
+          selected_plan: data.selectedPlan,
+          full_name: data.fullName,
           email: data.email,
-          phone: data.phone,
-          resultEmail: data.resultEmail,
-          message: data.message,
-        }),
-      });
+          phone: formattedPhone || null,
+          result_email: data.resultEmail,
+          message: data.message || null,
+        },
+      ]);
 
-      // Check content type before parsing JSON
-      const contentType = dbResponse.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Erreur de connexion au serveur");
-      }
-
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
       // 3. Trigger UI Success
@@ -140,8 +130,8 @@ export default function DevisPage() {
         reset();
       }, 5000);
 
-      // 4. Send Email (via HubSpot/Hook)
-      await submitEmail({
+      // 4. Send Email (via existing hook logic)
+      submitEmail({
         "Nom complet": data.fullName,
         "Email principal": data.email,
         Téléphone: formattedPhone || "Non renseigné",
@@ -167,7 +157,6 @@ export default function DevisPage() {
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
-  // Helper to handle card click as radio selection
   const handlePlanSelect = (id: string) => {
     setValue("selectedPlan", id, { shouldValidate: true });
   };
@@ -176,7 +165,6 @@ export default function DevisPage() {
     return (
       <main className="qc relative overflow-hidden">
         <CloudRedEffect1 />
-
         <div className="qc__wrap">
           <div
             className="qc__success"
@@ -257,19 +245,14 @@ export default function DevisPage() {
         </header>
 
         <form className="qc__form" onSubmit={handleSubmit(onSubmit)}>
-          {/* Plan Selection Section */}
           <div className="qc__plans">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`qc__card ${
-                  currentPlanId === plan.id ? "is-selected" : ""
-                }`}
+                className={`qc__card ${currentPlanId === plan.id ? "is-selected" : ""}`}
                 onClick={() => handlePlanSelect(plan.id)}
               >
-                {/* Radio Selection Indicator */}
                 <div className="qc__card-radio" />
-
                 <div className="qc__card-head">
                   <h3 className="qc__card-title">{plan.title}</h3>
                   <span className="qc__card-price">{plan.price}</span>
@@ -284,12 +267,7 @@ export default function DevisPage() {
             ))}
           </div>
 
-          {/* Hidden input for RHF validation of the plan */}
-          <input
-            type="hidden"
-            {...register("selectedPlan")}
-            value={currentPlanId}
-          />
+          <input type="hidden" {...register("selectedPlan")} />
           {errors.selectedPlan && (
             <div
               className="qc__error-msg"
@@ -299,7 +277,6 @@ export default function DevisPage() {
             </div>
           )}
 
-          {/* BROCHURE BUTTON CENTERED */}
           <div className="qc__brochure-container">
             <a href="/brochure" className="qc__brochure-btn">
               → Télécharger la brochure complète PDF
@@ -309,12 +286,9 @@ export default function DevisPage() {
           <h2 className="qc__form-title">VOS INFORMATIONS</h2>
 
           <div className="qc__inputs-stack">
-            {/* Full Name */}
             <div className="qc__field">
               <div
-                className={`qc__input-wrapper ${
-                  errors.fullName ? "error" : ""
-                }`}
+                className={`qc__input-wrapper ${errors.fullName ? "error" : ""}`}
               >
                 <input
                   className="qc__input"
@@ -328,7 +302,6 @@ export default function DevisPage() {
               )}
             </div>
 
-            {/* Email */}
             <div className="qc__field">
               <div
                 className={`qc__input-wrapper ${errors.email ? "error" : ""}`}
@@ -346,7 +319,6 @@ export default function DevisPage() {
               )}
             </div>
 
-            {/* Phone */}
             <div className="qc__field">
               <div
                 className={`qc__input-wrapper ${errors.phone ? "error" : ""}`}
@@ -364,12 +336,9 @@ export default function DevisPage() {
               )}
             </div>
 
-            {/* Results Email */}
             <div className="qc__field">
               <div
-                className={`qc__input-wrapper ${
-                  errors.resultEmail ? "error" : ""
-                }`}
+                className={`qc__input-wrapper ${errors.resultEmail ? "error" : ""}`}
               >
                 <input
                   className="qc__input"
@@ -384,7 +353,6 @@ export default function DevisPage() {
               )}
             </div>
 
-            {/* Message */}
             <div className="qc__field">
               <div className="qc__input-wrapper is-textarea">
                 <textarea

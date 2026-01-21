@@ -7,11 +7,11 @@ import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/lib/supabase"; // Import du client Supabase
 
 // 1. Define Zod Schema
 const brochureSchema = z.object({
   email: z.string().email("Veuillez entrer une adresse email valide."),
-  // Note: Phone is removed here because 'brochureDownload' schema has no phone column.
 });
 
 type FormValues = z.infer<typeof brochureSchema>;
@@ -34,7 +34,7 @@ export default function BrochurePage() {
     },
   });
 
-  // Email hook - used for notification, but errors here won't block the user flow
+  // Email hook - used for notification
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
     useContactForm({
       formId: "brochure-download",
@@ -55,24 +55,17 @@ export default function BrochurePage() {
     setGlobalError(null);
 
     try {
-      // 1. Submit to Database (First priority)
-      const dbResponse = await fetch("/api/brochure-download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      // 1. Submit directly to Supabase
+      // Le nom de la table correspond au schéma Drizzle : "brochure_download"
+      const { error } = await supabase.from("brochure_download").insert([
+        {
           email: data.email,
-        }),
-      });
+        },
+      ]);
 
-      // Handle non-JSON responses gracefully
-      const contentType = dbResponse.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Erreur de connexion au serveur");
-      }
-
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
       // 2. Trigger Success UI & Download
@@ -83,13 +76,18 @@ export default function BrochurePage() {
         reset();
       }, 5000);
 
-      // 3. Send Email (Background)
+      // 3. Send Email (Background notification)
       submitEmail({
         Email: data.email,
         "Document demandé": "Brochure détaillée de l'offre",
         Source: "Site Web - Page Brochure",
         "Date de soumission": new Date().toLocaleString("fr-FR", {
           timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
         }),
       });
     } catch (err: any) {

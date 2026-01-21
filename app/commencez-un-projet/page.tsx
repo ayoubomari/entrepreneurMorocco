@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
+import { supabase } from "@/lib/supabase"; // Import your Supabase client
 
 // 1. Define Zod Schema
 const formSchema = z.object({
@@ -97,30 +98,23 @@ export default function CommencezUnProjetPage() {
 
     try {
       // 1. Prepare Data
-      const formattedPhone = parsePhoneToE164(data.phone) || "";
+      const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Submit to Database
-      const dbResponse = await fetch("/api/profile-quiz", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      // 2. Submit directly to Supabase
+      // Note: Ensure table name matches your DB exactly (usually snake_case)
+      const { error } = await supabase.from("profile_quiz").insert([
+        {
           profile: data.profile,
           stage: data.stage,
           needs: data.needs || [],
           email: data.email,
-          phone: data.phone,
-        }),
-      });
+          phone: formattedPhone || null, // Send null if phone is empty
+        },
+      ]);
 
-      // Check if response is JSON before parsing to avoid the "Unexpected token '<'" crash
-      const contentType = dbResponse.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Erreur de connexion au serveur");
-      }
-
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
       // 3. Trigger UI Success
@@ -130,7 +124,7 @@ export default function CommencezUnProjetPage() {
         reset();
       }, 3000);
 
-      // 4. Send Email
+      // 4. Send Email (via your existing hook logic)
       submitEmail({
         Email: data.email,
         Téléphone: formattedPhone || "Non renseigné",

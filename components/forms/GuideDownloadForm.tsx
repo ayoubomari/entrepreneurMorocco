@@ -6,9 +6,9 @@ import { useIsVisible } from "@/hooks/useIsVisible";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/lib/supabase"; // Import du client Supabase
 
-// 1. Define Zod Schema
-// Note: 'Phone' is omitted because it does not exist in the guideDownload Drizzle schema provided.
+// 1. Définition du schéma Zod (aligné avec la table guide_download)
 const formSchema = z.object({
   firstName: z.string().min(2, "Veuillez entrer votre prénom."),
   email: z.string().email("Format d'email invalide."),
@@ -18,11 +18,10 @@ type FormValues = z.infer<typeof formSchema>;
 
 const GuideDownloadForm = () => {
   const [downloadTriggered, setDownloadTriggered] = useState(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
-  // Initialize visibility hook
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
 
-  // React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -37,7 +36,6 @@ const GuideDownloadForm = () => {
     },
   });
 
-  // Use existing hook for email sending (decoupled from DB logic)
   const {
     submitForm: submitEmail,
     isSubmitting: isEmailSubmitting,
@@ -45,16 +43,12 @@ const GuideDownloadForm = () => {
   } = useContactForm({
     formId: "guide-download",
     onSuccess: () => {
-      // Optional: Reset logic if needed, though usually we leave the success message up
-      // setTimeout(() => {
-      //   reset();
-      //   setDownloadTriggered(false);
-      // }, 5000);
+      console.log("Notification email sent");
     },
   });
 
   const triggerPDFDownload = () => {
-    const pdfUrl = "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf"; // Ensure this path is correct
+    const pdfUrl = "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf";
     const link = document.createElement("a");
     link.href = pdfUrl;
     link.download = "Guide-7-erreurs-entrepreneur-maroc.pdf";
@@ -67,30 +61,31 @@ const GuideDownloadForm = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    // 1. Immediate Feedback: Trigger Download
+    setGlobalError(null);
+
+    // 1. Feedback immédiat : Lancer le téléchargement
     triggerPDFDownload();
     setDownloadTriggered(true);
 
     try {
-      // 2. Submit to Database (Drizzle)
-      const dbResponse = await fetch("/api/guide-download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: data.firstName,
-          email: data.email,
-          guideName: "7 Erreurs à Éviter - Entrepreneur Maroc",
-          source: "Site Web - Page Guide",
-        }),
-      });
+      // 2. Insertion directe dans Supabase
+      const { error: dbError } = await supabase
+        .from("guide_download") // Nom exact de votre table Drizzle
+        .insert([
+          {
+            first_name: data.firstName, // Note: Supabase utilise souvent snake_case par défaut
+            email: data.email,
+            guide_name: "7 Erreurs à Éviter - Entrepreneur Maroc",
+            source: "Site Web - Page Guide",
+          },
+        ]);
 
-      if (!dbResponse.ok) {
-        console.error("DB Save failed");
-        // We do not stop execution here because the user already "got" the PDF
-        // We silently log it or handle it for analytics
+      if (dbError) {
+        console.error("Supabase Save failed:", dbError);
+        // On ne bloque pas l'utilisateur car le PDF est déjà lancé
       }
 
-      // 3. Send Notification Email (HubSpot/EmailJS etc)
+      // 3. Envoi de l'email de notification
       await submitEmail({
         Prénom: data.firstName,
         Email: data.email,
@@ -101,9 +96,10 @@ const GuideDownloadForm = () => {
         Source: "Site Web - Page Guide",
       });
 
-      reset(); // Clear form internals
+      reset();
     } catch (err) {
       console.error("Submission workflow failed:", err);
+      setGlobalError("Une erreur est survenue lors de l'enregistrement.");
     }
   };
 
@@ -156,19 +152,18 @@ const GuideDownloadForm = () => {
                 className="lm-success"
                 style={{
                   background: "#1a1a1a",
-                  border: "2px solid #ef4444",
+                  border: "2px solid #fff",
                   padding: "24px",
                   textAlign: "center",
                   position: "relative",
                   animation: "successFadeIn 0.5s ease-out",
                 }}
               >
-                {/* Success icon */}
                 <div
                   style={{
                     width: "48px",
                     height: "48px",
-                    background: "#ef4444",
+                    background: "#fff",
                     borderRadius: "50%",
                     margin: "0 auto 16px",
                     display: "flex",
@@ -183,7 +178,7 @@ const GuideDownloadForm = () => {
                     height="24"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#ffffff"
+                    stroke="#000"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -192,14 +187,12 @@ const GuideDownloadForm = () => {
                   </svg>
                 </div>
 
-                {/* Success text */}
                 <h3
                   style={{
                     color: "#fff",
                     fontSize: "20px",
                     fontWeight: "700",
                     margin: "0 0 8px",
-                    animation: "textFadeIn 0.5s ease-out 0.3s both",
                   }}
                 >
                   Parfait ! Votre guide a été téléchargé
@@ -211,16 +204,15 @@ const GuideDownloadForm = () => {
                     fontSize: "14px",
                     margin: "0 0 20px",
                     lineHeight: "1.4",
-                    animation: "textFadeIn 0.5s ease-out 0.4s both",
                   }}
                 >
                   Le téléchargement du PDF a commencé automatiquement.
-                  {emailError && (
+                  {(emailError || globalError) && (
                     <>
                       <br />
                       <span style={{ color: "#fca5a5", fontSize: "12px" }}>
-                        Note: L'envoi par email a échoué, mais votre PDF est
-                        téléchargé.
+                        Note: Un problème technique est survenu pour l'email,
+                        mais votre PDF est prêt.
                       </span>
                     </>
                   )}
@@ -237,7 +229,6 @@ const GuideDownloadForm = () => {
                     fontWeight: "600",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
-                    animation: "buttonFadeIn 0.5s ease-out 0.5s both",
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "8px",
@@ -267,52 +258,9 @@ const GuideDownloadForm = () => {
                   </svg>
                   Télécharger à nouveau
                 </button>
-                <style jsx>{`
-                  @keyframes successFadeIn {
-                    from {
-                      opacity: 0;
-                      transform: translateY(20px);
-                    }
-                    to {
-                      opacity: 1;
-                      transform: translateY(0);
-                    }
-                  }
-                  @keyframes iconScale {
-                    from {
-                      opacity: 0;
-                      transform: scale(0);
-                    }
-                    to {
-                      opacity: 1;
-                      transform: scale(1);
-                    }
-                  }
-                  @keyframes textFadeIn {
-                    from {
-                      opacity: 0;
-                      transform: translateY(10px);
-                    }
-                    to {
-                      opacity: 1;
-                      transform: translateY(0);
-                    }
-                  }
-                  @keyframes buttonFadeIn {
-                    from {
-                      opacity: 0;
-                      transform: translateY(10px);
-                    }
-                    to {
-                      opacity: 1;
-                      transform: translateY(0);
-                    }
-                  }
-                `}</style>
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="lm-fields">
-                {/* First Name */}
                 <div className="lm-field">
                   <input
                     className={`lm-input ${errors.firstName ? "border-red-500" : ""}`}
@@ -335,7 +283,6 @@ const GuideDownloadForm = () => {
                   )}
                 </div>
 
-                {/* Email */}
                 <div className="lm-field">
                   <input
                     className={`lm-input ${errors.email ? "border-red-500" : ""}`}
@@ -358,6 +305,18 @@ const GuideDownloadForm = () => {
                   )}
                 </div>
 
+                {globalError && (
+                  <p
+                    style={{
+                      color: "#ef4444",
+                      fontSize: "12px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {globalError}
+                  </p>
+                )}
+
                 <button
                   className="lm-btn-left"
                   type="submit"
@@ -372,6 +331,29 @@ const GuideDownloadForm = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes successFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes iconScale {
+          from {
+            opacity: 0;
+            transform: scale(0);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </section>
   );
 };

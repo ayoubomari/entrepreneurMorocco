@@ -7,16 +7,15 @@ import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// Replaced libphonenumber-js with your helper
 import { parsePhoneToE164 } from "@/lib/phone-utils";
+import { supabase } from "@/lib/supabase"; // Import du client Supabase
 
-// 1. Define Zod Schema
+// 1. Définition du schéma Zod
 const formSchema = z.object({
   fullName: z.string().min(2, "Le nom est requis."),
   email: z.email("Format d'email invalide."),
-  // Updated phone validation to match profile-quiz example
   phone: z.string().refine((val) => {
-    if (!val) return true; // Optional field
+    if (!val) return true; // Optionnel
     return !!parsePhoneToE164(val);
   }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   services: z.array(z.string()).optional(),
@@ -36,8 +35,6 @@ const SERVICES_OPTS: Array<[string, string]> = [
 
 export default function DevisPage() {
   const [servicesOpen, setServicesOpen] = useState(false);
-
-  // Local state for DB success/error priority
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
@@ -59,10 +56,9 @@ export default function DevisPage() {
     },
   });
 
-  // Watch services to update the placeholder text dynamically
   const selectedServices = watch("services") || [];
 
-  // Decoupled Email submission
+  // Hook pour l'envoi de l'email de notification
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
     useContactForm({
       formId: "custom-quote",
@@ -71,37 +67,42 @@ export default function DevisPage() {
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
+  // Helper pour transformer les clés de services en labels lisibles
+  const getServicesLabels = (keys: string[] | undefined) => {
+    if (!keys || keys.length === 0) return "Aucun sélectionné";
+    return keys
+      .map((k) => {
+        const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
+        return found ? found[1] : k;
+      })
+      .join(", ");
+  };
+
   const onSubmit = async (data: FormValues) => {
     setGlobalError(null);
 
     try {
-      // 1. Prepare Data
-      const formattedPhone = parsePhoneToE164(data.phone) || "";
+      // 1. Préparation des données
+      const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Submit to Database (New API Route)
-      const dbResponse = await fetch("/api/custom-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: data.fullName,
+      // 2. Insertion directe dans Supabase
+      // On utilise les noms de colonnes snake_case définis dans votre schéma Drizzle
+      const { error } = await supabase.from("custom_quote").insert([
+        {
+          full_name: data.fullName,
           email: data.email,
-          phone: data.phone,
+          phone: formattedPhone || null,
           services: data.services || [],
-          message: data.message,
-        }),
-      });
+          message: data.message || null,
+        },
+      ]);
 
-      const contentType = dbResponse.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Erreur de connexion au serveur");
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
-      if (!dbResponse.ok) {
-        const errData = await dbResponse.json();
-        throw new Error(errData.error || "Erreur lors de l'enregistrement");
-      }
-
-      // 3. Trigger UI Success
+      // 3. Succès UI
       setShowSuccess(true);
 
       setTimeout(() => {
@@ -109,17 +110,7 @@ export default function DevisPage() {
         setServicesOpen(false);
       }, 5000);
 
-      // 4. Send Email (Fire and forget or subsequent)
-      const getServicesLabels = (keys: string[] | undefined) => {
-        if (!keys || keys.length === 0) return "Aucun sélectionné";
-        return keys
-          .map((k) => {
-            const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
-            return found ? found[1] : k;
-          })
-          .join(", ");
-      };
-
+      // 4. Envoi de l'email (via Brevo/Hook)
       submitEmail({
         "Nom complet": data.fullName,
         Email: data.email,
@@ -129,6 +120,11 @@ export default function DevisPage() {
         Source: "Demande de devis sur-mesure",
         "Date de soumission": new Date().toLocaleString("fr-FR", {
           timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
         }),
       });
     } catch (err: any) {
@@ -141,7 +137,6 @@ export default function DevisPage() {
     return (
       <main className="qf relative overflow-hidden">
         <CloudRedEffect1 />
-
         <div className="qf__wrap">
           <div
             className="qf__success"
@@ -205,20 +200,20 @@ export default function DevisPage() {
               Notre équipe analyse votre projet. Vous recevrez une offre
               personnalisée sous 48h.
             </p>
-            <style jsx>{`
-              @keyframes successFadeIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-            `}</style>
           </div>
         </div>
+        <style jsx>{`
+          @keyframes successFadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </main>
     );
   }
@@ -237,6 +232,7 @@ export default function DevisPage() {
         </header>
 
         <form className="qf__form" onSubmit={handleSubmit(onSubmit)}>
+          {/* Nom Complet */}
           <div className="qf__field">
             <div
               className={`qf__input-wrapper ${errors.fullName ? "error" : ""}`}
@@ -254,6 +250,7 @@ export default function DevisPage() {
             )}
           </div>
 
+          {/* Email */}
           <div className="qf__field">
             <div className={`qf__input-wrapper ${errors.email ? "error" : ""}`}>
               <input
@@ -269,6 +266,7 @@ export default function DevisPage() {
             )}
           </div>
 
+          {/* Téléphone */}
           <div className="qf__field">
             <div className={`qf__input-wrapper ${errors.phone ? "error" : ""}`}>
               <input
@@ -284,6 +282,7 @@ export default function DevisPage() {
             )}
           </div>
 
+          {/* Services (Custom Dropdown/Checkboxes) */}
           <div className="qf__field">
             <div className="qf__input-wrapper">
               <button
@@ -321,6 +320,7 @@ export default function DevisPage() {
             </div>
           </div>
 
+          {/* Message libre */}
           <div className="qf__field">
             <div className="qf__input-wrapper">
               <textarea
