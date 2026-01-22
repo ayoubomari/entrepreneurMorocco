@@ -19,7 +19,6 @@ import "./contactsection.css";
 import "./faqsection.css";
 import "./footer.css";
 import "./hero.css";
-import "./blockone.css";
 import { Linkedin, Instagram, Youtube } from "lucide-react";
 import { useIsVisible } from "../hooks/useIsVisible";
 
@@ -578,8 +577,22 @@ const MethodologySection = () => {
 /* =========================
    Testimonials
    ========================= */
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="ts-stars">
+    {Array.from({ length: 5 }).map((_, index) => (
+      <svg
+        key={index}
+        className={`ts-star ${index < rating ? "ts-star-filled" : "ts-star-empty"}`}
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polygon points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9" />
+      </svg>
+    ))}
+  </div>
+);
+
 const TestimonialsSection = () => {
-  // 1. Hook Integration
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
 
   const testimonials = [
@@ -606,62 +619,28 @@ const TestimonialsSection = () => {
     },
   ];
 
-  const StarRating = ({
-    rating,
-    total = 5,
-  }: {
-    rating: number;
-    total?: number;
-  }) => (
-    <div className="star-rating">
-      {Array.from({ length: total }).map((_, index) => {
-        const isFilled = index < Math.floor(rating);
-        const isHalf = index < rating && index >= Math.floor(rating);
-        return (
-          <svg
-            key={index}
-            className={`star ${
-              isFilled ? "star-filled" : isHalf ? "star-half" : "star-empty"
-            }`}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9"
-              fill={isFilled || isHalf ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth={isFilled || isHalf ? "0" : "0.9"}
-            />
-          </svg>
-        );
-      })}
-    </div>
-  );
-
   return (
     <section
       ref={elementRef}
-      className={`testimonials-section ${isVisible ? "visible" : ""}`}
+      className={`ts-section ${isVisible ? "is-ts-visible" : ""}`}
     >
-      <div className="testimonials-container max-w-7xl mx-auto px-6">
-        <div className="testimonials-header">
-          <h2 className="testimonials-title">ILS L&apos;ONT FAIT AVEC NOUS</h2>
-          <div className="testimonials-content-wrapper">
-            <p className="testimonials-description">
-              Découvrez comment nos clients ont concrétisé leur projet au Maroc,
-              <br />
-              en quelques semaines, grâce à notre accompagnement sur mesure.
-            </p>
-          </div>
+      <div className="ts-container max-w-7xl mx-auto px-6">
+        <div className="ts-header">
+          <h2 className="ts-title">ILS L&apos;ONT FAIT AVEC NOUS</h2>
+          <p className="ts-description">
+            Découvrez comment nos clients ont concrétisé leur projet au Maroc,
+            <br />
+            en quelques semaines, grâce à notre accompagnement sur mesure.
+          </p>
         </div>
 
-        <div className="testimonials-grid">
+        <div className="ts-grid">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-wrapper">
-              <div className="profile-icon">
-                <div className="profile-circle">
+            <div key={index} className="ts-wrapper">
+              <div className="ts-profile-icon">
+                <div className="ts-profile-circle">
                   <svg
-                    className="profile-svg"
+                    className="ts-profile-svg"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -674,27 +653,21 @@ const TestimonialsSection = () => {
                 </div>
               </div>
 
-              <div className="testimonial-card">
-                <div className="testimonial-card-inner">
-                  <h3 className="testimonial-name">
-                    {testimonial.name.split("\n").map((line, i, arr) => (
+              <div className="ts-card">
+                <div className="ts-card-inner">
+                  <h3 className="ts-name">
+                    {testimonial.name.split("\n").map((line, i) => (
                       <span key={i}>
                         {line}
-                        {i < arr.length - 1 && <br />}
+                        <br />
                       </span>
                     ))}
                   </h3>
-                  <p className="testimonial-subtitle">{testimonial.subtitle}</p>
-                  <blockquote className="testimonial-quote">
-                    "
-                    {testimonial.content.split("\n").map((line, i, arr) => (
-                      <span key={i}>
-                        {line}
-                        {i < arr.length - 1 && <br className="quote-break" />}
-                      </span>
-                    ))}
-                    "
+                  <p className="ts-subtitle">{testimonial.subtitle}</p>
+                  <blockquote className="ts-quote">
+                    "{testimonial.content}"
                   </blockquote>
+                  {/* Using the stable component here */}
                   <StarRating rating={testimonial.rating} />
                 </div>
               </div>
