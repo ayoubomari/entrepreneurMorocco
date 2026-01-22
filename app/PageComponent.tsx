@@ -1527,8 +1527,8 @@ const Footer = () => {
                 D.M.M., Marrakesh 40000, Maroc, deuxième étage porte 16
               </li>
               <li className="ft-contactLine">
-                <a className="ft-q-link" href="tel:+33651024018">
-                  +33 6 51 02 40 18
+                <a className="ft-q-link" href="tel:+33644660252">
+                  +33 6 44 66 02 52
                 </a>
               </li>
               <li className="ft-contactLine">
