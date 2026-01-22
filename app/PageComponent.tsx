@@ -766,7 +766,6 @@ const NetworkSection = () => {
    Podcast
    ========================= */
 const PodcastSection = () => {
-  // 1. Animation Hook (Trigger when 20% is visible)
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
 
   // 2. Data
@@ -774,24 +773,23 @@ const PodcastSection = () => {
     () => [
       {
         id: 1,
+        image: "/podcast2-1.png",
+        video: "/videos/reel-20.mp4",
+      },
+      {
+        id: 2,
         image: "/podcast1-1.png",
         video: "/videos/reel-1.mp4",
       },
       {
-        id: 2,
+        id: 3,
         image: "/podcast2-1.png",
         video: "/videos/reel-19.mp4",
       },
       {
-        id: 3,
+        id: 4,
         image: "/podcast1-1.png",
         video: "/videos/reel-1.mp4",
-      },
-      // duplicate
-      {
-        id: 4,
-        image: "/podcast2-1.png",
-        video: "/videos/reel-20.mp4",
       },
     ],
     [],
@@ -1111,8 +1109,8 @@ const PodcastSection = () => {
                   <div
                     className={`pod-thumb ${
                       index % 2 === 0
-                        ? "pod-thumb-to-down-r"
-                        : "pod-thumb-to-down-l"
+                        ? "pod-thumb-to-down-l" // Swapped from R to L
+                        : "pod-thumb-to-down-r" // Swapped from L to R
                     }`}
                   >
                     <Image
@@ -1120,8 +1118,7 @@ const PodcastSection = () => {
                       height={600}
                       src={podcast.image}
                       alt="Podcast"
-                      loading="lazy"
-                      className="pod-thumb-img" // Added class for 100% width/height enforcement
+                      className="pod-thumb-img"
                     />
                   </div>
 
@@ -1131,7 +1128,6 @@ const PodcastSection = () => {
                       alt="Play Video"
                       width={88}
                       height={88}
-                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -1531,11 +1527,11 @@ const Footer = () => {
                   +33 6 44 66 02 52
                 </a>
               </li>
-              <li className="ft-contactLine">
+              {/* <li className="ft-contactLine">
                 <a className="ft-q-link" href="tel:+212776868163">
                   +212 7 76 86 81 63
                 </a>
-              </li>
+              </li> */}
               <li className="ft-contactLine">
                 <a className="ft-q-link" href="mailto:contact@em.com">
                   salam@entrepreneursmorocco.com
