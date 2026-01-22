@@ -8,11 +8,6 @@ export default function BotpressChat() {
 
   return (
     <>
-      {/* 
-        1. CHANGE: strategy="lazyOnload" 
-        This prevents the 239KB file from blocking the initial page load.
-        It will load during browser idle time.
-      */}
       <Script
         src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
         strategy="lazyOnload"
@@ -21,11 +16,10 @@ export default function BotpressChat() {
         }}
       />
 
-      {/* 2. Load configuration only after inject.js is ready */}
       {libraryLoaded && (
         <Script
           src="https://files.bpcontent.cloud/2026/01/15/16/20260115160015-Q3KUXXOF.js"
-          strategy="lazyOnload" // Use lazyOnload here as well
+          strategy="lazyOnload"
         />
       )}
     </>
