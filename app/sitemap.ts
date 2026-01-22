@@ -71,6 +71,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/diagnostic-projet-maroc`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
 
     // 4. SEO Articles (Blog Content)
     // These specific URLs match your folder structure in `app/articles/`

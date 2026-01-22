@@ -24,7 +24,7 @@ import { Linkedin, Instagram, Youtube } from "lucide-react";
 import { useIsVisible } from "../hooks/useIsVisible";
 
 /* =========================
-   3D Audience Carousel
+   3D Audience Carousel (Optimized)
    ========================= */
 const IMAGES = [1, 2, 3, 4, 5].map((n) => `/caroussel-3D-${n}.png`);
 const CAPTIONS = [
@@ -142,18 +142,15 @@ const AudienceCarousel: React.FC = () => {
   };
 
   return (
-    <section
-      ref={elementRef}
-      className={`wave-carousel-section ${isVisible ? "visible" : ""}`}
-    >
-      <div className="wave-carousel__header">
-        <h2 className="wave-carousel__title">
+    <section ref={elementRef} className={`wc-s ${isVisible ? "v" : ""}`}>
+      <div className="wc-h">
+        <h2 className="wc-t">
           POUR CEUX QUI VEULENT S'INSTALLER, ENTREPRENDRE OU CHANGER DE VIE
         </h2>
       </div>
 
       <div
-        className={`wave-carousel-container ${isDragging ? "grabbing" : ""}`}
+        className={`wc-ct ${isDragging ? "grb" : ""}`}
         onMouseDown={(e) => handleDragStart(e.clientX)}
         onMouseUp={(e) => handleDragEnd(e.clientX)}
         onMouseLeave={() => {
@@ -167,7 +164,7 @@ const AudienceCarousel: React.FC = () => {
         onMouseEnter={() => setIsPaused(true)}
       >
         <button
-          className="carousel-arrow carousel-arrow--left"
+          className="c-a c-a-l"
           aria-label="Previous Slide"
           onClick={(e) => {
             e.stopPropagation();
@@ -175,7 +172,6 @@ const AudienceCarousel: React.FC = () => {
           }}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -190,7 +186,7 @@ const AudienceCarousel: React.FC = () => {
         </button>
 
         <button
-          className="carousel-arrow carousel-arrow--right"
+          className="c-a c-a-r"
           aria-label="Next Slide"
           onClick={(e) => {
             e.stopPropagation();
@@ -198,7 +194,6 @@ const AudienceCarousel: React.FC = () => {
           }}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -212,15 +207,15 @@ const AudienceCarousel: React.FC = () => {
           </svg>
         </button>
 
-        <div className="wave-carousel">
+        <div className="wc-m">
           {IMAGES.map((src, i) => (
             <div
               key={i}
-              className={`wave-card ${i === active ? "wave-card--active" : ""}`}
+              className={`wc-c ${i === active ? "wc-c-a" : ""}`}
               style={getCardStyle(i)}
               onClick={() => !isDragging && setActive(i)}
             >
-              <div className="wave-img-wrapper">
+              <div className="wc-iw">
                 <Image
                   src={src}
                   alt={CAPTIONS[i].title}
@@ -230,12 +225,10 @@ const AudienceCarousel: React.FC = () => {
                   loading="lazy"
                 />
               </div>
-              <div className="wave-caption">
-                <div className="wave-caption__title">{CAPTIONS[i].title}</div>
+              <div className="wc-cp">
+                <div className="wc-cp-t">{CAPTIONS[i].title}</div>
                 {CAPTIONS[i].subtitle && (
-                  <div className="wave-caption__subtitle">
-                    {CAPTIONS[i].subtitle}
-                  </div>
+                  <div className="wc-cp-s">{CAPTIONS[i].subtitle}</div>
                 )}
               </div>
             </div>
@@ -285,11 +278,11 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className={`hero ${loaded ? "hero--loaded" : ""}`}>
+    <div className={`h ${loaded ? "h--ld" : ""}`}>
       {/* Enhanced Background with Multiple Layers */}
-      <div className="hero__bg-container">
+      <div className="h_bg_c">
         <div
-          className="hero__bg hero__bg--main"
+          className="h_bg h_bg_m"
           style={{
             transform: `translate3d(${mousePosition.x * 5}px, ${
               mousePosition.y * 5
@@ -297,23 +290,23 @@ const HeroSection = () => {
           }}
         />
         <div
-          className="hero__bg hero__bg--secondary"
+          className="h_bg h_bg_s"
           style={{
             transform: `translate3d(${mousePosition.x * 3}px, ${
               mousePosition.y * 3
             }px, 0) translateY(${scrollY * 0.3}px)`,
           }}
         />
-        <div className="hero__overlay" />
-        <div className="hero__gradient" />
+        <div className="h_ov" />
+        <div className="h_gr" />
       </div>
 
       {/* Animated Particles */}
-      <div className="hero__particles">
+      <div className="h_pts">
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className={`hero__particle hero__particle--${i + 1}`}
+            className={`h_pt h_pt--${i + 1}`}
             style={{
               animationDelay: `${i * 0.5}s`,
               transform: `translate3d(${mousePosition.x * (i + 1)}px, ${
@@ -325,39 +318,37 @@ const HeroSection = () => {
       </div>
 
       {/* Content with Enhanced Animations */}
-      <div className="heros">
+      <div className="hs">
         {/* FIRST HERO CONTENT (Original) */}
-        <div className="hero__content">
-          <div className="hero__inner">
+        <div className="h_ct">
+          <div className="h_in">
             {/* Combined Big Title */}
-            <h1 className="hero__title">
+            <h1 className="h_t">
               {[
                 "ENTREPRENDRE",
                 "AU",
                 "MAROC.",
-                "\n", // The line break item
+                "\n",
                 "ON",
                 "VOUS",
                 "MONTRE",
                 "LE",
                 "CHEMIN.",
               ].map((word, index, arr) => {
-                // 1. Check if the current item is the new line character
                 if (word === "\n") {
-                  return <br key={index} className="hero__title-break" />;
+                  return <br key={index} className="h_t_br" />;
                 }
 
-                // 2. Otherwise, render the word and letters
                 return (
                   <span
                     key={word + index}
-                    className="hero__title-word"
+                    className="h_t_w"
                     style={{ animationDelay: `${0.2 + index * 0.08}s` }}
                   >
                     {word.split("").map((letter, letterIndex) => (
                       <span
                         key={letterIndex}
-                        className="hero__title-letter"
+                        className="h_t_l"
                         style={{
                           animationDelay: `${
                             0.2 + index * 0.08 + letterIndex * 0.015
@@ -368,9 +359,8 @@ const HeroSection = () => {
                       </span>
                     ))}
 
-                    {/* Only add a space if it's not the last word AND the next word isn't a line break */}
                     {index < arr.length - 1 && arr[index + 1] !== "\n" && (
-                      <span className="hero__title-space"> </span>
+                      <span className="h_t_sp"> </span>
                     )}
                   </span>
                 );
@@ -378,27 +368,26 @@ const HeroSection = () => {
             </h1>
 
             {/* Animated Text */}
-            <p className="hero__text">
-              <span className="hero__text-content">
+            <p className="h_tx">
+              <span className="h_tx_c">
                 De l&apos;idée à la concrétisation, on vous accompagne à chaque
                 étape
               </span>
             </p>
 
             {/* Enhanced Button */}
-            <div className="hero__btn-container">
-              <Link href="/commencez-un-projet" className="hero__btn">
-                <span className="hero__btn-text">Je commence mon projet</span>
+            <div className="h_b_c">
+              <Link href="/commencez-un-projet" className="h_b">
+                <span className="h_b_t">Je commence mon projet</span>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* SECOND HERO CONTENT (Now Blockone Content with Hero Style) */}
-        <div className="hero__content hero__content-secondary">
-          <div className="hero__inner hero__inner-secondary">
-            {/* Title with Blockone content but Hero styling/classes */}
-            <h2 className="hero__title hero__title-secondary">
+        {/* SECOND HERO CONTENT */}
+        <div className="h_ct h_ct_s">
+          <div className="h_in h_in_s">
+            <h2 className="h_t h_t_s">
               {[
                 "ÊTES-VOUS",
                 "PRÊT",
@@ -408,22 +397,20 @@ const HeroSection = () => {
                 "MAROC",
                 "?",
               ].map((word, index, arr) => {
-                // 1. Check if the current item is the new line character
                 if (word === "\n") {
-                  return <br key={index} className="hero__title-break" />;
+                  return <br key={index} className="h_t_br" />;
                 }
 
-                // 2. Otherwise, render the word and letters
                 return (
                   <span
                     key={word + index}
-                    className="hero__title-word"
+                    className="h_t_w"
                     style={{ animationDelay: `${0.2 + index * 0.08}s` }}
                   >
                     {word.split("").map((letter, letterIndex) => (
                       <span
                         key={letterIndex}
-                        className="hero__title-letter"
+                        className="h_t_l"
                         style={{
                           animationDelay: `${
                             0.2 + index * 0.08 + letterIndex * 0.015
@@ -434,27 +421,26 @@ const HeroSection = () => {
                       </span>
                     ))}
 
-                    {/* Only add a space if it's not the last word AND the next word isn't a line break */}
                     {index < arr.length - 1 && arr[index + 1] !== "\n" && (
-                      <span className="hero__title-space"> </span>
+                      <span className="h_t_sp"> </span>
                     )}
                   </span>
                 );
               })}
             </h2>
 
-            {/* Blockone Text with Hero styling/classes */}
-            <p className="hero__text">
-              <span className="hero__text-content">
+            {/* Blockone Text */}
+            <p className="h_tx">
+              <span className="h_tx_c">
                 Faites le test en 1 minute et découvrez si c&apos;est le bon
                 moment pour vous lancer !
               </span>
             </p>
 
-            {/* Blockone Button with Hero styling/classes */}
-            <div className="hero__btn-container">
-              <Link href="/mini-test" className="hero__btn hero__btn-secondary">
-                <span className="hero__btn-text">Je commence le test</span>
+            {/* Blockone Button */}
+            <div className="h_b_c">
+              <Link href="/mini-test" className="h_b h_b_s">
+                <span className="h_b_t">Je commence le test</span>
               </Link>
             </div>
           </div>
@@ -462,11 +448,11 @@ const HeroSection = () => {
       </div>
 
       {/* Floating Elements */}
-      <div className="hero__floating-elements">
-        <div className="hero__floating-shape hero__floating-shape--1"></div>
-        <div className="hero__floating-shape hero__floating-shape--2"></div>
-        <div className="hero__floating-shape hero__floating-shape--3"></div>
-        <div className="hero__floating-shape hero__floating-shape--4"></div>
+      <div className="h_fe">
+        <div className="h_fs h_fs--1"></div>
+        <div className="h_fs h_fs--2"></div>
+        <div className="h_fs h_fs--3"></div>
+        <div className="h_fs h_fs--4"></div>
       </div>
     </div>
   );

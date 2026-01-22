@@ -1,6 +1,4 @@
 /* article.css */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
-
 /* main {
   padding-top: 0 !important;
 } */
@@ -102,7 +100,9 @@ h6 {
   text-align: center;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .stat-card:hover {

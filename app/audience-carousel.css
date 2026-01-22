@@ -1,7 +1,5 @@
-/* =========================================
-   Wave Carousel Section
-   ========================================= */
-.wave-carousel-section {
+/* wc-s: wave-carousel-section */
+.wc-s {
   position: relative;
   width: 100%;
   padding: clamp(50px, 10vw, 120px) 0 0;
@@ -9,14 +7,15 @@
   overflow: hidden;
 }
 
-.wave-carousel-section::before {
+.wc-s::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 15% 20%,
       rgba(220, 38, 38, 0.05) 0%,
       transparent 40%
@@ -29,50 +28,40 @@
   z-index: 1;
 }
 
-/* =========================================
-   ANIMATION LOGIC
-   ========================================= */
-
-/* DEFAULT STATE (Desktop/Tablet): 
-   Visible immediately with no movement */
-.wave-carousel__title,
-.wave-carousel-container {
+/* wc-t: title, wc-ct: container */
+.wc-t,
+.wc-ct {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* MOBILE ONLY ANIMATION (767px and below) */
 @media (max-width: 767px) {
-  /* 1. Hide elements initially only on mobile */
-  .wave-carousel__title,
-  .wave-carousel-container {
+  .wc-t,
+  .wc-ct {
     opacity: 0;
     transform: translateY(30px);
   }
-
-  /* 2. Trigger animation when .visible class is added */
-  .wave-carousel-section.visible .wave-carousel__title {
-    animation: fadeInUp 0.4s ease-out forwards;
+  /* v: visible class trigger */
+  .wc-s.v .wc-t {
+    animation: fUI 0.4s ease-out forwards;
     animation-delay: 0.1s;
   }
-
-  .wave-carousel-section.visible .wave-carousel-container {
-    animation: fadeInUp 0.4s ease-out forwards;
+  .wc-s.v .wc-ct {
+    animation: fUI 0.4s ease-out forwards;
     animation-delay: 0.3s;
   }
 }
 
-@keyframes fadeInUp {
+/* fUI: fadeInUp */
+@keyframes fUI {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* =========================================
-   Header 
-   ========================================= */
-.wave-carousel__header {
+/* wc-h: header */
+.wc-h {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +70,7 @@
   z-index: 10;
 }
 
-.wave-carousel__title {
+.wc-t {
   max-width: clamp(400px, 80vw, 800px);
   text-align: center;
   color: #fff;
@@ -91,46 +80,39 @@
   margin: 0;
 }
 
-/* Header Responsive Padding */
 @media (max-width: 1600px) {
-  .wave-carousel__header {
+  .wc-h {
     padding-bottom: 200px;
   }
 }
 @media (max-width: 1200px) {
-  .wave-carousel__header {
+  .wc-h {
     padding-bottom: 180px;
   }
 }
 @media (max-width: 900px) {
-  .wave-carousel__header {
+  .wc-h {
     padding-bottom: 120px;
   }
 }
 @media (max-width: 576px) {
-  .wave-carousel__header {
+  .wc-h {
     padding-bottom: 0px;
   }
 }
 
-/* =========================================
-   Carousel Layout
-   ========================================= */
-
-.wave-carousel-container {
+.wc-ct {
   position: relative;
   width: 100%;
   max-width: 100%;
   padding: 0;
   z-index: 10;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
 }
 
-.wave-carousel {
+/* wc-m: main carousel */
+.wc-m {
   position: relative;
   width: 100%;
   height: clamp(410px, 59vh, 546px);
@@ -141,15 +123,15 @@
   padding: 65px 0 36px;
 }
 
-/* Card Styling */
-.wave-card {
+/* wc-c: card */
+.wc-c {
   position: absolute;
   width: clamp(182px, 23.5vw, 310px);
   transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: left;
 }
 
-.wave-card img {
+.wc-c img {
   width: 100%;
   height: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -157,24 +139,28 @@
   box-sizing: border-box;
 }
 
-/* Shadow logic */
-.wave-card:not(.wave-card--active) img {
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 5px 20px rgba(0, 0, 0, 0.6);
+/* wc-c-a: card active */
+.wc-c:not(.wc-c-a) img {
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.7),
+    0 5px 20px rgba(0, 0, 0, 0.6);
 }
 
-.wave-card--active img {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
+.wc-c-a img {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Captions */
-.wave-caption {
+/* wc-cp: caption, wc-cp-t: title, wc-cp-s: subtitle */
+.wc-cp {
   padding: 13px 0 0 0;
   opacity: 1;
   transform: translateY(0);
   transition: all 400ms ease;
 }
 
-.wave-caption__title {
+.wc-cp-t {
   font-weight: 600;
   font-size: clamp(16px, 1.45vw, 18px);
   color: #fff;
@@ -182,16 +168,14 @@
   display: inline-block;
 }
 
-.wave-caption__subtitle {
+.wc-cp-s {
   font-size: 15px;
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* =========================================
-   Navigation Arrows
-   ========================================= */
-.carousel-arrow {
-  display: none; /* Hidden on mobile by default */
+/* c-a: carousel-arrow, c-a-l: left, c-a-r: right */
+.c-a {
+  display: none;
   position: absolute;
   top: 55%;
   transform: translateY(-50%);
@@ -209,108 +193,105 @@
   backdrop-filter: blur(5px);
 }
 
-.carousel-arrow:hover {
+.c-a:hover {
   background: rgba(255, 255, 255, 0.9);
   color: #000;
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.carousel-arrow svg {
+.c-a svg {
   width: 28px;
   height: 28px;
 }
 
-.carousel-arrow--left {
+.c-a-l {
   left: 5%;
 }
-.carousel-arrow--right {
+.c-a-r {
   right: 5%;
 }
 
 @media (min-width: 1024px) {
-  .carousel-arrow {
+  .c-a {
     display: flex;
   }
-  .wave-carousel-container {
+  .wc-ct {
     padding: 0 20px;
   }
 }
 
 @media (min-width: 1440px) {
-  .carousel-arrow--left {
+  .c-a-l {
     left: 10%;
   }
-  .carousel-arrow--right {
+  .c-a-r {
     right: 10%;
   }
 }
 
-/* =========================================
-   Responsive Adjustments
-   ========================================= */
 @media (max-width: 1024px) {
-  .wave-carousel {
+  .wc-m {
     height: clamp(364px, 55vh, 482px);
     padding: 55px 0 32px;
   }
-  .wave-card {
+  .wc-c {
     width: clamp(164px, 27.3vw, 264px);
   }
-  .wave-carousel-container {
+  .wc-ct {
     cursor: grab;
   }
-  .wave-carousel-container.grabbing {
+  .wc-ct.grb {
     cursor: grabbing;
-  }
+  } /* grb: grabbing */
 }
 
 @media (max-width: 768px) {
-  .wave-carousel-section {
+  .wc-s {
     padding: clamp(40px, 8vw, 80px) 0 0;
   }
-  .wave-carousel {
+  .wc-m {
     height: clamp(337px, 50vh, 419px);
     padding: 45px 0 27px;
   }
-  .wave-card {
+  .wc-c {
     width: clamp(146px, 32.5vw, 228px);
   }
-  .wave-caption__title {
+  .wc-cp-t {
     font-size: clamp(12px, 2.3vw, 14px);
   }
-  .wave-caption__subtitle {
+  .wc-cp-s {
     font-size: clamp(10px, 1.8vw, 12px);
   }
 }
 
 @media (max-width: 640px) {
-  .wave-carousel {
+  .wc-m {
     height: clamp(310px, 46vh, 382px);
     padding: 40px 0 18px;
   }
-  .wave-card {
+  .wc-c {
     width: clamp(137px, 38vw, 200px);
   }
-  .wave-caption__title {
+  .wc-cp-t {
     font-size: clamp(14px, 2.6vw, 16px);
   }
-  .wave-caption__subtitle {
+  .wc-cp-s {
     font-size: clamp(13px, 2vw, 13px);
   }
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .wave-carousel-section.visible .wave-carousel__title,
-  .wave-carousel-section.visible .wave-carousel-container {
+  .wc-s.v .wc-t,
+  .wc-s.v .wc-ct {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
 }
 
-.wave-img-wrapper img {
+/* wc-iw: image wrapper */
+.wc-iw img {
   pointer-events: none;
   user-select: none;
 }

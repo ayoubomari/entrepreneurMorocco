@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Entrepreneurs Morocco | On vous montre le chemin",
     description:
-      "Simplifiez votre installation professionnelle et personnelle au Maroc avec Imad & Zakaria.",
+      "Simplifiez votre installation professionnelle et personnelle au Maroc Entrepreneurs Morocco.",
     url: "https://www.entrepreneursmorocco.com",
     siteName: "Entrepreneurs Morocco",
     images: [

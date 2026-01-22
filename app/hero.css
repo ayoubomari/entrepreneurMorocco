@@ -1,13 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap");
-
 /* =========================================
    1. HERO SECTION BASE
    ========================================= */
-.hero {
+.h {
   position: relative;
-  /* On mobile, we keep the minimum height, but allow flow */
   min-height: 100vh;
-  /* We remove the default flex centering here so we can control children individually on desktop */
   display: block;
   overflow: hidden;
   font-family: "Montserrat";
@@ -18,33 +14,32 @@
 /* =========================================
    2. BACKGROUNDS & OVERLAYS
    ========================================= */
-.hero__bg-container {
+.h_bg_c {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.hero__bg {
+.h_bg {
   position: absolute;
   inset: 0;
   background: url("/Rabat-Grd.jpg") center center / cover no-repeat;
 }
 
-.hero__bg--main {
+.h_bg_m {
   z-index: 1;
-  /* Removed the filter as requested in your snippet "filter: none" */
   filter: none;
 }
 
 /* Simple overlay */
-.hero__overlay {
+.h_ov {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0);
   z-index: 3;
 }
 
-.hero__gradient {
+.h_gr {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -63,20 +58,19 @@
    3. CONTENT WRAPPERS
    ========================================= */
 
-/* The wrapper for both sections */
-.heros {
+.hs {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Mobile Default Margins (keep your original spacing for mobile) */
-.heros {
-  margin-top: 225px; /* Default for smallest screens */
+/* Mobile Default Margins */
+.hs {
+  margin-top: 225px;
 }
 
 @media (min-width: 641px) and (max-width: 979px) {
-  .heros {
+  .hs {
     margin-top: 250px;
   }
 }
@@ -84,7 +78,7 @@
 /* =========================================
    4. CONTENT BLOCKS
    ========================================= */
-.hero__content {
+.h_ct {
   position: relative;
   z-index: 10;
   width: 100%;
@@ -96,23 +90,23 @@
   margin-bottom: 50px;
 }
 
-.hero__inner {
+.h_in {
   padding: clamp(20px, 4vw, 40px) 0;
 }
 
-.hero__inner-secondary {
+.h_in_s {
   padding: 0;
 }
 
 /* Secondary Section specific spacing */
-.hero__content-secondary {
+.h_ct_s {
   margin-top: 60px;
 }
 
 /* =========================================
    5. TEXT STYLES & ANIMATIONS
    ========================================= */
-.hero__title {
+.h_t {
   color: #fff;
   font-size: clamp(32px, 5vw, 65px);
   font-weight: 800;
@@ -126,26 +120,26 @@
   font-style: normal;
 }
 
-.hero__title-secondary {
+.h_t_s {
   font-size: clamp(22px, 30px, 32px);
 }
 
-.hero__title-word {
+.h_t_w {
   display: inline-block;
-  padding-bottom: clamp(10px, 20px, 20px); /* Fixed typo 'clam' to 'clamp' */
+  padding-bottom: clamp(10px, 20px, 20px);
 }
 
-.hero__title-space {
+.h_t_sp {
   display: inline-block;
   width: 0.3em;
 }
 
-.hero__title-letter {
+.h_t_l {
   padding-inline: 1px;
 }
 
 /* Subtitle */
-.hero__subtitle {
+.h_st {
   color: #fff;
   font-size: clamp(28px, 6.5vw, 48px);
   font-weight: 800;
@@ -160,17 +154,17 @@
   font-style: normal;
 }
 
-.hero__subtitle-word {
+.h_st_w {
   display: inline-block;
 }
 
-.hero__subtitle-space {
+.h_st_sp {
   display: inline-block;
   width: 0.3em;
 }
 
 /* Body Text */
-.hero__text {
+.h_tx {
   color: #fff;
   font-size: 19px;
   font-weight: 400;
@@ -187,13 +181,13 @@
 /* =========================================
    6. BUTTONS
    ========================================= */
-.hero__btn-container {
+.h_b_c {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease 0.8s forwards;
 }
 
-.hero__btn {
+.h_b {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -205,48 +199,47 @@
   letter-spacing: 0.02em;
   text-decoration: none;
   border: none;
-  cursor: pointer; /* Fixed from 'none' to 'pointer' for usability */
+  cursor: pointer;
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  cursor: none;
 }
 
-.hero__btn-secondary {
+.h_b_s {
   padding: 15px 35px 15px 17px;
 }
 
-.hero__btn-text {
+.h_b_t {
   transition: transform 0.3s ease;
 }
 
-.hero__btn-arrow {
+.h_b_a {
   font-size: 1.2em;
   transition: transform 0.3s ease;
 }
 
-.hero__btn:hover {
+.h_b:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   background: #f8f8f8;
 }
 
-.hero__btn:hover .hero__btn-text {
+.h_b:hover .h_b_t {
   transform: translateX(-2px);
 }
 
-.hero__btn:hover .hero__btn-arrow {
+.h_b:hover .h_b_a {
   transform: translateX(5px);
 }
 
-.hero__btn:active {
+.h_b:active {
   transform: translateY(-1px);
 }
 
 /* =========================================
    7. SCROLL INDICATOR
    ========================================= */
-.hero__scroll-indicator {
+.h_sci {
   position: absolute;
   bottom: 30px;
   left: 50%;
@@ -254,10 +247,10 @@
   z-index: 10;
   opacity: 0;
   animation: fadeInUp 0.8s ease 1s forwards;
-  pointer-events: none; /* Allows click-through */
+  pointer-events: none;
 }
 
-.hero__scroll-line {
+.h_sc_l {
   width: 2px;
   height: 40px;
   background: rgba(255, 255, 255, 0.6);
@@ -266,7 +259,7 @@
   overflow: hidden;
 }
 
-.hero__scroll-line::after {
+.h_sc_l::after {
   content: "";
   position: absolute;
   top: 0;
@@ -277,7 +270,7 @@
   animation: scrollMove 2s ease-in-out infinite;
 }
 
-.hero__scroll-dot {
+.h_sc_d {
   width: 6px;
   height: 6px;
   background: #fff;
@@ -323,53 +316,33 @@
 /* =========================================
    9. MEDIA QUERIES (TABLET & LARGER)
    ========================================= */
-
-/* 
-   THIS IS THE CRITICAL SECTION FOR YOUR REQUEST.
-   From Tablet (768px) upwards, we change the layout strategy.
-*/
-.hero__content:first-child {
+.h_ct:first-child {
   min-height: 65vh;
 }
+
 @media (min-width: 768px) {
-  /* Reset the text alignment */
-  .hero__content {
+  .h_ct {
     text-align: left;
   }
 
-  /* Reset margin on the text */
-  .hero__text {
+  .h_tx {
     margin: 0 0 25px;
   }
 
-  /* 
-     1. Remove the "margin-top" hack from the container 
-     because we are switching to flex centering for the 1st section.
-  */
-  .heros {
+  .hs {
     margin-top: 0;
   }
 
-  /* 
-     2. FIRST HERO SECTION
-     Force it to take 100vh. This makes it occupy the full screen.
-     The user sees Navbar + This Section only.
-  */
-  .heros > .hero__content:first-child {
+  .hs > .h_ct:first-child {
     min-height: 100vh;
-    display: flex; /* Enable Flexbox */
-    flex-direction: column; /* Stack Title, Text, Button */
-    justify-content: center; /* Center vertically */
-    margin-bottom: 0; /* Remove bottom margin */
-    padding-top: 80px; /* Optional: Add if Navbar is fixed/sticky to prevent overlap */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
+    padding-top: 80px;
   }
 
-  /* 
-     3. SECOND HERO SECTION (The Test)
-     This naturally flows BELOW the first 100vh section.
-     
-  */
-  .hero__content-secondary {
+  .h_ct_s {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -381,39 +354,39 @@
    10. MEDIA QUERIES (MOBILE)
    ========================================= */
 @media (max-width: 768px) {
-  .hero__content {
+  .h_ct {
     text-align: center;
   }
 
-  .hero__text {
+  .h_tx {
     margin: 0 auto clamp(28px, 5vw, 40px);
   }
 
-  .hero__inner {
+  .h_in {
     padding: 125px 0 0;
   }
-  .hero__inner-secondary {
+  .h_in_s {
     padding: 0;
   }
 }
 
 @media (max-width: 480px) {
-  .hero__title-space {
+  .h_t_sp {
     display: none;
   }
 
-  .hero__btn {
+  .h_b {
     width: 100%;
     max-width: 245px;
     justify-content: center;
     padding: 15px 5px;
   }
 
-  .hero__scroll-indicator {
+  .h_sci {
     bottom: 20px;
   }
 
-  .hero__title-word {
+  .h_t_w {
     padding: 0 5px;
   }
 }
@@ -422,18 +395,18 @@
    11. ACCESSIBILITY
    ========================================= */
 @media (prefers-reduced-motion: reduce) {
-  .hero__title,
-  .hero__subtitle,
-  .hero__text,
-  .hero__btn-container,
-  .hero__scroll-indicator {
+  .h_t,
+  .h_st,
+  .h_tx,
+  .h_b_c,
+  .h_sci {
     animation: none;
     opacity: 1;
     transform: none;
   }
 
-  .hero__scroll-line::after,
-  .hero__scroll-dot {
+  .h_sc_l::after,
+  .h_sc_d {
     animation: none;
   }
 }
