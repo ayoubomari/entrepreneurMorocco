@@ -200,7 +200,8 @@
   flex: 0 0 min(86vw, 720px); /* Mobile default */
   color: #fff;
   transform: scale(0.86);
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+  transition:
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: 0.65;
@@ -332,6 +333,7 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   image-rendering: auto;
+  aspect-ratio: 16/9;
 }
 
 /* Soft ambient glow */
@@ -410,7 +412,9 @@
   color: black;
   text-decoration: none;
   position: relative;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
   will-change: transform, background-color;
   transform: translateZ(0);
   cursor: none;
@@ -467,7 +471,8 @@
     flex: 0 0 86vw;
     min-width: 100%;
     /* Faster transitions on mobile */
-    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transition:
+      transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       filter 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }

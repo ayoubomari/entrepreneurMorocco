@@ -773,22 +773,22 @@ const PodcastSection = () => {
     () => [
       {
         id: 1,
-        image: "/podcast2-1.png",
+        image: "/podcast2-2.png",
         video: "/videos/reel-20.mp4",
       },
       {
         id: 2,
-        image: "/podcast1-1.png",
+        image: "/podcast1-2.png",
         video: "/videos/reel-1.mp4",
       },
       {
         id: 3,
-        image: "/podcast2-1.png",
+        image: "/podcast4-2.png",
         video: "/videos/reel-19.mp4",
       },
       {
         id: 4,
-        image: "/podcast1-1.png",
+        image: "/podcast3-2.png",
         video: "/videos/reel-1.mp4",
       },
     ],
@@ -1118,7 +1118,7 @@ const PodcastSection = () => {
                       height={600}
                       src={podcast.image}
                       alt="Podcast"
-                      className="pod-thumb-img"
+                      className={`pod-thumb-img ${index % 2 === 0 ? "pod-thumb-to-down-l" : "pod-thumb-to-down-r"}`}
                     />
                   </div>
 
