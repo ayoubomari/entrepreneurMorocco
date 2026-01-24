@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabase"; // Import du client Supabase
+import Image from "next/image";
 
 // 1. Définition du schéma Zod (aligné avec la table guide_download)
 const formSchema = z.object({
@@ -131,8 +132,10 @@ const GuideDownloadForm = () => {
           {/* Left: Image */}
           <figure className="lm-pdf">
             <div className="lm-pdf-link">
-              <img
-                src="/downloadpdf.png"
+              <Image
+                width={300}
+                height={600}
+                src="/7-error.webp"
                 alt="Guide PDF - 7 Erreurs à Éviter"
                 className="lm-pdf-img"
               />
