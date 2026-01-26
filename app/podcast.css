@@ -315,7 +315,6 @@
 /* 
    Targeting the Next.js Image inside 
 */
-.pod-thumb img,
 .pod-thumb-img {
   display: block;
   /* 4. SIZE: Image takes 100% of the container (minus padding) */
@@ -334,6 +333,12 @@
   backface-visibility: hidden;
   image-rendering: auto;
   aspect-ratio: 16/9;
+
+  pointer-events: "none";
+  user-select: "none";
+  -webkit-user-drag: "none";
+  -webkit-user-select: "none";
+  -webkit-touch-callout: "none";
 }
 
 /* Soft ambient glow */

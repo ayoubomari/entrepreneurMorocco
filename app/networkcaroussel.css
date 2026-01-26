@@ -198,7 +198,9 @@
   transform: translateY(-8px) scale(1.05);
   background: rgba(220, 38, 38, 0.08);
   border-color: rgba(220, 38, 38, 0.3);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 25px rgba(220, 38, 38, 0.2);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(220, 38, 38, 0.2);
 }
 
 .net-icon {
@@ -213,6 +215,11 @@
   height: 64px;
   display: block;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .net-icon img {

@@ -135,9 +135,11 @@ const GuideDownloadForm = () => {
               <Image
                 width={300}
                 height={600}
-                src="/7-error.webp"
+                src="/7-errors.webp"
                 alt="Guide PDF - 7 Erreurs à Éviter"
                 className="lm-pdf-img"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
           </figure>

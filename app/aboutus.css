@@ -102,7 +102,9 @@
   z-index: 0;
   /* animation: pulse 3s ease-in-out infinite; */
 
-  transition: top 0.4s ease-out, bottom 0.4s ease-out;
+  transition:
+    top 0.4s ease-out,
+    bottom 0.4s ease-out;
 }
 
 /* Top Left Frame */
@@ -258,6 +260,12 @@
   transition: filter 0.3s ease;
   position: relative;
   z-index: 1;
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .aus-img-card:hover .aus-photo {
@@ -338,7 +346,8 @@
   padding-top: clamp(8px, 2vw, 12px);
   text-align: center;
   opacity: 0;
-  animation: slideInUp 0.8s ease-out 2.4s forwards,
+  animation:
+    slideInUp 0.8s ease-out 2.4s forwards,
     glow 2s ease-in-out 3s infinite;
   background: linear-gradient(45deg, #fff, #ff6b6b);
   background-size: 200% 200%;

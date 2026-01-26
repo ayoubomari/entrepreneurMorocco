@@ -744,6 +744,8 @@ const NetworkSection = () => {
                     width={64}
                     height={64}
                     loading="lazy"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
                 <h3 className="net-title">
@@ -1119,6 +1121,8 @@ const PodcastSection = () => {
                       src={podcast.image}
                       alt="Podcast"
                       className={`pod-thumb-img ${index % 2 === 0 ? "pod-thumb-to-down-l" : "pod-thumb-to-down-r"}`}
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </div>
 
@@ -1290,6 +1294,8 @@ const AboutUsSection = () => {
                   alt="Zakaria"
                   title="Zakaria"
                   loading="lazy"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
 
@@ -1303,6 +1309,8 @@ const AboutUsSection = () => {
                   alt="Imad"
                   title="Imad"
                   loading="lazy"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </div>
@@ -1481,6 +1489,8 @@ const Footer = () => {
               height={70}
               className="ft-logo"
               loading="lazy"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
             />
             <p className="ft-tagline">
               Accompagnement humain & stratégique pour entreprendre au Maroc.
