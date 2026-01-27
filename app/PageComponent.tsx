@@ -1139,6 +1139,7 @@ const PodcastSection = () => {
                 <div className="pod-actions">
                   <a
                     href="https://www.youtube.com/@EntrepreneursMorocco"
+                    target="_blank"
                     className="pod-btn pod-btn--solid"
                     onClick={(e) => isDraggingRef.current && e.preventDefault()}
                   >
@@ -1146,6 +1147,7 @@ const PodcastSection = () => {
                   </a>
                   <a
                     href="https://www.instagram.com/entrepreneursmorocco?igsh=b2JucjcwNjcxZHB6"
+                    target="_blank"
                     className="pod-btn pod-btn--outline"
                     onClick={(e) => isDraggingRef.current && e.preventDefault()}
                   >

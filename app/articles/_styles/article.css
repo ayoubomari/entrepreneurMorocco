@@ -181,7 +181,8 @@ h6 {
 
 /* --- GLASS BOXES (Lists/Quotes) --- */
 .glass-box {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   padding: 24px;
@@ -222,8 +223,8 @@ h6 {
     transparent 100%
   );
   padding: 40px;
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* --- BUTTONS (Trapezoid with ::before border) --- */
@@ -384,5 +385,5 @@ h6 {
     rgba(7, 0, 0, 0.5),
     rgba(0, 0, 0, 0.5)
   );
-  border-color: rgba(77, 16, 18, 1);
+  border-color: rgb(239, 68, 68);
 }
