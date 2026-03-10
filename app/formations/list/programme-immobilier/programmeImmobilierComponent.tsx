@@ -15,7 +15,7 @@ import {
   BarChart3,
   Handshake,
   Briefcase,
-  ChevronDown,
+  Dot,
   Award,
   MapPin,
   Calendar,
@@ -88,30 +88,43 @@ const ProgrammeImmobilierComponent: React.FC = () => {
         {/* === CONTENT CONTAINER === */}
         <main className="content-container">
           {/* --- INTRO TEXT --- */}
-          <div className="section-block">
-            <p className="article-text">
-              Le marché immobilier marocain attire chaque année de nombreux
-              investisseurs : entrepreneurs, expatriés, membres de la diaspora
-              et investisseurs internationaux.
-            </p>
-            <p className="article-text">
-              Ces investisseurs recherchent des opportunités, mais aussi des
-              professionnels capables de comprendre le marché, analyser un
-              investissement et sécuriser leurs décisions.
-            </p>
-            <p className="article-text">
-              La formation{" "}
-              <strong className="text-white">
-                Conseiller en Investissement Immobilier
-              </strong>{" "}
-              a été conçue pour transmettre les compétences essentielles afin
-              d&apos;accompagner ces projets.
-            </p>
-            <p className="article-text">
-              Pendant 14 jours, les participants découvrent les mécanismes du
-              marché immobilier marocain et apprennent à analyser des projets
-              d&apos;investissement de manière structurée.
-            </p>
+          <div className="section-block intro-split">
+            <div className="intro-split-text">
+              <p className="article-text">
+                Le marché immobilier marocain attire chaque année de nombreux
+                investisseurs : entrepreneurs, expatriés, membres de la diaspora
+                et investisseurs internationaux.
+              </p>
+              <p className="article-text">
+                Ces investisseurs recherchent des opportunités, mais aussi des
+                professionnels capables de comprendre le marché, analyser un
+                investissement et sécuriser leurs décisions.
+              </p>
+              <p className="article-text">
+                La formation{" "}
+                <strong className="text-white">
+                  Conseiller en Investissement Immobilier
+                </strong>{" "}
+                a été conçue pour transmettre les compétences essentielles afin
+                d&apos;accompagner ces projets.
+              </p>
+              <p className="article-text">
+                Pendant 14 jours, les participants découvrent les mécanismes du
+                marché immobilier marocain et apprennent à analyser des projets
+                d&apos;investissement de manière structurée.
+              </p>
+            </div>
+
+            <div className="intro-split-image-wrapper">
+              {/* NOUVEAU CONTENEUR POUR L'EFFET CADRE */}
+              <div className="intro-image-cadre">
+                <img
+                  src="/immob.webp"
+                  alt="Paysage immobilier Marrakech"
+                  className="intro-image-clipped"
+                />
+              </div>
+            </div>
           </div>
 
           {/* === POURQUOI CETTE FORMATION === */}
@@ -273,19 +286,19 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               </div>
               <div className="module-bullets">
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Fonctionnement du marché immobilier au Maroc
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Analyse des différentes typologies de biens
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Identification des zones à fort potentiel
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Compréhension des dynamiques de marché
                 </div>
               </div>
@@ -301,19 +314,19 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               </div>
               <div className="module-bullets">
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Étapes d&apos;une transaction immobilière
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Compréhension des contrats
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Sécurisation des investissements
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Rôle des différents intervenants dans une opération
                   immobilière
                 </div>
@@ -330,19 +343,19 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               </div>
               <div className="module-bullets">
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Calcul de rentabilité
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Analyse financière d&apos;un projet
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Étude de cas concrets
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Identification des critères d&apos;un investissement pertinent
                 </div>
               </div>
@@ -358,19 +371,19 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               </div>
               <div className="module-bullets">
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Compréhension des objectifs d&apos;un investisseur
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Présentation d&apos;opportunités d&apos;investissement
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Structuration d&apos;un projet immobilier
                 </div>
                 <div className="module-bullet">
-                  <ChevronDown size={14} />
+                  <Dot size={28} />
                   Approche professionnelle de la relation investisseur
                 </div>
               </div>

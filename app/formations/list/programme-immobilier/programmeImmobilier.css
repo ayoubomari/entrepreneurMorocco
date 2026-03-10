@@ -83,13 +83,13 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-left: 64px;
+  padding-left: 54px;
 }
 
 .module-bullet {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0px;
   font-size: 15px;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
@@ -189,6 +189,95 @@
   font-weight: 500;
 }
 
+.intro-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.intro-split-text {
+  flex: 1;
+  max-width: 55%;
+}
+
+.intro-split-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* =========================================
+   CADRES DE DÉCORATION (INTRO IMAGE)
+   ========================================= */
+
+.intro-image-cadre {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 500px; /* Aligné avec l'image */
+  z-index: 1;
+}
+
+/* Les bordures (Cadres) */
+.intro-image-cadre::before,
+.intro-image-cadre::after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(239, 68, 68, 0.911); /* Couleur Rouge du thème */
+  z-index: 0;
+  transition:
+    top 0.4s ease-out,
+    bottom 0.4s ease-out,
+    left 0.4s ease-out,
+    right 0.4s ease-out;
+  pointer-events: none;
+}
+
+/* Cadre en haut à gauche */
+.intro-image-cadre::before {
+  top: -10px;
+  left: -10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Cadre en bas à droite */
+.intro-image-cadre::after {
+  bottom: -10px;
+  right: -10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Effet interactif : les cadres s'écartent au survol */
+.intro-image-cadre:hover::before {
+  top: -16px;
+  left: -16px;
+}
+.intro-image-cadre:hover::after {
+  bottom: -16px;
+  right: -16px;
+}
+
+/* L'image elle-même */
+.intro-image-clipped {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  filter: brightness(0.9) contrast(1.1);
+  transition: transform 0.3s ease;
+  position: relative; /* Indispensable pour que le z-index fonctionne */
+  z-index: 2; /* Maintient l'image au-dessus des cadres */
+}
+
+.intro-image-clipped:hover {
+  transform: scale(1.02);
+}
+
 /* Grid layout for funnel on desktop */
 @media (min-width: 931px) {
   .funnel-grid {
@@ -236,6 +325,24 @@
 
   .module-bullets {
     padding-left: 0;
+  }
+
+  .intro-split {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .intro-split-text {
+    max-width: 100%;
+  }
+
+  .intro-split-image-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .intro-image-clipped {
+    max-width: 100%;
   }
 }
 
@@ -482,4 +589,7 @@
 }
 .content-container {
   max-width: 1280px;
+}
+.article-text {
+  margin-bottom: 16px;
 }
