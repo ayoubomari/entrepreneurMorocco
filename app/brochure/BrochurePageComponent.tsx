@@ -43,7 +43,7 @@ export default function BrochurePageComponent() {
 
   const triggerPDFDownload = () => {
     const a = document.createElement("a");
-    a.href = "/pdfs/EM Pitch Deck Fr V1.pdf";
+    a.href = "/pdfs/em-pitch-deck-fr-v1.pdf";
     a.download = "brochure.pdf";
     a.target = "_blank";
     document.body.appendChild(a);

@@ -56,8 +56,9 @@
 
 @media (min-width: 481px) {
   .hdr.hdr--scrolled .hdr__logo {
+    max-width: 58px;
     min-width: 50px;
-    gap: 7px;
+    gap: 9px;
     transform: none;
   }
 
@@ -66,7 +67,7 @@
   }
 
   .hdr.hdr--scrolled .hdr__stripe--1 {
-    transform: translateX(15px);
+    transform: translateX(18px);
   }
 
   .hdr.hdr--scrolled .hdr__stripe--2 {
@@ -74,7 +75,7 @@
   }
 
   .hdr.hdr--scrolled .hdr__stripe--3 {
-    transform: translateX(2.5px);
+    transform: translateX(2px);
   }
 }
 
@@ -130,6 +131,7 @@
   flex-shrink: 0;
   cursor: none;
   text-decoration: none;
+  max-width: 90px;
   min-width: 90px;
   transform-origin: left center;
 }
@@ -157,7 +159,7 @@
 
 .hdr__stripe--2.hdr__stripe--loaded {
   opacity: 1;
-  transform: translateX(5px);
+  transform: translateX(3.5px);
   transition-delay: 0.5s;
 }
 
@@ -442,19 +444,20 @@
   }
 
   .hdr__logo {
+    max-width: 70px;
     min-width: 70px;
   }
 
   .hdr__stripe--1.hdr__stripe--loaded {
-    transform: translateX(10px);
+    transform: translateX(19px);
   }
 
   .hdr__stripe--2.hdr__stripe--loaded {
-    transform: translateX(0px);
+    transform: translateX(7.5px);
   }
 
   .hdr__stripe--3.hdr__stripe--loaded {
-    transform: translateX(-10px);
+    transform: translateX(-5px);
   }
 
   .hdr__inner {
@@ -487,19 +490,20 @@
   }
 
   .hdr__logo {
+    max-width: 100px;
     min-width: 60px;
   }
 
   .hdr__stripe--1.hdr__stripe--loaded {
-    transform: translateX(5px);
+    transform: translateX(17px);
   }
 
   .hdr__stripe--2.hdr__stripe--loaded {
-    transform: translateX(0);
+    transform: translateX(5px);
   }
 
   .hdr__stripe--3.hdr__stripe--loaded {
-    transform: translateX(-5px);
+    transform: translateX(-7px);
   }
 
   .hdr__inner {
@@ -531,6 +535,7 @@
   }
 
   .hdr__logo {
+    max-width: 80px;
     min-width: 40px; /* Reduced from 50px */
     gap: 10px; /* Reduced from default 12.5px */
   }
@@ -542,10 +547,10 @@
 
   /* Adjust animation offset for smaller size so it doesn't look jumpy */
   .hdr__stripe--1.hdr__stripe--loaded {
-    transform: translateX(10px);
+    transform: translateX(15px);
   }
   .hdr__stripe--2.hdr__stripe--loaded {
-    transform: translateX(4px);
+    transform: translateX(6px);
   }
   .hdr__stripe--3.hdr__stripe--loaded {
     transform: translateX(-4px);

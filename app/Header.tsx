@@ -36,7 +36,7 @@ export default function Header() {
 
   // Check if the current path starts with any of the defined paths
   const isShouldBeDark = darkHeaderPaths.some((path) =>
-    pathname?.startsWith(path)
+    pathname?.startsWith(path),
   );
   // ---------------------------------------------------------
 
@@ -99,13 +99,13 @@ export default function Header() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsContactSectionVisible(
-          entry.isIntersecting && entry.intersectionRatio > 0.3
+          entry.isIntersecting && entry.intersectionRatio > 0.3,
         );
       },
       {
         threshold: [0, 0.3, 0.7, 1],
         rootMargin: "-10% 0px -10% 0px",
-      }
+      },
     );
 
     observer.observe(contactElement);
@@ -160,7 +160,7 @@ export default function Header() {
             <Image
               width={60}
               height={20}
-              src="/logo-stripe-1.svg"
+              src="/logo-stripe-1.webp"
               alt="logo-line"
               className="hdr__stripe-svg"
             />
@@ -173,7 +173,7 @@ export default function Header() {
             <Image
               width={60}
               height={20}
-              src="/logo-stripe-2.svg"
+              src="/logo-stripe-2.webp"
               alt="logo-line"
               className="hdr__stripe-svg"
             />
@@ -186,7 +186,7 @@ export default function Header() {
             <Image
               width={60}
               height={20}
-              src="/logo-stripe-3.svg"
+              src="/logo-stripe-3.webp"
               alt="logo-line"
               className="hdr__stripe-svg"
             />

@@ -78,7 +78,7 @@
   height: 100%;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(3px 3px 3.2px rgba(249, 0, 3, 0.5));
+  filter: drop-shadow(3px 3px 3.2px rgba(139, 139, 139, 0.5));
   transition: filter 0.3s ease-in-out;
   pointer-events: none;
   user-select: none;
@@ -329,10 +329,10 @@
   0%,
   100% {
     transform: translateY(0px);
-    filter: drop-shadow(3px 3px 3.2px rgba(249, 0, 3, 0.5));
+    filter: drop-shadow(3px 3px 3.2px rgba(139, 139, 139, 0.5));
   }
   50% {
     transform: translateY(-6px);
-    filter: drop-shadow(5px 5px 3.7px rgba(249, 0, 3, 0.7));
+    filter: drop-shadow(5px 5px 3.7px rgba(182, 181, 181, 0.5));
   }
 }

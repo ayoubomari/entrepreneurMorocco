@@ -49,10 +49,10 @@ const GuideDownloadForm = () => {
   });
 
   const triggerPDFDownload = () => {
-    const pdfUrl = "/pdfs/Guide-7-erreurs-entrepreneur-maroc.pdf";
+    const pdfUrl = "/pdfs/guide-7-erreurs-entrepreneur-maroc.pdf";
     const link = document.createElement("a");
     link.href = pdfUrl;
-    link.download = "Guide-7-erreurs-entrepreneur-maroc.pdf";
+    link.download = "guide-7-erreurs-entrepreneur-maroc.pdf";
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();
@@ -135,7 +135,7 @@ const GuideDownloadForm = () => {
               <Image
                 width={300}
                 height={600}
-                src="/7-errors.webp"
+                src="/book2-1.webp"
                 alt="Guide PDF - 7 Erreurs à Éviter"
                 className="lm-pdf-img"
                 draggable={false}

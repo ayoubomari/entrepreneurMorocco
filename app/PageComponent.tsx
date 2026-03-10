@@ -1485,7 +1485,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="ft-brand">
             <Image
-              src="/logofooter.svg"
+              src="/logofooter.png"
               alt="Entrepreneurs Morocco"
               width={340}
               height={70}
