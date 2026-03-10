@@ -105,6 +105,113 @@ export function CloudRedEffect1() {
           transform: "translateY(-50%)",
         }}
       ></div>
+
+      {/* --- Doubled Consistent Clouds Additions --- */}
+
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "4600px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "5000px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "5400px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "5800px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "6200px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "6600px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "7000px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "7400px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "7800px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "8200px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "8600px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
     </>
   );
 }

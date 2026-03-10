@@ -61,7 +61,7 @@
 .formations-header {
   text-align: center;
   margin-bottom: 3.5rem;
-  max-width: 900px;
+  max-width: 950px;
   margin-left: auto;
   margin-right: auto;
   opacity: 0;
@@ -198,6 +198,7 @@
   opacity: 0;
   transform: translateY(60px);
   animation: cardSlideUp 0.8s ease-out forwards;
+  height: 100%;
 }
 
 @keyframes cardSlideUp {
@@ -230,6 +231,7 @@
   );
   transition: left 0.6s ease;
   z-index: 1;
+  pointer-events: none; /* Prevents shine from blocking clicks */
 }
 
 .formation-card:hover {
@@ -252,7 +254,6 @@
   height: 72px;
   background: rgba(239, 68, 68, 0.08);
   border: 1.5px solid rgba(239, 68, 68, 0.2);
-  /* border-radius: 50%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -302,11 +303,11 @@
 
 .formation-features {
   list-style: none;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
   padding: 0;
   text-align: left;
   z-index: 2;
-  flex: 1;
+  flex: 1; /* Pushes the button to the absolute bottom of the card */
 }
 
 .formation-features li {
@@ -339,6 +340,45 @@
 
 .formation-card:hover .formation-features li::before {
   transform: scale(1.3);
+}
+
+/* ========================================= 
+   CARD BUTTON (New)
+   ========================================= */
+.formation-card-footer {
+  margin-top: auto; /* Aligns to flex-end */
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.formation-card-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.formation-card:hover .formation-card-btn {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.formation-card-btn:hover {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
+  color: #fff !important;
 }
 
 /* ========================================= 

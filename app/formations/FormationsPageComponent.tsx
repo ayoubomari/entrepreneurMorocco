@@ -10,6 +10,7 @@ interface Formation {
   title: string;
   bullets: string[];
   iconUrl: string;
+  ctaUrl: string;
 }
 
 export default function FormationsPageComponent(): React.ReactElement {
@@ -25,6 +26,7 @@ export default function FormationsPageComponent(): React.ReactElement {
       ],
       iconUrl:
         "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/briefcase.svg",
+      ctaUrl: "/contact-quiz",
     },
     {
       id: 2,
@@ -36,17 +38,20 @@ export default function FormationsPageComponent(): React.ReactElement {
       ],
       iconUrl:
         "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/shopping-cart.svg",
+      ctaUrl: "/contact-quiz",
     },
     {
       id: 3,
-      title: "IA & Automatisation",
+      title: "Programme conseil immobilier",
       bullets: [
-        "Outils IA (ChatGPT, MidJourney).",
-        "No-code (n8n, Zapier).",
-        "Optimisation productivité.",
+        "Analyse du marché immobilier marocain.",
+        "Étude de rentabilité & opportunités.",
+        "Stratégies d’investissement.",
+        "Jury final & opportunité professionnelle.",
       ],
       iconUrl:
-        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/bot.svg",
+        "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/chart-line.svg",
+      ctaUrl: "/formations/list/programme-immobilier/",
     },
     {
       id: 4,
@@ -55,9 +60,11 @@ export default function FormationsPageComponent(): React.ReactElement {
         "Blockchain & Web3.",
         "GreenTech & Énergies.",
         "Cybersécurité & Cloud.",
+        "IA & Automatisation.",
       ],
       iconUrl:
         "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/atom.svg",
+      ctaUrl: "/contact-quiz",
     },
   ];
 
@@ -69,7 +76,7 @@ export default function FormationsPageComponent(): React.ReactElement {
         <header className="formations-header">
           <h2>Formations pour entreprendre et innover au Maroc</h2>
           <p className="formations-meta">
-            Entrepreneur 360°, E-commerce, IA et innovation : 4 formations
+            Entrepreneur 360°, E-commerce, Programme immobilier : 4 formations
             pratiques pour réussir votre projet au Maroc.
           </p>
         </header>
@@ -109,12 +116,19 @@ export default function FormationsPageComponent(): React.ReactElement {
                     <li key={i}>{b}</li>
                   ))}
                 </ul>
+
+                {/* Added Button at the bottom of each card */}
+                <div className="formation-card-footer">
+                  <Link href={f.ctaUrl} className="formation-card-btn">
+                    Candidater à la prochaine session
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
         </section>
 
-        <div className="formations-cta">
+        {/* <div className="formations-cta">
           <Link href="/contact-quiz" className="f-cta-btn">
             <svg
               width="20"
@@ -130,7 +144,7 @@ export default function FormationsPageComponent(): React.ReactElement {
             </svg>
             S’inscrire à la prochaine session
           </Link>
-        </div>
+        </div> */}
       </div>
     </main>
   );
