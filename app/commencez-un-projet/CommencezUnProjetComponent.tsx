@@ -97,34 +97,10 @@ export default function CommencezUnProjetComponent() {
     setGlobalError(null);
 
     try {
-      // 1. Prepare Data
+      // Prepare Data
       const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Submit directly to Supabase
-      // Note: Ensure table name matches your DB exactly (usually snake_case)
-      const { error } = await supabase.from("profile_quiz").insert([
-        {
-          profile: data.profile,
-          stage: data.stage,
-          needs: data.needs || [],
-          email: data.email,
-          phone: formattedPhone || null, // Send null if phone is empty
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // 3. Trigger UI Success
-      setShowSuccess(true);
-
-      setTimeout(() => {
-        reset();
-      }, 3000);
-
-      // 4. Send Email (via your existing hook logic)
+      // Send Email (via your existing hook logic)
       submitEmail({
         Email: data.email,
         Téléphone: formattedPhone || "Non renseigné",
@@ -141,6 +117,30 @@ export default function CommencezUnProjetComponent() {
         }),
         Source: "Questionnaire - Plan personnalisé",
       });
+
+      // Submit directly to Supabase
+      // Note: Ensure table name matches your DB exactly (usually snake_case)
+      const { error } = await supabase.from("profile_quiz").insert([
+        {
+          profile: data.profile,
+          stage: data.stage,
+          needs: data.needs || [],
+          email: data.email,
+          phone: formattedPhone || null, // Send null if phone is empty
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
+      }
+
+      // Trigger UI Success
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        reset();
+      }, 3000);
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

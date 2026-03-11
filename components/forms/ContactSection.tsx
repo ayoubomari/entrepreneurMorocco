@@ -56,12 +56,30 @@ const ContactSection = () => {
     setGlobalError(null);
 
     try {
-      // 1. Prepare Data
+      // Prepare Data
       const formattedPhone = parsePhoneToE164(data.phone);
       const currentUrl =
         typeof window !== "undefined" ? window.location.href : "";
 
-      // 2. Submit directly to Supabase
+      // Send Email Notification (via existing hook)
+      submitEmail({
+        Prénom: data.firstName,
+        Nom: data.lastName,
+        Email: data.email,
+        Téléphone: formattedPhone || "Non renseigné",
+        Message: data.message,
+        "Page source": currentUrl || "Contact Section",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      });
+
+      // Submit directly to Supabase
       // Map frontend camelCase to your DB snake_case columns
       const { error } = await supabase.from("contact_form").insert([
         {
@@ -79,26 +97,8 @@ const ContactSection = () => {
         throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
-      // 3. Trigger UI Success
+      // Trigger UI Success
       setShowSuccess(true);
-
-      // 4. Send Email Notification (via existing hook)
-      submitEmail({
-        Prénom: data.firstName,
-        Nom: data.lastName,
-        Email: data.email,
-        Téléphone: formattedPhone || "Non renseigné",
-        Message: data.message,
-        "Page source": currentUrl || "Contact Section",
-        "Date de soumission": new Date().toLocaleString("fr-FR", {
-          timeZone: "Africa/Casablanca",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      });
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

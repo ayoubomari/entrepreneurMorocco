@@ -102,35 +102,10 @@ export default function ContactQuizComponent() {
     const selectedPlanData = plans.find((p) => p.id === data.selectedPlan);
 
     try {
-      // 1. Prepare Data
+      // Prepare Data
       const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Submit directly to Supabase
-      // Note: On utilise les noms de colonnes définis dans le schéma Drizzle (snake_case)
-      const { error } = await supabase.from("plan_selection").insert([
-        {
-          selected_plan: data.selectedPlan,
-          full_name: data.fullName,
-          email: data.email,
-          phone: formattedPhone || null,
-          result_email: data.resultEmail,
-          message: data.message || null,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // 3. Trigger UI Success
-      setShowSuccess(true);
-
-      setTimeout(() => {
-        reset();
-      }, 5000);
-
-      // 4. Send Email (via existing hook logic)
+      // Send Email (via existing hook logic)
       submitEmail({
         "Nom complet": data.fullName,
         "Email principal": data.email,
@@ -149,6 +124,31 @@ export default function ContactQuizComponent() {
           minute: "2-digit",
         }),
       });
+
+      // Submit directly to Supabase
+      // Note: On utilise les noms de colonnes définis dans le schéma Drizzle (snake_case)
+      const { error } = await supabase.from("plan_selection").insert([
+        {
+          selected_plan: data.selectedPlan,
+          full_name: data.fullName,
+          email: data.email,
+          phone: formattedPhone || null,
+          result_email: data.resultEmail,
+          message: data.message || null,
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
+      }
+
+      // Trigger UI Success
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        reset();
+      }, 5000);
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

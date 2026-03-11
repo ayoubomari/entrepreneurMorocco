@@ -134,63 +134,86 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               <h2 className="section-title">Pourquoi cette formation</h2>
             </div>
 
-            <p className="article-text">
-              L&apos;immobilier est aujourd&apos;hui l&apos;un des secteurs les
-              plus dynamiques au Maroc. Entre le développement de nouvelles
-              infrastructures, l&apos;attractivité touristique et l&apos;intérêt
-              croissant des investisseurs étrangers, le marché immobilier offre
-              de nombreuses opportunités.
-            </p>
-            <p className="article-text">
-              Cependant, investir dans l&apos;immobilier nécessite une
-              compréhension claire :
-            </p>
+            <div className="pourquoi-split">
+              <div className="pourquoi-left">
+                <p className="article-text">
+                  L&apos;immobilier est aujourd&apos;hui l&apos;un des secteurs
+                  les plus dynamiques au Maroc. Entre le développement de
+                  nouvelles infrastructures, l&apos;attractivité touristique et
+                  l&apos;intérêt croissant des investisseurs étrangers, le
+                  marché immobilier offre de nombreuses opportunités.
+                </p>
+                <p className="article-text">
+                  Cependant, investir dans l&apos;immobilier nécessite une
+                  compréhension claire :
+                </p>
 
-            <div className="space-y-2 mb-8">
-              <div className="glass-list-item">
-                <CheckCircle
-                  className="text-green-500 flex-shrink-0"
-                  size={20}
-                />
-                <span className="text-md font-medium">
-                  Du fonctionnement du marché
-                </span>
-              </div>
-              <div className="glass-list-item">
-                <CheckCircle
-                  className="text-green-500 flex-shrink-0"
-                  size={20}
-                />
-                <span className="text-md font-medium">
-                  Des dynamiques locales
-                </span>
-              </div>
-              <div className="glass-list-item">
-                <CheckCircle
-                  className="text-green-500 flex-shrink-0"
-                  size={20}
-                />
-                <span className="text-md font-medium">
-                  De la rentabilité des projets
-                </span>
-              </div>
-              <div className="glass-list-item">
-                <CheckCircle
-                  className="text-green-500 flex-shrink-0"
-                  size={20}
-                />
-                <span className="text-md font-medium">
-                  Des étapes d&apos;une transaction immobilière
-                </span>
-              </div>
-            </div>
+                <div className="space-y-2 mb-8">
+                  <div className="glass-list-item">
+                    <CheckCircle
+                      className="text-green-500 flex-shrink-0"
+                      size={20}
+                    />
+                    <span className="text-md font-medium">
+                      Du fonctionnement du marché
+                    </span>
+                  </div>
+                  <div className="glass-list-item">
+                    <CheckCircle
+                      className="text-green-500 flex-shrink-0"
+                      size={20}
+                    />
+                    <span className="text-md font-medium">
+                      Des dynamiques locales
+                    </span>
+                  </div>
+                  <div className="glass-list-item">
+                    <CheckCircle
+                      className="text-green-500 flex-shrink-0"
+                      size={20}
+                    />
+                    <span className="text-md font-medium">
+                      De la rentabilité des projets
+                    </span>
+                  </div>
+                  <div className="glass-list-item">
+                    <CheckCircle
+                      className="text-green-500 flex-shrink-0"
+                      size={20}
+                    />
+                    <span className="text-md font-medium">
+                      Des étapes d&apos;une transaction immobilière
+                    </span>
+                  </div>
+                </div>
 
-            <div className="glass-box highlight">
-              <p className="text-white font-semibold m-0 text-lg">
-                Cette formation permet d&apos;acquérir les bases nécessaires
-                pour analyser un investissement immobilier et comprendre les
-                mécanismes du secteur.
-              </p>
+                <div className="glass-box highlight">
+                  <p className="text-white font-semibold m-0 text-lg">
+                    Cette formation permet d&apos;acquérir les bases nécessaires
+                    pour analyser un investissement immobilier et comprendre les
+                    mécanismes du secteur.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pourquoi-right">
+                <div className="pourquoi-card">
+                  <div className="pourquoi-card-icon">📈</div>
+                  <div className="pourquoi-card-label">Rentabilité</div>
+                </div>
+                <div className="pourquoi-card">
+                  <div className="pourquoi-card-icon">🏛️</div>
+                  <div className="pourquoi-card-label">Fiscalité</div>
+                </div>
+                <div className="pourquoi-card">
+                  <div className="pourquoi-card-icon">🏗️</div>
+                  <div className="pourquoi-card-label">Promotion</div>
+                </div>
+                <div className="pourquoi-card">
+                  <div className="pourquoi-card-icon">🤝</div>
+                  <div className="pourquoi-card-label">Networking</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -276,145 +299,90 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               <h2 className="section-title">Le programme de la formation</h2>
             </div>
 
-            {/* Module 1 */}
-            <div className="module-card">
-              <div className="module-card-header">
-                <div className="module-number">01</div>
-                <h3 className="module-card-title">
-                  Comprendre le marché immobilier marocain
-                </h3>
-              </div>
-              <div className="module-bullets">
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Fonctionnement du marché immobilier au Maroc
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Analyse des différentes typologies de biens
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Identification des zones à fort potentiel
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Compréhension des dynamiques de marché
+            <div className="timeline-container">
+              <div className="timeline-item">
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <h3 className="timeline-title">
+                    Comprendre le marché immobilier marocain
+                  </h3>
+                  <ul className="timeline-bullets">
+                    <li>Fonctionnement du marché immobilier au Maroc</li>
+                    <li>Analyse des différentes typologies de biens</li>
+                    <li>Identification des zones à fort potentiel</li>
+                    <li>Compréhension des dynamiques de marché</li>
+                  </ul>
                 </div>
               </div>
-            </div>
 
-            {/* Module 2 */}
-            <div className="module-card">
-              <div className="module-card-header">
-                <div className="module-number">02</div>
-                <h3 className="module-card-title">
-                  Cadre juridique et sécurisation des projets
-                </h3>
-              </div>
-              <div className="module-bullets">
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Étapes d&apos;une transaction immobilière
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Compréhension des contrats
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Sécurisation des investissements
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Rôle des différents intervenants dans une opération
-                  immobilière
+              <div className="timeline-item">
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <h3 className="timeline-title">
+                    Cadre juridique et sécurisation des projets
+                  </h3>
+                  <ul className="timeline-bullets">
+                    <li>Étapes d&apos;une transaction immobilière</li>
+                    <li>Compréhension des contrats</li>
+                    <li>Sécurisation des investissements</li>
+                    <li>
+                      Rôle des différents intervenants dans une opération
+                      immobilière
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
 
-            {/* Module 3 */}
-            <div className="module-card">
-              <div className="module-card-header">
-                <div className="module-number">03</div>
-                <h3 className="module-card-title">
-                  Analyse d&apos;un investissement immobilier
-                </h3>
-              </div>
-              <div className="module-bullets">
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Calcul de rentabilité
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Analyse financière d&apos;un projet
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Étude de cas concrets
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Identification des critères d&apos;un investissement pertinent
+              <div className="timeline-item">
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <h3 className="timeline-title">
+                    Analyse d&apos;un investissement immobilier
+                  </h3>
+                  <ul className="timeline-bullets">
+                    <li>Calcul de rentabilité</li>
+                    <li>Analyse financière d&apos;un projet</li>
+                    <li>Étude de cas concrets</li>
+                    <li>
+                      Identification des critères d&apos;un investissement
+                      pertinent
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
 
-            {/* Module 4 */}
-            <div className="module-card">
-              <div className="module-card-header">
-                <div className="module-number">04</div>
-                <h3 className="module-card-title">
-                  Accompagnement des investisseurs
-                </h3>
-              </div>
-              <div className="module-bullets">
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Compréhension des objectifs d&apos;un investisseur
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Présentation d&apos;opportunités d&apos;investissement
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Structuration d&apos;un projet immobilier
-                </div>
-                <div className="module-bullet">
-                  <Dot size={28} />
-                  Approche professionnelle de la relation investisseur
+              <div className="timeline-item">
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <h3 className="timeline-title">
+                    Accompagnement des investisseurs
+                  </h3>
+                  <ul className="timeline-bullets">
+                    <li>Compréhension des objectifs d&apos;un investisseur</li>
+                    <li>
+                      Présentation d&apos;opportunités d&apos;investissement
+                    </li>
+                    <li>Structuration d&apos;un projet immobilier</li>
+                    <li>
+                      Approche professionnelle de la relation investisseur
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
 
-            {/* Module 5 — Mise en situation */}
-            <div
-              className="module-card"
-              style={{ borderColor: "rgba(239, 68, 68, 0.2)" }}
-            >
-              <div className="module-card-header">
-                <div className="module-number">05</div>
-                <h3 className="module-card-title">
-                  Mise en situation professionnelle
-                </h3>
-              </div>
-              <div className="module-bullets">
-                <p
-                  style={{
-                    fontSize: "15px",
-                    color: "rgba(255,255,255,0.8)",
-                    fontWeight: 500,
-                    margin: 0,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  Les participants travaillent sur des cas concrets permettant
-                  d&apos;appliquer les méthodes étudiées durant la formation.
-                  Cette approche permet de développer une compréhension pratique
-                  du métier.
-                </p>
+              <div className="timeline-item timeline-item-last">
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <h3 className="timeline-title">
+                    Mise en situation professionnelle
+                  </h3>
+                  <p className="timeline-desc">
+                    Les participants travaillent sur des cas concrets permettant
+                    d&apos;appliquer les méthodes étudiées durant la formation.
+                    Cette approche permet de développer une compréhension
+                    pratique du métier.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -545,80 +513,88 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               </h2>
             </div>
 
-            {/* Unified Pricing Card */}
-            <div className="pricing-card-unified">
-              {/* Top: Price */}
-              <div className="pricing-card-top">
-                <div className="pricing-badge">Tarif de la formation</div>
-                <div className="pricing-amount">
-                  2 499 <span>€</span>
+            <div className="pricing-grid">
+              {/* LEFT: Pricing Card */}
+              <div className="pricing-card-unified">
+                <div className="pricing-ribbon">Places limitées</div>
+                <div className="pricing-card-top">
+                  <div className="pricing-badge">Tarif de la formation</div>
+                  <div className="pricing-amount">
+                    2 499 <span>€</span>
+                  </div>
+                </div>
+
+                <div className="pricing-divider" />
+
+                <div className="pricing-card-bottom">
+                  <p className="pricing-includes-label">Ce tarif comprend :</p>
+                  <div className="pricing-includes">
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      L&apos;accès à l&apos;intégralité du programme
+                    </div>
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      Les sessions pédagogiques pendant 14 jours
+                    </div>
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      Les études de cas et mises en situation
+                    </div>
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      L&apos;évaluation finale devant jury
+                    </div>
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      L&apos;accès au réseau Entrepreneurs Morocco
+                    </div>
+                    <div className="pricing-include-item">
+                      <CheckCircle size={18} />
+                      Entretien d&apos;embauche dès le lendemain de la formation
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="pricing-divider" />
+              {/* RIGHT: À prévoir par le participant */}
+              <div className="provisions-card">
+                <div className="provisions-card-top">
+                  <div className="provisions-badge">
+                    À prévoir par le participant
+                  </div>
+                  <Briefcase
+                    className="text-red-500 mx-auto"
+                    size={28}
+                    style={{ marginBottom: "12px" }}
+                  />
+                  <p className="provisions-subtitle">
+                    Les participants doivent prévoir les éléments suivants, non
+                    inclus dans le tarif de la formation
+                  </p>
+                </div>
 
-              {/* Bottom: Inclusions */}
-              <div className="pricing-card-bottom">
-                <p className="pricing-includes-label">Ce tarif comprend :</p>
-                <div className="pricing-includes">
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    L&apos;accès à l&apos;intégralité du programme
+                <div className="provisions-card-body">
+                  <div className="provision-item">
+                    <Plane size={18} />
+                    Leur billet d&apos;avion jusqu&apos;à Marrakech
                   </div>
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    Les sessions pédagogiques pendant 14 jours
+                  <div className="provision-item">
+                    <Home size={18} />
+                    Leur hébergement pendant la formation
                   </div>
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    Les études de cas et mises en situation
+                  <div className="provision-item">
+                    <Wallet size={18} />
+                    Leurs dépenses personnelles sur place
                   </div>
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    L&apos;évaluation finale devant jury
-                  </div>
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    L&apos;accès au réseau Entrepreneurs Morocco
-                  </div>
-                  <div className="pricing-include-item">
-                    <CheckCircle size={18} />
-                    Entretien d&apos;embauche dès le lendemain de la formation
-                  </div>
+                  <p className="provisions-note">
+                    Marrakech dispose d&apos;une large offre d&apos;hébergement
+                    permettant d&apos;organiser son séjour selon ses
+                    préférences.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* === À PRÉVOIR PAR LE PARTICIPANT === */}
-          <div className="section-block">
-            <div className="section-header">
-              <Briefcase className="text-red-500" size={32} />
-              <h2 className="section-title">À prévoir par le participant</h2>
-            </div>
-
-            <p className="article-text">Les participants doivent prévoir :</p>
-
-            <div className="glass-box">
-              <div className="provision-item">
-                <Plane size={18} />
-                Leur billet d&apos;avion jusqu&apos;à Marrakech
-              </div>
-              <div className="provision-item">
-                <Home size={18} />
-                Leur hébergement pendant la formation
-              </div>
-              <div className="provision-item">
-                <Wallet size={18} />
-                Leurs dépenses personnelles sur place
-              </div>
-            </div>
-
-            <p className="article-text" style={{ fontStyle: "italic" }}>
-              Marrakech dispose d&apos;une large offre d&apos;hébergement
-              permettant d&apos;organiser son séjour selon ses préférences.
-            </p>
           </div>
 
           {/* === PROCESSUS D'ADMISSION === */}
@@ -666,6 +642,94 @@ const ProgrammeImmobilierComponent: React.FC = () => {
             </div>
           </div>
 
+          {/* === FAQ === */}
+          <div className="section-block">
+            <div className="section-header">
+              <BookOpen className="text-red-500" size={32} />
+              <h2 className="section-title">FAQ</h2>
+            </div>
+
+            <div className="faq-list">
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Faut-il une expérience préalable dans l&apos;immobilier ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  Aucune expérience préalable dans l&apos;immobilier n&apos;est
+                  obligatoire. La formation est accessible à toute personne
+                  motivée souhaitant comprendre les mécanismes du secteur.
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Où se déroule la formation ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  La formation se déroule à Marrakech sur une durée de 14 jours.
+                  Les participants doivent prévoir leur billet d&apos;avion,
+                  leur hébergement et leurs dépenses personnelles sur place.
+                  Marrakech dispose d&apos;une large offre d&apos;hébergement.
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Qu&apos;est-ce qui est inclus dans le tarif de 2 499 € ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  Le tarif inclut l&apos;accès à l&apos;intégralité du
+                  programme, les sessions pédagogiques pendant 14 jours, les
+                  études de cas et mises en situation, l&apos;évaluation finale
+                  devant jury, l&apos;accès au réseau Entrepreneurs Morocco, et
+                  un entretien d&apos;embauche dès le lendemain de la formation.
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Que se passe-t-il après l&apos;examen final ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  Les profils validés peuvent accéder à des opportunités
+                  professionnelles dans des agences partenaires à Marrakech. Un
+                  entretien d&apos;embauche est organisé dès le lendemain de la
+                  formation.
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Comment soumettre ma candidature ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  Le processus comprend quatre étapes : dépôt d&apos;une
+                  candidature, étude du profil, validation de
+                  l&apos;inscription, puis participation à la formation. Les
+                  candidatures sont étudiées avant validation.
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-question">
+                  Les places sont-elles vraiment limitées ?
+                  <span className="faq-icon">▾</span>
+                </summary>
+                <div className="faq-answer">
+                  Oui. Les places étant limitées, les candidatures sont étudiées
+                  et validées dans l&apos;ordre de réception. Il est recommandé
+                  de candidater le plus tôt possible pour garantir sa place dans
+                  la prochaine session.
+                </div>
+              </details>
+            </div>
+          </div>
+
           {/* === FINAL CTA === */}
           <div className="final-cta-glass section-block">
             <GraduationCap className="text-red-500 mx-auto mb-6" size={48} />
@@ -687,6 +751,72 @@ const ProgrammeImmobilierComponent: React.FC = () => {
             </Link>
           </div>
         </main>
+      </div>
+
+      <div
+        style={{
+          position: "fixed",
+          bottom: "24px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 9999,
+          pointerEvents: "auto",
+        }}
+      >
+        <div
+          style={{
+            background: "rgba(15, 15, 15, 0.92)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(239, 68, 68, 0.4)",
+            padding: "14px 24px",
+            borderRadius: "999px",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.6)",
+            display: "flex",
+            alignItems: "center",
+            gap: "24px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span
+              style={{
+                width: "10px",
+                height: "10px",
+                background: "#22c55e",
+                borderRadius: "50%",
+                display: "inline-block",
+                animation: "ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "14px",
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.9)",
+              }}
+            >
+              Prochaine session bientôt —{" "}
+              <span style={{ color: "#ef4444" }}>4 places restantes</span>
+            </span>
+          </div>
+          <Link
+            href="/contact-quiz/"
+            style={{
+              background: "#ef4444",
+              color: "#fff",
+              fontSize: "11px",
+              fontWeight: 900,
+              padding: "8px 20px",
+              borderRadius: "999px",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              transition: "background 0.2s",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Postuler
+          </Link>
+        </div>
       </div>
     </div>
   );

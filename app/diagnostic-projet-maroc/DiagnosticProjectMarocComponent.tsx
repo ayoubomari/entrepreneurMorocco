@@ -189,43 +189,7 @@ export default function DiagnosticProjectMarocComponent() {
     const cleanPhone = parsePhoneToE164(data.phone) || data.phone;
 
     try {
-      // 1. Soumission directe à Supabase (remplace le fetch API)
-      const { error: dbError } = await supabase
-        .from("diagnostic_maroc_2030")
-        .insert([
-          {
-            first_name: data.firstName,
-            last_name: data.lastName,
-            email: data.email,
-            phone: cleanPhone,
-            project_date: data.projectDate,
-            situation: data.situation,
-            family_status: data.familyStatus,
-            children_count: data.childrenCount || null,
-            children_ages: data.childrenAges || null,
-            motivations: data.motivations,
-            main_skill: data.mainSkill,
-            exp_years: data.expYears,
-            revenue_gen: data.revenueGen,
-            budget: data.budget,
-            runway: data.runway,
-            path: data.path,
-            network: data.network,
-            message: data.message || null,
-            call_opt_in: data.callOptIn,
-            availabilities: data.availabilities || [],
-            score: finalScore,
-            result_label: scoreLabel,
-          },
-        ]);
-
-      if (dbError) throw new Error(dbError.message);
-
-      // 2. Affichage du succès dans l'UI
-      setShowSuccess(true);
-      setTimeout(() => reset(), 15000);
-
-      // 3. Envoi de l'email (Side-effect système legacy)
+      // Envoi de l'email (Side-effect système legacy)
       submitEmail({
         Prénom: data.firstName,
         Nom: data.lastName,
@@ -265,6 +229,42 @@ export default function DiagnosticProjectMarocComponent() {
           timeZone: "Africa/Casablanca",
         }),
       });
+
+      // Soumission directe à Supabase (remplace le fetch API)
+      const { error: dbError } = await supabase
+        .from("diagnostic_maroc_2030")
+        .insert([
+          {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            phone: cleanPhone,
+            project_date: data.projectDate,
+            situation: data.situation,
+            family_status: data.familyStatus,
+            children_count: data.childrenCount || null,
+            children_ages: data.childrenAges || null,
+            motivations: data.motivations,
+            main_skill: data.mainSkill,
+            exp_years: data.expYears,
+            revenue_gen: data.revenueGen,
+            budget: data.budget,
+            runway: data.runway,
+            path: data.path,
+            network: data.network,
+            message: data.message || null,
+            call_opt_in: data.callOptIn,
+            availabilities: data.availabilities || [],
+            score: finalScore,
+            result_label: scoreLabel,
+          },
+        ]);
+
+      if (dbError) throw new Error(dbError.message);
+
+      // Affichage du succès dans l'UI
+      setShowSuccess(true);
+      setTimeout(() => reset(), 15000);
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError(

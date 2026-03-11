@@ -82,35 +82,10 @@ export default function DevisComponent() {
     setGlobalError(null);
 
     try {
-      // 1. Préparation des données
+      // Préparation des données
       const formattedPhone = parsePhoneToE164(data.phone);
 
-      // 2. Insertion directe dans Supabase
-      // On utilise les noms de colonnes snake_case définis dans votre schéma Drizzle
-      const { error } = await supabase.from("custom_quote").insert([
-        {
-          full_name: data.fullName,
-          email: data.email,
-          phone: formattedPhone || null,
-          services: data.services || [],
-          message: data.message || null,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // 3. Succès UI
-      setShowSuccess(true);
-
-      setTimeout(() => {
-        reset();
-        setServicesOpen(false);
-      }, 5000);
-
-      // 4. Envoi de l'email (via Brevo/Hook)
+      // Envoi de l'email (via Brevo/Hook)
       submitEmail({
         "Nom complet": data.fullName,
         Email: data.email,
@@ -127,6 +102,31 @@ export default function DevisComponent() {
           minute: "2-digit",
         }),
       });
+
+      // Insertion directe dans Supabase
+      // On utilise les noms de colonnes snake_case définis dans votre schéma Drizzle
+      const { error } = await supabase.from("custom_quote").insert([
+        {
+          full_name: data.fullName,
+          email: data.email,
+          phone: formattedPhone || null,
+          services: data.services || [],
+          message: data.message || null,
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
+      }
+
+      // Succès UI
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        reset();
+        setServicesOpen(false);
+      }, 5000);
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

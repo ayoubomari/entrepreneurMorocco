@@ -72,7 +72,18 @@ export default function MiniTestComponent() {
     };
 
     try {
-      // 1. Submit directly to Supabase
+      // Send Email (Secondary Action - Fire and Forget)
+      submitEmail({
+        Email: data.email,
+        "Projet principal": getProjectLabel(data.project),
+        Obstacles: getObstaclesLabels(data.obstacles),
+        Source: "Mini Test - Plan Action",
+        "Date de soumission": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+      });
+
+      // Submit directly to Supabase
       const { error } = await supabase.from("mini_test").insert([
         {
           project: data.project,
@@ -86,23 +97,12 @@ export default function MiniTestComponent() {
         throw new Error(error.message || "Erreur lors de l'enregistrement");
       }
 
-      // 2. Trigger UI Success Immediately
+      // Trigger UI Success Immediately
       setShowSuccess(true);
 
       setTimeout(() => {
         reset();
       }, 5000);
-
-      // 3. Send Email (Secondary Action - Fire and Forget)
-      submitEmail({
-        Email: data.email,
-        "Projet principal": getProjectLabel(data.project),
-        Obstacles: getObstaclesLabels(data.obstacles),
-        Source: "Mini Test - Plan Action",
-        "Date de soumission": new Date().toLocaleString("fr-FR", {
-          timeZone: "Africa/Casablanca",
-        }),
-      });
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

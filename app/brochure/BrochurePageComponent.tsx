@@ -55,28 +55,7 @@ export default function BrochurePageComponent() {
     setGlobalError(null);
 
     try {
-      // 1. Submit directly to Supabase
-      // Le nom de la table correspond au schéma Drizzle : "brochure_download"
-      const { error } = await supabase.from("brochure_download").insert([
-        {
-          email: data.email,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // 2. Trigger Success UI & Download
-      setShowSuccess(true);
-      triggerPDFDownload();
-
-      setTimeout(() => {
-        reset();
-      }, 5000);
-
-      // 3. Send Email (Background notification)
+      // Send Email (Background notification)
       submitEmail({
         Email: data.email,
         "Document demandé": "Brochure détaillée de l'offre",
@@ -90,6 +69,27 @@ export default function BrochurePageComponent() {
           minute: "2-digit",
         }),
       });
+
+      // Submit directly to Supabase
+      // Le nom de la table correspond au schéma Drizzle : "brochure_download"
+      const { error } = await supabase.from("brochure_download").insert([
+        {
+          email: data.email,
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insertion error:", error);
+        throw new Error(error.message || "Erreur lors de l'enregistrement");
+      }
+
+      // Trigger Success UI & Download
+      setShowSuccess(true);
+      triggerPDFDownload();
+
+      setTimeout(() => {
+        reset();
+      }, 5000);
     } catch (err: any) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");

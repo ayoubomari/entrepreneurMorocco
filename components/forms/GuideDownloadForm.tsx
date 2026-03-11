@@ -69,7 +69,18 @@ const GuideDownloadForm = () => {
     setDownloadTriggered(true);
 
     try {
-      // 2. Insertion directe dans Supabase
+      // Envoi de l'email de notification
+      await submitEmail({
+        Prénom: data.firstName,
+        Email: data.email,
+        "Guide demandé": "7 Erreurs à Éviter - Entrepreneur Maroc",
+        "Date de téléchargement": new Date().toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
+        }),
+        Source: "Site Web - Page Guide",
+      });
+
+      // Insertion directe dans Supabase
       const { error: dbError } = await supabase
         .from("guide_download") // Nom exact de votre table Drizzle
         .insert([
@@ -85,17 +96,6 @@ const GuideDownloadForm = () => {
         console.error("Supabase Save failed:", dbError);
         // On ne bloque pas l'utilisateur car le PDF est déjà lancé
       }
-
-      // 3. Envoi de l'email de notification
-      await submitEmail({
-        Prénom: data.firstName,
-        Email: data.email,
-        "Guide demandé": "7 Erreurs à Éviter - Entrepreneur Maroc",
-        "Date de téléchargement": new Date().toLocaleString("fr-FR", {
-          timeZone: "Africa/Casablanca",
-        }),
-        Source: "Site Web - Page Guide",
-      });
 
       reset();
     } catch (err) {
