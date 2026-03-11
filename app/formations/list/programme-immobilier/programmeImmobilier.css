@@ -1,4 +1,23 @@
-/* --- HERO OVERRIDES --- */
+/* ============================================================
+   ARTICLE OVERRIDES
+   ============================================================ */
+
+.article-hero {
+  max-width: 1280px;
+}
+
+.content-container {
+  max-width: 1280px;
+}
+
+.article-text {
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
 .prog-hero-stats {
   display: flex;
   align-items: center;
@@ -31,7 +50,162 @@
   color: var(--art-red);
 }
 
-/* --- PROGRAMME TIMELINE --- */
+/* ============================================================
+   INTRO SPLIT & DECORATION
+   ============================================================ */
+
+.intro-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.intro-split-text {
+  flex: 1;
+  max-width: 55%;
+}
+
+.intro-split-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.intro-image-cadre {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.intro-image-cadre::before,
+.intro-image-cadre::after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(239, 68, 68, 0.911);
+  z-index: 0;
+  transition:
+    top 0.4s ease-out,
+    bottom 0.4s ease-out,
+    left 0.4s ease-out,
+    right 0.4s ease-out;
+  pointer-events: none;
+}
+
+.intro-image-cadre::before {
+  top: -10px;
+  left: -10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.intro-image-cadre::after {
+  bottom: -10px;
+  right: -10px;
+  border-left: none;
+  border-top: none;
+}
+
+.intro-image-cadre:hover::before {
+  top: -16px;
+  left: -16px;
+}
+
+.intro-image-cadre:hover::after {
+  bottom: -16px;
+  right: -16px;
+}
+
+.intro-image-clipped {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  filter: brightness(0.9) contrast(1.1);
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.intro-image-clipped:hover {
+  transform: scale(1.02);
+}
+
+/* ============================================================
+   POURQUOI CETTE FORMATION
+   ============================================================ */
+
+.pourquoi-grid-new {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 48px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.pourquoi-left-new {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pourquoi-right-new {
+  width: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.pourquoi-card-new {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.pourquoi-card-new:hover {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.pourquoi-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(180, 20, 20, 0.35) 0%,
+    rgba(100, 10, 10, 0.55) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.pourquoi-label-new {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ============================================================
+   PROGRAMME TIMELINE
+   ============================================================ */
+
 .timeline-container {
   position: relative;
   padding-left: 48px;
@@ -114,24 +288,10 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-  .timeline-container {
-    padding-left: 32px;
-  }
-  .timeline-container::before {
-    left: 7px;
-  }
-  .timeline-dot {
-    left: -32px;
-    width: 12px;
-    height: 12px;
-  }
-  .timeline-content {
-    padding: 24px 20px;
-  }
-}
+/* ============================================================
+   REVENUE FUNNEL
+   ============================================================ */
 
-/* --- REVENUE FUNNEL --- */
 .funnel-container {
   display: flex;
   flex-direction: column;
@@ -220,164 +380,10 @@
   font-weight: 500;
 }
 
-/* --- INTRO SPLIT & DECORATION --- */
-.intro-split {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-}
+/* ============================================================
+   PRICING
+   ============================================================ */
 
-.intro-split-text {
-  flex: 1;
-  max-width: 55%;
-}
-
-.intro-split-image-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.intro-image-cadre {
-  position: relative;
-  display: flex;
-  width: 100%;
-  max-width: 500px;
-  z-index: 1;
-}
-
-.intro-image-cadre::before,
-.intro-image-cadre::after {
-  content: "";
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(239, 68, 68, 0.911);
-  z-index: 0;
-  transition:
-    top 0.4s ease-out,
-    bottom 0.4s ease-out,
-    left 0.4s ease-out,
-    right 0.4s ease-out;
-  pointer-events: none;
-}
-
-.intro-image-cadre::before {
-  top: -10px;
-  left: -10px;
-  border-right: none;
-  border-bottom: none;
-}
-
-.intro-image-cadre::after {
-  bottom: -10px;
-  right: -10px;
-  border-left: none;
-  border-top: none;
-}
-
-.intro-image-cadre:hover::before {
-  top: -16px;
-  left: -16px;
-}
-.intro-image-cadre:hover::after {
-  bottom: -16px;
-  right: -16px;
-}
-
-.intro-image-clipped {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  filter: brightness(0.9) contrast(1.1);
-  transition: transform 0.3s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.intro-image-clipped:hover {
-  transform: scale(1.02);
-}
-
-@media (max-width: 1095px) {
-  .funnel-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    margin: 32px 0;
-  }
-
-  .funnel-grid .funnel-step {
-    width: 100%;
-  }
-}
-
-@media (min-width: 931px) {
-  .funnel-grid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1.35fr;
-    align-items: stretch;
-    gap: 12px;
-    margin: 32px 0;
-  }
-
-  .funnel-grid .funnel-step,
-  .funnel-grid .funnel-result {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .funnel-step-value,
-  .funnel-result-value {
-    white-space: nowrap;
-  }
-
-  .funnel-grid .funnel-arrow {
-    padding: 0 4px;
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media (max-width: 930px) {
-  .funnel-arrow svg {
-    transform: rotate(90deg);
-  }
-
-  .funnel-step-value {
-    font-size: 24px;
-  }
-
-  .funnel-result-value {
-    font-size: 28px;
-  }
-
-  .intro-split {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .intro-split-text {
-    max-width: 100%;
-  }
-
-  .intro-split-image-wrapper {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .intro-image-clipped {
-    max-width: 100%;
-  }
-}
-
-/* --- PRICING GRID LAYOUT --- */
 .pricing-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -385,7 +391,6 @@
   align-items: stretch;
 }
 
-/* --- UNIFIED PRICING CARD --- */
 .pricing-card-unified {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -406,7 +411,6 @@
   background: linear-gradient(90deg, transparent, var(--art-red), transparent);
 }
 
-/* Pricing Ribbon */
 .pricing-ribbon {
   position: absolute;
   top: 40px;
@@ -443,15 +447,6 @@
   padding: 28px 32px 36px;
 }
 
-.pricing-includes-label {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 16px;
-}
-
 .pricing-badge {
   display: inline-block;
   font-size: 12px;
@@ -463,6 +458,15 @@
   border: 1px solid rgba(239, 68, 68, 0.3);
   padding: 6px 16px;
   margin-bottom: 20px;
+}
+
+.pricing-includes-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
 }
 
 .pricing-amount {
@@ -509,72 +513,10 @@
   flex-shrink: 0;
 }
 
-/* --- ADMISSION STEPS --- */
-.admission-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin: 32px 0;
-}
+/* ============================================================
+   PARTICIPANT PROVISIONS CARD
+   ============================================================ */
 
-.admission-step {
-  position: relative;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 24px 16px;
-  text-align: center;
-  transition: border-color 0.3s ease;
-}
-
-.admission-step:hover {
-  border-color: var(--art-red);
-}
-
-.admission-step-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  font-size: 16px;
-  font-weight: 900;
-  color: var(--art-red);
-  margin: 0 auto 12px;
-}
-
-.admission-step-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-@media (max-width: 640px) {
-  .admission-steps {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .pricing-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pricing-card-top {
-    padding: 32px 20px 24px;
-  }
-
-  .pricing-card-bottom {
-    padding: 20px 16px 28px;
-  }
-
-  .pricing-amount {
-    font-size: 42px;
-  }
-}
-
-/* --- PARTICIPANT PROVISIONS CARD --- */
 .provisions-card {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -667,7 +609,56 @@
   padding: 0 4px;
 }
 
-/* --- FAQ SECTION --- */
+/* ============================================================
+   ADMISSION STEPS
+   ============================================================ */
+
+.admission-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.admission-step {
+  position: relative;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px 16px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.admission-step:hover {
+  border-color: var(--art-red);
+}
+
+.admission-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--art-red);
+  margin: 0 auto 12px;
+}
+
+.admission-step-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+
 .faq-list {
   display: flex;
   flex-direction: column;
@@ -718,100 +709,10 @@
   line-height: 1.6;
 }
 
-/* --- NEW LAYOUT: POURQUOI CETTE FORMATION --- */
-.pourquoi-grid-new {
-  gap: 48px;
-  align-items: flex-start;
-  margin-bottom: 32px;
-  display: flex;
-  flex-flow: row nowrap;
-}
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
 
-.pourquoi-left-new {
-  width: 45%;
-  display: flex;
-  flex-direction: column;
-}
-
-.pourquoi-right-new {
-  width: 50%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.pourquoi-card-new {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  padding: 20px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.pourquoi-card-new:hover {
-  border-color: rgba(239, 68, 68, 0.35);
-  background: rgba(239, 68, 68, 0.04);
-}
-
-.pourquoi-icon-wrapper {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(180, 20, 20, 0.35) 0%,
-    rgba(100, 10, 10, 0.55) 100%
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-
-.pourquoi-label-new {
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.5;
-  text-align: center;
-}
-
-/* Responsive Mobile Rules */
-@media (max-width: 931px) {
-  .pourquoi-grid-new {
-    gap: 48px;
-    align-items: center;
-    margin-bottom: 32px;
-    display: flex;
-    flex-flow: column nowrap;
-  }
-
-  .pourquoi-left-new {
-    width: 100%;
-  }
-
-  .pourquoi-right-new {
-    width: 100%;
-  }
-
-  .pourquoi-right-new::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-  }
-
-  .pourquoi-card-new {
-    min-width: 140px;
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-  }
-}
-
-/* --- FINAL CTA SECTION (Glassmorphism Gray) --- */
 .final-cta-glass {
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
@@ -820,7 +721,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  margin-bottom: 100px; /* Offset for floating bar */
+  margin-bottom: 100px;
 }
 
 .final-cta-glass::before {
@@ -852,13 +753,10 @@
   pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  .final-cta-glass {
-    padding: 32px 20px;
-  }
-}
+/* ============================================================
+   FLOATING STICKY BAR
+   ============================================================ */
 
-/* --- FLOATING STICKY BAR --- */
 .floating-sticky-bar {
   position: fixed;
   bottom: 24px;
@@ -950,37 +848,183 @@
   transform: scale(1.05);
 }
 
-@media (max-width: 640px) {
-  .floating-sticky-bar {
-    display: none; /*hide for now*/
-    padding: 14px 12px 14px 16px;
-    width: 95%;
-    max-width: 330px;
+/* ============================================================
+   MEDIA QUERIES
+   ============================================================ */
+
+/* --- min-width: 931px --- */
+@media (min-width: 931px) {
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1.35fr;
+    align-items: stretch;
+    gap: 12px;
+    margin: 32px 0;
   }
-  .floating-text {
-    font-size: 12px;
+
+  .funnel-grid .funnel-step,
+  .funnel-grid .funnel-result {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
   }
-  .floating-btn {
-    padding: 6px 12px;
-    font-size: 11px;
+
+  .funnel-step-value,
+  .funnel-result-value {
+    white-space: nowrap;
+  }
+
+  .funnel-grid .funnel-arrow {
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
   }
 }
 
-/* overwrite article style */
-.article-hero {
-  max-width: 1280px;
+/* --- max-width: 1095px --- */
+@media (max-width: 1095px) {
+  .funnel-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+  }
+
+  .funnel-grid .funnel-step {
+    width: 100%;
+  }
 }
-.content-container {
-  max-width: 1280px;
+
+/* --- max-width: 930px --- */
+@media (max-width: 930px) {
+  .funnel-arrow svg {
+    transform: rotate(90deg);
+  }
+
+  .funnel-step-value {
+    font-size: 24px;
+  }
+
+  .funnel-result-value {
+    font-size: 28px;
+  }
+
+  .intro-split {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .intro-split-text {
+    max-width: 100%;
+  }
+
+  .intro-split-image-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .intro-image-clipped {
+    max-width: 100%;
+  }
+
+  .pourquoi-grid-new {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .pourquoi-left-new {
+    width: 100%;
+  }
+
+  .pourquoi-right-new {
+    width: 100%;
+  }
+
+  .pourquoi-right-new::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pourquoi-card-new {
+    min-width: 140px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
 }
-.article-text {
-  margin-bottom: 16px;
-}
+
+/* --- max-width: 768px --- */
 @media (max-width: 768px) {
   .article-title {
     font-size: 30px;
   }
+
   .section-title {
     font-size: 20px;
+  }
+
+  .final-cta-glass {
+    padding: 32px 20px;
+  }
+}
+
+/* --- max-width: 640px --- */
+@media (max-width: 640px) {
+  .timeline-container {
+    padding-left: 32px;
+  }
+
+  .timeline-container::before {
+    left: 7px;
+  }
+
+  .timeline-dot {
+    left: -32px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .timeline-content {
+    padding: 24px 20px;
+  }
+
+  .admission-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card-top {
+    padding: 32px 20px 24px;
+  }
+
+  .pricing-card-bottom {
+    padding: 20px 16px 28px;
+  }
+
+  .pricing-amount {
+    font-size: 42px;
+  }
+
+  .floating-sticky-bar {
+    display: none; /* hide for now */
+    padding: 14px 12px 14px 16px;
+    width: 95%;
+    max-width: 330px;
+  }
+
+  .floating-text {
+    font-size: 12px;
+  }
+
+  .floating-btn {
+    padding: 6px 12px;
+    font-size: 11px;
   }
 }
