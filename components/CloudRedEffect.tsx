@@ -212,6 +212,46 @@ export function CloudRedEffect1() {
           transform: "translateY(-50%)",
         }}
       ></div>
+
+      {/* --- New 4 Consistent Additions --- */}
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "9000px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "9400px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red left-[-50%] md:left-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+          top: "9800px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
+      <div
+        className="cloud-red right-[-50%] md:right-[-25%]"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          top: "10200px",
+          transform: "translateY(-50%)",
+        }}
+      ></div>
     </>
   );
 }

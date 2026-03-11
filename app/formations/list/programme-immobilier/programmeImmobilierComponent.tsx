@@ -11,9 +11,6 @@ import {
   TrendingUp,
   Users,
   BookOpen,
-  Scale,
-  BarChart3,
-  Handshake,
   Briefcase,
   Dot,
   Award,
@@ -25,15 +22,41 @@ import {
   Wallet,
   GraduationCap,
   ClipboardList,
-  UserCheck,
-  Send,
   DollarSign,
+  HelpCircle,
+  ChevronDown,
+  Building2,
 } from "lucide-react";
 import Link from "next/link";
 
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
+const faqs = [
+  {
+    q: "Faut-il une expérience préalable dans l'immobilier ?",
+    a: "Aucune expérience préalable dans l'immobilier n'est obligatoire. La formation est ouverte à toute personne motivée souhaitant comprendre les mécanismes du secteur.",
+  },
+  {
+    q: "Qu'est-ce qui est inclus dans le tarif de 2 499 € ?",
+    a: "Le tarif comprend l'accès à l'intégralité du programme, les sessions pédagogiques pendant 14 jours, les études de cas et mises en situation, l'évaluation finale devant un jury, l'accès au réseau Entrepreneurs Morocco, ainsi qu'un entretien d'embauche dès le lendemain de la formation.",
+  },
+  {
+    q: "Que se passe-t-il après l'examen final ?",
+    a: "Les profils validés peuvent accéder à des opportunités professionnelles dans des agences partenaires à Marrakech. Un entretien d'embauche est d'ailleurs prévu dès le lendemain de la formation.",
+  },
+  {
+    q: "Comment soumettre ma candidature ?",
+    a: "Le processus se fait en 4 étapes : le dépôt d'une candidature, l'étude de votre profil, la validation de l'inscription, et enfin la participation à la formation.",
+  },
+];
+
 const ProgrammeImmobilierComponent: React.FC = () => {
+  const [openFaq, setOpenFaq] = React.useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
     <div className="article-page">
       {/* Background Effect */}
@@ -116,7 +139,6 @@ const ProgrammeImmobilierComponent: React.FC = () => {
             </div>
 
             <div className="intro-split-image-wrapper">
-              {/* NOUVEAU CONTENEUR POUR L'EFFET CADRE */}
               <div className="intro-image-cadre">
                 <img
                   src="/immob.webp"
@@ -134,8 +156,8 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               <h2 className="section-title">Pourquoi cette formation</h2>
             </div>
 
-            <div className="pourquoi-split">
-              <div className="pourquoi-left">
+            <div className="pourquoi-grid-new">
+              <div className="pourquoi-left-new">
                 <p className="article-text">
                   L&apos;immobilier est aujourd&apos;hui l&apos;un des secteurs
                   les plus dynamiques au Maroc. Entre le développement de
@@ -143,77 +165,58 @@ const ProgrammeImmobilierComponent: React.FC = () => {
                   l&apos;intérêt croissant des investisseurs étrangers, le
                   marché immobilier offre de nombreuses opportunités.
                 </p>
-                <p className="article-text">
+                <p className="article-text" style={{ marginBottom: 0 }}>
                   Cependant, investir dans l&apos;immobilier nécessite une
                   compréhension claire :
                 </p>
-
-                <div className="space-y-2 mb-8">
-                  <div className="glass-list-item">
-                    <CheckCircle
-                      className="text-green-500 flex-shrink-0"
-                      size={20}
-                    />
-                    <span className="text-md font-medium">
-                      Du fonctionnement du marché
-                    </span>
-                  </div>
-                  <div className="glass-list-item">
-                    <CheckCircle
-                      className="text-green-500 flex-shrink-0"
-                      size={20}
-                    />
-                    <span className="text-md font-medium">
-                      Des dynamiques locales
-                    </span>
-                  </div>
-                  <div className="glass-list-item">
-                    <CheckCircle
-                      className="text-green-500 flex-shrink-0"
-                      size={20}
-                    />
-                    <span className="text-md font-medium">
-                      De la rentabilité des projets
-                    </span>
-                  </div>
-                  <div className="glass-list-item">
-                    <CheckCircle
-                      className="text-green-500 flex-shrink-0"
-                      size={20}
-                    />
-                    <span className="text-md font-medium">
-                      Des étapes d&apos;une transaction immobilière
-                    </span>
-                  </div>
-                </div>
-
-                <div className="glass-box highlight">
-                  <p className="text-white font-semibold m-0 text-lg">
-                    Cette formation permet d&apos;acquérir les bases nécessaires
-                    pour analyser un investissement immobilier et comprendre les
-                    mécanismes du secteur.
-                  </p>
-                </div>
               </div>
 
-              <div className="pourquoi-right">
-                <div className="pourquoi-card">
-                  <div className="pourquoi-card-icon">📈</div>
-                  <div className="pourquoi-card-label">Rentabilité</div>
+              <div className="pourquoi-right-new">
+                <div className="pourquoi-card-new">
+                  <div className="pourquoi-icon-wrapper">
+                    <Building2 size={26} color="#ef4444" strokeWidth={1.5} />
+                  </div>
+                  <div className="pourquoi-label-new">
+                    Du fonctionnement du marché
+                  </div>
                 </div>
-                <div className="pourquoi-card">
-                  <div className="pourquoi-card-icon">🏛️</div>
-                  <div className="pourquoi-card-label">Fiscalité</div>
+                <div className="pourquoi-card-new">
+                  <div className="pourquoi-icon-wrapper">
+                    <MapPin size={26} color="#ef4444" strokeWidth={1.5} />
+                  </div>
+                  <div className="pourquoi-label-new">
+                    Des dynamiques locales
+                  </div>
                 </div>
-                <div className="pourquoi-card">
-                  <div className="pourquoi-card-icon">🏗️</div>
-                  <div className="pourquoi-card-label">Promotion</div>
+                <div className="pourquoi-card-new">
+                  <div className="pourquoi-icon-wrapper">
+                    <TrendingUp size={26} color="#ef4444" strokeWidth={1.5} />
+                  </div>
+                  <div className="pourquoi-label-new">
+                    De la rentabilité des projets
+                  </div>
                 </div>
-                <div className="pourquoi-card">
-                  <div className="pourquoi-card-icon">🤝</div>
-                  <div className="pourquoi-card-label">Networking</div>
+                <div className="pourquoi-card-new">
+                  <div className="pourquoi-icon-wrapper">
+                    <ClipboardList
+                      size={26}
+                      color="#ef4444"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <div className="pourquoi-label-new">
+                    Des étapes d&apos;une transaction immobilière
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div className="glass-box highlight">
+              <p className="text-white font-semibold m-0 text-lg">
+                Cette formation permet d&apos;acquérir les bases nécessaires
+                pour analyser un investissement immobilier et comprendre les
+                mécanismes du secteur.
+              </p>
             </div>
           </div>
 
@@ -292,7 +295,7 @@ const ProgrammeImmobilierComponent: React.FC = () => {
             </p>
           </div>
 
-          {/* === LE PROGRAMME DE LA FORMATION === */}
+          {/* === LE PROGRAMME DE LA FORMATION (TIMELINE) === */}
           <div className="section-block">
             <div className="section-header">
               <BookOpen className="text-red-500" size={32} />
@@ -300,88 +303,146 @@ const ProgrammeImmobilierComponent: React.FC = () => {
             </div>
 
             <div className="timeline-container">
+              {/* Module 1 */}
               <div className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-card">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
                   <h3 className="timeline-title">
                     Comprendre le marché immobilier marocain
                   </h3>
-                  <ul className="timeline-bullets">
-                    <li>Fonctionnement du marché immobilier au Maroc</li>
-                    <li>Analyse des différentes typologies de biens</li>
-                    <li>Identification des zones à fort potentiel</li>
-                    <li>Compréhension des dynamiques de marché</li>
-                  </ul>
+                  <div className="module-bullets">
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Fonctionnement du marché immobilier au Maroc
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Analyse des différentes typologies de biens
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Identification des zones à fort potentiel
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Compréhension des dynamiques de marché
+                    </div>
+                  </div>
                 </div>
               </div>
 
+              {/* Module 2 */}
               <div className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-card">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
                   <h3 className="timeline-title">
                     Cadre juridique et sécurisation des projets
                   </h3>
-                  <ul className="timeline-bullets">
-                    <li>Étapes d&apos;une transaction immobilière</li>
-                    <li>Compréhension des contrats</li>
-                    <li>Sécurisation des investissements</li>
-                    <li>
+                  <div className="module-bullets">
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Étapes d&apos;une transaction immobilière
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Compréhension des contrats
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Sécurisation des investissements
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
                       Rôle des différents intervenants dans une opération
                       immobilière
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
 
+              {/* Module 3 */}
               <div className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-card">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
                   <h3 className="timeline-title">
                     Analyse d&apos;un investissement immobilier
                   </h3>
-                  <ul className="timeline-bullets">
-                    <li>Calcul de rentabilité</li>
-                    <li>Analyse financière d&apos;un projet</li>
-                    <li>Étude de cas concrets</li>
-                    <li>
+                  <div className="module-bullets">
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Calcul de rentabilité
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Analyse financière d&apos;un projet
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Étude de cas concrets
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
                       Identification des critères d&apos;un investissement
                       pertinent
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
 
+              {/* Module 4 */}
               <div className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-card">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
                   <h3 className="timeline-title">
                     Accompagnement des investisseurs
                   </h3>
-                  <ul className="timeline-bullets">
-                    <li>Compréhension des objectifs d&apos;un investisseur</li>
-                    <li>
+                  <div className="module-bullets">
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Compréhension des objectifs d&apos;un investisseur
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
                       Présentation d&apos;opportunités d&apos;investissement
-                    </li>
-                    <li>Structuration d&apos;un projet immobilier</li>
-                    <li>
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
+                      Structuration d&apos;un projet immobilier
+                    </div>
+                    <div className="module-bullet">
+                      <Dot size={28} />
                       Approche professionnelle de la relation investisseur
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="timeline-item timeline-item-last">
-                <div className="timeline-dot" />
-                <div className="timeline-card">
+              {/* Module 5 */}
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div
+                  className="timeline-content"
+                  style={{ borderColor: "rgba(239, 68, 68, 0.2)" }}
+                >
                   <h3 className="timeline-title">
                     Mise en situation professionnelle
                   </h3>
-                  <p className="timeline-desc">
-                    Les participants travaillent sur des cas concrets permettant
-                    d&apos;appliquer les méthodes étudiées durant la formation.
-                    Cette approche permet de développer une compréhension
-                    pratique du métier.
-                  </p>
+                  <div className="module-bullets">
+                    <p
+                      style={{
+                        fontSize: "15px",
+                        color: "rgba(255,255,255,0.8)",
+                        fontWeight: 500,
+                        margin: 0,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      Les participants travaillent sur des cas concrets
+                      permettant d&apos;appliquer les méthodes étudiées durant
+                      la formation. Cette approche permet de développer une
+                      compréhension pratique du métier.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -407,7 +468,6 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               généralement répartie entre l&apos;agence et les conseillers.
             </p>
 
-            {/* Funnel Visual */}
             <div className="funnel-grid">
               <div className="funnel-step">
                 <div className="funnel-step-label">
@@ -517,6 +577,7 @@ const ProgrammeImmobilierComponent: React.FC = () => {
               {/* LEFT: Pricing Card */}
               <div className="pricing-card-unified">
                 <div className="pricing-ribbon">Places limitées</div>
+
                 <div className="pricing-card-top">
                   <div className="pricing-badge">Tarif de la formation</div>
                   <div className="pricing-amount">
@@ -645,88 +706,27 @@ const ProgrammeImmobilierComponent: React.FC = () => {
           {/* === FAQ === */}
           <div className="section-block">
             <div className="section-header">
-              <BookOpen className="text-red-500" size={32} />
-              <h2 className="section-title">FAQ</h2>
+              <HelpCircle className="text-red-500" size={32} />
+              <h2 className="section-title">Foire aux questions</h2>
             </div>
 
             <div className="faq-list">
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Faut-il une expérience préalable dans l&apos;immobilier ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  Aucune expérience préalable dans l&apos;immobilier n&apos;est
-                  obligatoire. La formation est accessible à toute personne
-                  motivée souhaitant comprendre les mécanismes du secteur.
+              {faqs.map((faq, idx) => (
+                <div className="faq-item" key={idx}>
+                  <button
+                    className="faq-question"
+                    onClick={() => toggleFaq(idx)}
+                    aria-expanded={openFaq === idx}
+                  >
+                    {faq.q}
+                    <ChevronDown
+                      className={`faq-icon ${openFaq === idx ? "open" : ""}`}
+                      size={20}
+                    />
+                  </button>
+                  {openFaq === idx && <div className="faq-answer">{faq.a}</div>}
                 </div>
-              </details>
-
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Où se déroule la formation ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  La formation se déroule à Marrakech sur une durée de 14 jours.
-                  Les participants doivent prévoir leur billet d&apos;avion,
-                  leur hébergement et leurs dépenses personnelles sur place.
-                  Marrakech dispose d&apos;une large offre d&apos;hébergement.
-                </div>
-              </details>
-
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Qu&apos;est-ce qui est inclus dans le tarif de 2 499 € ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  Le tarif inclut l&apos;accès à l&apos;intégralité du
-                  programme, les sessions pédagogiques pendant 14 jours, les
-                  études de cas et mises en situation, l&apos;évaluation finale
-                  devant jury, l&apos;accès au réseau Entrepreneurs Morocco, et
-                  un entretien d&apos;embauche dès le lendemain de la formation.
-                </div>
-              </details>
-
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Que se passe-t-il après l&apos;examen final ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  Les profils validés peuvent accéder à des opportunités
-                  professionnelles dans des agences partenaires à Marrakech. Un
-                  entretien d&apos;embauche est organisé dès le lendemain de la
-                  formation.
-                </div>
-              </details>
-
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Comment soumettre ma candidature ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  Le processus comprend quatre étapes : dépôt d&apos;une
-                  candidature, étude du profil, validation de
-                  l&apos;inscription, puis participation à la formation. Les
-                  candidatures sont étudiées avant validation.
-                </div>
-              </details>
-
-              <details className="faq-item">
-                <summary className="faq-question">
-                  Les places sont-elles vraiment limitées ?
-                  <span className="faq-icon">▾</span>
-                </summary>
-                <div className="faq-answer">
-                  Oui. Les places étant limitées, les candidatures sont étudiées
-                  et validées dans l&apos;ordre de réception. Il est recommandé
-                  de candidater le plus tôt possible pour garantir sa place dans
-                  la prochaine session.
-                </div>
-              </details>
+              ))}
             </div>
           </div>
 
@@ -753,70 +753,18 @@ const ProgrammeImmobilierComponent: React.FC = () => {
         </main>
       </div>
 
-      <div
-        style={{
-          position: "fixed",
-          bottom: "24px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 9999,
-          pointerEvents: "auto",
-        }}
-      >
-        <div
-          style={{
-            background: "rgba(15, 15, 15, 0.92)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(239, 68, 68, 0.4)",
-            padding: "14px 24px",
-            borderRadius: "999px",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span
-              style={{
-                width: "10px",
-                height: "10px",
-                background: "#22c55e",
-                borderRadius: "50%",
-                display: "inline-block",
-                animation: "ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite",
-              }}
-            />
-            <span
-              style={{
-                fontSize: "14px",
-                fontWeight: 700,
-                color: "rgba(255,255,255,0.9)",
-              }}
-            >
-              Prochaine session bientôt —{" "}
-              <span style={{ color: "#ef4444" }}>4 places restantes</span>
-            </span>
+      {/* FLOATING STICKY BAR */}
+      <div className="floating-sticky-bar">
+        <div className="floating-left">
+          <div className="pulse-container">
+            <div className="pulse-ping"></div>
+            <div className="pulse-dot"></div>
           </div>
-          <Link
-            href="/contact-quiz/"
-            style={{
-              background: "#ef4444",
-              color: "#fff",
-              fontSize: "11px",
-              fontWeight: 900,
-              padding: "8px 20px",
-              borderRadius: "999px",
-              textDecoration: "none",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              transition: "background 0.2s",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Postuler
-          </Link>
+          <span className="floating-text">Prochaine session bientôt</span>
         </div>
+        <Link href="/contact-quiz/" className="floating-btn">
+          POSTULER
+        </Link>
       </div>
     </div>
   );
