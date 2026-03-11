@@ -16,10 +16,10 @@ jobs:
           username: root
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd /root/entrepreneur-morocco
+            cd /root/entrepreneurMorocco
             git pull origin main
             npm ci
             npm run build
-            pm2 delete entrepreneur-morocco || true
-            PORT=3002 pm2 start npm --name "entrepreneur-morocco" -- start
+            pm2 delete entrepreneurMorocco || true
+            PORT=3002 pm2 start npm --name "entrepreneurMorocco" -- start
             pm2 save
