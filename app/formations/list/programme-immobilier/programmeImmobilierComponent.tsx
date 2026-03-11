@@ -29,6 +29,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { useIsVisible } from "../../../../hooks/useIsVisible";
+import "./target-audience.css";
+
 import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 
 // ============================================
@@ -226,59 +231,242 @@ const WhyFormationSection: React.FC = () => {
 // TARGET AUDIENCE SECTION
 // ============================================
 
+const IMAGES = [1, 2, 3, 4, 5].map((n) => `/caroussel-3D-${n}.png`);
+
+const CAPTIONS = [
+  {
+    title: "Reconversion",
+    subtitle: "Les personnes en reconversion professionnelle",
+  },
+  {
+    title: "Commerciaux",
+    subtitle: "Souhaitant évoluer dans l'immobilier",
+  },
+  {
+    title: "Entrepreneurs",
+    subtitle: "Intéressés par l'investissement immobilier",
+  },
+  {
+    title: "Profils internationaux",
+    subtitle: "Souhaitant travailler dans l'immobilier au Maroc",
+  },
+  {
+    title: "Curieux & Novices",
+    subtitle: "Souhaitant comprendre les opportunités",
+  },
+];
+
 const TargetAudienceSection: React.FC = () => {
+  const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
+
+  const [active, setActive] = useState(2);
+  const [visibleCards, setVisibleCards] = useState(5);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const dragThreshold = 50;
+
+  useEffect(() => {
+    if (isPaused || isMobile) return;
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % IMAGES.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isPaused, isMobile]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      if (width < 640) setVisibleCards(3);
+      else if (width < 1024) setVisibleCards(4);
+      else setVisibleCards(5);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const prev = useCallback(() => {
+    setActive((i) => (i - 1 + IMAGES.length) % IMAGES.length);
+  }, []);
+
+  const next = useCallback(() => {
+    setActive((i) => (i + 1) % IMAGES.length);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [prev, next]);
+
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true);
+    setStartX(clientX);
+    setIsPaused(true);
+  };
+
+  const handleDragEnd = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    if (diff > dragThreshold) prev();
+    else if (diff < -dragThreshold) next();
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  const getCardStyle = (index: number) => {
+    const diff = index - active;
+    const totalCards = Math.min(IMAGES.length, visibleCards);
+    const centerIndex = Math.floor(totalCards / 2);
+
+    let position = diff;
+    if (position > centerIndex) position -= IMAGES.length;
+    if (position < -centerIndex) position += IMAGES.length;
+
+    if (Math.abs(position) > centerIndex) return { display: "none" };
+
+    const distanceFromCenter = Math.abs(position);
+    const scale = 1 - distanceFromCenter * 0.08;
+    const yOffset = -distanceFromCenter * 73;
+
+    let opacity, brightness;
+    if (distanceFromCenter === 0) {
+      opacity = 1;
+      brightness = 1;
+    } else if (distanceFromCenter === 1) {
+      opacity = 0.95;
+      brightness = 0.95;
+    } else {
+      opacity = 1 - distanceFromCenter * 0.25;
+      brightness = 0.65 + 0.15 * (1 - distanceFromCenter / centerIndex);
+    }
+
+    return {
+      transform: `translateX(${
+        position * 120
+      }%) translateY(${yOffset}px) scale(${scale})`,
+      opacity: opacity,
+      filter: `brightness(${brightness})`,
+      zIndex: 100 - distanceFromCenter,
+      cursor: distanceFromCenter === 0 ? "default" : "pointer",
+    };
+  };
+
   return (
-    <div className="section-block">
-      <div className="section-header">
-        <Users className="text-red-500" size={32} />
-        <h2 className="section-title">À qui s&apos;adresse cette formation</h2>
+    <section ref={elementRef} className={`wc-s ${isVisible ? "v" : ""}`}>
+      <div className="wc-h" style={{ flexDirection: "column" }}>
+        <Users className="text-red-500 mb-4" size={40} />
+        <h2 className="wc-t">À QUI S'ADRESSE CETTE FORMATION</h2>
+        <p
+          style={{
+            color: "rgba(255, 255, 255, 0.6)",
+            textAlign: "center",
+            maxWidth: "700px",
+            marginTop: "16px",
+            fontSize: "15px",
+            lineHeight: "1.6",
+            padding: "0 16px",
+          }}
+        >
+          Cette formation s'adresse aux personnes souhaitant développer une
+          expertise dans le secteur immobilier ou comprendre les mécanismes de
+          l'investissement immobilier.
+        </p>
       </div>
 
-      <p className="article-text">
-        Cette formation s&apos;adresse aux personnes souhaitant développer une
-        expertise dans le secteur immobilier ou comprendre les mécanismes de
-        l&apos;investissement immobilier.
-      </p>
-      <p className="article-text">Elle est particulièrement adaptée pour :</p>
+      <div
+        className={`wc-ct ${isDragging ? "grb" : ""}`}
+        onMouseDown={(e) => handleDragStart(e.clientX)}
+        onMouseUp={(e) => handleDragEnd(e.clientX)}
+        onMouseLeave={() => {
+          if (isDragging) {
+            setIsDragging(false);
+            setIsPaused(false);
+          }
+        }}
+        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+        onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
+        onMouseEnter={() => setIsPaused(true)}
+      >
+        <button
+          className="c-a c-a-l"
+          aria-label="Previous Slide"
+          onClick={(e) => {
+            e.stopPropagation();
+            prev();
+          }}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
 
-      <div className="space-y-2 mb-8">
-        <div className="glass-list-item">
-          <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-          <span className="text-md font-medium">
-            Les personnes en reconversion professionnelle
-          </span>
-        </div>
-        <div className="glass-list-item">
-          <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-          <span className="text-md font-medium">
-            Les commerciaux souhaitant évoluer dans l&apos;immobilier
-          </span>
-        </div>
-        <div className="glass-list-item">
-          <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-          <span className="text-md font-medium">
-            Les entrepreneurs intéressés par l&apos;investissement immobilier
-          </span>
-        </div>
-        <div className="glass-list-item">
-          <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-          <span className="text-md font-medium">
-            Les profils souhaitant travailler dans l&apos;immobilier au Maroc
-          </span>
-        </div>
-        <div className="glass-list-item">
-          <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-          <span className="text-md font-medium">
-            Les personnes souhaitant comprendre les opportunités immobilières
-          </span>
+        <button
+          className="c-a c-a-r"
+          aria-label="Next Slide"
+          onClick={(e) => {
+            e.stopPropagation();
+            next();
+          }}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+
+        <div className="wc-m">
+          {IMAGES.map((src, i) => (
+            <div
+              key={i}
+              className={`wc-c ${i === active ? "wc-c-a" : ""}`}
+              style={getCardStyle(i)}
+              onClick={() => !isDragging && setActive(i)}
+            >
+              <div className="wc-iw">
+                <Image
+                  src={src}
+                  alt={CAPTIONS[i].title}
+                  width={765}
+                  height={966}
+                  draggable={false}
+                  loading="lazy"
+                />
+              </div>
+              <div className="wc-cp text-center">
+                <div className="wc-cp-t">{CAPTIONS[i].title}</div>
+                {CAPTIONS[i].subtitle && (
+                  <div className="wc-cp-s">{CAPTIONS[i].subtitle}</div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      <p className="article-text" style={{ fontStyle: "italic" }}>
-        Aucune expérience préalable dans l&apos;immobilier n&apos;est
-        obligatoire.
-      </p>
-    </div>
+    </section>
   );
 };
 

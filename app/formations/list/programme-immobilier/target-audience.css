@@ -139,7 +139,6 @@
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.6),
     0 10px 30px rgba(0, 0, 0, 0.5);
-  border-color: #ef4444; /* Le bord rouge vif de l'image active comme sur la photo */
 }
 
 /* wc-cp: caption, wc-cp-t: title, wc-cp-s: subtitle */
