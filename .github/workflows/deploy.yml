@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -17,10 +17,9 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd /root/entrepreneur-morocco
-            git pull origin master
+            git pull origin main
             npm ci
             npm run build
-            pm2 describe entrepreneur-morocco > /dev/null 2>&1 \
-              && pm2 reload entrepreneur-morocco \
-              || pm2 serve out --name "entrepreneur-morocco" --spa
+            pm2 delete entrepreneur-morocco || true
+            PORT=3002 pm2 start npm --name "entrepreneur-morocco" -- start
             pm2 save
