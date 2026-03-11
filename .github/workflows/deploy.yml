@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: root
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            cd /root/entrepreneur-morocco
+            git pull origin main
+            npm ci
+            npm run build
+            pm2 describe entrepreneur-morocco > /dev/null 2>&1 \
+              && pm2 reload entrepreneur-morocco \
+              || pm2 serve out --name "entrepreneur-morocco" --spa
+            pm2 save

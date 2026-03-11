@@ -10,6 +10,10 @@
   max-width: 1280px;
 }
 
+.article-text-no-margin-b {
+  margin-bottom: auto;
+}
+
 .article-text {
   margin-bottom: 16px;
 }
@@ -154,7 +158,7 @@
 }
 
 .pourquoi-right-new {
-  width: 50%;
+  width: 55%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
@@ -794,7 +798,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #22c55e;
+  background: #f44336;
   border-radius: 50%;
 }
 
@@ -802,7 +806,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #22c55e;
+  background: #f44336;
   border-radius: 50%;
   animation: pulse-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
