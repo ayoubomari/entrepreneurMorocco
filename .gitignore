@@ -53,3 +53,8 @@ node_modules/
 
 # videos
 # public/videos/
+
+# specs
+.claudeignore
+.playwright-mcp
+CLAUDE.md

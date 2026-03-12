@@ -60,45 +60,56 @@ const faqs = [
 const HeroSection: React.FC = () => {
   return (
     <header className="article-hero">
-      <div className="article-tag">
-        <GraduationCap size={14} />
-        Formation Immersive
-      </div>
+      {/* Full-cover background image layer */}
+      <img
+        src="/marrakech-panorama.webp"
+        alt=""
+        aria-hidden="true"
+        className="hero-bg-img"
+      />
 
-      <h1 className="article-title">
-        Devenez Conseiller en Investissement Immobilier au{" "}
-        <span className="text-red-500">Maroc</span>
-      </h1>
-
-      <p className="article-lead">
-        Une formation immersive de 14 jours à Marrakech pour comprendre le
-        marché immobilier marocain et accéder à des opportunités
-        professionnelles dans le secteur.
-      </p>
-
-      <div className="prog-hero-stats">
-        <div className="prog-hero-pill">
-          <MapPin size={16} />
-          Marrakech
+      {/* Content constrained to max-width: 1280px */}
+      <div className="hero-inner">
+        <div className="article-tag">
+          <GraduationCap size={14} />
+          Formation Immersive
         </div>
-        <div className="prog-hero-pill">
-          <Calendar size={16} />
-          14 jours
-        </div>
-        <div className="prog-hero-pill">
-          <Lock size={16} />
-          Places limitées
-        </div>
-      </div>
 
-      <div style={{ marginTop: "40px" }}>
-        <Link href="/contact-quiz/" className="poly-btn red group">
-          <span>Candidater à la prochaine session</span>
-          <ArrowRight
-            size={18}
-            className="group-hover:translate-x-1 transition-transform"
-          />
-        </Link>
+        <h1 className="article-title">
+          Devenez Conseiller en Investissement Immobilier au{" "}
+          <span className="text-red-500">Maroc</span>
+        </h1>
+
+        <p className="article-lead">
+          Une formation immersive de 14 jours à Marrakech pour comprendre le
+          marché immobilier marocain et accéder à des opportunités
+          professionnelles dans le secteur.
+        </p>
+
+        <div className="prog-hero-stats">
+          <div className="prog-hero-pill">
+            <MapPin size={16} />
+            Marrakech
+          </div>
+          <div className="prog-hero-pill">
+            <Calendar size={16} />
+            14 jours
+          </div>
+          <div className="prog-hero-pill">
+            <Lock size={16} />
+            Places limitées
+          </div>
+        </div>
+
+        <div style={{ marginTop: "40px" }}>
+          <Link href="/contact-quiz/" className="poly-btn red group">
+            <span>Candidater à la prochaine session</span>
+            <ArrowRight
+              size={18}
+              className="group-hover:translate-x-1 transition-transform"
+            />
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -806,15 +817,15 @@ const ProgrammeImmobilierComponent: React.FC = () => {
   };
 
   return (
-    <div className="article-page">
+    <div className="article-page prog-page">
       {/* Background Effect */}
       <CloudRedEffect1 />
 
+      {/* === HERO SECTION — full viewport, outside article-wrap === */}
+      <HeroSection />
+
       {/* Main Wrapper */}
       <div className="article-wrap">
-        {/* === HERO SECTION === */}
-        <HeroSection />
-
         {/* === CONTENT CONTAINER === */}
         <main className="content-container">
           {/* === INTRO TEXT === */}

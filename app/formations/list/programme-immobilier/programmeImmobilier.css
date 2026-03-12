@@ -2,12 +2,75 @@
    ARTICLE OVERRIDES
    ============================================================ */
 
-.article-hero {
+/* Use .prog-page scope for higher specificity — ensures these rules
+   win over the generic .article-hero in the shared article.css */
+.prog-page .article-hero {
+  /* Full-viewport hero */
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  min-height: 100vh;
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 1.5rem 80px;
+
+  /* Stacking context — z-index: 2 keeps hero above the cloud effects (z-index: 1)
+     while staying below article-wrap (z-index: 10) and the nav (z-index: 50) */
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Background image layer — sits at the bottom of the stack */
+.prog-page .hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Dark overlay so text stays readable — above the image */
+.prog-page .article-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  z-index: 1;
+}
+
+.prog-page .article-tag {
+  backdrop-filter: blur(10px);
+}
+
+/* Content wrapper — constrained to 1280px, centered, above the overlay */
+.prog-page .hero-inner {
   max-width: 1280px;
+  width: 100%;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .content-container {
   max-width: 1280px;
+}
+
+/* Reduce top padding on the content wrapper since the hero
+   is now above article-wrap and fills its own viewport height */
+.prog-page .article-wrap {
+  padding-top: 64px;
 }
 
 .article-text-no-margin-b {
@@ -44,6 +107,7 @@
   letter-spacing: 0.05em;
   color: rgba(255, 255, 255, 0.9);
   transition: border-color 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .prog-hero-pill:hover {
