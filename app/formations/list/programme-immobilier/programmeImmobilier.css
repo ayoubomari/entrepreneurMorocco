@@ -1232,6 +1232,12 @@
 
 /* --- max-width: 930px --- */
 @media (max-width: 930px) {
+  .content-container {
+    max-width: 80rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+
   .funnel-arrow svg {
     transform: rotate(90deg);
   }
