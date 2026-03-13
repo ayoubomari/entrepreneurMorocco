@@ -112,6 +112,9 @@ const HeroSection: React.FC = () => {
           </Link>
         </div>
       </div>
+
+      {/* Bottom gradient — fades hero into the section below */}
+      <div className="prog-hero-gr" />
     </header>
   );
 };
@@ -301,7 +304,10 @@ const TargetAudienceSection: React.FC = () => {
 const ProgramTimelineSection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.08 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <BookOpen className="text-red-500" size={32} />
         <h2 className="section-title">Le programme de la formation</h2>
@@ -459,7 +465,10 @@ const ProgramTimelineSection: React.FC = () => {
 const RevenueSection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <TrendingUp className="text-red-500" size={32} />
         <h2 className="section-title">Revenus possibles après la formation</h2>
@@ -524,7 +533,10 @@ const RevenueSection: React.FC = () => {
 const ExamSection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <Award className="text-red-500" size={32} />
         <h2 className="section-title">Examen final</h2>
@@ -580,7 +592,10 @@ const ExamSection: React.FC = () => {
 const PricingSection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <DollarSign className="text-red-500" size={32} />
         <h2 className="section-title">Investissement pour la formation</h2>
@@ -677,7 +692,10 @@ const PricingSection: React.FC = () => {
 const AdmissionSection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <ClipboardList className="text-red-500" size={32} />
         <h2 className="section-title">Processus d&apos;admission</h2>
@@ -735,7 +753,10 @@ interface FAQSectionProps {
 const FAQSection: React.FC<FAQSectionProps> = ({ openFaq, toggleFaq }) => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <div className="section-header">
         <HelpCircle className="text-red-500" size={32} />
         <h2 className="section-title">Foire aux questions</h2>
@@ -770,7 +791,10 @@ const FAQSection: React.FC<FAQSectionProps> = ({ openFaq, toggleFaq }) => {
 const FinalCTASection: React.FC = () => {
   const { elementRef, isVisible } = useIsVisible({ threshold: 0.1 });
   return (
-    <div ref={elementRef} className={`final-cta-glass section-block sect-anim${isVisible ? " anim-visible" : ""}`}>
+    <div
+      ref={elementRef}
+      className={`final-cta-glass section-block sect-anim${isVisible ? " anim-visible" : ""}`}
+    >
       <GraduationCap className="text-red-500 mx-auto mb-6" size={48} />
       <h2 className="text-3xl font-black text-white uppercase mb-4">
         Rejoindre la prochaine session
@@ -833,7 +857,10 @@ const ProgrammeImmobilierComponent: React.FC = () => {
       <HeroSection />
 
       {/* Main Wrapper */}
-      <div className="article-wrap">
+      <div className="article-wrap z-2">
+        {/* Top gradient — hides the seam and covers red cloud at top */}
+        <div className="prog-wrap-gr" />
+
         {/* === CONTENT CONTAINER === */}
         <main className="content-container">
           {/* === INTRO TEXT === */}
