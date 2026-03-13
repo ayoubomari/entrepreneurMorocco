@@ -916,6 +916,159 @@
 }
 
 /* ============================================================
+   SCROLL-REVEAL ANIMATIONS
+   ============================================================ */
+
+/* -- Hero: load-triggered keyframes -- */
+@keyframes prog-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prog-page .hero-inner > * {
+  opacity: 0;
+  animation: prog-hero-in 0.7s ease forwards;
+}
+.prog-page .hero-inner > *:nth-child(1) { animation-delay: 0.15s; }
+.prog-page .hero-inner > *:nth-child(2) { animation-delay: 0.35s; }
+.prog-page .hero-inner > *:nth-child(3) { animation-delay: 0.55s; }
+.prog-page .hero-inner > *:nth-child(4) { animation-delay: 0.75s; }
+.prog-page .hero-inner > *:nth-child(5) { animation-delay: 0.95s; }
+
+/* -- Section blocks: scroll-triggered fade-up -- */
+.prog-page .sect-anim {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.prog-page .sect-anim.anim-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -- Timeline items: stagger -- */
+.prog-page .timeline-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.prog-page .sect-anim.anim-visible .timeline-item:nth-child(1) {
+  opacity: 1; transform: translateX(0); transition-delay: 0.15s;
+}
+.prog-page .sect-anim.anim-visible .timeline-item:nth-child(2) {
+  opacity: 1; transform: translateX(0); transition-delay: 0.3s;
+}
+.prog-page .sect-anim.anim-visible .timeline-item:nth-child(3) {
+  opacity: 1; transform: translateX(0); transition-delay: 0.45s;
+}
+.prog-page .sect-anim.anim-visible .timeline-item:nth-child(4) {
+  opacity: 1; transform: translateX(0); transition-delay: 0.6s;
+}
+.prog-page .sect-anim.anim-visible .timeline-item:nth-child(5) {
+  opacity: 1; transform: translateX(0); transition-delay: 0.75s;
+}
+
+/* -- Funnel steps: stagger -- */
+.prog-page .funnel-step,
+.prog-page .funnel-arrow,
+.prog-page .funnel-result {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+}
+
+.prog-page .sect-anim.anim-visible .funnel-step:nth-of-type(1) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+}
+.prog-page .sect-anim.anim-visible .funnel-arrow:nth-of-type(2) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.3s;
+}
+.prog-page .sect-anim.anim-visible .funnel-step:nth-of-type(3) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.45s;
+}
+.prog-page .sect-anim.anim-visible .funnel-arrow:nth-of-type(4) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.6s;
+}
+.prog-page .sect-anim.anim-visible .funnel-result {
+  opacity: 1; transform: translateY(0); transition-delay: 0.75s;
+}
+
+/* -- Pricing cards: slide in from sides -- */
+.prog-page .pricing-card-unified {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.prog-page .provisions-card {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.prog-page .sect-anim.anim-visible .pricing-card-unified {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.15s;
+}
+
+.prog-page .sect-anim.anim-visible .provisions-card {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.3s;
+}
+
+/* -- Admission steps: stagger -- */
+.prog-page .admission-step {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.3s ease;
+}
+
+.prog-page .sect-anim.anim-visible .admission-step:nth-child(1) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+}
+.prog-page .sect-anim.anim-visible .admission-step:nth-child(2) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.28s;
+}
+.prog-page .sect-anim.anim-visible .admission-step:nth-child(3) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.41s;
+}
+.prog-page .sect-anim.anim-visible .admission-step:nth-child(4) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.54s;
+}
+
+/* -- FAQ items: stagger -- */
+.prog-page .faq-item {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.3s ease;
+}
+
+.prog-page .sect-anim.anim-visible .faq-item:nth-child(1) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+}
+.prog-page .sect-anim.anim-visible .faq-item:nth-child(2) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.28s;
+}
+.prog-page .sect-anim.anim-visible .faq-item:nth-child(3) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.41s;
+}
+.prog-page .sect-anim.anim-visible .faq-item:nth-child(4) {
+  opacity: 1; transform: translateY(0); transition-delay: 0.54s;
+}
+
+/* ============================================================
    MEDIA QUERIES
    ============================================================ */
 
