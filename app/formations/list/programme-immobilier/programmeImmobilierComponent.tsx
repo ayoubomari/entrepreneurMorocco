@@ -560,7 +560,7 @@ const ExamSection: React.FC = () => {
           background: "rgba(239, 68, 68, 0.05)",
         }}
       >
-        <p className="text-red-100 font-bold m-0 text-lg">
+        <p className="font-bold m-0 text-lg">
           Les profils validés peuvent accéder à des opportunités
           professionnelles dans des agences partenaires à Marrakech.
         </p>
