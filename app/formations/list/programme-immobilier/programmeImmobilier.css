@@ -1345,7 +1345,7 @@
   }
 
   .floating-sticky-bar {
-    display: none; /* hide for now */
+    display: none; /* hide for  now */
     padding: 14px 12px 14px 16px;
     width: 95%;
     max-width: 330px;
