@@ -197,6 +197,11 @@
   transition: transform 0.3s ease;
   position: relative;
   z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .intro-image-clipped:hover {
@@ -935,11 +940,21 @@
   opacity: 0;
   animation: prog-hero-in 0.7s ease forwards;
 }
-.prog-page .hero-inner > *:nth-child(1) { animation-delay: 0.15s; }
-.prog-page .hero-inner > *:nth-child(2) { animation-delay: 0.35s; }
-.prog-page .hero-inner > *:nth-child(3) { animation-delay: 0.55s; }
-.prog-page .hero-inner > *:nth-child(4) { animation-delay: 0.75s; }
-.prog-page .hero-inner > *:nth-child(5) { animation-delay: 0.95s; }
+.prog-page .hero-inner > *:nth-child(1) {
+  animation-delay: 0.15s;
+}
+.prog-page .hero-inner > *:nth-child(2) {
+  animation-delay: 0.35s;
+}
+.prog-page .hero-inner > *:nth-child(3) {
+  animation-delay: 0.55s;
+}
+.prog-page .hero-inner > *:nth-child(4) {
+  animation-delay: 0.75s;
+}
+.prog-page .hero-inner > *:nth-child(5) {
+  animation-delay: 0.95s;
+}
 
 /* -- Section blocks: scroll-triggered fade-up -- */
 .prog-page .sect-anim {
@@ -959,23 +974,35 @@
 .prog-page .timeline-item {
   opacity: 0;
   transform: translateX(-20px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
 }
 
 .prog-page .sect-anim.anim-visible .timeline-item:nth-child(1) {
-  opacity: 1; transform: translateX(0); transition-delay: 0.15s;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.15s;
 }
 .prog-page .sect-anim.anim-visible .timeline-item:nth-child(2) {
-  opacity: 1; transform: translateX(0); transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.3s;
 }
 .prog-page .sect-anim.anim-visible .timeline-item:nth-child(3) {
-  opacity: 1; transform: translateX(0); transition-delay: 0.45s;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.45s;
 }
 .prog-page .sect-anim.anim-visible .timeline-item:nth-child(4) {
-  opacity: 1; transform: translateX(0); transition-delay: 0.6s;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.6s;
 }
 .prog-page .sect-anim.anim-visible .timeline-item:nth-child(5) {
-  opacity: 1; transform: translateX(0); transition-delay: 0.75s;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.75s;
 }
 
 /* -- Funnel steps: stagger -- */
@@ -984,36 +1011,53 @@
 .prog-page .funnel-result {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.3s ease;
 }
 
 .prog-page .sect-anim.anim-visible .funnel-step:nth-of-type(1) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
 }
 .prog-page .sect-anim.anim-visible .funnel-arrow:nth-of-type(2) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
 }
 .prog-page .sect-anim.anim-visible .funnel-step:nth-of-type(3) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.45s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.45s;
 }
 .prog-page .sect-anim.anim-visible .funnel-arrow:nth-of-type(4) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.6s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
 }
 .prog-page .sect-anim.anim-visible .funnel-result {
-  opacity: 1; transform: translateY(0); transition-delay: 0.75s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.75s;
 }
 
 /* -- Pricing cards: slide in from sides -- */
 .prog-page .pricing-card-unified {
   opacity: 0;
   transform: translateX(-28px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .prog-page .provisions-card {
   opacity: 0;
   transform: translateX(28px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .prog-page .sect-anim.anim-visible .pricing-card-unified {
@@ -1032,40 +1076,62 @@
 .prog-page .admission-step {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.3s ease;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    border-color 0.3s ease;
 }
 
 .prog-page .sect-anim.anim-visible .admission-step:nth-child(1) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
 }
 .prog-page .sect-anim.anim-visible .admission-step:nth-child(2) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.28s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.28s;
 }
 .prog-page .sect-anim.anim-visible .admission-step:nth-child(3) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.41s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.41s;
 }
 .prog-page .sect-anim.anim-visible .admission-step:nth-child(4) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.54s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.54s;
 }
 
 /* -- FAQ items: stagger -- */
 .prog-page .faq-item {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.3s ease;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    border-color 0.3s ease;
 }
 
 .prog-page .sect-anim.anim-visible .faq-item:nth-child(1) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.15s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
 }
 .prog-page .sect-anim.anim-visible .faq-item:nth-child(2) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.28s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.28s;
 }
 .prog-page .sect-anim.anim-visible .faq-item:nth-child(3) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.41s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.41s;
 }
 .prog-page .sect-anim.anim-visible .faq-item:nth-child(4) {
-  opacity: 1; transform: translateY(0); transition-delay: 0.54s;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.54s;
 }
 
 /* ============================================================
