@@ -1363,6 +1363,10 @@
   .provisions-subtitle {
     margin-bottom: 8px;
   }
+
+  .pricing-ribbon {
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 350px) {
