@@ -851,7 +851,7 @@ const ProgrammeImmobilierComponent: React.FC = () => {
   return (
     <div className="article-page prog-page">
       {/* Background Effect */}
-      <CloudRedEffect1 />
+      {/* <CloudRedEffect1 /> */}
 
       {/* === HERO SECTION — full viewport, outside article-wrap === */}
       <HeroSection />

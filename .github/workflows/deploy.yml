@@ -16,7 +16,7 @@ jobs:
           username: root
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd /root/entrepreneur-morocco
+            cd /root/entrepreneur-morocco-old
             git pull origin main
             npm ci
             npm run build
