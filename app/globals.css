@@ -13,8 +13,8 @@
   --accent-light: #ef4444;
   --accent-glow: rgba(220, 38, 38, 0.15);
   --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  --text-secondary: #bbb;
+  --text-muted: #aaa;
   --border: rgba(255, 255, 255, 0.08);
   --glass: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.06);
@@ -51,7 +51,12 @@ body {
 }
 
 /* --- Typography -------------------------------------------- */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-montserrat), system-ui, sans-serif;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -78,7 +83,9 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -254,8 +261,13 @@ video.hero-video::-moz-media-controls {
 }
 
 @keyframes heroGradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* --- Fade up entrance animation ---------------------------- */
@@ -272,8 +284,12 @@ video.hero-video::-moz-media-controls {
 
 /* --- Shimmer animation ------------------------------------- */
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* --- Ken Burns slow zoom animation ------------------------- */
@@ -315,7 +331,12 @@ video.hero-video::-moz-media-controls {
 /* --- Section separator: subtle gradient fade --------------- */
 .v3-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
 }
 
 /* --- Parallelogram accent bars (brand motif) --------------- */
@@ -332,8 +353,12 @@ video.hero-video::-moz-media-controls {
   transform: skewX(-12deg);
 }
 
-.para-bar:nth-child(2) { opacity: 0.6; }
-.para-bar:nth-child(3) { opacity: 0.3; }
+.para-bar:nth-child(2) {
+  opacity: 0.6;
+}
+.para-bar:nth-child(3) {
+  opacity: 0.3;
+}
 
 /* Small variant */
 .para-bars--sm .para-bar {
@@ -428,13 +453,18 @@ video.hero-video::-moz-media-controls {
 }
 
 .v3-glass::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
 }
 
 .v3-glass:hover {
@@ -535,19 +565,27 @@ video.hero-video::-moz-media-controls {
   font-family: var(--font-playfair), serif;
   font-style: italic;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.4;
 }
 
 /* --- Scroll-triggered line animation ----------------------- */
 @keyframes lineGrow {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 @keyframes lineGrowX {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* --- Fade in from left ------------------------------------- */
@@ -588,12 +626,21 @@ video.hero-video::-moz-media-controls {
 
 /* --- Infinite horizontal scroll (partner logos etc) --------- */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* --- Subtle float animation -------------------------------- */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
