@@ -19,7 +19,8 @@ jobs:
             cd /root/entrepreneur-morocco
             git fetch origin
             git checkout claude
-            git pull origin claude
+            git reset --hard origin/claude
+            git clean -fd
             npm ci
             npm run build
             pm2 delete entrepreneur-morocco || true
