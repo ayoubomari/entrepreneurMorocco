@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - claude
 
 jobs:
   deploy:
@@ -14,10 +14,10 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: root
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd /root/entrepreneur-morocco
-            git pull origin main
+            git pull origin claude
             npm ci
             npm run build
             pm2 delete entrepreneur-morocco || true

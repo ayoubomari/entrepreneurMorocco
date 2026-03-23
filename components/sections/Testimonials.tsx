@@ -130,10 +130,10 @@ export default function Testimonials() {
                   <p className="font-[family-name:var(--font-montserrat)] font-bold text-white text-base">
                     {active.name}
                   </p>
-                  <p className="text-sm text-[var(--accent)] font-semibold mt-0.5">
+                  <p className="text-sm text-[var(--accent-light)] font-semibold mt-0.5">
                     {active.route}
                   </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-1">{active.subtitle}</p>
+                  <p className="text-xs text-[var(--text-secondary)] mt-1">{active.subtitle}</p>
                 </div>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function Testimonials() {
                     <span
                       className="font-[family-name:var(--font-montserrat)] font-bold text-sm"
                       style={{
-                        color: i === activeIndex ? "var(--accent)" : "var(--text-muted)",
+                        color: i === activeIndex ? "var(--accent)" : "var(--text-secondary)",
                         transform: "skewX(6deg)",
                       }}
                     >
@@ -178,7 +178,7 @@ export default function Testimonials() {
                     <p className="font-[family-name:var(--font-montserrat)] font-bold text-sm text-white truncate">
                       {t.name}
                     </p>
-                    <p className="text-xs text-[var(--text-muted)] mt-0.5">{t.route}</p>
+                    <p className="text-xs text-[var(--text-secondary)] mt-0.5">{t.route}</p>
                   </div>
 
                   {/* Active indicator */}
@@ -201,7 +201,7 @@ export default function Testimonials() {
                   style={{ border: "1px solid rgba(255,255,255,0.08)" }}
                   aria-label="Précédent"
                 >
-                  <ChevronLeft size={18} className="text-[var(--text-muted)]" />
+                  <ChevronLeft size={18} className="text-[var(--text-secondary)]" />
                 </button>
                 <button
                   onClick={next}
@@ -209,7 +209,7 @@ export default function Testimonials() {
                   style={{ border: "1px solid rgba(255,255,255,0.08)" }}
                   aria-label="Suivant"
                 >
-                  <ChevronRight size={18} className="text-[var(--text-muted)]" />
+                  <ChevronRight size={18} className="text-[var(--text-secondary)]" />
                 </button>
               </div>
 

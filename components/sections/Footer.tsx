@@ -46,9 +46,15 @@ const COL1_LINKS = [
 ];
 
 const COL2_LINKS = [
-  { href: "/formations/list/programme-entrepreneur-360", label: "Entrepreneur 360°" },
+  {
+    href: "/formations/list/programme-entrepreneur-360",
+    label: "Entrepreneur 360°",
+  },
   { href: "/formations/list/programme-ecommerce", label: "E-Commerce" },
-  { href: "/formations/list/programme-innovation-tech", label: "Innovation & Tech" },
+  {
+    href: "/formations/list/programme-innovation-tech",
+    label: "Innovation & Tech",
+  },
   { href: "/formations/list/programme-immobilier", label: "Immobilier" },
 ];
 
@@ -64,7 +70,10 @@ export default function Footer() {
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full opacity-50 blur-[160px]"
-            style={{ background: "radial-gradient(ellipse, rgba(220,38,38,0.12) 0%, transparent 70%)" }}
+            style={{
+              background:
+                "radial-gradient(ellipse, rgba(220,38,38,0.12) 0%, transparent 70%)",
+            }}
           />
         </div>
 
@@ -102,12 +111,20 @@ export default function Footer() {
               className="mt-7 text-[var(--text-secondary)] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
             >
               Rejoignez les{" "}
-              <span className="text-[var(--text-primary)] font-medium">500+ entrepreneurs</span>{" "}
+              <span className="text-[var(--text-primary)] font-medium">
+                500+ entrepreneurs
+              </span>{" "}
               qui nous ont fait confiance.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-11 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <motion.div
+              variants={fadeUp}
+              className="mt-11 flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 <Link
                   href="/commencez-un-projet"
                   className="inline-flex items-center gap-3 px-10 py-4 text-[15px] font-semibold text-white bg-[var(--accent)] rounded-xl hover:shadow-[0_8px_40px_rgba(220,38,38,0.35)] transition-all duration-500 group cursor-pointer"
@@ -116,7 +133,10 @@ export default function Footer() {
                   <ArrowRight className="w-[18px] h-[18px] transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 <Link
                   href="/contact-quiz"
                   className="inline-flex items-center gap-3 px-10 py-4 text-[15px] font-medium text-[var(--text-secondary)] border border-[var(--border)] rounded-xl hover:border-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/[0.02] transition-all duration-300 cursor-pointer"
@@ -145,11 +165,15 @@ export default function Footer() {
                   Restez informé
                 </h3>
                 <p className="text-[var(--text-secondary)] text-sm mt-2.5 leading-relaxed">
-                  Recevez nos conseils pour entreprendre au Maroc, directement dans votre boîte mail.
+                  Recevez nos conseils pour entreprendre au Maroc, directement
+                  dans votre boîte mail.
                 </p>
               </div>
               <form
-                onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setEmail("");
+                }}
                 className="mt-6 flex gap-2"
               >
                 <input
@@ -160,6 +184,7 @@ export default function Footer() {
                   className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/[0.05] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/50 focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.07] transition-all duration-300"
                 />
                 <button
+                  aria-label="S'abonner à la newsletter"
                   type="submit"
                   className="px-5 py-3 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-light)] hover:shadow-[0_4px_20px_rgba(220,38,38,0.3)] text-white transition-all duration-300 cursor-pointer shrink-0"
                 >
@@ -174,7 +199,10 @@ export default function Footer() {
               className="group rounded-2xl border border-[var(--border)] bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-8 lg:p-10 hover:border-[var(--accent)]/20 transition-all duration-500 cursor-pointer flex flex-col"
             >
               <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-[var(--border)] group-hover:border-[var(--accent)]/30 group-hover:bg-[var(--accent)]/10 flex items-center justify-center mb-5 transition-all duration-500">
-                <Phone size={20} className="text-[var(--text-muted)] group-hover:text-[var(--accent-light)] transition-colors duration-500" />
+                <Phone
+                  size={20}
+                  className="text-[var(--text-muted)] group-hover:text-[var(--accent-light)] transition-colors duration-500"
+                />
               </div>
               <h3 className="text-[var(--text-primary)] font-bold text-lg">
                 Appelez-nous
@@ -184,7 +212,10 @@ export default function Footer() {
               </p>
               <span className="mt-auto pt-6 text-[var(--text-primary)] text-lg font-semibold transition-colors duration-300 flex items-center gap-2">
                 +33 6 44 66 02 52
-                <ArrowUpRight size={16} className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight
+                  size={16}
+                  className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </span>
             </a>
 
@@ -196,7 +227,10 @@ export default function Footer() {
               className="group rounded-2xl border border-[var(--border)] bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-8 lg:p-10 hover:border-[var(--accent)]/20 transition-all duration-500 cursor-pointer flex flex-col"
             >
               <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-[var(--border)] group-hover:border-[var(--accent)]/30 group-hover:bg-[var(--accent)]/10 flex items-center justify-center mb-5 transition-all duration-500">
-                <MapPin size={20} className="text-[var(--text-muted)] group-hover:text-[var(--accent-light)] transition-colors duration-500" />
+                <MapPin
+                  size={20}
+                  className="text-[var(--text-muted)] group-hover:text-[var(--accent-light)] transition-colors duration-500"
+                />
               </div>
               <h3 className="text-[var(--text-primary)] font-bold text-lg">
                 Rendez-nous visite
@@ -206,7 +240,10 @@ export default function Footer() {
               </p>
               <span className="mt-auto pt-6 text-[var(--text-primary)] text-sm font-medium leading-relaxed transition-colors duration-300 flex items-start gap-2">
                 Immeuble STAVROULA, Gueliz, Marrakech 40000
-                <ArrowUpRight size={14} className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0 mt-0.5" />
+                <ArrowUpRight
+                  size={14}
+                  className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0 mt-0.5"
+                />
               </span>
             </a>
           </div>
@@ -216,10 +253,15 @@ export default function Footer() {
       {/* ═══════════════════════════════════════════
           MAIN FOOTER
          ═══════════════════════════════════════════ */}
-      <div className="border-t border-[var(--border)]" style={{ background: "linear-gradient(180deg, var(--bg-primary) 0%, #020202 100%)" }}>
+      <div
+        className="border-t border-[var(--border)]"
+        style={{
+          background:
+            "linear-gradient(180deg, var(--bg-primary) 0%, #020202 100%)",
+        }}
+      >
         <Container>
           <div className="py-14 md:py-16 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-y-10 gap-x-8">
-
             {/* Brand */}
             <div className="col-span-2 sm:col-span-2 md:col-span-4 lg:col-span-4 lg:pr-6">
               <Image
@@ -231,7 +273,8 @@ export default function Footer() {
                 loading="lazy"
               />
               <p className="mt-5 text-[13px] text-[var(--text-secondary)] leading-[1.85] max-w-[280px]">
-                Accompagnement humain & stratégique pour créer et développer votre entreprise au Maroc.
+                Accompagnement humain & stratégique pour créer et développer
+                votre entreprise au Maroc.
               </p>
 
               {/* Socials */}
@@ -301,7 +344,11 @@ export default function Footer() {
                     className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer flex items-center gap-3"
                   >
                     <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0">
-                      <Mail size={14} strokeWidth={1.5} className="text-[var(--accent-light)]" />
+                      <Mail
+                        size={14}
+                        strokeWidth={1.5}
+                        className="text-[var(--accent-light)]"
+                      />
                     </div>
                     salam@entrepreneursmorocco.com
                   </a>
@@ -312,17 +359,26 @@ export default function Footer() {
                     className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer flex items-center gap-3"
                   >
                     <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0">
-                      <Phone size={14} strokeWidth={1.5} className="text-[var(--accent-light)]" />
+                      <Phone
+                        size={14}
+                        strokeWidth={1.5}
+                        className="text-[var(--accent-light)]"
+                      />
                     </div>
                     +33 6 44 66 02 52
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin size={14} strokeWidth={1.5} className="text-[var(--accent-light)]" />
+                    <MapPin
+                      size={14}
+                      strokeWidth={1.5}
+                      className="text-[var(--accent-light)]"
+                    />
                   </div>
                   <span className="text-[13px] text-[var(--text-secondary)] leading-[1.7]">
-                    Immeuble STAVROULA, Gueliz<br />
+                    Immeuble STAVROULA, Gueliz
+                    <br />
                     Marrakech 40000, Maroc
                   </span>
                 </li>
@@ -333,13 +389,24 @@ export default function Footer() {
           {/* Bottom bar — improved visibility */}
           <div className="border-t border-white/[0.08] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[var(--text-secondary)] font-medium">
-              &copy; {new Date().getFullYear()} Entrepreneurs Morocco — Tous droits réservés
+              &copy; {new Date().getFullYear()} Entrepreneurs Morocco — Tous
+              droits réservés
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/#faq" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer">FAQ</Link>
+              <Link
+                href="/#faq"
+                className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer"
+              >
+                FAQ
+              </Link>
               <span className="w-1 h-1 rounded-full bg-[var(--text-muted)]/40" />
               <span className="text-sm text-[var(--text-secondary)] flex items-center gap-1.5">
-                Fait avec <Heart size={13} className="text-[var(--accent)] fill-[var(--accent)]" /> depuis Marrakech
+                Fait avec{" "}
+                <Heart
+                  size={13}
+                  className="text-[var(--accent)] fill-[var(--accent)]"
+                />{" "}
+                depuis Marrakech
               </span>
             </div>
           </div>

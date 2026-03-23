@@ -128,7 +128,7 @@ export default function Accompagnements() {
                 <h3 className="font-[family-name:var(--font-montserrat)] font-black text-xl uppercase tracking-tight text-white">
                   {pack.name}
                 </h3>
-                <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-muted)] mt-1">
+                <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-secondary)] mt-1">
                   {pack.subtitle}
                 </p>
 
@@ -175,7 +175,7 @@ export default function Accompagnements() {
                 className="font-[family-name:var(--font-montserrat)] font-black gradient-text block"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
               />
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-muted)] mt-2">
+              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-secondary)] mt-2">
                 {item.label}
               </p>
             </div>

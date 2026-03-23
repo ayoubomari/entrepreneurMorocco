@@ -139,6 +139,7 @@ export default function Audience() {
                     key={i}
                     onClick={() => rotateToIndex(i)}
                     className="absolute"
+                    aria-hidden={!isActive}
                     style={mounted ? {
                       transform: `translateX(${x}px) translateZ(${z}px) scale(${scale})`,
                       opacity,
@@ -184,7 +185,7 @@ export default function Audience() {
                         <p className="font-[family-name:var(--font-montserrat)] font-bold uppercase text-base tracking-wide text-[var(--text-primary)]">
                           {caption.title}
                         </p>
-                        <p className="text-sm text-[var(--text-muted)] mt-1.5 leading-snug">
+                        <p className="text-sm text-[var(--text-secondary)] mt-1.5 leading-snug">
                           {caption.subtitle}
                         </p>
                       </div>
@@ -230,7 +231,7 @@ export default function Audience() {
               style={{ border: "1px solid rgba(255,255,255,0.08)" }}
               aria-label="Précédent"
             >
-              <ChevronLeft size={16} className="text-[var(--text-muted)]" />
+              <ChevronLeft size={16} className="text-[var(--text-secondary)]" />
             </button>
 
             <div className="flex gap-3">
@@ -261,7 +262,7 @@ export default function Audience() {
               style={{ border: "1px solid rgba(255,255,255,0.08)" }}
               aria-label="Suivant"
             >
-              <ChevronRight size={16} className="text-[var(--text-muted)]" />
+              <ChevronRight size={16} className="text-[var(--text-secondary)]" />
             </button>
           </div>
         </div>

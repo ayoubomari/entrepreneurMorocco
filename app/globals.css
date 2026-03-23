@@ -364,7 +364,7 @@ video.hero-video::-moz-media-controls {
   font-weight: 600;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .v3-section-title {

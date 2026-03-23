@@ -72,7 +72,7 @@ function AccordionItem({
         >
           <ChevronDown
             size={14}
-            style={{ color: isOpen ? "var(--accent)" : "var(--text-muted)" }}
+            style={{ color: isOpen ? "var(--accent)" : "var(--text-secondary)" }}
           />
         </motion.div>
       </div>
@@ -135,7 +135,7 @@ export default function FAQ() {
               &ldquo;Aucune question n&apos;est trop petite pour votre nouveau départ.&rdquo;
             </p>
 
-            <p className="text-[var(--text-muted)] text-sm mt-6 leading-relaxed">
+            <p className="text-[var(--text-secondary)] text-sm mt-6 leading-relaxed">
               Retrouvez les réponses aux questions les plus fréquentes.
               Si vous ne trouvez pas ce que vous cherchez, contactez-nous directement.
             </p>

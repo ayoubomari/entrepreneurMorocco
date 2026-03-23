@@ -57,4 +57,3 @@ node_modules/
 # specs
 .claudeignore
 .playwright-mcp
-CLAUDE.md
