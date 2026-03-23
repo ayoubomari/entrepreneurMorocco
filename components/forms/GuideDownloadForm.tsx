@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
-import { useIsVisible } from "@/hooks/useIsVisible";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase"; // Import du client Supabase
+import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { Download, CheckCircle, ArrowRight, BookOpen, Shield, Zap, Sparkles } from "lucide-react";
+import Container from "@/components/ui/Container";
+import { fadeUp, staggerContainer } from "@/lib/animations";
 
-// 1. Définition du schéma Zod (aligné avec la table guide_download)
 const formSchema = z.object({
   firstName: z.string().min(2, "Veuillez entrer votre prénom."),
   email: z.string().email("Format d'email invalide."),
@@ -17,11 +19,15 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+const BENEFITS = [
+  { icon: Shield, text: "Les pièges juridiques à éviter absolument", accent: "from-blue-500/20 to-blue-600/5" },
+  { icon: Zap, text: "Les erreurs fiscales qui coûtent cher", accent: "from-amber-500/20 to-amber-600/5" },
+  { icon: BookOpen, text: "La méthode pour démarrer sereinement", accent: "from-green-500/20 to-green-600/5" },
+];
+
 const GuideDownloadForm = () => {
   const [downloadTriggered, setDownloadTriggered] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
-
-  const { elementRef, isVisible } = useIsVisible({ threshold: 0.2 });
 
   const {
     register,
@@ -31,10 +37,7 @@ const GuideDownloadForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: {
-      firstName: "",
-      email: "",
-    },
+    defaultValues: { firstName: "", email: "" },
   });
 
   const {
@@ -43,33 +46,25 @@ const GuideDownloadForm = () => {
     error: emailError,
   } = useContactForm({
     formId: "guide-download",
-    onSuccess: () => {
-      console.log("Notification email sent");
-    },
+    onSuccess: () => console.log("Notification email sent"),
   });
 
   const triggerPDFDownload = () => {
-    const pdfUrl = "/pdfs/guide-7-erreurs-entrepreneur-maroc.pdf";
     const link = document.createElement("a");
-    link.href = pdfUrl;
+    link.href = "/pdfs/guide-7-erreurs-entrepreneur-maroc.pdf";
     link.download = "guide-7-erreurs-entrepreneur-maroc.pdf";
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();
-    setTimeout(() => {
-      document.body.removeChild(link);
-    }, 100);
+    setTimeout(() => document.body.removeChild(link), 100);
   };
 
   const onSubmit = async (data: FormValues) => {
     setGlobalError(null);
-
-    // 1. Feedback immédiat : Lancer le téléchargement
     triggerPDFDownload();
     setDownloadTriggered(true);
 
     try {
-      // Envoi de l'email de notification
       await submitEmail({
         Prénom: data.firstName,
         Email: data.email,
@@ -80,23 +75,18 @@ const GuideDownloadForm = () => {
         Source: "Site Web - Page Guide",
       });
 
-      // Insertion directe dans Supabase
-      const { error: dbError } = await supabase
-        .from("guide_download") // Nom exact de votre table Drizzle
+      const { error: dbError } = await supabase!
+        .from("guide_download")
         .insert([
           {
-            first_name: data.firstName, // Note: Supabase utilise souvent snake_case par défaut
+            first_name: data.firstName,
             email: data.email,
             guide_name: "7 Erreurs à Éviter - Entrepreneur Maroc",
             source: "Site Web - Page Guide",
           },
         ]);
 
-      if (dbError) {
-        console.error("Supabase Save failed:", dbError);
-        // On ne bloque pas l'utilisateur car le PDF est déjà lancé
-      }
-
+      if (dbError) console.error("Supabase Save failed:", dbError);
       reset();
     } catch (err) {
       console.error("Submission workflow failed:", err);
@@ -106,259 +96,218 @@ const GuideDownloadForm = () => {
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
+  const inputStyles =
+    "w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-5 py-4 text-sm text-white placeholder:text-[var(--text-muted)]/60 focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.07] transition-all duration-300";
+
   return (
-    <section className="lm-section">
-      <div ref={elementRef} className={`lm-wrap ${isVisible ? "visible" : ""}`}>
-        <header className="lm-head">
-          <h2 className="lm-title">
-            LES 7 ERREURS À ÉVITER QUAND
-            <br />
-            ON VEUT ENTREPRENDRE AU MAROC
-          </h2>
-
-          <div className="lm-head-copy">
-            <p>
-              Avant de lancer votre projet au Maroc, assurez-vous d&apos;éviter
-              ces pièges courants.
-            </p>
-            <p>
-              Ce guide pratique vous donne les clés pour démarrer sereinement,
-              que vous soyez MRE, investisseur ou en reconversion.
-            </p>
-          </div>
-        </header>
-
-        <div className="lm-grid">
-          {/* Left: Image */}
-          <figure className="lm-pdf">
-            <div className="lm-pdf-link">
-              <Image
-                width={300}
-                height={600}
-                src="/book2-1.webp"
-                alt="Guide PDF - 7 Erreurs à Éviter"
-                className="lm-pdf-img"
-                draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
-              />
-            </div>
-          </figure>
-
-          {/* Right: Form */}
-          <div className="lm-form">
-            <h3 className="lm-subtitle">
-              TÉLÉCHARGEZ NOTRE GUIDE GRATUIT :
-              <br />
-              <span className="lm-sub-accent">7 ERREURS À ÉVITER</span>
-            </h3>
-
-            {downloadTriggered ? (
-              <div
-                className="lm-success"
-                style={{
-                  background: "#1a1a1a",
-                  border: "2px solid #fff",
-                  padding: "24px",
-                  textAlign: "center",
-                  position: "relative",
-                  animation: "successFadeIn 0.5s ease-out",
-                }}
-              >
-                <div
-                  style={{
-                    width: "48px",
-                    height: "48px",
-                    background: "#fff",
-                    borderRadius: "50%",
-                    margin: "0 auto 16px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    animation:
-                      "iconScale 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both",
-                  }}
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#000"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                </div>
-
-                <h3
-                  style={{
-                    color: "#fff",
-                    fontSize: "20px",
-                    fontWeight: "700",
-                    margin: "0 0 8px",
-                  }}
-                >
-                  Parfait ! Votre guide a été téléchargé
-                </h3>
-
-                <p
-                  style={{
-                    color: "rgba(255, 255, 255, 0.8)",
-                    fontSize: "14px",
-                    margin: "0 0 20px",
-                    lineHeight: "1.4",
-                  }}
-                >
-                  Le téléchargement du PDF a commencé automatiquement.
-                  {(emailError || globalError) && (
-                    <>
-                      <br />
-                      <span style={{ color: "#fca5a5", fontSize: "12px" }}>
-                        Note: Un problème technique est survenu pour l'email,
-                        mais votre PDF est prêt.
-                      </span>
-                    </>
-                  )}
-                </p>
-
-                <button
-                  onClick={triggerPDFDownload}
-                  style={{
-                    background: "transparent",
-                    color: "#fff",
-                    border: "1px solid #fff",
-                    padding: "10px 20px",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#fff";
-                    e.currentTarget.style.color = "#ef4444";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "#fff";
-                  }}
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7,10 12,15 17,10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Télécharger à nouveau
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="lm-fields">
-                <div className="lm-field">
-                  <input
-                    className={`lm-input ${errors.firstName ? "border-red-500" : ""}`}
-                    type="text"
-                    placeholder="VOTRE PRÉNOM:"
-                    disabled={isSubmitting}
-                    {...register("firstName")}
-                  />
-                  {errors.firstName && (
-                    <span
-                      style={{
-                        color: "#ef4444",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                        display: "block",
-                      }}
-                    >
-                      {errors.firstName.message}
-                    </span>
-                  )}
-                </div>
-
-                <div className="lm-field">
-                  <input
-                    className={`lm-input ${errors.email ? "border-red-500" : ""}`}
-                    type="email"
-                    placeholder="VOTRE EMAIL:"
-                    disabled={isSubmitting}
-                    {...register("email")}
-                  />
-                  {errors.email && (
-                    <span
-                      style={{
-                        color: "#ef4444",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                        display: "block",
-                      }}
-                    >
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-
-                {globalError && (
-                  <p
-                    style={{
-                      color: "#ef4444",
-                      fontSize: "12px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {globalError}
-                  </p>
-                )}
-
-                <button
-                  className="lm-btn-left"
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
-                >
-                  {isSubmitting
-                    ? "Téléchargement..."
-                    : "Je télécharge mon guide"}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
+    <section className="relative py-24 md:py-32 overflow-hidden" id="guide">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[var(--bg-elevated)]" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] rounded-full bg-[var(--accent)]/[0.04] blur-[150px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-blue-500/[0.03] blur-[120px]" />
       </div>
 
-      <style jsx>{`
-        @keyframes successFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes iconScale {
-          from {
-            opacity: 0;
-            transform: scale(0);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
+      <Container className="relative">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer}
+        >
+          {/* Section header */}
+          <motion.div variants={fadeUp} className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-medium tracking-[0.15em] uppercase border border-[var(--accent)]/20 text-[var(--accent-light)] bg-[var(--accent)]/[0.06] mb-6">
+              <Sparkles size={12} />
+              Ressource gratuite
+            </span>
+            <h2
+              className="font-[family-name:var(--font-montserrat)] font-extrabold text-[var(--text-primary)] leading-[1.1] tracking-tight max-w-3xl mx-auto"
+              style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
+            >
+              Évitez les erreurs qui font échouer{" "}
+              <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent-light)] bg-clip-text text-transparent">
+                90% des projets
+              </span>
+            </h2>
+          </motion.div>
+
+          {/* Main card */}
+          <div className="rounded-3xl border border-[var(--border)] bg-gradient-to-br from-white/[0.04] via-transparent to-white/[0.02] overflow-hidden shadow-2xl shadow-black/20">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+
+              {/* ── Left: Content + Image ── */}
+              <div className="p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+                <motion.div variants={fadeUp}>
+                  <h3
+                    className="font-[family-name:var(--font-montserrat)] font-bold text-[var(--text-primary)] leading-[1.2]"
+                    style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)" }}
+                  >
+                    Les 7 erreurs fatales de l&apos;entrepreneur au Maroc
+                  </h3>
+
+                  <p className="mt-4 text-[var(--text-secondary)] text-[15px] leading-relaxed max-w-md">
+                    Un guide complet pour éviter les pièges et démarrer votre projet sur de bonnes bases.
+                  </p>
+                </motion.div>
+
+                {/* Benefits list — redesigned */}
+                <motion.ul variants={fadeUp} className="mt-8 space-y-3">
+                  {BENEFITS.map((b) => (
+                    <li key={b.text} className={`flex items-center gap-4 p-3.5 rounded-xl bg-gradient-to-r ${b.accent} border border-white/[0.05]`}>
+                      <span className="w-9 h-9 rounded-lg bg-white/[0.08] flex items-center justify-center shrink-0">
+                        <b.icon size={16} className="text-[var(--accent-light)]" />
+                      </span>
+                      <span className="text-sm text-[var(--text-primary)] font-medium">
+                        {b.text}
+                      </span>
+                    </li>
+                  ))}
+                </motion.ul>
+
+                {/* Book image */}
+                <motion.div variants={fadeUp} className="mt-10 flex justify-center lg:justify-start">
+                  <div className="relative group">
+                    <Image
+                      width={240}
+                      height={340}
+                      src="/images/book2-1.webp"
+                      alt="Guide PDF - 7 Erreurs à Éviter"
+                      className="rounded-xl shadow-2xl shadow-black/50 group-hover:scale-[1.03] transition-transform duration-500"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                    {/* Glow */}
+                    <div className="absolute -inset-8 bg-[var(--accent)]/[0.06] rounded-full blur-[60px] -z-10" />
+                    {/* Badge */}
+                    <div className="absolute -top-3 -right-3 bg-[var(--accent)] text-white text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-lg shadow-lg shadow-[var(--accent)]/30">
+                      Gratuit
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* ── Right: Form ── */}
+              <div className="p-10 md:p-14 lg:p-16 bg-white/[0.02] border-t lg:border-t-0 lg:border-l border-[var(--border)] flex items-center">
+                <motion.div variants={fadeUp} className="w-full max-w-md mx-auto">
+                  {downloadTriggered ? (
+                    <div className="text-center py-8">
+                      <div className="w-20 h-20 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle size={36} className="text-green-400" />
+                      </div>
+                      <h3 className="font-[family-name:var(--font-montserrat)] font-bold text-xl text-[var(--text-primary)] mb-3">
+                        Guide téléchargé !
+                      </h3>
+                      <p className="text-sm text-[var(--text-secondary)] mb-8 leading-relaxed">
+                        Le téléchargement a commencé automatiquement.
+                        {(emailError || globalError) && (
+                          <span className="block text-[var(--accent)] text-xs mt-2">
+                            Note: Un problème technique est survenu, mais votre PDF est prêt.
+                          </span>
+                        )}
+                      </p>
+                      <button
+                        onClick={triggerPDFDownload}
+                        className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-[var(--accent)] rounded-xl hover:bg-[var(--accent-light)] hover:shadow-[0_8px_30px_rgba(220,38,38,0.3)] transition-all duration-300 cursor-pointer"
+                      >
+                        <Download size={16} />
+                        Télécharger à nouveau
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="text-center mb-8">
+                        <div className="w-14 h-14 rounded-2xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 flex items-center justify-center mx-auto mb-5">
+                          <Download size={24} className="text-[var(--accent-light)]" />
+                        </div>
+                        <h3 className="font-[family-name:var(--font-montserrat)] font-bold text-xl text-[var(--text-primary)] mb-2">
+                          Téléchargez le guide
+                        </h3>
+                        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                          Entrez vos coordonnées et recevez le PDF instantanément.
+                        </p>
+                      </div>
+
+                      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                        <div>
+                          <label htmlFor="guide-firstName" className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                            Prénom
+                          </label>
+                          <input
+                            id="guide-firstName"
+                            type="text"
+                            placeholder="Votre prénom"
+                            disabled={isSubmitting}
+                            className={inputStyles}
+                            autoComplete="given-name"
+                            {...register("firstName")}
+                          />
+                          {errors.firstName && (
+                            <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                              {errors.firstName.message}
+                            </span>
+                          )}
+                        </div>
+
+                        <div>
+                          <label htmlFor="guide-email" className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                            Email
+                          </label>
+                          <input
+                            id="guide-email"
+                            type="email"
+                            placeholder="votre@email.com"
+                            disabled={isSubmitting}
+                            className={inputStyles}
+                            autoComplete="email"
+                            {...register("email")}
+                          />
+                          {errors.email && (
+                            <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                              {errors.email.message}
+                            </span>
+                          )}
+                        </div>
+
+                        {globalError && (
+                          <p className="text-[var(--accent)] text-xs">{globalError}</p>
+                        )}
+
+                        <motion.button
+                          type="submit"
+                          disabled={isSubmitting || !isValid}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full inline-flex items-center justify-center gap-3 px-8 py-4.5 mt-2 text-[14px] font-bold text-white bg-[var(--accent)] rounded-xl hover:bg-[var(--accent-light)] hover:shadow-[0_8px_40px_rgba(220,38,38,0.35)] transition-all duration-500 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                        >
+                          <Download size={18} />
+                          {isSubmitting ? "Téléchargement..." : "Télécharger gratuitement"}
+                          <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                        </motion.button>
+
+                        <div className="flex items-center justify-center gap-4 mt-3 text-[11px] text-[var(--text-muted)]">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-green-500" />
+                            100% gratuit
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-green-500" />
+                            Aucun spam
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-green-500" />
+                            Confidentiel
+                          </span>
+                        </div>
+                      </form>
+                    </>
+                  )}
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </Container>
     </section>
   );
 };

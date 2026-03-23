@@ -3,34 +3,38 @@ import HomePageClient from "./PageComponent";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.entrepreneursmorocco.com"),
-  title: "Entrepreneurs Morocco",
+  title: "Entrepreneurs Morocco | Accompagnement Business & Installation au Maroc",
   description:
-    "Accompagnement expert pour MRE et entrepreneurs au Maroc. De la création d'entreprise à l'installation de votre famille, nous simplifions votre projet de vie.",
+    "Le guichet unique pour entreprendre au Maroc. Création d'entreprise, fiscalité, immobilier, titre de séjour — accompagnement complet pour MRE, investisseurs et entrepreneurs. +500 familles accompagnées.",
   keywords: [
     "Entreprendre au Maroc",
-    "MRE Maroc",
+    "MRE Maroc retour",
     "Création entreprise Maroc",
     "S'installer au Maroc",
     "Investir au Maroc",
-    "Accompagnement entrepreneurs",
-    "Pack Family Maroc",
-    "Guide MRE Maroc",
+    "Accompagnement entrepreneurs Maroc",
+    "Fiscalité Maroc",
+    "Titre de séjour Maroc",
+    "Immobilier Maroc",
+    "Business Plan Maroc",
+    "CFC Casablanca",
+    "Maroc 2030",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Entrepreneurs Morocco | On vous montre le chemin",
+    title: "Entrepreneurs Morocco | Votre partenaire pour réussir au Maroc",
     description:
-      "Simplifiez votre installation professionnelle et personnelle au Maroc Entrepreneurs Morocco.",
+      "De l'idée à la concrétisation — stratégie, juridique, installation. +500 entrepreneurs accompagnés. Création d'entreprise, fiscalité, immobilier au Maroc.",
     url: "https://www.entrepreneursmorocco.com",
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logo.jpg",
-        width: 403,
-        height: 120,
-        alt: "Entrepreneurs Morocco - Accompagnement Business et Installation",
+        url: "/images/hero-cfc-poster.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "Entrepreneurs Morocco - Casablanca Finance City",
       },
     ],
     locale: "fr_FR",
@@ -38,10 +42,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Entrepreneurs Morocco | Entreprendre au Maroc",
+    title: "Entrepreneurs Morocco | Entreprendre au Maroc simplifié",
     description:
-      "Accompagnement sur mesure pour réussir votre retour ou votre installation au Maroc.",
-    images: ["/logo.jpg"],
+      "+500 entrepreneurs accompagnés. Création d'entreprise, fiscalité, immobilier — votre guichet unique pour réussir au Maroc.",
+    images: ["/images/hero-cfc-poster.jpg"],
   },
 };
 

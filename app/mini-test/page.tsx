@@ -23,9 +23,9 @@ export const metadata: Metadata = {
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logo.jpg",
-        width: 403,
-        height: 120,
+        url: "/images/hero-cfc-poster.jpg",
+        width: 1920,
+        height: 1080,
         alt: "Entrepreneurs Morocco - Mini Test Diagnostic",
       },
     ],

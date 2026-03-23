@@ -1,249 +1,599 @@
-/* Enhanced Smooth Scrolling */
-* {
-  scroll-behavior: smooth;
-}
+/* ============================================================
+   Entrepreneurs Morocco v3.0 — Design System
+   ============================================================ */
 
-/* Tailwind + theme vars */
 @import "tailwindcss";
 
+/* --- Design Tokens ----------------------------------------- */
 :root {
-  --background: #0a0a0a; /* unified site background (dark) */
-  --foreground: #ededed;
+  --bg-primary: #050505;
+  --bg-elevated: #080808;
+  --bg-subtle: #111111;
+  --accent: #dc2626;
+  --accent-light: #ef4444;
+  --accent-glow: rgba(220, 38, 38, 0.15);
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
 }
 
+/* --- Tailwind 4 Theme -------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-montserrat);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-surface: var(--bg-elevated);
+  --color-surface-elevated: var(--bg-subtle);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-montserrat), system-ui, sans-serif;
 }
 
+/* --- Base -------------------------------------------------- */
 html {
   overflow-x: hidden;
-  scroll-behavior: smooth;
-  background: #0a0a0a; /* Force black background on html */
+  background: var(--bg-primary);
 }
 
 body {
-  /* UNIFIED BLACK BACKGROUND - no transparency */
-  background: #0a0a0a !important;
-  color: var(--foreground);
-  font-family: var(--font-montserrat), system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
   overflow-x: hidden;
-  cursor: none; /* Hide default cursor for this design */
-  min-height: 100vh; /* Ensure full height coverage */
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Force black background on all major containers */
-* {
-  /* Override any section backgrounds that might interfere */
+/* --- Typography -------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text-primary);
 }
 
-/* Remove any default backgrounds that might show through */
-div,
-section,
-main,
-article,
-aside,
-header,
-footer {
-  /* Don't set backgrounds here - let the body background show through */
+p {
+  line-height: 1.8;
 }
 
-/* --- Global layers ------------------------------------------------------- */
-
-/* Unified background for ALL pages */
-#site-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0; /* bottom-most layer */
-  pointer-events: none;
-  background: #0a0a0a !important; /* Force black with !important */
+/* Better text rendering for body copy */
+.v3-body-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 42rem;
 }
 
-/* Blob layer above background, below content */
-#blob-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 10; /* between bg and content */
-  pointer-events: none;
+/* --- Smooth scroll (respects preference) ------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
-/* SIMPLIFIED: Content should be above blob */
-#app-content {
-  position: relative;
-  z-index: 20; /* Higher than blob */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-main,
-header,
-footer,
-section {
-  position: relative;
-  z-index: inherit; /* Inherit from parent */
-  /* Ensure no background colors override the black */
-  background: transparent !important;
-}
-
-/* --- Scrollbar styling --------------------------------------------------- */
+/* --- Scrollbar --------------------------------------------- */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 6px;
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #dc2626, #991b1b);
-  border-radius: 6px;
-  border: 2px solid #1a1a1a;
-  transition: all 0.3s ease;
+  background: var(--bg-subtle);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ef4444, #dc2626);
-  transform: scale(1.1);
-}
-::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(180deg, #f87171, #ef4444);
+  background: var(--accent);
 }
 
-/* Firefox Scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #dc2626 #1a1a1a;
+  scrollbar-color: var(--bg-subtle) var(--bg-primary);
 }
 
-/* --- Blob & cursor ------------------------------------------------------- */
+/* --- Hide native video controls ----------------------------- */
+video.hero-video::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+video.hero-video::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
+video.hero-video::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+video.hero-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+video.hero-video::-moz-media-controls {
+  display: none !important;
+}
 
-/* Simple blob effect - back to original */
+/* --- Selection --------------------------------------------- */
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* --- Cursor (desktop only) --------------------------------- */
+@media (min-width: 768px) {
+  body {
+    cursor: none;
+  }
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor.hover {
+  width: 32px;
+  height: 32px;
+}
+
+/* Hide cursor on mobile */
+@media (max-width: 767px) {
+  .cursor {
+    display: none;
+  }
+}
+
+/* --- Blob ambient glow ------------------------------------- */
 .blob {
-  width: 650px;
-  height: 650px;
-  border-radius: 100%;
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  filter: blur(250px);
-  transition: transform 450ms ease-out, opacity 200ms ease-out;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(80px);
   position: fixed;
   pointer-events: none;
   left: 0;
   top: 0;
-  transform: translate(-50%, -50%);
-  z-index: 1; /* Above background but below content */
-  opacity: 0.8;
+  transform: translate(-50%, -50%) translateZ(0);
+  will-change: transform;
+  z-index: 1;
+  opacity: 0.6;
 }
 
-/* Simple cursor - back to original */
-.cursor {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #dc2626;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.1s ease;
-  mix-blend-mode: difference;
-}
-.cursor.hover {
-  transform: scale(1.5);
-  background-color: #ef4444;
-}
-.cursor.click {
-  transform: scale(0.8);
-}
-.cursor.zindex {
-  z-index: 99999;
-}
-
-/* ADDED: Ensure text and interactive elements are visible above blob */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-span,
-div,
-a,
-button,
-input,
-textarea {
-  position: relative;
-  /* These inherit z-index from their parent containers */
-}
-
-/* ADDED: For any absolutely positioned elements in your content */
-.absolute,
-[class*="absolute"] {
-  z-index: 25; /* Higher than app-content z-20 */
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .pt-\[96px\],
-  main {
-    padding-top: 0px !important;
-  }
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  .cursor,
+@media (max-width: 768px) {
   .blob {
     display: none;
   }
-  body {
-    cursor: auto;
+}
+
+@media (max-width: 767px) {
+  .blob {
+    display: none;
   }
 }
 
-/* Motion prefs */
-@media (prefers-reduced-motion: no-preference) {
-  html,
-  * {
-    scroll-behavior: smooth;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  html,
-  * {
-    scroll-behavior: auto;
-  }
-  .custom-cursor,
-  .cursor-trail {
-    transition: none;
-  }
-}
-
-#contact {
-  scroll-margin-top: 110px;
-}
-
-/* Cloud effect - "Extinct"/Extended version */
-.cloud-red {
-  width: 550px;
-  height: 550px;
-  border-radius: 50%;
-  background-image: radial-gradient(
-    circle,
-    #dc2626 0px,
-    #dc2626f0 15%,
-    #e92830b0 30%,
-    #dc232b80 50%,
-    #d71e26 70%,
-    #d51921 85%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  filter: blur(80px);
-  opacity: 0.5;
-  position: absolute;
+/* --- Utility layers ---------------------------------------- */
+#site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
-  box-sizing: border-box;
+  background: var(--bg-primary);
 }
 
-@media (max-width: 940px) {
-  .cloud-red {
-    width: 400px;
-    height: 400px;
-    filter: blur(65px);
+#blob-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#app-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* --- Scroll anchors ---------------------------------------- */
+#contact {
+  scroll-margin-top: 100px;
+}
+
+/* --- Glass card base --------------------------------------- */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+/* --- Gradient text utility --------------------------------- */
+.gradient-text {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Hero gradient text (large headline) ------------------- */
+.hero-gradient-text {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f5f5f5 25%,
+    #dc2626 60%,
+    #ef4444 80%,
+    #f87171 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+}
+
+@keyframes heroGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* --- Fade up entrance animation ---------------------------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Shimmer animation ------------------------------------- */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Ken Burns slow zoom animation ------------------------- */
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -0.5%);
+  }
+  100% {
+    transform: scale(1.04) translate(0.5%, 0.5%);
+  }
+}
+
+/* ============================================================
+   V3 DESIGN SYSTEM — Unified Section Architecture
+   ============================================================ */
+
+/* --- Section rhythm: consistent vertical spacing ----------- */
+.v3-section {
+  position: relative;
+  padding: 6rem 0;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .v3-section {
+    padding: 8rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .v3-section {
+    padding: 10rem 0;
+  }
+}
+
+/* --- Section separator: subtle gradient fade --------------- */
+.v3-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+}
+
+/* --- Parallelogram accent bars (brand motif) --------------- */
+.para-bars {
+  display: flex;
+  gap: 3px;
+}
+
+.para-bar {
+  height: 24px;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: skewX(-12deg);
+}
+
+.para-bar:nth-child(2) { opacity: 0.6; }
+.para-bar:nth-child(3) { opacity: 0.3; }
+
+/* Small variant */
+.para-bars--sm .para-bar {
+  height: 16px;
+  width: 3px;
+}
+
+/* --- Section header pattern -------------------------------- */
+.v3-section-header {
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  .v3-section-header {
+    margin-bottom: 5rem;
+  }
+}
+
+.v3-section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.v3-section-eyebrow-text {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.v3-section-title {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.v3-section-subtitle {
+  margin-top: 1.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 36rem;
+  letter-spacing: 0.01em;
+}
+
+.v3-section-subtitle--center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Aurora glow accent (reusable) ------------------------- */
+.aurora-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(100px);
+  pointer-events: none;
+  background: rgba(220, 38, 38, 0.06);
+  transform: translateZ(0);
+  will-change: filter;
+}
+
+@media (max-width: 768px) {
+  .aurora-glow {
+    display: none;
+  }
+}
+
+/* --- Glass card v3 ----------------------------------------- */
+.v3-glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+@media (max-width: 768px) {
+  .v3-glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.v3-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
+.v3-glass:hover {
+  border-color: rgba(220, 38, 38, 0.15);
+  box-shadow: 0 0 60px rgba(220, 38, 38, 0.06);
+  transform: translateY(-4px);
+}
+
+/* --- Parallelogram button (brand CTA) ---------------------- */
+.v3-btn-para {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.v3-btn-para-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: skewX(-12deg);
+  transition: all 0.5s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.v3-btn-para:hover .v3-btn-para-bg {
+  background: var(--accent-light);
+  transform: skewX(-12deg) scale(1.04);
+  box-shadow: 0 0 50px rgba(220, 38, 38, 0.35);
+}
+
+.v3-btn-para-content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Ghost variant */
+.v3-btn-para--ghost .v3-btn-para-bg {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.v3-btn-para--ghost {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.v3-btn-para--ghost:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.v3-btn-para--ghost:hover .v3-btn-para-bg {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(220, 38, 38, 0.25);
+  box-shadow: none;
+}
+
+/* --- Counter/metric large display -------------------------- */
+.v3-metric {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: white;
+}
+
+.v3-metric-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 0.25rem;
+}
+
+/* --- Step number (methodology) ----------------------------- */
+.v3-step-number {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 4rem;
+  line-height: 1;
+  -webkit-text-stroke: 1px rgba(220, 38, 38, 0.3);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* --- Italic tagline (Playfair Display) --------------------- */
+.v3-tagline {
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+/* --- Scroll-triggered line animation ----------------------- */
+@keyframes lineGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes lineGrowX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* --- Fade in from left ------------------------------------- */
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Fade in from right ------------------------------------ */
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Scale up entrance ------------------------------------- */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Infinite horizontal scroll (partner logos etc) --------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* --- Subtle float animation -------------------------------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }

@@ -2,20 +2,18 @@
 
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
-import "./devis.css";
-import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase"; // Import du client Supabase
+import { supabase } from "@/lib/supabase";
+import { CheckCircle, Send, ChevronDown } from "lucide-react";
 
-// 1. Définition du schéma Zod
 const formSchema = z.object({
   fullName: z.string().min(2, "Le nom est requis."),
   email: z.email("Format d'email invalide."),
   phone: z.string().refine((val) => {
-    if (!val) return true; // Optionnel
+    if (!val) return true;
     return !!parsePhoneToE164(val);
   }, "Numéro invalide. Ex: 06 61... ou +33 6..."),
   services: z.array(z.string()).optional(),
@@ -33,319 +31,165 @@ const SERVICES_OPTS: Array<[string, string]> = [
   ["other", "Autre"],
 ];
 
+const inputStyles =
+  "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-sm text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.06] transition-all duration-300";
+
 export default function DevisComponent() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
   const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
+    register, handleSubmit, reset, watch,
     formState: { errors, isSubmitting: isRHFSubmitting, isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      services: [],
-      message: "",
-    },
+    defaultValues: { fullName: "", email: "", phone: "", services: [], message: "" },
   });
 
   const selectedServices = watch("services") || [];
 
-  // Hook pour l'envoi de l'email de notification
-  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
-    useContactForm({
-      formId: "custom-quote",
-      onError: (err) => console.error("Email sending failed:", err),
-    });
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } = useContactForm({
+    formId: "custom-quote",
+    onError: (err) => console.error("Email sending failed:", err),
+  });
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
-  // Helper pour transformer les clés de services en labels lisibles
   const getServicesLabels = (keys: string[] | undefined) => {
     if (!keys || keys.length === 0) return "Aucun sélectionné";
-    return keys
-      .map((k) => {
-        const found = SERVICES_OPTS.find(([optKey]) => optKey === k);
-        return found ? found[1] : k;
-      })
-      .join(", ");
+    return keys.map((k) => SERVICES_OPTS.find(([o]) => o === k)?.[1] || k).join(", ");
   };
 
   const onSubmit = async (data: FormValues) => {
     setGlobalError(null);
-
     try {
-      // Préparation des données
       const formattedPhone = parsePhoneToE164(data.phone);
-
-      // Envoi de l'email (via Brevo/Hook)
       submitEmail({
-        "Nom complet": data.fullName,
-        Email: data.email,
+        "Nom complet": data.fullName, Email: data.email,
         Téléphone: formattedPhone || "Non renseigné",
         "Services demandés": getServicesLabels(data.services),
         Message: data.message || "Aucun message",
         Source: "Demande de devis sur-mesure",
-        "Date de soumission": new Date().toLocaleString("fr-FR", {
-          timeZone: "Africa/Casablanca",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        "Date de soumission": new Date().toLocaleString("fr-FR", { timeZone: "Africa/Casablanca", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }),
       });
 
-      // Insertion directe dans Supabase
-      // On utilise les noms de colonnes snake_case définis dans votre schéma Drizzle
-      const { error } = await supabase.from("custom_quote").insert([
-        {
-          full_name: data.fullName,
-          email: data.email,
-          phone: formattedPhone || null,
-          services: data.services || [],
-          message: data.message || null,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // Succès UI
+      const { error } = await supabase!.from("custom_quote").insert([{
+        full_name: data.fullName, email: data.email,
+        phone: formattedPhone || null, services: data.services || [], message: data.message || null,
+      }]);
+      if (error) throw new Error(error.message);
       setShowSuccess(true);
-
-      setTimeout(() => {
-        reset();
-        setServicesOpen(false);
-      }, 5000);
-    } catch (err: any) {
+      setTimeout(() => { reset(); setServicesOpen(false); }, 5000);
+    } catch (err) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
     }
   };
 
-  if (showSuccess) {
-    return (
-      <main className="qf relative overflow-hidden">
-        <CloudRedEffect1 />
-        <div className="qf__wrap">
-          <div
-            className="qf__success"
-            style={{
-              background: "#000",
-              border: "2px solid #fff",
-              padding: "40px",
-              textAlign: "center",
-              maxWidth: "900px",
-              margin: "0 auto",
-              animation: "successFadeIn 0.5s ease-out",
-            }}
-          >
-            <div
-              style={{
-                width: "64px",
-                height: "64px",
-                background: "#fff",
-                borderRadius: "50%",
-                margin: "0 auto 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#000"
-                strokeWidth="3"
-              >
-                <path
-                  d="M20 6L9 17l-5-5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <h2
-              className="qf__title"
-              style={{
-                color: "#fff",
-                fontSize: "28px",
-                fontWeight: "700",
-                marginBottom: "16px",
-              }}
-            >
-              DEMANDE REÇUE !
-            </h2>
-            <p
-              className="qf__lead"
-              style={{
-                color: "rgba(255, 255, 255, 0.8)",
-                fontSize: "18px",
-                lineHeight: "1.5",
-                marginBottom: 0,
-              }}
-            >
-              Notre équipe analyse votre projet. Vous recevrez une offre
-              personnalisée sous 48h.
-            </p>
-          </div>
-        </div>
-        <style jsx>{`
-          @keyframes successFadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
-      </main>
-    );
-  }
-
   return (
-    <main className="qf relative overflow-hidden">
-      <CloudRedEffect1 />
+    <main className="min-h-screen bg-[var(--bg-primary)]">
+      <div className="aurora-glow w-[600px] h-[500px] top-1/4 right-0 opacity-50 fixed" />
 
-      <div className="qf__wrap">
-        <header className="qf__head">
-          <h1 className="qf__title">DEMANDE DE DEVIS SUR-MESURE</h1>
-          <p className="qf__lead">
-            Parlez-nous de vos besoins et nous vous répondrons avec une offre
-            adaptée sous 48h.
-          </p>
-        </header>
-
-        <form className="qf__form" onSubmit={handleSubmit(onSubmit)}>
-          {/* Nom Complet */}
-          <div className="qf__field">
-            <div
-              className={`qf__input-wrapper ${errors.fullName ? "error" : ""}`}
-            >
-              <input
-                className="qf__input"
-                type="text"
-                placeholder="PRÉNOM & NOM :"
-                disabled={isSubmitting}
-                {...register("fullName")}
-              />
+      <div className="max-w-5xl mx-auto px-6 md:px-8 lg:px-12 pt-36 pb-24">
+        {showSuccess ? (
+          <div className="max-w-lg mx-auto text-center animate-[fadeUp_0.5s_ease-out_both]">
+            <div className="v3-glass p-12" style={{ borderRadius: 28 }}>
+              <div className="w-16 h-16 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle size={28} className="text-[var(--accent)]" />
+              </div>
+              <h2 className="font-[family-name:var(--font-montserrat)] font-black text-2xl text-white uppercase">Demande reçue !</h2>
+              <p className="text-[var(--text-secondary)] text-sm mt-4">Notre équipe analyse votre projet. Offre personnalisée sous 48h.</p>
             </div>
-            {errors.fullName && (
-              <p className="qf__error-msg">{errors.fullName.message}</p>
-            )}
           </div>
-
-          {/* Email */}
-          <div className="qf__field">
-            <div className={`qf__input-wrapper ${errors.email ? "error" : ""}`}>
-              <input
-                className="qf__input"
-                type="email"
-                placeholder="EMAIL :"
-                disabled={isSubmitting}
-                {...register("email")}
-              />
-            </div>
-            {errors.email && (
-              <p className="qf__error-msg">{errors.email.message}</p>
-            )}
-          </div>
-
-          {/* Téléphone */}
-          <div className="qf__field">
-            <div className={`qf__input-wrapper ${errors.phone ? "error" : ""}`}>
-              <input
-                className="qf__input"
-                type="tel"
-                placeholder="TÉLÉPHONE :"
-                disabled={isSubmitting}
-                {...register("phone")}
-              />
-            </div>
-            {errors.phone && (
-              <p className="qf__error-msg">{errors.phone.message}</p>
-            )}
-          </div>
-
-          {/* Services (Custom Dropdown/Checkboxes) */}
-          <div className="qf__field">
-            <div className="qf__input-wrapper">
-              <button
-                type="button"
-                className="qf__select-trigger"
-                onClick={() => setServicesOpen(!servicesOpen)}
-                disabled={isSubmitting}
-              >
-                <span>
-                  {selectedServices.length > 0
-                    ? `${selectedServices.length} SÉLECTIONNÉ(S)`
-                    : "SERVICES DEMANDÉS (CASE À COCHER) :"}
-                </span>
-                <span
-                  className={`qf__caret ${servicesOpen ? "is-open" : ""}`}
-                />
-              </button>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="text-center mb-14 animate-[fadeUp_0.8s_ease-out_both]">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="para-bars para-bars--sm"><div className="para-bar" /><div className="para-bar" /><div className="para-bar" /></div>
+                <span className="v3-section-eyebrow-text">Devis sur-mesure</span>
+                <div className="para-bars para-bars--sm"><div className="para-bar" style={{ opacity: 0.3 }} /><div className="para-bar" style={{ opacity: 0.6 }} /><div className="para-bar" /></div>
+              </div>
+              <h1 className="v3-section-title" style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}>
+                DEMANDE DE <span className="gradient-text">DEVIS</span>
+              </h1>
+              <p className="text-[var(--text-muted)] text-sm mt-4 max-w-lg mx-auto">
+                Parlez-nous de vos besoins et nous vous répondrons avec une offre adaptée sous 48h.
+              </p>
             </div>
 
-            <div className={`qf__menu ${servicesOpen ? "is-open" : ""}`}>
-              <div className="qf__menuGrid">
-                {SERVICES_OPTS.map(([key, label]) => (
-                  <label key={key} className="qf__option">
-                    <span>{label}</span>
-                    <input
-                      type="checkbox"
-                      value={key}
-                      className="qf__check"
-                      disabled={isSubmitting}
-                      {...register("services")}
-                    />
-                  </label>
-                ))}
+            {/* Form */}
+            <div className="max-w-2xl mx-auto animate-[fadeUp_0.8s_ease-out_0.2s_both]">
+              <div className="v3-glass p-8 md:p-10 relative overflow-hidden" style={{ borderRadius: 24 }}>
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent" />
+
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                  <div>
+                    <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Prénom & Nom *</label>
+                    <input type="text" placeholder="Votre nom complet" className={inputStyles} disabled={isSubmitting} {...register("fullName")} />
+                    {errors.fullName && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.fullName.message}</span>}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Email *</label>
+                      <input type="email" placeholder="votre@email.com" className={inputStyles} disabled={isSubmitting} {...register("email")} />
+                      {errors.email && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.email.message}</span>}
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Téléphone</label>
+                      <input type="tel" placeholder="+212 6 00 00 00 00" className={inputStyles} disabled={isSubmitting} {...register("phone")} />
+                      {errors.phone && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.phone.message}</span>}
+                    </div>
+                  </div>
+
+                  {/* Services */}
+                  <div>
+                    <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Services demandés</label>
+                    <button type="button" onClick={() => setServicesOpen(!servicesOpen)} disabled={isSubmitting}
+                      className={`${inputStyles} text-left flex items-center justify-between cursor-pointer`}>
+                      <span className={selectedServices.length > 0 ? "text-white" : "text-[var(--text-muted)]"}>
+                        {selectedServices.length > 0 ? `${selectedServices.length} service(s)` : "Sélectionnez vos services"}
+                      </span>
+                      <ChevronDown size={16} className={`text-[var(--text-muted)] transition-transform duration-300 ${servicesOpen ? "rotate-180" : ""}`} />
+                    </button>
+
+                    <div className={`grid grid-cols-2 gap-3 overflow-hidden transition-all duration-300 ${servicesOpen ? "mt-4 max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}>
+                      {SERVICES_OPTS.map(([key, label]) => {
+                        const sel = selectedServices.includes(key);
+                        return (
+                          <label key={key} className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-300 border ${sel ? "bg-[var(--accent)]/10 border-[var(--accent)]/30 text-white" : "bg-white/[0.03] border-white/[0.06] text-[var(--text-secondary)] hover:border-white/[0.12]"}`}>
+                            <div className={`w-4 h-4 rounded flex-shrink-0 border flex items-center justify-center ${sel ? "bg-[var(--accent)] border-[var(--accent)]" : "border-white/[0.15]"}`}>
+                              {sel && <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                            </div>
+                            <span className="text-sm">{label}</span>
+                            <input type="checkbox" value={key} className="sr-only" disabled={isSubmitting} {...register("services")} />
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Message (optionnel)</label>
+                    <textarea rows={4} placeholder="Décrivez votre projet..." className={`${inputStyles} resize-none`} disabled={isSubmitting} {...register("message")} />
+                  </div>
+
+                  {globalError && <p className="text-[var(--accent)] text-xs text-center">{globalError}</p>}
+
+                  <button type="submit" disabled={isSubmitting || !isValid}
+                    className="group relative w-full inline-flex items-center justify-center gap-3 px-9 py-[17px] text-[12px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed mt-2">
+                    <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.02]" />
+                    <Send size={14} className="relative z-10" />
+                    <span className="relative z-10">{isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}</span>
+                  </button>
+                </form>
               </div>
             </div>
-          </div>
-
-          {/* Message libre */}
-          <div className="qf__field">
-            <div className="qf__input-wrapper">
-              <textarea
-                className="qf__textarea"
-                placeholder="DÉTAIL OU MESSAGE LIBRE :"
-                disabled={isSubmitting}
-                {...register("message")}
-              />
-            </div>
-          </div>
-
-          {globalError && (
-            <div className="qf__error-global">⚠️ {globalError}</div>
-          )}
-
-          <div className="qf__actions">
-            <button
-              type="submit"
-              className="qf__btn"
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
-            </button>
-          </div>
-        </form>
+          </>
+        )}
       </div>
     </main>
   );

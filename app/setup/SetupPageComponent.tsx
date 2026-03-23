@@ -1,175 +1,144 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import "./setup.css";
-import { CloudRedEffect1 } from "@/components/CloudRedEffect";
+import { FileText, Building2, Layers, Star, ArrowRight, CheckCircle } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface Step {
-  id: number;
+  number: string;
+  icon: LucideIcon;
   title: string;
   features: string[];
-  icon: React.ReactElement;
 }
 
-export default function SetupPageComponent(): React.ReactElement {
-  const steps: Step[] = [
-    {
-      id: 1,
-      title: "Bilan de compétences & diagnostic",
-      features: [
-        "Analyse de vos forces",
-        "Étude des secteurs porteurs",
-        "Plan 30/60/90 jours",
-      ],
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M13 3V8H18"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      id: 2,
-      title: "Création d'entreprise & fiscalité",
-      features: [
-        "Statuts juridiques",
-        "Banque & fiscalité",
-        "Enregistrement CNSS",
-      ],
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M3 21H21M5 21V7L12 3L19 7V21M9 9H11M13 9H15M9 13H11M13 13H15M9 17H11M13 17H15"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      id: 3,
-      title: "Implantation & installation",
-      features: [
-        "Bureau, coworking, logement",
-        "Recrutement & RH",
-        "Mise en place logistique",
-      ],
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 17L12 22L22 17"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 12L12 17L22 12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      id: 4,
-      title: "Lancement & premiers clients",
-      features: [
-        "Stratégie go-to-market",
-        "Accès au réseau business",
-        "Premiers contrats signés",
-      ],
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-  ];
+const STEPS: Step[] = [
+  {
+    number: "01",
+    icon: FileText,
+    title: "Bilan de compétences & diagnostic",
+    features: ["Analyse de vos forces", "Étude des secteurs porteurs", "Plan 30/60/90 jours"],
+  },
+  {
+    number: "02",
+    icon: Building2,
+    title: "Création d'entreprise & fiscalité",
+    features: ["Statuts juridiques", "Banque & fiscalité", "Enregistrement CNSS"],
+  },
+  {
+    number: "03",
+    icon: Layers,
+    title: "Implantation & installation",
+    features: ["Bureau, coworking, logement", "Recrutement & RH", "Mise en place logistique"],
+  },
+  {
+    number: "04",
+    icon: Star,
+    title: "Lancement & premiers clients",
+    features: ["Stratégie go-to-market", "Accès au réseau business", "Premiers contrats signés"],
+  },
+];
 
+export default function SetupPageComponent() {
   return (
-    <main className="setup-page relative overflow-hidden">
-      <CloudRedEffect1 />
+    <main className="min-h-screen bg-[var(--bg-primary)]">
+      {/* Hero */}
+      <section className="relative pt-40 pb-24 overflow-hidden">
+        <div className="aurora-glow w-[800px] h-[500px] top-0 left-1/3 opacity-60" />
 
-      <div className="setup-wrap">
-        <header className="setup-header">
-          <h1>Setup complet : entreprendre au Maroc</h1>
-          <div className="setup-intro">
-            <p className="intro-text">
-              Vous souhaitez lancer votre projet au Maroc ?
-            </p>
-            <p className="intro-subtitle">
-              Notre méthodologie Setup vous accompagne de l'idée jusqu'à vos
-              premiers clients.
-            </p>
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 relative z-10">
+          <div className="flex items-center gap-3 mb-8 animate-[fadeUp_0.8s_ease-out_both]">
+            <div className="para-bars para-bars--sm">
+              <div className="para-bar" />
+              <div className="para-bar" />
+              <div className="para-bar" />
+            </div>
+            <span className="v3-section-eyebrow-text">Setup complet</span>
           </div>
-        </header>
 
-        <section className="setup-steps">
-          <h2>Les 4 étapes du Setup</h2>
-          <div className="steps-grid">
-            {steps.map((step) => (
-              <div key={step.id} className="step-card">
-                <div className="step-icon">{step.icon}</div>
-                <h3 className="step-title">{step.title}</h3>
-                <ul className="step-features">
-                  {step.features.map((feature, featureIndex) => (
-                    <li key={featureIndex}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+          <h1
+            className="font-[family-name:var(--font-montserrat)] font-black uppercase tracking-[-0.03em] text-white leading-[0.95] max-w-4xl animate-[fadeUp_0.8s_ease-out_0.1s_both]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
+          >
+            DE L&apos;IDÉE AU{" "}
+            <span className="gradient-text">LANCEMENT</span> EN 4 ÉTAPES
+          </h1>
 
-        <div className="setup-cta">
-          <Link href="/devis" className="setup-cta-btn">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
-            </svg>
-            Lancer mon projet au Maroc maintenant
-          </Link>
+          <p className="font-[family-name:var(--font-playfair)] italic text-white/50 text-xl mt-6 animate-[fadeUp_0.8s_ease-out_0.2s_both]">
+            &ldquo;Notre méthodologie vous accompagne jusqu&apos;à vos premiers clients.&rdquo;
+          </p>
         </div>
-      </div>
+      </section>
+
+      {/* Steps */}
+      <section className="relative pb-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+          {/* Connector line */}
+          <div className="hidden lg:block relative mb-12">
+            <div className="h-px bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent mx-16" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.number}
+                  className="v3-glass p-8 flex flex-col relative overflow-hidden animate-[fadeUp_0.8s_ease-out_both]"
+                  style={{ borderRadius: 24, animationDelay: `${0.2 + i * 0.1}s` }}
+                >
+                  {/* Top gradient */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/20 to-transparent" />
+
+                  {/* Step number */}
+                  <span className="v3-step-number mb-4">{step.number}</span>
+
+                  {/* Icon */}
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                    style={{
+                      background: "var(--accent-glow)",
+                      border: "1px solid rgba(220,38,38,0.15)",
+                      transform: "skewX(-6deg)",
+                    }}
+                  >
+                    <Icon size={20} className="text-[var(--accent)]" style={{ transform: "skewX(6deg)" }} />
+                  </div>
+
+                  <div className="para-bars para-bars--sm mb-3">
+                    <div className="para-bar" />
+                    <div className="para-bar" />
+                  </div>
+
+                  <h2 className="font-[family-name:var(--font-montserrat)] font-bold text-sm uppercase tracking-wide text-white leading-tight">
+                    {step.title}
+                  </h2>
+
+                  <ul className="mt-5 flex flex-col gap-3 flex-1">
+                    {step.features.map((f) => (
+                      <li key={f} className="flex items-start gap-3">
+                        <CheckCircle size={14} className="text-[var(--accent)] flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-[var(--text-muted)] leading-relaxed">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <div className="flex justify-center mt-16 animate-[fadeUp_0.8s_ease-out_0.8s_both]">
+            <Link
+              href="/devis"
+              className="group relative inline-flex items-center gap-3 px-9 py-[17px] text-[12px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer"
+            >
+              <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.04] group-hover:shadow-[0_0_50px_rgba(220,38,38,0.35)]" />
+              <span className="relative z-10">Lancer mon projet</span>
+              <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

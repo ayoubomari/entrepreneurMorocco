@@ -2,44 +2,34 @@
 
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
-import "./brochure.css";
-import { CloudRedEffect1 } from "@/components/CloudRedEffect";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase"; // Import du client Supabase
+import { supabase } from "@/lib/supabase";
+import { CheckCircle, Download } from "lucide-react";
 
-// 1. Define Zod Schema
 const brochureSchema = z.object({
   email: z.email("Veuillez entrer une adresse email valide."),
 });
 
 type FormValues = z.infer<typeof brochureSchema>;
 
+const inputStyles =
+  "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-sm text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.06] transition-all duration-300";
+
 export default function BrochurePageComponent() {
-  // Local state for UI feedback
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
   const {
-    register,
-    handleSubmit,
-    reset,
+    register, handleSubmit, reset,
     formState: { errors, isValid, isSubmitting: isRHFSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(brochureSchema),
-    mode: "onChange",
-    defaultValues: {
-      email: "",
-    },
-  });
+  } = useForm<FormValues>({ resolver: zodResolver(brochureSchema), mode: "onChange", defaultValues: { email: "" } });
 
-  // Email hook - used for notification
-  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
-    useContactForm({
-      formId: "brochure-download",
-      onError: (err) => console.error("Email sending failed:", err),
-    });
+  const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } = useContactForm({
+    formId: "brochure-download",
+    onError: (err) => console.error("Email sending failed:", err),
+  });
 
   const triggerPDFDownload = () => {
     const a = document.createElement("a");
@@ -53,44 +43,20 @@ export default function BrochurePageComponent() {
 
   const onSubmit = async (data: FormValues) => {
     setGlobalError(null);
-
     try {
-      // Send Email (Background notification)
       submitEmail({
         Email: data.email,
         "Document demandé": "Brochure détaillée de l'offre",
         Source: "Site Web - Page Brochure",
-        "Date de soumission": new Date().toLocaleString("fr-FR", {
-          timeZone: "Africa/Casablanca",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        "Date de soumission": new Date().toLocaleString("fr-FR", { timeZone: "Africa/Casablanca", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }),
       });
 
-      // Submit directly to Supabase
-      // Le nom de la table correspond au schéma Drizzle : "brochure_download"
-      const { error } = await supabase.from("brochure_download").insert([
-        {
-          email: data.email,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
-
-      // Trigger Success UI & Download
+      const { error } = await supabase!.from("brochure_download").insert([{ email: data.email }]);
+      if (error) throw new Error(error.message);
       setShowSuccess(true);
       triggerPDFDownload();
-
-      setTimeout(() => {
-        reset();
-      }, 5000);
-    } catch (err: any) {
+      setTimeout(() => reset(), 5000);
+    } catch (err) {
       console.error("Submission error:", err);
       setGlobalError("Une erreur est survenue, veuillez réessayer plus tard.");
     }
@@ -98,154 +64,67 @@ export default function BrochurePageComponent() {
 
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
-  if (showSuccess) {
-    return (
-      <main className="dlb relative overflow-hidden">
-        <CloudRedEffect1 />
-
-        <div className="dlb__wrap">
-          <div
-            className="dlb__success"
-            style={{
-              background: "#000",
-              border: "2px solid #fff",
-              padding: "40px",
-              textAlign: "center",
-              maxWidth: "900px",
-              margin: "0 auto",
-            }}
-          >
-            <div
-              style={{
-                width: "64px",
-                height: "64px",
-                background: "#fff",
-                borderRadius: "50%",
-                margin: "0 auto 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#000"
-                strokeWidth="3"
-              >
-                <path
-                  d="M20 6L9 17l-5-5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <h2
-              style={{
-                color: "#fff",
-                fontSize: "28px",
-                fontWeight: "700",
-                margin: "0 0 16px",
-              }}
-            >
-              C'EST ENVOYÉ !
-            </h2>
-            <p
-              style={{
-                color: "rgba(255, 255, 255, 0.8)",
-                fontSize: "18px",
-                lineHeight: "1.5",
-                marginBottom: "24px",
-              }}
-            >
-              Votre brochure est en cours de téléchargement.
-            </p>
-            <button
-              onClick={triggerPDFDownload}
-              style={{
-                background: "transparent",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,0.3)",
-                padding: "12px 24px",
-                fontSize: "12px",
-                fontWeight: "700",
-                cursor: "pointer",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-              }}
-            >
-              Relancer le téléchargement
-            </button>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main className="dlb relative overflow-hidden">
-      <CloudRedEffect1 />
+    <main className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center relative overflow-hidden">
+      <div className="aurora-glow w-[600px] h-[500px] top-1/4 left-1/4 opacity-50" />
 
-      <div className="dlb__wrap">
-        <header className="dlb__head">
-          <h1 className="dlb__title">TÉLÉCHARGER LA BROCHURE DE L’OFFRE</h1>
-          <p className="dlb__lead">
-            Lisez les détails complets de l'accompagnement (contenu, tarifs,
-            délais…).
-          </p>
-        </header>
-
-        <form className="dlb__form" onSubmit={handleSubmit(onSubmit)}>
-          <section className="dlb__block">
-            <div className="dlb__inputLabel">
-              1. VOTRE EMAIL (OBLIGATOIRE) :
+      <div className="max-w-lg w-full mx-auto px-6">
+        {showSuccess ? (
+          <div className="v3-glass p-12 text-center animate-[fadeUp_0.5s_ease-out_both]" style={{ borderRadius: 28 }}>
+            <div className="w-16 h-16 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle size={28} className="text-[var(--accent)]" />
             </div>
-            <div className="dlb__inputs">
-              <div
-                className={`dlb__input-wrapper ${errors.email ? "error" : ""}`}
-              >
-                <input
-                  type="email"
-                  className="dlb__input"
-                  placeholder="EMAIL OBLIGATOIRE :"
-                  disabled={isSubmitting}
-                  autoComplete="email"
-                  {...register("email")}
-                />
-              </div>
-              {errors.email && (
-                <p className="dlb__error-msg">{errors.email.message}</p>
-              )}
-            </div>
-          </section>
-
-          {globalError && (
-            <div
-              style={{
-                color: "#ff4444",
-                fontWeight: "700",
-                marginBottom: "20px",
-                textAlign: "center",
-              }}
-            >
-              ⚠️ {globalError}
-            </div>
-          )}
-
-          <div className="dlb__actions">
-            <button
-              type="submit"
-              className="dlb__btn"
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting
-                ? "Envoi en cours..."
-                : "Télécharger la brochure pdf"}
+            <h2 className="font-[family-name:var(--font-montserrat)] font-black text-2xl text-white uppercase">Brochure envoyée !</h2>
+            <p className="text-[var(--text-secondary)] text-sm mt-4">Le téléchargement a commencé automatiquement.</p>
+            <button onClick={triggerPDFDownload}
+              className="group relative inline-flex items-center gap-3 px-7 py-[13px] text-[11px] font-bold tracking-[0.2em] uppercase text-white/60 cursor-pointer mt-8 transition-colors hover:text-white">
+              <span className="absolute inset-0 border border-white/[0.1] skew-x-[-12deg] transition-all duration-500 group-hover:border-[var(--accent)]/30 group-hover:bg-white/[0.03]" />
+              <Download size={14} className="relative z-10" />
+              <span className="relative z-10">Relancer le téléchargement</span>
             </button>
           </div>
-        </form>
+        ) : (
+          <div className="animate-[fadeUp_0.8s_ease-out_both]">
+            {/* Header */}
+            <div className="text-center mb-10">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="para-bars para-bars--sm"><div className="para-bar" /><div className="para-bar" /><div className="para-bar" /></div>
+                <span className="v3-section-eyebrow-text">Brochure</span>
+                <div className="para-bars para-bars--sm"><div className="para-bar" style={{ opacity: 0.3 }} /><div className="para-bar" style={{ opacity: 0.6 }} /><div className="para-bar" /></div>
+              </div>
+              <h1 className="v3-section-title" style={{ fontSize: "clamp(1.5rem, 4vw, 2.25rem)" }}>
+                TÉLÉCHARGER LA <span className="gradient-text">BROCHURE</span>
+              </h1>
+              <p className="text-[var(--text-muted)] text-sm mt-4">
+                Contenu, tarifs, délais — tous les détails de l&apos;accompagnement.
+              </p>
+            </div>
+
+            {/* Form */}
+            <div className="v3-glass p-8 relative overflow-hidden" style={{ borderRadius: 24 }}>
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent" />
+
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                <div>
+                  <label className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">Votre email *</label>
+                  <input type="email" placeholder="votre@email.com" className={inputStyles} disabled={isSubmitting} autoComplete="email" {...register("email")} />
+                  {errors.email && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.email.message}</span>}
+                </div>
+
+                {globalError && <p className="text-[var(--accent)] text-xs text-center">{globalError}</p>}
+
+                <button type="submit" disabled={isSubmitting || !isValid}
+                  className="group relative w-full inline-flex items-center justify-center gap-3 px-9 py-[17px] text-[12px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed mt-2">
+                  <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.02]" />
+                  <Download size={14} className="relative z-10" />
+                  <span className="relative z-10">{isSubmitting ? "Envoi..." : "Télécharger la brochure"}</span>
+                </button>
+
+                <p className="text-[10px] text-[var(--text-muted)] text-center mt-1">100% gratuit. Aucun spam.</p>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

@@ -2,7 +2,7 @@
 .whatsapp-float {
   position: fixed;
   bottom: 110px;
-  right: 25px; /* Ensure this is RIGHT to keep it on the right side */
+  right: 25px;
   z-index: 100;
   display: flex;
   align-items: center;
@@ -13,10 +13,36 @@
   color: white;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .whatsapp-float:hover {
   transform: scale(1.1);
   background-color: #20bd5a;
+}
+
+/* Smaller on mobile */
+@media (max-width: 768px) {
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 90px;
+    right: 16px;
+  }
+  .whatsapp-float .whatsapp-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Hide floating buttons when mobile menu is open */
+body.mobile-menu-open .whatsapp-float,
+body.mobile-menu-open #bp-web-widget,
+body.mobile-menu-open [class*="bpWidget"],
+body.mobile-menu-open iframe[title*="chat"],
+body.mobile-menu-open iframe[title*="Botpress"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.5) !important;
+  transition: all 0.3s ease !important;
 }

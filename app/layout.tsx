@@ -1,16 +1,31 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Header from "./Header";
-import CursorEffects from "../components/CursorEffects";
+import Header from "@/components/layout/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CursorEffects from "../components/CursorEffects";
 import BotpressChat from "@/components/BotpressChat";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,10 +61,10 @@ export const metadata: Metadata = {
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logo.jpg",
-        width: 403,
-        height: 120,
-        alt: "Entrepreneurs Morocco Logo",
+        url: "/images/hero-cfc-poster.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "Entrepreneurs Morocco - Casablanca Finance City",
       },
     ],
     locale: "fr_FR",
@@ -59,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Entrepreneurs Morocco | Le Guide pour MRE et Investisseurs",
     description: "Accompagnement complet pour lancer votre projet au Maroc.",
-    images: ["/logo.jpg"],
+    images: ["/images/hero-cfc-poster.jpg"],
   },
   robots: {
     index: true,
@@ -81,24 +96,49 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      {/* bg-transparent ensures the site-bg layer is visible behind everything */}
-      <body className={`${montserrat.variable} antialiased bg-transparent`}>
-        {/* 1) Global background (unified on all pages) */}
-        <div
-          id="site-bg"
-          aria-hidden="true"
-          className="fixed inset-0 pointer-events-none z-0"
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Entrepreneurs Morocco",
+              url: "https://www.entrepreneursmorocco.com",
+              logo: "https://www.entrepreneursmorocco.com/images/logo-icon.png",
+              description: "Accompagnement expert pour MRE et investisseurs au Maroc",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Immeuble STAVROULA, Gueliz",
+                addressLocality: "Marrakech",
+                postalCode: "40000",
+                addressCountry: "MA",
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+33644660252",
+                contactType: "customer service",
+                availableLanguage: ["French", "Arabic"],
+              },
+              sameAs: [
+                "https://www.linkedin.com/company/entrepreneurs-morocco/",
+                "https://www.instagram.com/entrepreneursmorocco",
+                "https://www.youtube.com/@EntrepreneursMorocco",
+              ],
+            }),
+          }}
         />
-
-        {/* 2) Blob layer (above bg, below content) */}
+      </head>
+      <body className={`${montserrat.variable} ${inter.variable} ${playfair.variable} antialiased`}>
+        {/* Blob ambient layer */}
         <div
           id="blob-layer"
           aria-hidden="true"
-          className="fixed inset-0 pointer-events-none z-10"
+          className="fixed inset-0 pointer-events-none z-[1]"
         />
 
-        {/* 3) App content (always above) */}
-        <div id="app-content" className="relative z-20">
+        {/* App content */}
+        <div id="app-content" className="relative z-10">
           <CursorEffects />
           <Header />
           <main>{children}</main>

@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useContactForm } from "@/hooks/useContactForm";
 import "./diagnostic-projet-maroc.css";
-import { CloudRedEffect2 } from "@/components/CloudRedEffect";
+import { CheckCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
 import { supabase } from "@/lib/supabase";
+import { CloudRedEffect2 } from "@/components/CloudRedEffect";
 
 // --- SCHEMA ZOD ---
 const formSchema = z
@@ -231,7 +232,7 @@ export default function DiagnosticProjectMarocComponent() {
       });
 
       // Soumission directe à Supabase (remplace le fetch API)
-      const { error: dbError } = await supabase
+      const { error: dbError } = await supabase!
         .from("diagnostic_maroc_2030")
         .insert([
           {
@@ -276,7 +277,7 @@ export default function DiagnosticProjectMarocComponent() {
   if (showSuccess) {
     return (
       <main className="dpm relative overflow-hidden">
-        <CloudRedEffect2 />
+        <div className="aurora-glow w-[600px] h-[500px] top-1/4 right-0 opacity-50 fixed" />
         <div className="dpm__wrap">
           <div
             className="dpm__success"

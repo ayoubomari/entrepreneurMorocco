@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import ProgrammeImmobilierComponent from "./programmeImmobilierComponent";
+import ProgrammeImmobilierComponent from "./ProgrammeImmobilierComponent";
 
 export const metadata: Metadata = {
   title:
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     siteName: "Entrepreneurs Morocco",
     images: [
       {
-        url: "/logo.jpg",
-        width: 403,
-        height: 120,
+        url: "/images/hero-cfc-poster.jpg",
+        width: 1920,
+        height: 1080,
         alt: "Formation Conseiller en Investissement Immobilier - Entrepreneurs Morocco",
       },
     ],
