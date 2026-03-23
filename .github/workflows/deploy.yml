@@ -18,7 +18,7 @@ jobs:
           script: |
             cd /root/entrepreneur-morocco
             git fetch origin
-            git checkout claude
+            git checkout -f claude
             git reset --hard origin/claude
             git clean -fd
             npm ci
