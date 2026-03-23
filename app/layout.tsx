@@ -89,6 +89,7 @@ export const metadata: Metadata = {
   },
 };
 
+//
 export default function RootLayout({
   children,
 }: {
@@ -106,7 +107,8 @@ export default function RootLayout({
               name: "Entrepreneurs Morocco",
               url: "https://www.entrepreneursmorocco.com",
               logo: "https://www.entrepreneursmorocco.com/images/logo-icon.png",
-              description: "Accompagnement expert pour MRE et investisseurs au Maroc",
+              description:
+                "Accompagnement expert pour MRE et investisseurs au Maroc",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Immeuble STAVROULA, Gueliz",
@@ -129,7 +131,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${montserrat.variable} ${inter.variable} ${playfair.variable} antialiased`}>
+      <body
+        className={`${montserrat.variable} ${inter.variable} ${playfair.variable} antialiased`}
+      >
         {/* Blob ambient layer */}
         <div
           id="blob-layer"
