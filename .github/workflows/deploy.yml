@@ -17,6 +17,8 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd /root/entrepreneur-morocco
+            git fetch origin
+            git checkout claude
             git pull origin claude
             npm ci
             npm run build
