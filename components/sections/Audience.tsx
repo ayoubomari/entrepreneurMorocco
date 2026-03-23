@@ -63,7 +63,7 @@ export default function Audience() {
   return (
     <section className="v3-section relative bg-[var(--bg-primary)]" id="audience">
       {/* Aurora glow */}
-      <div className="aurora-glow w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      <div aria-hidden="true" className="aurora-glow w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
       <Container size="wide">
         {/* Section header */}
@@ -175,7 +175,7 @@ export default function Audience() {
                       </div>
 
                       {/* Caption */}
-                      <div className="p-6">
+                      <div className="p-6" style={{ background: 'var(--bg-elevated)' }}>
                         <div className="flex items-center gap-2 mb-3">
                           <div className="para-bars para-bars--sm">
                             <div className="para-bar" />

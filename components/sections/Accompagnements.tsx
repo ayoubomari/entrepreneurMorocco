@@ -35,8 +35,8 @@ export default function Accompagnements() {
   return (
     <section className="v3-section relative bg-[var(--bg-elevated)]" id="accompagnements">
       {/* Aurora glows */}
-      <div className="aurora-glow w-[600px] h-[600px] -top-40 -right-40 opacity-70" />
-      <div className="aurora-glow w-[400px] h-[400px] bottom-0 left-0 opacity-40" />
+      <div aria-hidden="true" className="aurora-glow w-[600px] h-[600px] -top-40 -right-40 opacity-70" />
+      <div aria-hidden="true" className="aurora-glow w-[400px] h-[400px] bottom-0 left-0 opacity-40" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* Header — left aligned */}

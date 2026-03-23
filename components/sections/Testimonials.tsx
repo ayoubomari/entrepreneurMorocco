@@ -57,8 +57,8 @@ export default function Testimonials() {
   return (
     <section className="v3-section relative bg-[var(--bg-primary)]" id="temoignages">
       {/* Aurora glows */}
-      <div className="aurora-glow w-[600px] h-[600px] top-0 left-1/4" />
-      <div className="aurora-glow w-[400px] h-[400px] bottom-0 right-1/4 opacity-50" />
+      <div aria-hidden="true" className="aurora-glow w-[600px] h-[600px] top-0 left-1/4" />
+      <div aria-hidden="true" className="aurora-glow w-[400px] h-[400px] bottom-0 right-1/4 opacity-50" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* Section header */}

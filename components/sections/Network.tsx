@@ -21,7 +21,7 @@ export default function Network() {
   return (
     <section className="v3-section relative bg-[var(--bg-elevated)]" id="reseau">
       {/* Aurora glow */}
-      <div className="aurora-glow w-[700px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50" />
+      <div aria-hidden="true" className="aurora-glow w-[700px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50" />
 
       {/* Divider top */}
       <div className="v3-divider absolute top-0 left-0 right-0" />

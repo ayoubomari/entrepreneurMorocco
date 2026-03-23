@@ -34,7 +34,7 @@ export default function Resources() {
   return (
     <section className="v3-section relative bg-[var(--bg-elevated)]" id="ressources">
       {/* Aurora glows */}
-      <div className="aurora-glow w-[500px] h-[500px] top-0 right-0 opacity-50" />
+      <div aria-hidden="true" className="aurora-glow w-[500px] h-[500px] top-0 right-0 opacity-50" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* Header row: title left, CTA right */}

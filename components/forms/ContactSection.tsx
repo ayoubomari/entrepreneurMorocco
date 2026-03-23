@@ -130,8 +130,8 @@ const ContactSection = () => {
   return (
     <section id="homecontact" className="v3-section relative bg-[var(--bg-primary)]">
       {/* Aurora glows */}
-      <div className="aurora-glow w-[500px] h-[500px] top-1/4 right-0 opacity-50" />
-      <div className="aurora-glow w-[400px] h-[400px] bottom-0 left-1/4 opacity-30" />
+      <div aria-hidden="true" className="aurora-glow w-[500px] h-[500px] top-1/4 right-0 opacity-50" />
+      <div aria-hidden="true" className="aurora-glow w-[400px] h-[400px] bottom-0 left-1/4 opacity-30" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* 2-column layout: info left + form right */}

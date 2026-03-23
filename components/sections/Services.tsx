@@ -51,7 +51,7 @@ const SERVICES: Service[] = [
 export default function Services() {
   return (
     <section className="v3-section relative bg-[var(--bg-primary)]" id="services">
-      <div className="aurora-glow w-[800px] h-[500px] top-1/4 left-1/2 -translate-x-1/2" />
+      <div aria-hidden="true" className="aurora-glow w-[800px] h-[500px] top-1/4 left-1/2 -translate-x-1/2" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* Header — left aligned with CTA right */}

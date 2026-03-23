@@ -107,7 +107,7 @@ export default function FAQ() {
   return (
     <section className="v3-section relative bg-[var(--bg-elevated)]" id="faq">
       {/* Aurora glow */}
-      <div className="aurora-glow w-[600px] h-[600px] top-1/2 right-0 -translate-y-1/2 opacity-40" />
+      <div aria-hidden="true" className="aurora-glow w-[600px] h-[600px] top-1/2 right-0 -translate-y-1/2 opacity-40" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* 2-column layout: sticky heading left + accordion right */}

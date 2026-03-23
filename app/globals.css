@@ -242,6 +242,7 @@ video.hero-video::-moz-media-controls {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: #ef4444; /* Fallback for accessibility tools (axe-core reads `color`, not webkit-text-fill-color) */
 }
 
 /* --- Hero gradient text (large headline) ------------------- */
@@ -257,6 +258,7 @@ video.hero-video::-moz-media-controls {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: #ffffff; /* Fallback for accessibility tools */
   background-size: 200% 200%;
 }
 
