@@ -10,7 +10,7 @@ export default function BotpressChat() {
   return (
     <>
       <Script
-        src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
+        src="/scripts/botpress/inject.js"
         strategy="lazyOnload"
         onLoad={() => {
           setLibraryLoaded(true);
@@ -19,7 +19,7 @@ export default function BotpressChat() {
 
       {libraryLoaded && (
         <Script
-          src="https://files.bpcontent.cloud/2026/01/15/16/20260115160015-Q3KUXXOF.js"
+          src="/scripts/botpress/config.js"
           strategy="lazyOnload"
         />
       )}
