@@ -10,7 +10,7 @@ import BotpressChat from "@/components/BotpressChat";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
+  weight: ["600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -97,6 +97,10 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        {/* Warm up third-party origins early */}
+        <link rel="dns-prefetch" href="https://cdn.botpress.cloud" />
+        <link rel="dns-prefetch" href="https://webchat.botpress.cloud" />
+        <link rel="dns-prefetch" href="https://api.emailjs.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

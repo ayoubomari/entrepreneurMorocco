@@ -102,9 +102,13 @@ export default function CursorEffects() {
       "position:fixed;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,#dc2626,#ef4444);z-index:10000;pointer-events:none;transform-origin:left center;transform:scaleX(0);will-change:transform;";
     document.body.appendChild(progressBar);
 
-    let scrollableHeight =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
+    // Defer initial measurement to avoid forced reflow after DOM append
+    let scrollableHeight = 0;
+    requestAnimationFrame(() => {
+      scrollableHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+    });
 
     const onResize = () => {
       scrollableHeight =
