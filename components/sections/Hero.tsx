@@ -117,7 +117,7 @@ export default function Hero() {
           fill
           priority
           fetchPriority="high"
-          quality={45}
+          quality={20} // Reduced from 45. Highly obscured by overlay gradients, so dropping quality yields huge byte savings without visual penalty
           className="object-cover"
           sizes="100vw"
         />
