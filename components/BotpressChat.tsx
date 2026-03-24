@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useState } from "react";
+import "./botpress-chat.css";
 
 export default function BotpressChat() {
   const [libraryLoaded, setLibraryLoaded] = useState(false);
