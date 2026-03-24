@@ -5,7 +5,6 @@ import { useContactForm } from "@/hooks/useContactForm";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, CheckCircle, ArrowRight, BookOpen, Shield, Zap, Sparkles } from "lucide-react";
@@ -75,18 +74,17 @@ const GuideDownloadForm = () => {
         Source: "Site Web - Page Guide",
       });
 
-      const { error: dbError } = await supabase!
-        .from("guide_download")
-        .insert([
-          {
-            first_name: data.firstName,
-            email: data.email,
-            guide_name: "7 Erreurs à Éviter - Entrepreneur Maroc",
-            source: "Site Web - Page Guide",
-          },
-        ]);
-
-      if (dbError) console.error("Supabase Save failed:", dbError);
+      const dbRes = await fetch("/api/guide-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          email: data.email,
+          guideName: "7 Erreurs à Éviter - Entrepreneur Maroc",
+          source: "Site Web - Page Guide",
+        }),
+      });
+      if (!dbRes.ok) console.error("DB save failed");
       reset();
     } catch (err) {
       console.error("Submission workflow failed:", err);

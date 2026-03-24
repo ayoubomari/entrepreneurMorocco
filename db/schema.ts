@@ -1,120 +1,102 @@
 import {
-  pgTable,
-  uuid,
-  text,
+  mysqlTable,
+  varchar,
   timestamp,
-  jsonb,
-  integer,
-} from "drizzle-orm/pg-core";
+  json,
+  text,
+  int,
+} from "drizzle-orm/mysql-core";
 
-// Helper function to define the standard ID column
-// Matches the UUID style from your Supabase context example
-const commonId = () => uuid("id").defaultRandom().primaryKey();
+const commonId = () => int("id").autoincrement().primaryKey();
 
-export const profileQuiz = pgTable("profile_quiz", {
+export const profileQuiz = mysqlTable("profile_quiz", {
   id: commonId(),
-  profile: text("profile").notNull(),
-  stage: text("stage").notNull(),
-  needs: jsonb("needs"),
-  email: text("email").notNull(),
-  phone: text("phone"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  profile: varchar("profile", { length: 100 }).notNull(),
+  stage: varchar("stage", { length: 100 }).notNull(),
+  needs: json("needs"),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const miniTest = pgTable("mini_test", {
+export const miniTest = mysqlTable("mini_test", {
   id: commonId(),
-  project: text("project").notNull(),
-  obstacles: jsonb("obstacles"),
-  email: text("email").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  project: varchar("project", { length: 100 }).notNull(),
+  obstacles: json("obstacles"),
+  email: varchar("email", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const planSelection = pgTable("plan_selection", {
+export const planSelection = mysqlTable("plan_selection", {
   id: commonId(),
-  selectedPlan: text("selected_plan").notNull(),
-  fullName: text("full_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
-  resultEmail: text("result_email").notNull(),
+  selectedPlan: varchar("selected_plan", { length: 50 }).notNull(),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }),
+  resultEmail: varchar("result_email", { length: 255 }).notNull(),
   message: text("message"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const brochureDownload = pgTable("brochure_download", {
+export const brochureDownload = mysqlTable("brochure_download", {
   id: commonId(),
-  email: text("email").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const customQuote = pgTable("custom_quote", {
+export const customQuote = mysqlTable("custom_quote", {
   id: commonId(),
-  fullName: text("full_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
-  services: jsonb("services"),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }),
+  services: json("services"),
   message: text("message"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const diagnosticMaroc2030 = pgTable("diagnostic_maroc_2030", {
+export const diagnosticMaroc2030 = mysqlTable("diagnostic_maroc_2030", {
   id: commonId(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone").notNull(),
-  projectDate: text("project_date").notNull(),
-  situation: text("situation").notNull(),
-  familyStatus: text("family_status").notNull(),
-  childrenCount: text("children_count"),
-  childrenAges: text("children_ages"),
-  motivations: jsonb("motivations").notNull(),
-  mainSkill: text("main_skill").notNull(),
-  expYears: text("exp_years").notNull(),
-  revenueGen: text("revenue_gen").notNull(),
-  budget: text("budget").notNull(),
-  runway: text("runway").notNull(),
-  path: text("path").notNull(),
-  network: text("network").notNull(),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }).notNull(),
+  projectDate: varchar("project_date", { length: 50 }).notNull(),
+  situation: varchar("situation", { length: 50 }).notNull(),
+  familyStatus: varchar("family_status", { length: 50 }).notNull(),
+  childrenCount: varchar("children_count", { length: 50 }),
+  childrenAges: varchar("children_ages", { length: 255 }),
+  motivations: json("motivations").notNull(),
+  mainSkill: varchar("main_skill", { length: 255 }).notNull(),
+  expYears: varchar("exp_years", { length: 50 }).notNull(),
+  revenueGen: varchar("revenue_gen", { length: 50 }).notNull(),
+  budget: varchar("budget", { length: 50 }).notNull(),
+  runway: varchar("runway", { length: 50 }).notNull(),
+  path: varchar("path", { length: 50 }).notNull(),
+  network: varchar("network", { length: 50 }).notNull(),
   message: text("message"),
-  callOptIn: text("call_opt_in").notNull(),
-  availabilities: jsonb("availabilities"),
-  score: integer("score"),
-  resultLabel: text("result_label"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  callOptIn: varchar("call_opt_in", { length: 10 }).notNull(),
+  availabilities: json("availabilities"),
+  score: int("score"),
+  resultLabel: varchar("result_label", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const contactForm = pgTable("contact_form", {
+export const contactForm = mysqlTable("contact_form", {
   id: commonId(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }),
   message: text("message"),
-  sourcePage: text("source_page"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  sourcePage: varchar("source_page", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const guideDownload = pgTable("guide_download", {
+export const guideDownload = mysqlTable("guide_download", {
   id: commonId(),
-  firstName: text("first_name").notNull(),
-  email: text("email").notNull(),
-  guideName: text("guide_name"),
-  source: text("source"),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .defaultNow()
-    .notNull(),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  guideName: varchar("guide_name", { length: 255 }),
+  source: varchar("source", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
 });

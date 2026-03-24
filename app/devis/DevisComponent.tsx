@@ -6,7 +6,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase";
 import { CheckCircle, Send, ChevronDown } from "lucide-react";
 
 const formSchema = z.object({
@@ -75,11 +74,18 @@ export default function DevisComponent() {
         "Date de soumission": new Date().toLocaleString("fr-FR", { timeZone: "Africa/Casablanca", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }),
       });
 
-      const { error } = await supabase!.from("custom_quote").insert([{
-        full_name: data.fullName, email: data.email,
-        phone: formattedPhone || null, services: data.services || [], message: data.message || null,
-      }]);
-      if (error) throw new Error(error.message);
+      const res = await fetch("/api/custom-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          phone: formattedPhone || null,
+          services: data.services || [],
+          message: data.message || null,
+        }),
+      });
+      if (!res.ok) throw new Error("DB error");
       setShowSuccess(true);
       setTimeout(() => { reset(); setServicesOpen(false); }, 5000);
     } catch (err) {

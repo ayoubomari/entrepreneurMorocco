@@ -6,7 +6,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase";
 import { Send, CheckCircle, Phone, Mail, MapPin, Clock, MessageCircle, ArrowUpRight } from "lucide-react";
 
 const formSchema = z.object({
@@ -102,21 +101,19 @@ const ContactSection = () => {
         }),
       });
 
-      const { error } = await supabase!.from("contact_form").insert([
-        {
-          first_name: data.firstName,
-          last_name: data.lastName,
+      const res = await fetch("/api/contact-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName,
           email: data.email,
           phone: formattedPhone || null,
           message: data.message,
-          source_page: currentUrl,
-        },
-      ]);
-
-      if (error) {
-        console.error("Supabase insertion error:", error);
-        throw new Error(error.message || "Erreur lors de l'enregistrement");
-      }
+          sourcePage: currentUrl,
+        }),
+      });
+      if (!res.ok) throw new Error("Erreur lors de l'enregistrement");
 
       setShowSuccess(true);
     } catch (err) {

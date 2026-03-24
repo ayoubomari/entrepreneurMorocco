@@ -8,7 +8,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase";
 import { CloudRedEffect2 } from "@/components/CloudRedEffect";
 
 // --- SCHEMA ZOD ---
@@ -231,37 +230,35 @@ export default function DiagnosticProjectMarocComponent() {
         }),
       });
 
-      // Soumission directe à Supabase (remplace le fetch API)
-      const { error: dbError } = await supabase!
-        .from("diagnostic_maroc_2030")
-        .insert([
-          {
-            first_name: data.firstName,
-            last_name: data.lastName,
-            email: data.email,
-            phone: cleanPhone,
-            project_date: data.projectDate,
-            situation: data.situation,
-            family_status: data.familyStatus,
-            children_count: data.childrenCount || null,
-            children_ages: data.childrenAges || null,
-            motivations: data.motivations,
-            main_skill: data.mainSkill,
-            exp_years: data.expYears,
-            revenue_gen: data.revenueGen,
-            budget: data.budget,
-            runway: data.runway,
-            path: data.path,
-            network: data.network,
-            message: data.message || null,
-            call_opt_in: data.callOptIn,
-            availabilities: data.availabilities || [],
-            score: finalScore,
-            result_label: scoreLabel,
-          },
-        ]);
-
-      if (dbError) throw new Error(dbError.message);
+      const res = await fetch("/api/diagnostic-maroc-2030", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: cleanPhone,
+          projectDate: data.projectDate,
+          situation: data.situation,
+          familyStatus: data.familyStatus,
+          childrenCount: data.childrenCount || null,
+          childrenAges: data.childrenAges || null,
+          motivations: data.motivations,
+          mainSkill: data.mainSkill,
+          expYears: data.expYears,
+          revenueGen: data.revenueGen,
+          budget: data.budget,
+          runway: data.runway,
+          path: data.path,
+          network: data.network,
+          message: data.message || null,
+          callOptIn: data.callOptIn,
+          availabilities: data.availabilities || [],
+          score: finalScore,
+          resultLabel: scoreLabel,
+        }),
+      });
+      if (!res.ok) throw new Error("DB error");
 
       // Affichage du succès dans l'UI
       setShowSuccess(true);

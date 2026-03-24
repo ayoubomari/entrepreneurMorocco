@@ -5,7 +5,6 @@ import { useContactForm } from "@/hooks/useContactForm";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase";
 import { CheckCircle, Download } from "lucide-react";
 
 const brochureSchema = z.object({
@@ -51,8 +50,12 @@ export default function BrochurePageComponent() {
         "Date de soumission": new Date().toLocaleString("fr-FR", { timeZone: "Africa/Casablanca", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }),
       });
 
-      const { error } = await supabase!.from("brochure_download").insert([{ email: data.email }]);
-      if (error) throw new Error(error.message);
+      const res = await fetch("/api/brochure-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email }),
+      });
+      if (!res.ok) throw new Error("DB error");
       setShowSuccess(true);
       triggerPDFDownload();
       setTimeout(() => reset(), 5000);

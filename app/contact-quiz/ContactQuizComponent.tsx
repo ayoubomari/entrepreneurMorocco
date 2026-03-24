@@ -6,7 +6,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase";
 import { CheckCircle, Send, ArrowRight, Download } from "lucide-react";
 import Link from "next/link";
 
@@ -93,16 +92,19 @@ export default function ContactQuizComponent() {
         }),
       });
 
-      const { error } = await supabase!.from("plan_selection").insert([{
-        selected_plan: data.selectedPlan,
-        full_name: data.fullName,
-        email: data.email,
-        phone: formattedPhone || null,
-        result_email: data.resultEmail,
-        message: data.message || null,
-      }]);
-
-      if (error) { console.error("Supabase insertion error:", error); throw new Error(error.message); }
+      const res = await fetch("/api/plan-selection", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          selectedPlan: data.selectedPlan,
+          fullName: data.fullName,
+          email: data.email,
+          phone: formattedPhone || null,
+          resultEmail: data.resultEmail,
+          message: data.message || null,
+        }),
+      });
+      if (!res.ok) throw new Error("DB error");
       setShowSuccess(true);
       setTimeout(() => reset(), 5000);
     } catch (err) {

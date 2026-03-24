@@ -6,7 +6,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { supabase } from "@/lib/supabase";
 import { CheckCircle, Send } from "lucide-react";
 
 const formSchema = z.object({
@@ -56,11 +55,18 @@ export default function CommencezUnProjetComponent() {
         Source: "Questionnaire - Plan personnalisé",
       });
 
-      const { error } = await supabase!.from("profile_quiz").insert([{
-        profile: data.profile, stage: data.stage, needs: data.needs || [],
-        email: data.email, phone: formattedPhone || null,
-      }]);
-      if (error) throw new Error(error.message);
+      const res = await fetch("/api/profile-quiz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profile: data.profile,
+          stage: data.stage,
+          needs: data.needs || [],
+          email: data.email,
+          phone: formattedPhone || null,
+        }),
+      });
+      if (!res.ok) throw new Error("DB error");
       setShowSuccess(true);
       setTimeout(() => reset(), 3000);
     } catch (err) {

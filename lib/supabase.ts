@@ -1,9 +1,5 @@
-// lib/supabase.ts
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+// Supabase has been replaced by MySQL/Drizzle via API routes.
+// See lib/supabase.ts.backup for the original implementation.
+// See app/api/* for the server-side MySQL route handlers.
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-
-// Create a single supabase client for interacting with your database
-export const supabase: SupabaseClient | null =
-  supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+export const supabase = null;

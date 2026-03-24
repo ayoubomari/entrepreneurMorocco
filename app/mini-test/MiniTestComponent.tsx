@@ -5,7 +5,6 @@ import { useContactForm } from "@/hooks/useContactForm";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase";
 import { CheckCircle, Send } from "lucide-react";
 
 const formSchema = z.object({
@@ -69,10 +68,12 @@ export default function MiniTestComponent() {
         "Date de soumission": new Date().toLocaleString("fr-FR", { timeZone: "Africa/Casablanca" }),
       });
 
-      const { error } = await supabase!.from("mini_test").insert([{
-        project: data.project, obstacles: data.obstacles || [], email: data.email,
-      }]);
-      if (error) throw new Error(error.message);
+      const res = await fetch("/api/mini-test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ project: data.project, obstacles: data.obstacles || [], email: data.email }),
+      });
+      if (!res.ok) throw new Error("DB error");
       setShowSuccess(true);
       setTimeout(() => reset(), 5000);
     } catch (err) {
