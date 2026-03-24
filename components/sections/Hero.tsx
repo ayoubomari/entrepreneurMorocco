@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
@@ -92,13 +92,18 @@ export default function Hero() {
     };
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
+  const bgY = useMotionValue(0);
+  const bgScale = useMotionValue(1);
 
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  useEffect(() => {
+    const onScroll = () => {
+      const progress = Math.min(window.scrollY / window.innerHeight, 1);
+      bgY.set(progress * 150);
+      bgScale.set(1 + progress * 0.12);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [bgY, bgScale]);
 
   return (
     <section

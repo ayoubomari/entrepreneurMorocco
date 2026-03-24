@@ -95,10 +95,16 @@ export default function CursorEffects() {
       "position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,#dc2626,#ef4444);z-index:10000;pointer-events:none;";
     document.body.appendChild(progressBar);
 
+    let scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const onResize = () => {
+      scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+
     const handleScroll = () => {
-      const winScroll = document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      progressBar.style.width = height > 0 ? (winScroll / height) * 100 + "%" : "0%";
+      progressBar.style.width = scrollableHeight > 0
+        ? (window.scrollY / scrollableHeight) * 100 + "%"
+        : "0%";
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -112,6 +118,7 @@ export default function CursorEffects() {
       document.removeEventListener("mousedown", handleDown);
       document.removeEventListener("mouseup", handleUp);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", onResize);
       mo.disconnect();
       progressBar.remove();
       cursor?.remove();
