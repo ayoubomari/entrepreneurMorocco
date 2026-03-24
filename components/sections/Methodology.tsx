@@ -2,7 +2,11 @@
 
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
-import { staggerContainer, fadeUp, staggerContainerSlow } from "@/lib/animations";
+import {
+  staggerContainer,
+  fadeUp,
+  staggerContainerSlow,
+} from "@/lib/animations";
 
 const STEPS = [
   {
@@ -34,9 +38,15 @@ const STEPS = [
 
 export default function Methodology() {
   return (
-    <section className="v3-section relative bg-[var(--bg-elevated)]" id="methodologie">
+    <section
+      className="v3-section relative bg-[var(--bg-elevated)]"
+      id="methodologie"
+    >
       {/* Aurora glow */}
-      <div aria-hidden="true" className="aurora-glow w-[900px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60" />
+      <div
+        aria-hidden="true"
+        className="aurora-glow w-[900px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60"
+      />
 
       {/* Divider top */}
       <div className="v3-divider absolute top-0 left-0 right-0" />
@@ -50,7 +60,10 @@ export default function Methodology() {
           viewport={{ once: true, margin: "-80px" }}
           className="text-center mb-20"
         >
-          <motion.div variants={fadeUp} className="flex items-center justify-center gap-3 mb-6">
+          <motion.div
+            variants={fadeUp}
+            className="flex items-center justify-center gap-3 mb-6"
+          >
             <div className="para-bars para-bars--sm">
               <div className="para-bar" />
               <div className="para-bar" />
@@ -68,13 +81,16 @@ export default function Methodology() {
             variants={fadeUp}
             className="v3-section-title text-[clamp(1.75rem,4.5vw,3rem)]"
           >
-            UNE MÉTHODE{" "}
-            <span className="gradient-text">ÉPROUVÉE</span> EN 5 ÉTAPES
+            UNE MÉTHODE <span className="gradient-text">ÉPROUVÉE</span> EN 5
+            ÉTAPES
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="v3-section-subtitle v3-section-subtitle--center mt-5">
-            De votre premier appel jusqu&apos;à votre autonomie complète — un parcours
-            structuré, humain et orienté résultats.
+          <motion.p
+            variants={fadeUp}
+            className="v3-section-subtitle v3-section-subtitle--center mt-5"
+          >
+            De votre premier appel jusqu&apos;à votre autonomie complète — un
+            parcours structuré, humain et orienté résultats.
           </motion.p>
         </motion.div>
 
@@ -86,7 +102,11 @@ export default function Methodology() {
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1], delay: 0.3 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.25, 0.4, 0.25, 1],
+                delay: 0.3,
+              }}
               className="h-px bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent origin-left mx-16"
             />
           </div>
@@ -154,7 +174,7 @@ export default function Methodology() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.1 }}
-                className="relative pl-16"
+                className="relative pl-12 md:pt-16"
               >
                 {/* Dot */}
                 <div className="absolute left-[18px] top-8 w-3 h-3 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)] -translate-x-1/2" />
@@ -162,7 +182,9 @@ export default function Methodology() {
                 {/* Card */}
                 <div className="v3-glass p-6">
                   <div className="flex items-start gap-4">
-                    <span className="v3-step-number flex-shrink-0">{step.number}</span>
+                    <span className="v3-step-number flex-shrink-0">
+                      {step.number}
+                    </span>
                     <div className="flex flex-col gap-2 pt-2">
                       <div className="para-bars para-bars--sm">
                         <div className="para-bar" />

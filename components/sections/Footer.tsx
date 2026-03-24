@@ -294,8 +294,9 @@ export default function Footer() {
       >
         <Container>
           <div className="py-14 md:py-16 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-y-10 gap-x-8">
-            {/* Brand */}
-            <div className="col-span-2 sm:col-span-2 md:col-span-4 lg:col-span-4 lg:pr-6">
+
+            {/* Brand + Contact */}
+            <div className="col-span-2 sm:col-span-2 md:col-span-4 lg:col-span-4 lg:pr-8">
               <Image
                 src="/images/logofooter.webp"
                 alt="Entrepreneurs Morocco"
@@ -309,8 +310,19 @@ export default function Footer() {
                 votre entreprise au Maroc.
               </p>
 
-              {/* Socials */}
-              <div className="flex gap-2.5 mt-7">
+              {/* Email row */}
+              <a
+                href="mailto:salam@entrepreneursmorocco.com"
+                className="mt-5 inline-flex items-center gap-3 text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200"
+              >
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0">
+                  <Mail size={14} strokeWidth={1.5} className="text-[var(--accent-light)]" />
+                </div>
+                salam@entrepreneursmorocco.com
+              </a>
+
+              {/* Socials + Contact icons */}
+              <div className="flex gap-2.5 mt-6">
                 {SOCIALS.map((s) => (
                   <a
                     key={s.label}
@@ -323,10 +335,21 @@ export default function Footer() {
                     <s.icon size={16} strokeWidth={1.5} />
                   </a>
                 ))}
+                {/* Contact icons — hidden for now
+                <a href="mailto:salam@entrepreneursmorocco.com" aria-label="Email" className="group w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-white hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/10 hover:shadow-[0_4px_15px_rgba(220,38,38,0.15)] transition-all duration-300 cursor-pointer">
+                  <Mail size={16} strokeWidth={1.5} />
+                </a>
+                <a href="tel:+33644660252" aria-label="Téléphone" className="group w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-white hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/10 hover:shadow-[0_4px_15px_rgba(220,38,38,0.15)] transition-all duration-300 cursor-pointer">
+                  <Phone size={16} strokeWidth={1.5} />
+                </a>
+                <a href="https://maps.google.com/?q=Immeuble+STAVROULA+Gueliz+Marrakech+Maroc" target="_blank" rel="noreferrer noopener" aria-label="Adresse" className="group w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-white hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/10 hover:shadow-[0_4px_15px_rgba(220,38,38,0.15)] transition-all duration-300 cursor-pointer">
+                  <MapPin size={16} strokeWidth={1.5} />
+                </a>
+                */}
               </div>
             </div>
 
-            {/* Col 1 — Navigation */}
+            {/* Col 1 — Explorer */}
             <div className="col-span-1 lg:col-span-2">
               <h4 className="text-[11px] font-bold tracking-[0.2em] uppercase text-[var(--text-primary)] mb-5">
                 Explorer
@@ -345,8 +368,8 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Col 2 — Formations */}
-            <div className="col-span-1 lg:col-span-2">
+            {/* Col 2 — Programmes */}
+            <div className="col-span-1 lg:col-span-3">
               <h4 className="text-[11px] font-bold tracking-[0.2em] uppercase text-[var(--text-primary)] mb-5">
                 Programmes
               </h4>
@@ -364,61 +387,42 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Col 3 — Contact */}
-            <div className="col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-4">
+            {/* Col 3 — Légal */}
+            <div className="col-span-1 lg:col-span-3">
               <h4 className="text-[11px] font-bold tracking-[0.2em] uppercase text-[var(--text-primary)] mb-5">
-                Contact
+                Légal
               </h4>
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 <li>
-                  <a
-                    href="mailto:salam@entrepreneursmorocco.com"
-                    className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer flex items-center gap-3"
+                  <Link
+                    href="/mentions-legales"
+                    className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0">
-                      <Mail
-                        size={14}
-                        strokeWidth={1.5}
-                        className="text-[var(--accent-light)]"
-                      />
-                    </div>
-                    salam@entrepreneursmorocco.com
-                  </a>
+                    Mentions légales
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="tel:+33644660252"
-                    className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200 cursor-pointer flex items-center gap-3"
+                  <Link
+                    href="/politique-confidentialite"
+                    className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0">
-                      <Phone
-                        size={14}
-                        strokeWidth={1.5}
-                        className="text-[var(--accent-light)]"
-                      />
-                    </div>
-                    +33 6 44 66 02 52
-                  </a>
+                    Politique de confidentialité
+                  </Link>
                 </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/8 flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin
-                      size={14}
-                      strokeWidth={1.5}
-                      className="text-[var(--accent-light)]"
-                    />
-                  </div>
-                  <span className="text-[13px] text-[var(--text-secondary)] leading-[1.7]">
-                    Immeuble STAVROULA, Gueliz
-                    <br />
-                    Marrakech 40000, Maroc
-                  </span>
+                <li>
+                  <Link
+                    href="/conditions-utilisation"
+                    className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--accent-light)] transition-colors duration-200"
+                  >
+                    Conditions d'utilisation
+                  </Link>
                 </li>
               </ul>
             </div>
+
           </div>
 
-          {/* Bottom bar — improved visibility */}
+          {/* Bottom bar */}
           <div className="border-t border-white/[0.08] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[var(--text-secondary)] font-medium">
               &copy; {new Date().getFullYear()} Entrepreneurs Morocco — Tous

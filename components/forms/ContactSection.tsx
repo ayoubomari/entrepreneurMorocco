@@ -6,7 +6,16 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parsePhoneToE164 } from "@/lib/phone-utils";
-import { Send, CheckCircle, Phone, Mail, MapPin, Clock, MessageCircle, ArrowUpRight } from "lucide-react";
+import {
+  Send,
+  CheckCircle,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  MessageCircle,
+  ArrowUpRight,
+} from "lucide-react";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "Le prénom est requis"),
@@ -69,7 +78,13 @@ const ContactSection = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: { firstName: "", lastName: "", email: "", phone: "", message: "" },
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+    },
   });
 
   const { submitForm: submitEmail, isSubmitting: isEmailSubmitting } =
@@ -82,7 +97,8 @@ const ContactSection = () => {
     setGlobalError(null);
     try {
       const formattedPhone = parsePhoneToE164(data.phone);
-      const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+      const currentUrl =
+        typeof window !== "undefined" ? window.location.href : "";
 
       submitEmail({
         Prénom: data.firstName,
@@ -125,10 +141,19 @@ const ContactSection = () => {
   const isSubmitting = isRHFSubmitting || isEmailSubmitting;
 
   return (
-    <section id="homecontact" className="v3-section relative bg-[var(--bg-primary)]">
+    <section
+      id="homecontact"
+      className="v3-section relative bg-[var(--bg-primary)]"
+    >
       {/* Aurora glows */}
-      <div aria-hidden="true" className="aurora-glow w-[500px] h-[500px] top-1/4 right-0 opacity-50" />
-      <div aria-hidden="true" className="aurora-glow w-[400px] h-[400px] bottom-0 left-1/4 opacity-30" />
+      <div
+        aria-hidden="true"
+        className="aurora-glow w-[500px] h-[500px] top-1/4 right-0 opacity-50"
+      />
+      <div
+        aria-hidden="true"
+        className="aurora-glow w-[400px] h-[400px] bottom-0 left-1/4 opacity-30"
+      />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* 2-column layout: info left + form right */}
@@ -160,8 +185,8 @@ const ContactSection = () => {
             </p>
 
             <p className="text-[var(--text-secondary)] text-sm mt-4 leading-relaxed">
-              Remplissez le formulaire ou contactez-nous directement.
-              Notre équipe vous répond sous 48h.
+              Remplissez le formulaire ou contactez-nous directement. Notre
+              équipe vous répond sous 48h.
             </p>
 
             {/* Contact info cards — redesigned */}
@@ -170,7 +195,15 @@ const ContactSection = () => {
                 const Icon = info.icon;
                 const Tag = info.href ? "a" : "div";
                 const linkProps = info.href
-                  ? { href: info.href, target: info.href.startsWith("http") ? "_blank" : undefined, rel: info.href.startsWith("http") ? "noreferrer noopener" : undefined }
+                  ? {
+                      href: info.href,
+                      target: info.href.startsWith("http")
+                        ? "_blank"
+                        : undefined,
+                      rel: info.href.startsWith("http")
+                        ? "noreferrer noopener"
+                        : undefined,
+                    }
                   : {};
                 return (
                   <Tag
@@ -178,7 +211,9 @@ const ContactSection = () => {
                     {...linkProps}
                     className={`rounded-2xl border border-[var(--border)] bg-gradient-to-br ${info.color} p-5 group hover:border-white/[0.12] hover:scale-[1.02] transition-all duration-300 ${info.href ? "cursor-pointer" : ""}`}
                   >
-                    <div className={`w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    >
                       <Icon size={18} className={info.iconColor} />
                     </div>
                     <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-1.5">
@@ -186,7 +221,12 @@ const ContactSection = () => {
                     </p>
                     <p className="text-sm text-[var(--text-primary)] font-semibold leading-snug flex items-center gap-1">
                       {info.value}
-                      {info.href && <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-70 transition-opacity duration-300 shrink-0" />}
+                      {info.href && (
+                        <ArrowUpRight
+                          size={12}
+                          className="opacity-0 group-hover:opacity-70 transition-opacity duration-300 shrink-0"
+                        />
+                      )}
                     </p>
                   </Tag>
                 );
@@ -202,8 +242,11 @@ const ContactSection = () => {
           </div>
 
           {/* RIGHT — Form card */}
-          <div className="animate-[fadeUp_0.8s_ease-out_0.2s_both]">
-            <div className="v3-glass p-8 md:p-10 relative overflow-hidden" style={{ borderRadius: 24 }}>
+          <div className="animate-[fadeUp_0.8s_ease-out_0.2s_both] md:mt-8">
+            <div
+              className="v3-glass p-8 md:p-10 relative overflow-hidden"
+              style={{ borderRadius: 24 }}
+            >
               {/* Top gradient line */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent" />
 
@@ -220,7 +263,10 @@ const ContactSection = () => {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col gap-5"
+                >
                   {/* Form title */}
                   <div className="flex items-center gap-3 mb-2">
                     <div className="para-bars para-bars--sm">
@@ -235,42 +281,105 @@ const ContactSection = () => {
                   {/* Name row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="firstName" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                      <label
+                        htmlFor="firstName"
+                        className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block"
+                      >
                         Prénom
                       </label>
-                      <input id="firstName" type="text" placeholder="Votre prénom" className={inputStyles} disabled={isSubmitting} autoComplete="given-name" {...register("firstName")} />
-                      {errors.firstName && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.firstName.message}</span>}
+                      <input
+                        id="firstName"
+                        type="text"
+                        placeholder="Votre prénom"
+                        className={inputStyles}
+                        disabled={isSubmitting}
+                        autoComplete="given-name"
+                        {...register("firstName")}
+                      />
+                      {errors.firstName && (
+                        <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                          {errors.firstName.message}
+                        </span>
+                      )}
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                      <label
+                        htmlFor="lastName"
+                        className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block"
+                      >
                         Nom
                       </label>
-                      <input id="lastName" type="text" placeholder="Votre nom" className={inputStyles} disabled={isSubmitting} autoComplete="family-name" {...register("lastName")} />
-                      {errors.lastName && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.lastName.message}</span>}
+                      <input
+                        id="lastName"
+                        type="text"
+                        placeholder="Votre nom"
+                        className={inputStyles}
+                        disabled={isSubmitting}
+                        autoComplete="family-name"
+                        {...register("lastName")}
+                      />
+                      {errors.lastName && (
+                        <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                          {errors.lastName.message}
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   {/* Email + Phone row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="email" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                      <label
+                        htmlFor="email"
+                        className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block"
+                      >
                         Email
                       </label>
-                      <input id="email" type="email" placeholder="votre@email.com" className={inputStyles} disabled={isSubmitting} autoComplete="email" {...register("email")} />
-                      {errors.email && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.email.message}</span>}
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="votre@email.com"
+                        className={inputStyles}
+                        disabled={isSubmitting}
+                        autoComplete="email"
+                        {...register("email")}
+                      />
+                      {errors.email && (
+                        <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                          {errors.email.message}
+                        </span>
+                      )}
                     </div>
                     <div>
-                      <label htmlFor="phone" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                      <label
+                        htmlFor="phone"
+                        className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block"
+                      >
                         Téléphone
                       </label>
-                      <input id="phone" type="tel" placeholder="+33 6 00 00 00 00" className={inputStyles} disabled={isSubmitting} autoComplete="tel" {...register("phone")} />
-                      {errors.phone && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.phone.message}</span>}
+                      <input
+                        id="phone"
+                        type="tel"
+                        placeholder="+33 6 00 00 00 00"
+                        className={inputStyles}
+                        disabled={isSubmitting}
+                        autoComplete="tel"
+                        {...register("phone")}
+                      />
+                      {errors.phone && (
+                        <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                          {errors.phone.message}
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label htmlFor="message" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block">
+                    <label
+                      htmlFor="message"
+                      className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--text-muted)] mb-2 block"
+                    >
                       Message
                     </label>
                     <textarea
@@ -281,11 +390,17 @@ const ContactSection = () => {
                       disabled={isSubmitting}
                       {...register("message")}
                     />
-                    {errors.message && <span className="text-[var(--accent)] text-xs mt-1.5 block">{errors.message.message}</span>}
+                    {errors.message && (
+                      <span className="text-[var(--accent)] text-xs mt-1.5 block">
+                        {errors.message.message}
+                      </span>
+                    )}
                   </div>
 
                   {globalError && (
-                    <p className="text-[var(--accent)] text-xs text-center">{globalError}</p>
+                    <p className="text-[var(--accent)] text-xs text-center">
+                      {globalError}
+                    </p>
                   )}
 
                   {/* Submit */}
@@ -297,12 +412,15 @@ const ContactSection = () => {
                     <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.02] group-hover:shadow-[0_0_50px_rgba(220,38,38,0.35)]" />
                     <Send size={14} className="relative z-10" />
                     <span className="relative z-10">
-                      {isSubmitting ? "Envoi en cours..." : "Envoyer mon message"}
+                      {isSubmitting
+                        ? "Envoi en cours..."
+                        : "Envoyer mon message"}
                     </span>
                   </button>
 
                   <p className="text-[10px] text-[var(--text-muted)] text-center mt-1">
-                    Nous ne partageons jamais vos données. Réponse garantie sous 48h.
+                    Nous ne partageons jamais vos données. Réponse garantie sous
+                    48h.
                   </p>
                 </form>
               )}

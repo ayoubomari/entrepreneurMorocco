@@ -66,13 +66,17 @@ function AccordionItem({
           transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
           className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-300"
           style={{
-            background: isOpen ? "var(--accent-glow)" : "rgba(255,255,255,0.03)",
+            background: isOpen
+              ? "var(--accent-glow)"
+              : "rgba(255,255,255,0.03)",
             border: `1px solid ${isOpen ? "rgba(220,38,38,0.2)" : "rgba(255,255,255,0.06)"}`,
           }}
         >
           <ChevronDown
             size={14}
-            style={{ color: isOpen ? "var(--accent)" : "var(--text-secondary)" }}
+            style={{
+              color: isOpen ? "var(--accent)" : "var(--text-secondary)",
+            }}
           />
         </motion.div>
       </div>
@@ -107,7 +111,10 @@ export default function FAQ() {
   return (
     <section className="v3-section relative bg-[var(--bg-elevated)]" id="faq">
       {/* Aurora glow */}
-      <div aria-hidden="true" className="aurora-glow w-[600px] h-[600px] top-1/2 right-0 -translate-y-1/2 opacity-40" />
+      <div
+        aria-hidden="true"
+        className="aurora-glow w-[600px] h-[600px] top-1/2 right-0 -translate-y-1/2 opacity-40"
+      />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* 2-column layout: sticky heading left + accordion right */}
@@ -127,17 +134,17 @@ export default function FAQ() {
               className="v3-section-title"
               style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
             >
-              VOUS AVEZ DES{" "}
-              <span className="gradient-text">QUESTIONS ?</span>
+              VOUS AVEZ DES <span className="gradient-text">QUESTIONS ?</span>
             </h2>
 
             <p className="v3-tagline text-base mt-4">
-              &ldquo;Aucune question n&apos;est trop petite pour votre nouveau départ.&rdquo;
+              &ldquo;Aucune question n&apos;est trop petite pour votre nouveau
+              départ.&rdquo;
             </p>
 
             <p className="text-[var(--text-secondary)] text-sm mt-6 leading-relaxed">
-              Retrouvez les réponses aux questions les plus fréquentes.
-              Si vous ne trouvez pas ce que vous cherchez, contactez-nous directement.
+              Retrouvez les réponses aux questions les plus fréquentes. Si vous
+              ne trouvez pas ce que vous cherchez, contactez-nous directement.
             </p>
 
             {/* CTA */}
