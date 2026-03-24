@@ -68,7 +68,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo icon */}
             <Link href="/" className="relative z-10 shrink-0" aria-label="Retour à l'accueil">
-              <Image src="/images/logo-icon.png" alt="Entrepreneurs Morocco" width={1000} height={1000} className="h-10 md:h-12 w-auto" priority />
+              <Image src="/images/logo-icon.png" alt="Entrepreneurs Morocco" width={1000} height={1000} className="h-10 md:h-12 w-auto" priority fetchPriority="high" />
             </Link>
 
             {/* Desktop Nav */}

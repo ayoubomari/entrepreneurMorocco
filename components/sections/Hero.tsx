@@ -55,10 +55,19 @@ export default function Hero() {
       document.removeEventListener("mousemove", interactionPlay);
       document.removeEventListener("keydown", interactionPlay);
     };
-    document.addEventListener("touchstart", interactionPlay, { once: true, passive: true });
-    document.addEventListener("scroll", interactionPlay, { once: true, passive: true });
+    document.addEventListener("touchstart", interactionPlay, {
+      once: true,
+      passive: true,
+    });
+    document.addEventListener("scroll", interactionPlay, {
+      once: true,
+      passive: true,
+    });
     document.addEventListener("click", interactionPlay, { once: true });
-    document.addEventListener("mousemove", interactionPlay, { once: true, passive: true });
+    document.addEventListener("mousemove", interactionPlay, {
+      once: true,
+      passive: true,
+    });
     document.addEventListener("keydown", interactionPlay, { once: true });
 
     // Retry every 500ms for 5 seconds
@@ -97,13 +106,18 @@ export default function Hero() {
       className="relative h-screen min-h-[750px] overflow-hidden bg-[#030303]"
     >
       {/* ── Full-screen background ── */}
-      <motion.div style={{ y: bgY, scale: bgScale }} className="absolute -inset-[5%]">
+      <motion.div
+        style={{ y: bgY, scale: bgScale }}
+        className="absolute -inset-[5%]"
+      >
         {/* Poster image (CFC, visible until video plays) */}
         <Image
           src="/images/hero-cfc-poster.jpg"
           alt="Casablanca Finance City"
           fill
           priority
+          fetchPriority="high"
+          quality={45}
           className="object-cover"
           sizes="100vw"
         />
@@ -156,7 +170,10 @@ export default function Hero() {
 
               {/* Headline */}
               <h1 className="font-[family-name:var(--font-montserrat)] font-black uppercase leading-[0.9] tracking-[-0.04em] animate-[fadeUp_0.9s_ease-out_0.15s_both]">
-                <span className="block text-white" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}>
+                <span
+                  className="block text-white"
+                  style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
+                >
                   Entreprendre au
                 </span>
                 <span
@@ -174,8 +191,8 @@ export default function Hero() {
 
               {/* Description */}
               <p className="mt-4 text-[15px] text-white/40 leading-[1.8] max-w-lg animate-[fadeUp_0.6s_ease-out_0.55s_both]">
-                De l&apos;idée à la concrétisation — stratégie, juridique, installation.
-                On accompagne les entrepreneurs à chaque étape.
+                De l&apos;idée à la concrétisation — stratégie, juridique,
+                installation. On accompagne les entrepreneurs à chaque étape.
               </p>
 
               {/* CTAs */}
@@ -239,7 +256,9 @@ export default function Hero() {
       {/* ── Bottom: scroll indicator ── */}
       <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center animate-[fadeUp_0.6s_ease-out_1.5s_both]">
         <motion.button
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+          onClick={() =>
+            window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+          }
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 cursor-pointer group"
