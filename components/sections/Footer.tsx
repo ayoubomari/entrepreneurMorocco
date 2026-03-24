@@ -60,6 +60,7 @@ const COL2_LINKS = [
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [newsletterState, setNewsletterState] = useState<"idle" | "loading" | "success" | "duplicate" | "error">("idle");
 
   return (
     <footer className="relative">
@@ -170,26 +171,57 @@ export default function Footer() {
                 </p>
               </div>
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setEmail("");
+                  if (!email || newsletterState === "loading") return;
+                  setNewsletterState("loading");
+                  try {
+                    const res = await fetch("/api/newsletter", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email }),
+                    });
+                    if (res.status === 409) {
+                      setNewsletterState("duplicate");
+                    } else if (res.ok) {
+                      setNewsletterState("success");
+                      setEmail("");
+                    } else {
+                      setNewsletterState("error");
+                    }
+                  } catch {
+                    setNewsletterState("error");
+                  }
                 }}
-                className="mt-6 flex gap-2"
+                className="mt-6 flex flex-col gap-2"
               >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="votre@email.com"
-                  className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/[0.05] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/50 focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.07] transition-all duration-300"
-                />
-                <button
-                  aria-label="S'abonner à la newsletter"
-                  type="submit"
-                  className="px-5 py-3 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-light)] hover:shadow-[0_4px_20px_rgba(220,38,38,0.3)] text-white transition-all duration-300 cursor-pointer shrink-0"
-                >
-                  <ArrowRight size={18} />
-                </button>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setNewsletterState("idle"); }}
+                    placeholder="votre@email.com"
+                    disabled={newsletterState === "loading" || newsletterState === "success"}
+                    className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/[0.05] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/50 focus:outline-none focus:border-[var(--accent)]/40 focus:bg-white/[0.07] transition-all duration-300 disabled:opacity-50"
+                  />
+                  <button
+                    aria-label="S'abonner à la newsletter"
+                    type="submit"
+                    disabled={newsletterState === "loading" || newsletterState === "success"}
+                    className="px-5 py-3 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-light)] hover:shadow-[0_4px_20px_rgba(220,38,38,0.3)] text-white transition-all duration-300 cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+                {newsletterState === "success" && (
+                  <p className="text-xs text-green-400">Vous êtes inscrit(e) !</p>
+                )}
+                {newsletterState === "duplicate" && (
+                  <p className="text-xs text-[var(--text-muted)]">Cet email est déjà inscrit.</p>
+                )}
+                {newsletterState === "error" && (
+                  <p className="text-xs text-[var(--accent)]">Une erreur est survenue, réessayez.</p>
+                )}
               </form>
             </div>
 

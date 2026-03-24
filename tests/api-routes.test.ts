@@ -16,6 +16,7 @@ import { POST as planPost } from "@/app/api/plan-selection/route";
 import { POST as quotePost } from "@/app/api/custom-quote/route";
 import { POST as diagnosticPost } from "@/app/api/diagnostic-maroc-2030/route";
 import { POST as profilePost } from "@/app/api/profile-quiz/route";
+import { POST as newsletterPost } from "@/app/api/newsletter/route";
 import { db } from "@/db";
 import {
   brochureDownload,
@@ -26,6 +27,7 @@ import {
   customQuote,
   diagnosticMaroc2030,
   profileQuiz,
+  newsletterSubscription,
 } from "@/db/schema";
 import { desc } from "drizzle-orm";
 
@@ -47,6 +49,7 @@ afterAll(async () => {
   await db.delete(customQuote);
   await db.delete(diagnosticMaroc2030);
   await db.delete(profileQuiz);
+  await db.delete(newsletterSubscription);
 });
 
 describe("POST /api/brochure-download", () => {
@@ -249,6 +252,33 @@ describe("POST /api/profile-quiz", () => {
   it("returns 400 for missing profile", async () => {
     const req = makeRequest({ stage: "prep", email: "t@t.com" });
     const res = await profilePost(req);
+    expect(res.status).toBe(400);
+  });
+});
+
+describe("POST /api/newsletter", () => {
+  it("subscribes a new email and returns 201", async () => {
+    const req = makeRequest({ email: "test-newsletter@example.com" });
+    const res = await newsletterPost(req);
+    expect(res.status).toBe(201);
+
+    const rows = await db.select().from(newsletterSubscription).orderBy(desc(newsletterSubscription.id)).limit(1);
+    expect(rows[0].email).toBe("test-newsletter@example.com");
+  });
+
+  it("returns 409 for duplicate email", async () => {
+    // First subscription succeeds
+    await newsletterPost(makeRequest({ email: "test-duplicate@example.com" }));
+    // Second subscription with same email returns 409
+    const res = await newsletterPost(makeRequest({ email: "test-duplicate@example.com" }));
+    expect(res.status).toBe(409);
+    const body = await res.json();
+    expect(body.error).toBe("already_subscribed");
+  });
+
+  it("returns 400 for invalid email", async () => {
+    const req = makeRequest({ email: "not-an-email" });
+    const res = await newsletterPost(req);
     expect(res.status).toBe(400);
   });
 });

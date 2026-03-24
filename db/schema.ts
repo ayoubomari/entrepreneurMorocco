@@ -5,6 +5,7 @@ import {
   json,
   text,
   int,
+  uniqueIndex,
 } from "drizzle-orm/mysql-core";
 
 const commonId = () => int("id").autoincrement().primaryKey();
@@ -100,3 +101,13 @@ export const guideDownload = mysqlTable("guide_download", {
   source: varchar("source", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const newsletterSubscription = mysqlTable(
+  "newsletter_subscription",
+  {
+    id: commonId(),
+    email: varchar("email", { length: 255 }).notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [uniqueIndex("newsletter_email_idx").on(table.email)],
+);
