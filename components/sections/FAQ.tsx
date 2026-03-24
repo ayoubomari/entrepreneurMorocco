@@ -169,7 +169,7 @@ export default function FAQ() {
           </div>
 
           {/* RIGHT — Accordion */}
-          <div className="flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both]">
+          <div className="flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both] sm:mt-4">
             {FAQ_ITEMS.map((item, i) => (
               <AccordionItem
                 key={item.q}
