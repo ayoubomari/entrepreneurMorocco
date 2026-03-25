@@ -36,7 +36,7 @@ export default function AboutUs() {
         {/* Content overlay */}
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 w-full py-24 lg:py-32">
-            <div className="max-w-xl">
+            <div className="max-w-xl mb-12 sm:mb-0">
               {/* Eyebrow */}
               <div className="flex items-center gap-3 mb-8 animate-[fadeUp_0.8s_ease-out_both]">
                 <div className="para-bars para-bars--sm">
@@ -58,15 +58,19 @@ export default function AboutUs() {
 
               {/* Tagline */}
               <p className="font-[family-name:var(--font-playfair)] italic text-white/70 text-lg mt-6 animate-[fadeUp_0.8s_ease-out_0.2s_both]">
-                &ldquo;Nous avons vécu exactement ce que vous vivez aujourd&apos;hui.&rdquo;
+                &ldquo;Nous avons vécu exactement ce que vous vivez
+                aujourd&apos;hui.&rdquo;
               </p>
 
               {/* Short story */}
               <p className="text-[15px] text-white/50 leading-[1.8] mt-6 animate-[fadeUp_0.8s_ease-out_0.3s_both]">
-                Imad et Zakaria ont quitté leurs postes stables pour créer leurs propres activités au Maroc.
-                Forts de cette expérience, ils ont fondé{" "}
-                <span className="text-white font-medium">Entrepreneurs Morocco</span> — pour que
-                personne d&apos;autre n&apos;ait à naviguer seul.
+                Imad et Zakaria ont quitté leurs postes stables pour créer leurs
+                propres activités au Maroc. Forts de cette expérience, ils ont
+                fondé{" "}
+                <span className="text-white font-medium">
+                  Entrepreneurs Morocco
+                </span>{" "}
+                — pour que personne d&apos;autre n&apos;ait à naviguer seul.
               </p>
 
               {/* CTA */}
@@ -76,7 +80,9 @@ export default function AboutUs() {
                   className="group relative inline-flex items-center gap-3 px-9 py-[17px] text-[12px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer"
                 >
                   <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.04] group-hover:shadow-[0_0_50px_rgba(220,38,38,0.35)]" />
-                  <span className="relative z-10">Découvrir notre histoire</span>
+                  <span className="relative z-10">
+                    Découvrir notre histoire
+                  </span>
                   <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                 </Link>
               </div>

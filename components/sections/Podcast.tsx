@@ -6,7 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { staggerContainer, fadeUp } from "@/lib/animations";
-import { Play, X, Youtube, Instagram, ArrowRight, Clock, Headphones } from "lucide-react";
+import {
+  Play,
+  X,
+  Youtube,
+  Instagram,
+  ArrowRight,
+  Clock,
+  Headphones,
+} from "lucide-react";
 
 const EPISODES = [
   {
@@ -47,7 +55,10 @@ export default function Podcast() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   return (
-    <section className="relative py-24 md:py-32 bg-[var(--bg-primary)] overflow-hidden" id="podcast">
+    <section
+      className="relative py-24 md:py-32 bg-[var(--bg-primary)] overflow-hidden"
+      id="podcast"
+    >
       {/* Ambient glow */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-[var(--accent)]/[0.03] blur-[150px] pointer-events-none" />
 
@@ -80,9 +91,12 @@ export default function Podcast() {
                 </span>
               </motion.h2>
 
-              <motion.p variants={fadeUp} className="mt-4 text-[var(--text-secondary)] text-[15px] leading-relaxed max-w-lg">
-                Des épisodes concrets sur l&apos;entrepreneuriat au Maroc, les opportunités
-                et les histoires de ceux qui ont sauté le pas.
+              <motion.p
+                variants={fadeUp}
+                className="mt-4 text-[var(--text-secondary)] text-[15px] leading-relaxed max-w-lg"
+              >
+                Des épisodes concrets sur l&apos;entrepreneuriat au Maroc, les
+                opportunités et les histoires de ceux qui ont sauté le pas.
               </motion.p>
             </div>
 
@@ -148,7 +162,11 @@ export default function Podcast() {
                     {/* Play button — centered */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 group-hover:bg-[var(--accent)] group-hover:border-[var(--accent)] group-hover:scale-110 group-hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transition-all duration-500">
-                        <Play size={22} className="text-white ml-1" fill="white" />
+                        <Play
+                          size={22}
+                          className="text-white ml-1"
+                          fill="white"
+                        />
                       </div>
                     </div>
 
@@ -168,7 +186,7 @@ export default function Podcast() {
 
                   {/* Title — below image with padding */}
                   <div className="p-4 pb-5">
-                    <h3 className="font-[family-name:var(--font-montserrat)] font-bold text-[14px] text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent-light)] transition-colors duration-300">
+                    <h3 className="font-[family-name:var(--font-montserrat)] font-bold text-[14px] text-[var(--text-primary)] group-hover:text-[var(--accent-light)] transition-colors duration-300">
                       {ep.title}
                     </h3>
                   </div>
@@ -186,7 +204,10 @@ export default function Podcast() {
               className="inline-flex items-center gap-2.5 px-6 py-3 text-sm font-medium text-[var(--text-secondary)] border border-[var(--border)] rounded-xl hover:border-[var(--accent)]/30 hover:text-[var(--text-primary)] hover:bg-white/[0.02] transition-all duration-300 cursor-pointer group"
             >
               Voir tous les épisodes
-              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight
+                size={14}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
             </Link>
           </motion.div>
         </motion.div>
