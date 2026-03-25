@@ -143,7 +143,7 @@ const ContactSection = () => {
   return (
     <section
       id="homecontact"
-      className="v3-section relative bg-[var(--bg-primary)]"
+      className="v3-section relative bg-[var(--bg-primary)] v3-1-section"
     >
       {/* Aurora glows */}
       <div

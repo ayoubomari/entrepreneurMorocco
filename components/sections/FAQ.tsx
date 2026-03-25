@@ -173,7 +173,7 @@ export default function FAQ() {
 
           {/* RIGHT — Accordion */}
           {/* Correction ici : suppression de 'sm:mt-4' et ajout de 'lg:self-start' */}
-          <div className="flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both] lg:self-start">
+          <div className="lg:mt-8 flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both] lg:self-start">
             {FAQ_ITEMS.map((item, i) => (
               <AccordionItem
                 key={item.q}

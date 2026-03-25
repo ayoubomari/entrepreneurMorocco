@@ -259,7 +259,7 @@ export default function Hero() {
       </div>
 
       {/* ── Bottom: scroll indicator ── */}
-      <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center animate-[fadeUp_0.6s_ease-out_1.5s_both]">
+      <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center animate-[fadeUp_0.6s_ease-out_1.5s_both]">
         <motion.button
           onClick={() =>
             window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
