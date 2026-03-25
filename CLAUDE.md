@@ -25,7 +25,6 @@ npm run db:migrate       # Run migrations
 npm run db:deploy        # Push migrations + regenerate types
 npm run db:types         # Regenerate TypeScript types from Supabase schema
 npm run db:start / db:stop / db:reset  # Local Supabase instance
-
 ```
 
 ## ⚠️ Database Note

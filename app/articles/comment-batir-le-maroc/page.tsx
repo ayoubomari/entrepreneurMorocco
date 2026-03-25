@@ -41,19 +41,6 @@ const Article3Page: React.FC = () => {
       {/* Background Effect */}
       <CloudRedEffect1 />
 
-      {/* Navigation */}
-      <nav className="art-nav">
-        <Link href="/" className="nav-back group">
-          <ArrowLeft
-            size={18}
-            className="group-hover:-translate-x-1 transition-transform"
-          />
-          <span>Retour Accueil</span>
-        </Link>
-        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-800 px-3 py-1 rounded-full">
-          Article 3/4
-        </div>
-      </nav>
 
       {/* Main Wrapper */}
       <div className="article-wrap">
