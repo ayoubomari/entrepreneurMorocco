@@ -138,7 +138,7 @@ export default function Header() {
                 transition={{ duration: 0.2 }}
               />
               <motion.span
-                animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                animate={open ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
                 className="block w-6 h-[1.5px] bg-white rounded-full origin-center"
                 transition={{ duration: 0.3 }}
               />
