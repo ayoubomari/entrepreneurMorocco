@@ -49,7 +49,9 @@ export default function Header() {
     };
   }, [open]);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -59,16 +61,26 @@ export default function Header() {
           scrolled
             ? "bg-[#050505]/90 backdrop-blur-2xl border-b border-white/[0.06]"
             : "bg-transparent",
-          headerVisible
-            ? "translate-y-0"
-            : "-translate-y-full"
+          headerVisible ? "translate-y-0" : "-translate-y-full",
         )}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo icon */}
-            <Link href="/" className="relative z-10 shrink-0" aria-label="Retour à l'accueil">
-              <Image src="/images/logo-icon.png" alt="Entrepreneurs Morocco" width={1000} height={1000} className="h-10 md:h-12 w-auto" priority fetchPriority="high" />
+            <Link
+              href="/"
+              className="relative z-10 shrink-0"
+              aria-label="Retour à l'accueil"
+            >
+              <Image
+                src="/images/logo-icon.png"
+                alt="Entrepreneurs Morocco"
+                width={1000}
+                height={1000}
+                className="h-10 md:h-12 w-auto"
+                priority
+                fetchPriority="high"
+              />
             </Link>
 
             {/* Desktop Nav */}
@@ -81,7 +93,7 @@ export default function Header() {
                     "relative px-4 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300",
                     isActive(item.href)
                       ? "text-white"
-                      : "text-white/50 hover:text-white/90"
+                      : "text-white/50 hover:text-white/90",
                   )}
                 >
                   {item.label}
@@ -89,7 +101,11 @@ export default function Header() {
                     <motion.div
                       layoutId="nav-active"
                       className="absolute bottom-0 left-4 right-4 h-[2px] bg-[#dc2626]"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </Link>
@@ -161,7 +177,7 @@ export default function Header() {
                       "block text-[2rem] font-bold font-[family-name:var(--font-montserrat)] tracking-tight py-5 transition-colors duration-300",
                       isActive(item.href)
                         ? "text-[#dc2626]"
-                        : "text-white/70 active:text-white"
+                        : "text-white/70 active:text-white",
                     )}
                   >
                     {item.label}

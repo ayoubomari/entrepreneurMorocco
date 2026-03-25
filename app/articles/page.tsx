@@ -61,7 +61,10 @@ export default function ArticlesPage() {
       <CloudRedEffect1 />
 
       {/* Main Wrapper — pt-40 clears the fixed header (h-16/h-20) */}
-      <div className="article-wrap" style={{ paddingTop: "clamp(7rem, 12vw, 10rem)" }}>
+      <div
+        className="article-wrap"
+        style={{ paddingTop: "clamp(7rem, 12vw, 10rem)" }}
+      >
         {/* Hero */}
         <header className="article-hero" style={{ marginBottom: "3rem" }}>
           <div className="article-tag">
@@ -69,8 +72,7 @@ export default function ArticlesPage() {
             Ressources & Guides
           </div>
           <h1 className="article-title">
-            Le Savoir pour{" "}
-            <span className="text-red-500">Agir</span> Maintenant
+            Le Savoir pour <span className="text-red-500">Agir</span> Maintenant
           </h1>
           <p className="article-lead">
             Guides stratégiques, analyses sectorielles et décryptages pour
@@ -141,70 +143,66 @@ export default function ArticlesPage() {
               }}
             >
               <div>
-                {/* Tag row */}
+                {/* Number */}
+                <span
+                  style={{
+                    fontFamily: "var(--font-montserrat)",
+                    fontWeight: 900,
+                    fontSize: "clamp(3rem, 8vw, 5rem)",
+                    lineHeight: 1,
+                    background:
+                      "linear-gradient(135deg, #dc2626, #ef4444, #f87171)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    opacity: 0.4,
+                    letterSpacing: "-0.06em",
+                    userSelect: "none",
+                    display: "block",
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  {ARTICLES[0].number}
+                </span>
+
+                {/* Tag badge */}
                 <div
                   style={{
-                    display: "flex",
+                    display: "inline-flex",
                     alignItems: "center",
-                    gap: "1rem",
+                    gap: "6px",
+                    background: "rgba(239,68,68,0.1)",
+                    border: "1px solid rgba(239,68,68,0.3)",
+                    color: "#ef4444",
+                    padding: "4px 12px",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    borderRadius: "2px",
                     marginBottom: "1rem",
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-montserrat)",
-                      fontWeight: 900,
-                      fontSize: "clamp(3rem, 8vw, 5rem)",
-                      lineHeight: 1,
-                      background:
-                        "linear-gradient(135deg, #dc2626, #ef4444, #f87171)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      opacity: 0.4,
-                      letterSpacing: "-0.06em",
-                      userSelect: "none",
-                    }}
-                  >
-                    {ARTICLES[0].number}
-                  </span>
-                  <div>
-                    <div
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        background: "rgba(239,68,68,0.1)",
-                        border: "1px solid rgba(239,68,68,0.3)",
-                        color: "#ef4444",
-                        padding: "4px 12px",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                        borderRadius: "2px",
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {ARTICLES[0].tag}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.75rem",
-                        fontSize: "12px",
-                        color: "rgba(255,255,255,0.4)",
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                      }}
-                    >
-                      <Clock size={12} />
-                      <span>{ARTICLES[0].readTime} de lecture</span>
-                      <span style={{ color: "#dc2626" }}>•</span>
-                      <span>{ARTICLES[0].category}</span>
-                    </div>
-                  </div>
+                  {ARTICLES[0].tag}
+                </div>
+
+                {/* Timing row — desktop only (mobile gets footer below) */}
+                <div
+                  className="hidden md:flex"
+                  style={{
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.4)",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  <Clock size={12} />
+                  <span>{ARTICLES[0].readTime} de lecture</span>
+                  <span style={{ color: "#dc2626" }}>•</span>
+                  <span>{ARTICLES[0].category}</span>
                 </div>
 
                 <h2
@@ -236,9 +234,10 @@ export default function ArticlesPage() {
                   {ARTICLES[0].desc}
                 </p>
 
+                {/* Desktop: full "Lire l'article" link */}
                 <div
+                  className="hidden md:flex group-hover:translate-x-2"
                   style={{
-                    display: "flex",
                     alignItems: "center",
                     gap: "8px",
                     fontSize: "12px",
@@ -248,10 +247,51 @@ export default function ArticlesPage() {
                     color: "#dc2626",
                     transition: "transform 0.3s",
                   }}
-                  className="group-hover:translate-x-2"
                 >
                   <span>Lire l&apos;article</span>
                   <ArrowUpRight size={14} />
+                </div>
+
+                {/* Mobile footer: timing left + Lire right (matches small cards) */}
+                <div
+                  className="flex md:hidden"
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    borderTop: "1px solid rgba(255,255,255,0.06)",
+                    paddingTop: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "11px",
+                      color: "rgba(255,255,255,0.3)",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    <Clock size={11} />
+                    <span>{ARTICLES[0].readTime}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#dc2626",
+                    }}
+                  >
+                    <span>Lire</span>
+                    <ArrowUpRight size={12} />
+                  </div>
                 </div>
               </div>
 
@@ -262,7 +302,6 @@ export default function ArticlesPage() {
                   height: "48px",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "12px",
-                  display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
@@ -270,11 +309,14 @@ export default function ArticlesPage() {
                   alignSelf: "flex-start",
                   marginTop: "0.25rem",
                 }}
-                className="group-hover:bg-red-600/10 group-hover:border-red-600/30"
+                className="group-hover:bg-red-600/10 group-hover:border-red-600/30 hidden md:flex"
               >
                 <ArrowUpRight
                   size={18}
-                  style={{ color: "rgba(255,255,255,0.3)", transition: "color 0.3s" }}
+                  style={{
+                    color: "rgba(255,255,255,0.3)",
+                    transition: "color 0.3s",
+                  }}
                   className="group-hover:text-red-500"
                 />
               </div>
