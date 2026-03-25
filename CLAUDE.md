@@ -28,9 +28,16 @@ npm run db:start / db:stop / db:reset  # Local Supabase instance
 
 ```
 
+## ⚠️ Database Note
+
+**The active database is now MySQL**, not Supabase. All new database work should target the MySQL connection via `DATABASE_URL`.
+
+- Supabase files (`db/index.ts`, `types/database.ts`, Supabase env vars) are kept as **backup/reference only** — do not remove them, but do not write new code against the Supabase client.
+- When touching the database layer, use the MySQL-compatible Drizzle config and connection, not the Supabase client.
+
 ## Architecture
 
-**Stack**: Next.js 15 (App Router), React 19, TypeScript, TailwindCSS 4, Drizzle ORM, Supabase (PostgreSQL), Vitest, EmailJS, Zod, react-hook-form.
+**Stack**: Next.js 15 (App Router), React 19, TypeScript, TailwindCSS 4, Drizzle ORM, MySQL, Vitest, EmailJS, Zod, react-hook-form.
 
 ### App Router Structure
 

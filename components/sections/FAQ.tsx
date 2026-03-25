@@ -109,7 +109,10 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="v3-section relative bg-[var(--bg-elevated)]" id="faq">
+    <section
+      className="v3-section relative bg-[var(--bg-elevated)] v3-1-section"
+      id="faq"
+    >
       {/* Aurora glow */}
       <div
         aria-hidden="true"
@@ -169,7 +172,8 @@ export default function FAQ() {
           </div>
 
           {/* RIGHT — Accordion */}
-          <div className="flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both] sm:mt-4">
+          {/* Correction ici : suppression de 'sm:mt-4' et ajout de 'lg:self-start' */}
+          <div className="flex flex-col gap-3 animate-[fadeUp_0.8s_ease-out_0.2s_both] lg:self-start">
             {FAQ_ITEMS.map((item, i) => (
               <AccordionItem
                 key={item.q}

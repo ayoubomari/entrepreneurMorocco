@@ -328,6 +328,9 @@ video.hero-video::-moz-media-controls {
   .v3-section {
     padding: 10rem 0;
   }
+  .v3-1-section {
+    padding: 0rem 0;
+  }
 }
 
 /* --- Section separator: subtle gradient fade --------------- */
