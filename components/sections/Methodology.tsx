@@ -163,7 +163,7 @@ export default function Methodology() {
         {/* Mobile: vertical timeline */}
         <div className="lg:hidden relative">
           {/* Vertical connector */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[var(--accent)]/20 to-transparent" />
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[var(--accent)]/20 to-transparent" />
 
           <div className="flex flex-col gap-8">
             {STEPS.map((step, i) => (
@@ -174,10 +174,10 @@ export default function Methodology() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.1 }}
-                className="relative pl-12 md:pt-16"
+                className="relative pl-4 md:pt-16"
               >
                 {/* Dot */}
-                <div className="absolute left-[18px] top-8 w-3 h-3 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)] -translate-x-1/2" />
+                <div className="absolute left-0 top-8 w-3 h-3 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)] -translate-x-1/2" />
 
                 {/* Card */}
                 <div className="v3-glass p-6">
