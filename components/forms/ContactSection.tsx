@@ -155,7 +155,7 @@ const ContactSection = () => {
         className="aurora-glow w-[400px] h-[400px] bottom-0 left-1/4 opacity-30"
       />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 md:pb-30">
         {/* 2-column layout: info left + form right */}
         <div className="grid grid-cols-1 lg:grid-cols-[480px,1fr] gap-12 lg:gap-20">
           {/* LEFT — Contact info */}

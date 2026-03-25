@@ -119,7 +119,7 @@ export default function FAQ() {
         className="aurora-glow w-[600px] h-[600px] top-1/2 right-0 -translate-y-1/2 opacity-40"
       />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 md:pb-30">
         {/* 2-column layout: sticky heading left + accordion right */}
         <div className="grid grid-cols-1 lg:grid-cols-[420px,1fr] gap-12 lg:gap-20">
           {/* LEFT — Sticky heading + CTA */}
