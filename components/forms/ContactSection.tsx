@@ -220,7 +220,9 @@ const ContactSection = () => {
                       {info.label}
                     </p>
                     <p className="text-sm text-[var(--text-primary)] font-semibold leading-snug flex items-center gap-1">
-                      {info.value}
+                      {/* On ajoute break-all ici pour couper l'email si nécessaire */}
+                      <span className="break-all">{info.value}</span>
+
                       {info.href && (
                         <ArrowUpRight
                           size={12}
