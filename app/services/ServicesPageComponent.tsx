@@ -3,8 +3,15 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Building2, TrendingUp, Megaphone, Users,
-  GraduationCap, Network, Crown, Scale, ArrowRight,
+  Building2,
+  TrendingUp,
+  Megaphone,
+  Users,
+  GraduationCap,
+  Network,
+  Crown,
+  Scale,
+  ArrowRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Container from "@/components/ui/Container";
@@ -18,14 +25,56 @@ interface Service {
 }
 
 const SERVICES: Service[] = [
-  { icon: Building2, title: "Création d'entreprise", description: "Statuts, fiscalité, ouverture bancaire et domiciliation. On gère tout le processus administratif.", highlight: true },
-  { icon: TrendingUp, title: "Étude de marché", description: "Analyse macro/micro, benchmark concurrentiel et stratégie go-to-market adaptée au Maroc." },
-  { icon: Megaphone, title: "Marketing et Growth", description: "Acquisition clients, branding, tunnels de vente et stratégie digitale complète." },
-  { icon: Users, title: "Installation et RH", description: "Recherche de bureaux, coworking, recrutement local et accompagnement pour votre installation." },
-  { icon: GraduationCap, title: "Formations", description: "E-commerce, IA, immobilier et masterclass entrepreneuriales pour monter en compétences.", highlight: true },
-  { icon: Network, title: "Réseaux Business", description: "Mise en relation, clubs d'investisseurs, partenariats stratégiques et networking." },
-  { icon: Crown, title: "Club Privilège", description: "Accès exclusif à des événements privés, deals immobiliers et opportunités au Maroc." },
-  { icon: Scale, title: "Accompagnement juridique", description: "Contrats, propriété intellectuelle, conformité réglementaire et conseil juridique." },
+  {
+    icon: Building2,
+    title: "Création d'entreprise",
+    description:
+      "Statuts, fiscalité, ouverture bancaire et domiciliation. On gère tout le processus administratif.",
+    highlight: true,
+  },
+  {
+    icon: TrendingUp,
+    title: "Étude de marché",
+    description:
+      "Analyse macro/micro, benchmark concurrentiel et stratégie go-to-market adaptée au Maroc.",
+  },
+  {
+    icon: Megaphone,
+    title: "Marketing et Growth",
+    description:
+      "Acquisition clients, branding, tunnels de vente et stratégie digitale complète.",
+  },
+  {
+    icon: Users,
+    title: "Installation et RH",
+    description:
+      "Recherche de bureaux, coworking, recrutement local et accompagnement pour votre installation.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Formations",
+    description:
+      "E-commerce, IA, immobilier et masterclass entrepreneuriales pour monter en compétences.",
+    highlight: true,
+  },
+  {
+    icon: Network,
+    title: "Réseaux Business",
+    description:
+      "Mise en relation, clubs d'investisseurs, partenariats stratégiques et networking.",
+  },
+  {
+    icon: Crown,
+    title: "Club Privilège",
+    description:
+      "Accès exclusif à des événements privés, deals immobiliers et opportunités au Maroc.",
+  },
+  {
+    icon: Scale,
+    title: "Accompagnement juridique",
+    description:
+      "Contrats, propriété intellectuelle, conformité réglementaire et conseil juridique.",
+  },
 ];
 
 export default function ServicesPageComponent() {
@@ -64,8 +113,8 @@ export default function ServicesPageComponent() {
               variants={fadeUp}
               className="text-[var(--text-secondary)] text-[16px] leading-relaxed max-w-xl mt-6"
             >
-              Ne payez que ce dont vous avez besoin. Chaque service est indépendant
-              et adaptable à votre projet.
+              Ne payez que ce dont vous avez besoin. Chaque service est
+              indépendant et adaptable à votre projet.
             </motion.p>
           </motion.div>
         </Container>
@@ -101,11 +150,13 @@ export default function ServicesPageComponent() {
 
                   <div className="relative z-10">
                     {/* Icon */}
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-2 transition-all duration-500 ${
-                      service.highlight
-                        ? "bg-[var(--accent)]/15 border border-[var(--accent)]/25"
-                        : "bg-white/[0.04] border border-[var(--border)] group-hover:border-[var(--accent)]/25 group-hover:bg-[var(--accent)]/10"
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center mb-2 transition-all duration-500 ${
+                        service.highlight
+                          ? "bg-[var(--accent)]/15 border border-[var(--accent)]/25"
+                          : "bg-white/[0.04] border border-[var(--border)] group-hover:border-[var(--accent)]/25 group-hover:bg-[var(--accent)]/10"
+                      }`}
+                    >
                       <Icon
                         size={21}
                         strokeWidth={1.5}
@@ -146,15 +197,14 @@ export default function ServicesPageComponent() {
             variants={fadeUp}
             className="flex justify-center mt-16"
           >
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/devis"
-                className="inline-flex items-center gap-3 px-10 py-4 text-[14px] font-semibold text-white bg-[var(--accent)] rounded-xl hover:bg-[var(--accent-light)] hover:shadow-[0_8px_40px_rgba(220,38,38,0.3)] transition-all duration-500 cursor-pointer group"
-              >
-                Demander un devis
-                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </motion.div>
+            <Link
+              href="/devis"
+              className="group relative inline-flex items-center gap-3 px-9 py-[17px] text-[12px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer"
+            >
+              <span className="absolute inset-0 bg-[var(--accent)] skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent-light)] group-hover:scale-[1.04] group-hover:shadow-[0_0_50px_rgba(220,38,38,0.35)]" />
+              <span className="relative z-10">Demander un devis</span>
+              <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            </Link>
           </motion.div>
         </Container>
       </section>

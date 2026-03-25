@@ -2,9 +2,16 @@
 
 import Link from "next/link";
 import {
-  TrendingUp, Users, Leaf, Ship,
-  Rocket, Trophy, Laptop, GraduationCap,
-  ArrowRight, Quote,
+  TrendingUp,
+  Users,
+  Leaf,
+  Ship,
+  Rocket,
+  Trophy,
+  Laptop,
+  GraduationCap,
+  ArrowRight,
+  Quote,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -28,20 +35,38 @@ const KPIS: KPI[] = [
 ];
 
 const OPPORTUNITIES: Opportunity[] = [
-  { icon: Rocket, title: "Économie en essor", desc: "PIB doublé en 20 ans, inflation maîtrisée." },
-  { icon: Trophy, title: "Coupe du Monde 2030", desc: "Milliards investis en infrastructures." },
-  { icon: Laptop, title: "Écosystème Digital", desc: "E-commerce +20%/an, Hub technologique." },
-  { icon: GraduationCap, title: "Talents Qualifiés", desc: "100k diplômés/an en ingénierie & tech." },
+  {
+    icon: Rocket,
+    title: "Économie en essor",
+    desc: "PIB doublé en 20 ans, inflation maîtrisée.",
+  },
+  {
+    icon: Trophy,
+    title: "Coupe du Monde 2030",
+    desc: "Milliards investis en infrastructures.",
+  },
+  {
+    icon: Laptop,
+    title: "Écosystème Digital",
+    desc: "E-commerce +20%/an, Hub technologique.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Talents Qualifiés",
+    desc: "100k diplômés/an en ingénierie & tech.",
+  },
 ];
 
 const TESTIMONIALS = [
   {
-    quote: "En 6 mois, j'ai lancé ma startup EdTech au Maroc. L'écosystème est bouillant.",
+    quote:
+      "En 6 mois, j'ai lancé ma startup EdTech au Maroc. L'écosystème est bouillant.",
     author: "Sarah",
     route: "Paris → Casablanca",
   },
   {
-    quote: "Mes cosmétiques marocains exportent déjà en Europe grâce aux accords de libre-échange.",
+    quote:
+      "Mes cosmétiques marocains exportent déjà en Europe grâce aux accords de libre-échange.",
     author: "Ahmed",
     route: "Bruxelles → Rabat",
   },
@@ -68,7 +93,8 @@ export default function BenificesPageComponent() {
             className="font-[family-name:var(--font-montserrat)] font-black uppercase tracking-[-0.03em] text-white leading-[0.95] max-w-5xl animate-[fadeUp_0.8s_ease-out_0.1s_both]"
             style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
           >
-            POURQUOI <span className="gradient-text">INVESTIR</span> ET ENTREPRENDRE AU MAROC
+            POURQUOI <span className="gradient-text">INVESTIR</span> ET
+            ENTREPRENDRE AU MAROC
           </h1>
 
           <p className="font-[family-name:var(--font-playfair)] italic text-white/50 text-xl mt-6 animate-[fadeUp_0.8s_ease-out_0.2s_both]">
@@ -86,28 +112,46 @@ export default function BenificesPageComponent() {
               return (
                 <div
                   key={kpi.label}
-                  className="v3-glass p-8 text-center animate-[fadeUp_0.8s_ease-out_both]"
-                  style={{ borderRadius: 20, animationDelay: `${0.1 + i * 0.08}s` }}
+                  /* AJOUT: flex, flex-col et h-full pour équilibrer la hauteur des cartes */
+                  className="v3-glass p-6 md:p-8 text-center flex flex-col h-full animate-[fadeUp_0.8s_ease-out_both]"
+                  style={{
+                    borderRadius: 20,
+                    animationDelay: `${0.1 + i * 0.08}s`,
+                  }}
                 >
+                  {/* Container de l'icône : shrink-0 pour l'empêcher de s'écraser */}
                   <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-5"
+                    className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 shrink-0"
                     style={{
                       background: "var(--accent-glow)",
                       border: "1px solid rgba(220,38,38,0.15)",
                       transform: "skewX(-6deg)",
                     }}
                   >
-                    <Icon size={24} className="text-[var(--accent)]" style={{ transform: "skewX(6deg)" }} />
+                    <Icon
+                      size={24}
+                      className="text-[var(--accent)]"
+                      style={{ transform: "skewX(6deg)" }}
+                    />
                   </div>
-                  <p
-                    className="font-[family-name:var(--font-montserrat)] font-black gradient-text"
-                    style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
-                  >
-                    {kpi.value}
-                  </p>
-                  <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-muted)] mt-2">
-                    {kpi.label}
-                  </p>
+
+                  {/* Container de la valeur : flex-1 pousse le label vers le bas uniformément */}
+                  <div className="flex-1 flex flex-col items-center justify-center w-full mb-3">
+                    <p
+                      /* AJOUT: leading-[1.1] et break-words pour contrôler l'espacement si "#1 Afrique" s'étend sur 2 lignes */
+                      className="font-[family-name:var(--font-montserrat)] font-black gradient-text leading-[1.1] break-words"
+                      style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.2rem)" }}
+                    >
+                      {kpi.value}
+                    </p>
+                  </div>
+
+                  {/* Container du label : hauteur fixe / minimum pour un alignement linéaire global */}
+                  <div className="min-h-[2.5rem] flex items-center justify-center w-full shrink-0">
+                    <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--text-muted)] m-0">
+                      {kpi.label}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -117,7 +161,7 @@ export default function BenificesPageComponent() {
 
       {/* Opportunities */}
       <section className="relative pb-24 bg-[var(--bg-elevated)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-24">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 pt-24">
           <div className="text-center mb-16 animate-[fadeUp_0.8s_ease-out_both]">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="para-bars para-bars--sm">
@@ -136,8 +180,7 @@ export default function BenificesPageComponent() {
               className="v3-section-title"
               style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
             >
-              DES OPPORTUNITÉS{" "}
-              <span className="gradient-text">CONCRÈTES</span>
+              DES OPPORTUNITÉS <span className="gradient-text">CONCRÈTES</span>
             </h2>
           </div>
 
@@ -147,8 +190,12 @@ export default function BenificesPageComponent() {
               return (
                 <div
                   key={opp.title}
-                  className="v3-glass p-7 flex items-start gap-5 animate-[fadeUp_0.8s_ease-out_both]"
-                  style={{ borderRadius: 20, animationDelay: `${0.2 + i * 0.1}s` }}
+                  /* AJOUT: h-full pour équilibrer également les hauteurs ici */
+                  className="v3-glass p-7 flex items-start gap-5 h-full animate-[fadeUp_0.8s_ease-out_both]"
+                  style={{
+                    borderRadius: 20,
+                    animationDelay: `${0.2 + i * 0.1}s`,
+                  }}
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -158,7 +205,11 @@ export default function BenificesPageComponent() {
                       transform: "skewX(-6deg)",
                     }}
                   >
-                    <Icon size={20} className="text-[var(--accent)]" style={{ transform: "skewX(6deg)" }} />
+                    <Icon
+                      size={20}
+                      className="text-[var(--accent)]"
+                      style={{ transform: "skewX(6deg)" }}
+                    />
                   </div>
                   <div>
                     <h3 className="font-[family-name:var(--font-montserrat)] font-bold text-sm uppercase tracking-wide text-white">
@@ -184,18 +235,26 @@ export default function BenificesPageComponent() {
             {TESTIMONIALS.map((t, i) => (
               <div
                 key={t.author}
-                className="v3-glass p-8 relative overflow-hidden animate-[fadeUp_0.8s_ease-out_both]"
-                style={{ borderRadius: 24, animationDelay: `${0.2 + i * 0.15}s` }}
+                /* AJOUT: flex, flex-col, justify-between, h-full */
+                className="v3-glass p-8 relative overflow-hidden flex flex-col justify-between h-full animate-[fadeUp_0.8s_ease-out_both]"
+                style={{
+                  borderRadius: 24,
+                  animationDelay: `${0.2 + i * 0.15}s`,
+                }}
               >
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/20 to-transparent" />
 
-                <Quote size={24} className="text-[var(--accent)] mb-4 opacity-40" />
+                <div>
+                  <Quote
+                    size={24}
+                    className="text-[var(--accent)] mb-4 opacity-40"
+                  />
+                  <blockquote className="font-[family-name:var(--font-playfair)] italic text-white/80 text-lg leading-relaxed">
+                    &ldquo;{t.quote}&rdquo;
+                  </blockquote>
+                </div>
 
-                <blockquote className="font-[family-name:var(--font-playfair)] italic text-white/80 text-lg leading-relaxed">
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-6 flex items-center gap-3 shrink-0">
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center"
                     style={{
