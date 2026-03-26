@@ -13,7 +13,6 @@ import {
   Instagram,
   ArrowRight,
   Clock,
-  Headphones,
 } from "lucide-react";
 
 const EPISODES = [
@@ -72,13 +71,17 @@ export default function Podcast() {
           {/* ── Header row ── */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-14">
             <div className="max-w-2xl">
-              <motion.span
+              <motion.div
                 variants={fadeUp}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-medium tracking-[0.12em] uppercase border border-[var(--accent)]/20 text-[var(--accent-light)] bg-[var(--accent)]/[0.06] mb-6"
+                className="flex items-center gap-3 mb-6"
               >
-                <Headphones size={12} />
-                Le podcast
-              </motion.span>
+                <div className="para-bars para-bars--sm">
+                  <div className="para-bar" />
+                  <div className="para-bar" />
+                  <div className="para-bar" />
+                </div>
+                <span className="v3-section-eyebrow-text">Le podcast</span>
+              </motion.div>
 
               <motion.h2
                 variants={fadeUp}
