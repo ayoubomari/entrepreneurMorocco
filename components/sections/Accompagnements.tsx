@@ -6,6 +6,7 @@ import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 const PACKS = [
   {
+    id: "starter",
     name: "Starter",
     subtitle: "Solo / Indépendant",
     price: "2 999 €",
@@ -14,6 +15,7 @@ const PACKS = [
     popular: false,
   },
   {
+    id: "family",
     name: "Family",
     subtitle: "MRE & Installation",
     price: "Sur devis",
@@ -22,6 +24,7 @@ const PACKS = [
     popular: true,
   },
   {
+    id: "growth",
     name: "Growth",
     subtitle: "Startups / Business",
     price: "Sur devis",
@@ -149,7 +152,7 @@ export default function Accompagnements() {
                 {/* CTA */}
                 <div className="mt-8">
                   <Link
-                    href="/contact-quiz"
+                    href={`/contact-quiz?plan=${pack.id}`}
                     className="group relative w-full inline-flex items-center justify-center gap-3 px-7 py-[14px] text-[11px] font-bold tracking-[0.2em] uppercase text-white cursor-pointer"
                   >
                     <span className={`absolute inset-0 ${pack.popular ? "bg-[var(--accent)]" : "border border-white/[0.1]"} skew-x-[-12deg] transition-all duration-500 group-hover:bg-[var(--accent)] group-hover:scale-[1.03]`} />

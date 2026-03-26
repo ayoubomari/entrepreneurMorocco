@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import ContactQuizComponent from "./ContactQuizComponent";
 
 export const metadata: Metadata = {
@@ -38,5 +39,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactQuizPage() {
-  return <ContactQuizComponent />;
+  return (
+    <Suspense>
+      <ContactQuizComponent />
+    </Suspense>
+  );
 }

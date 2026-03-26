@@ -81,43 +81,30 @@ export default function ServicesPageComponent() {
   return (
     <main className="min-h-screen bg-[var(--bg-primary)]">
       {/* Hero */}
-      <section className="relative pt-40 pb-20 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[600px] h-[400px] rounded-full bg-[var(--accent)]/[0.03] blur-[150px] pointer-events-none" />
+      <section className="relative pt-40 pb-24 overflow-hidden">
+        <div className="aurora-glow w-[800px] h-[600px] top-0 left-1/4 opacity-60" />
 
-        <Container className="relative z-10">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 relative z-10">
+          <div className="flex items-center gap-3 mb-8 animate-[fadeUp_0.8s_ease-out_both]">
+            <div className="para-bars para-bars--sm">
+              <div className="para-bar" />
+              <div className="para-bar" />
+              <div className="para-bar" />
+            </div>
+            <span className="v3-section-eyebrow-text">Nos services</span>
+          </div>
+
+          <h1
+            className="font-[family-name:var(--font-montserrat)] font-black uppercase tracking-[-0.03em] text-white leading-[0.95] max-w-5xl animate-[fadeUp_0.8s_ease-out_0.1s_both]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
           >
-            <motion.span
-              variants={fadeUp}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-medium tracking-[0.12em] uppercase border border-[var(--accent)]/20 text-[var(--accent-light)] bg-[var(--accent)]/[0.06] mb-6"
-            >
-              Nos services
-            </motion.span>
+            UN ACCOMPAGNEMENT <span className="gradient-text">COMPLET</span> ET SUR MESURE
+          </h1>
 
-            <motion.h1
-              variants={fadeUp}
-              className="font-[family-name:var(--font-montserrat)] font-extrabold tracking-tight text-[var(--text-primary)] max-w-4xl leading-[1.05]"
-              style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)" }}
-            >
-              Un accompagnement{" "}
-              <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent-light)] bg-clip-text text-transparent">
-                complet
-              </span>{" "}
-              et sur mesure
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUp}
-              className="text-[var(--text-secondary)] text-[16px] leading-relaxed max-w-xl mt-6"
-            >
-              Ne payez que ce dont vous avez besoin. Chaque service est
-              indépendant et adaptable à votre projet.
-            </motion.p>
-          </motion.div>
-        </Container>
+          <p className="font-[family-name:var(--font-playfair)] italic text-white/50 text-xl mt-6 animate-[fadeUp_0.8s_ease-out_0.2s_both]">
+            &ldquo;Ne payez que ce dont vous avez besoin. Chaque service est indépendant et adaptable à votre projet.&rdquo;
+          </p>
+        </div>
       </section>
 
       {/* Services grid */}
@@ -178,11 +165,6 @@ export default function ServicesPageComponent() {
                       {service.description}
                     </p>
 
-                    {/* Subtle arrow on hover */}
-                    <div className="mt-4 flex items-center gap-1.5 text-[12px] font-medium text-[var(--accent-light)] opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
-                      En savoir plus
-                      <ArrowRight size={12} />
-                    </div>
                   </div>
                 </motion.div>
               );

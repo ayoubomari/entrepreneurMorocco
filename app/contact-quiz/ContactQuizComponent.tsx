@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useContactForm } from "@/hooks/useContactForm";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -57,13 +58,17 @@ export default function ContactQuizComponent() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get("plan");
+  const initialPlan = plans.some((p) => p.id === planParam) ? planParam! : "";
+
   const {
     register, handleSubmit, setValue, watch, reset,
     formState: { errors, isSubmitting: isRHFSubmitting, isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: { selectedPlan: "", fullName: "", email: "", phone: "", resultEmail: "", message: "" },
+    defaultValues: { selectedPlan: initialPlan, fullName: "", email: "", phone: "", resultEmail: "", message: "" },
   });
 
   const currentPlanId = watch("selectedPlan");
